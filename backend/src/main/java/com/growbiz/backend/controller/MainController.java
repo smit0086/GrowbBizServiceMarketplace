@@ -1,4 +1,4 @@
-package com.example.growbiz.controller;
+package com.growbiz.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.growbiz.models.User;
-import com.example.growbiz.repository.UserRepository;
+import com.growbiz.backend.models.User;
+import com.growbiz.backend.repository.UserRepository;
 
 @Controller
 @RequestMapping(path="/api")

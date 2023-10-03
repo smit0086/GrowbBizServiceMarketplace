@@ -1,8 +1,8 @@
-package com.example.growbiz.repository;
+package com.growbiz.backend.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.example.growbiz.models.User;
+import com.growbiz.backend.models.User;
 
 public interface UserRepository extends CrudRepository<User, Long> {
     
