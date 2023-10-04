@@ -1,10 +1,12 @@
-package com.growbiz.backend.models;
+package com.growbiz.backend.Role.dto;
+
+import com.growbiz.backend.User.dto.UserDTO;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class RoleDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -14,7 +16,7 @@ public class Role {
     private RoleType name;
 
     @OneToOne(mappedBy = "role")
-    private User user;
+    private UserDTO user;
 
     public Integer getId() {
         return id;

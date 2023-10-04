@@ -1,4 +1,4 @@
-package com.growbiz.backend.models;
+package com.growbiz.backend.Role.dto;
 
 public enum RoleType {
     ROLE_CUSTOMER,

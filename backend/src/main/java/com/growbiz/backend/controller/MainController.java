@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.growbiz.backend.models.Role;
-import com.growbiz.backend.models.RoleType;
-import com.growbiz.backend.models.User;
-import com.growbiz.backend.repository.RoleRepository;
-import com.growbiz.backend.repository.UserRepository;
+import com.growbiz.backend.Role.dto.RoleDTO;
+import com.growbiz.backend.Role.dto.RoleType;
+import com.growbiz.backend.Role.repository.RoleRepository;
+import com.growbiz.backend.User.dto.UserDTO;
+import com.growbiz.backend.User.repository.UserRepository;
 
 @Controller
 @RequestMapping(path = "/api")
@@ -26,8 +26,8 @@ public class MainController {
     @PostMapping(path = "/add")
     public @ResponseBody String addNewUser(@RequestParam String name, @RequestParam String email,
             @RequestParam String password, @RequestParam String role) {
-        Role userRole = new Role();
-        User user = new User();
+        RoleDTO userRole = new RoleDTO();
+        UserDTO user = new UserDTO();
 
         user.setName(name);
         user.setEmail(email);
@@ -52,7 +52,7 @@ public class MainController {
     }
 
     @GetMapping(path = "/all")
-    public @ResponseBody Iterable<User> getAllUsers() {
+    public @ResponseBody Iterable<UserDTO> getAllUsers() {
         return userRepository.findAll();
     }
 }

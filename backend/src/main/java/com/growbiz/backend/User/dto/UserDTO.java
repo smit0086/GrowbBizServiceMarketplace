@@ -1,11 +1,13 @@
-package com.growbiz.backend.models;
+package com.growbiz.backend.User.dto;
+
+import com.growbiz.backend.Role.dto.RoleDTO;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-public class User {
+public class UserDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,7 +24,7 @@ public class User {
 
     @OneToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
-    private Role role;
+    private RoleDTO role;
 
     public Long getId() {
         return id;
@@ -56,11 +58,11 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
+    public RoleDTO getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(RoleDTO role) {
         this.role = role;
     }
 }
