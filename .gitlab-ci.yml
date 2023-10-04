@@ -23,6 +23,8 @@ build-frontend:
         name: fe_app
         paths:
             - ./frontend/fe_app/
+    only:
+        - main
 
 publish-frontend-package:
     stage: publish
@@ -32,6 +34,8 @@ publish-frontend-package:
     script:
         - tar -zcvf fe_app.tar.gz ./frontend/fe_app/
         - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file fe_app.tar.gz "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/frontend/0.0.1/fe_app.tar.gz"'
+    only:
+        - main
 
 deploy-frontend:
     stage: deploy
@@ -40,3 +44,5 @@ deploy-frontend:
     script:
         - chmod 400 $SSH_KEY
         - ssh -o StrictHostKeyChecking=no -i $SSH_KEY "${SSH_USER}@${SSH_HOST}" "source ~/.nvm/nvm.sh; sh deploy.sh ${CI_JOB_TOKEN} ${CI_API_V4_URL} ${CI_PROJECT_ID}"
+    only:
+        - main
