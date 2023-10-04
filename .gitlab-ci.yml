@@ -1,0 +1,42 @@
+stages:
+    - build
+    - publish
+    - deploy
+
+variables:
+
+build-frontend:
+    stage: build
+    image: node:18-alpine
+    script:
+        - ls
+        - cd ./frontend
+        - ls
+        - npm ci
+        - npm run build
+        - mkdir fe_app
+        - mkdir ./fe_app/.next
+        - cp -r ./public ./fe_app/public
+        - cp -a ./.next/standalone/. ./fe_app
+        - cp -r ./.next/static ./fe_app/.next/static
+    artifacts:
+        name: fe_app
+        paths:
+            - ./frontend/fe_app/
+
+publish-frontend-package:
+    stage: publish
+    image: curlimages/curl:latest
+    dependencies:
+        - build-frontend
+    script:
+        - tar -zcvf fe_app.tar.gz ./frontend/fe_app/
+        - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file fe_app.tar.gz "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/frontend/0.0.1/fe_app.tar.gz"'
+
+deploy-frontend:
+    stage: deploy
+    image: kroniak/ssh-client
+    dependencies: []
+    script:
+        - chmod 400 $SSH_KEY
+        - ssh -o StrictHostKeyChecking=no -i $SSH_KEY "${SSH_USER}@${SSH_HOST}" "source ~/.nvm/nvm.sh; sh deploy.sh ${CI_JOB_TOKEN} ${CI_API_V4_URL} ${CI_PROJECT_ID}"
