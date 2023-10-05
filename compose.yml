@@ -1,0 +1,16 @@
+services:
+  mysql_db:
+    build: ./db
+    container_name: mysql_db
+    expose:
+      - '3306'
+
+  backend:
+    build: ./backend
+    depends_on:
+      - mysql_db
+    container_name: backend
+    ports:
+      - '8080:8080'
+    expose:
+      - '8080'
