@@ -1,9 +1,9 @@
 package com.growbiz.backend.Admin.controller;
 
-import com.growbiz.Backend.Admin.Services.model.ServiceDto;
-import com.growbiz.Backend.Admin.service.AdminServiceImpl;
-import com.growbiz.Backend.UserAuthentication.model.AuthenticationResponse;
-import com.growbiz.Backend.UserAuthentication.service.IUserAuthenticationService;
+import com.growbiz.backend.Admin.Services.model.ServiceDto;
+import com.growbiz.backend.Admin.service.AdminServiceImpl;
+import com.growbiz.backend.UserAuthentication.model.AuthenticationResponse;
+import com.growbiz.backend.UserAuthentication.service.IUserAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +24,7 @@ public class AdminController {
         this.adminService = adminService;
         this.authService = authService;
     }
+
 
     @GetMapping(path = "/getServicesCategories")
     public ResponseEntity<AuthenticationResponse> getAdminService(@RequestBody Long serviceId) {

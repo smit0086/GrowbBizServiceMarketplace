@@ -1,6 +1,6 @@
 package com.growbiz.backend.Admin.model;
 
-import com.growbiz.Backend.Admin.Services.model.ServiceDto;
+import com.growbiz.backend.Admin.Services.model.ServiceDto;
 
 import java.util.List;
 
