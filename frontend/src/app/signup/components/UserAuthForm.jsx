@@ -8,12 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, Controller } from 'react-hook-form';
+import { ERROR_MESSAGE, REGEX } from "@/lib/constants";
 
 export function UserAuthForm({ className, ...props }) {
     const [isLoading, setIsLoading] = React.useState(false);
-    const { handleSubmit, control, formState: { errors } } = useForm({
-        mode: "onChange"
-    });
+    const { handleSubmit, control, formState: { errors } } = useForm();
 
     async function onSubmit(data) {
         setIsLoading(true);
@@ -36,7 +35,10 @@ export function UserAuthForm({ className, ...props }) {
                             control={control}
                             defaultValue=""
                             rules={{
-                                required: 'First Name is required'
+                                required: {
+                                    value: true,
+                                    message: ERROR_MESSAGE.REQUIRED
+                                }
                             }}
                             render={({ field }) => (
                                 <Input
@@ -48,7 +50,7 @@ export function UserAuthForm({ className, ...props }) {
                                 />
                             )}
                         />
-                        {errors.firstName && <p className="text-sm text-red-500">{errors.firstName.message}</p>}
+                        {errors.firstName && <span className="text-xs text-destructive">{errors.firstName.message}</span>}
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="lastName">Last Name</Label>
@@ -57,7 +59,10 @@ export function UserAuthForm({ className, ...props }) {
                             control={control}
                             defaultValue=""
                             rules={{
-                                required: 'Last Name is required'
+                                required: {
+                                    value: true,
+                                    message: ERROR_MESSAGE.REQUIRED
+                                }
                             }}
                             render={({ field }) => (
                                 <Input
@@ -69,7 +74,7 @@ export function UserAuthForm({ className, ...props }) {
                                 />
                             )}
                         />
-                        {errors.lastName && <p className="text-sm text-red-500">{errors.lastName.message}</p>}
+                        {errors.lastName && <span className="text-xs text-destructive">{errors.lastName.message}</span>}
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
@@ -78,11 +83,14 @@ export function UserAuthForm({ className, ...props }) {
                             control={control}
                             defaultValue=""
                             rules={{
-                                required: 'Email is required',
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: 'Invalid email address',
+                                required: {
+                                    value: true,
+                                    message: ERROR_MESSAGE.REQUIRED
                                 },
+                                pattern: {
+                                    value: REGEX.EMAIL,
+                                    message: ERROR_MESSAGE.INVALID_EMAIL,
+                                }
                             }}
                             render={({ field }) => (
                                 <Input
@@ -97,7 +105,7 @@ export function UserAuthForm({ className, ...props }) {
                                 />
                             )}
                         />
-                        {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+                        {errors.email && <span className="text-xs text-destructive">{errors.email.message}</span>}
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
@@ -106,15 +114,14 @@ export function UserAuthForm({ className, ...props }) {
                             name="password"
                             defaultValue=""
                             rules={{
-                                required: 'Password is required',
-                                minLength: {
-                                    value: 8,
-                                    message: 'Password must be at least 8 characters long',
-                                  },
-                                  pattern: {
-                                    value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-                                    message: 'Password must contain at least one letter, one number, and one special symbol',
-                                  }
+                                required: {
+                                    value: true,
+                                    message: ERROR_MESSAGE.REQUIRED
+                                },
+                                pattern: {
+                                    value: REGEX.PASSWORD_POLICY,
+                                    message: ERROR_MESSAGE.INVALID_PASSWORD,
+                                }
                             }}
                             render={({ field }) => (
                                 <Input
@@ -126,7 +133,7 @@ export function UserAuthForm({ className, ...props }) {
                                 />
                             )}
                         />
-                        {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+                        {errors.password && <span className="text-xs text-destructive">{errors.password.message}</span>}
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="password">Confirm Password</Label>
@@ -135,7 +142,10 @@ export function UserAuthForm({ className, ...props }) {
                             control={control}
                             defaultValue=""
                             rules={{
-                                required: 'Confirm Password is required',
+                                required: {
+                                    value: true,
+                                    message: ERROR_MESSAGE.REQUIRED
+                                },
                                 validate: (confirmPassword, allValues) => {
                                     if (confirmPassword !== allValues.password) {
                                         return 'Passwords do not match';
@@ -153,7 +163,7 @@ export function UserAuthForm({ className, ...props }) {
                                 />
                             )}
                         />
-                        {errors.confirmPassword && <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>}
+                        {errors.confirmPassword && <span className="text-xs text-destructive">{errors.confirmPassword.message}</span>}
                     </div>
                     <Button disabled={isLoading}>
                         {isLoading && (
