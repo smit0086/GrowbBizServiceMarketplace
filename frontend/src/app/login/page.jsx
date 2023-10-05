@@ -35,25 +35,15 @@ export default function CustomerLogin() {
                         </p>
                     </div>
                     <UserAuthForm />
-                    <p className="px-10 text-center">
-                        Are you a service provider? <Link href="/provider/login" className="underline underline-offset-4 hover:text-primary">Login</Link>
-                    </p>
-                    <p className="px-8 text-center text-sm text-muted-foreground">
-                        By clicking continue, you agree to our{" "}
+                    <p className="px-8 text-center text-sm text-muted-foreground" style={{ whiteSpace: 'nowrap' }}>
+                        Are you a service partner? please{" "}
                         <Link
-                            href="./terms"
+                            href="/partner/login"
                             className="underline underline-offset-4 hover:text-primary"
                         >
-                            Terms of Service
+                            login
                         </Link>{" "}
-                        and{" "}
-                        <Link
-                            href="./privacy"
-                            className="underline underline-offset-4 hover:text-primary"
-                        >
-                            Privacy Policy
-                        </Link>
-                        .
+                        here.
                     </p>
                 </div>
             </div>
