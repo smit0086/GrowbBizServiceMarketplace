@@ -6,7 +6,7 @@ import { AuthTestimonial } from "@/components/modules/AuthTestimonial";
 import { COPY } from "@/lib/constants";
 
 export const metadata = {
-    title: `${COPY.APP_NAME} | Partner login`,
+    title: `${COPY.APP_NAME} | Admin login`,
 };
 
 export default function ProviderLogin() {
