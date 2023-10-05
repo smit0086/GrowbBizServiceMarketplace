@@ -1,3 +1,6 @@
 # Ignore IDE generated files
 .idea
 .vscode
+
+# Ignore compiled classes
+growbiz/target/
