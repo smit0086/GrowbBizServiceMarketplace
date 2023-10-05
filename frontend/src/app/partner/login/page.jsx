@@ -6,7 +6,7 @@ import { AuthTestimonial } from "@/components/modules/AuthTestimonial";
 import { COPY } from "@/lib/constants";
 
 export const metadata = {
-    title: `${COPY.APP_NAME} | Provider login`,
+    title: `${COPY.APP_NAME} | Partner login`,
 };
 
 export default function ProviderLogin() {
@@ -37,21 +37,14 @@ export default function ProviderLogin() {
                     </div>
                     <UserAuthForm />
                     <p className="px-8 text-center text-sm text-muted-foreground">
-                        By clicking continue, you agree to our{" "}
+                        Are you a customer? please{" "}
                         <Link
-                            href="./terms"
+                            href="/login"
                             className="underline underline-offset-4 hover:text-primary"
                         >
-                            Terms of Service
+                            login
                         </Link>{" "}
-                        and{" "}
-                        <Link
-                            href="./privacy"
-                            className="underline underline-offset-4 hover:text-primary"
-                        >
-                            Privacy Policy
-                        </Link>
-                        .
+                        here.
                     </p>
                 </div>
             </div>
