@@ -1,4 +1,4 @@
 package com.growbiz.backend.Admin.Services.model;
 
-public class ServiceDaoImp implements IServiceDao {
+public interface IServiceDao {
 }

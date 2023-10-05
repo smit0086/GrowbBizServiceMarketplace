@@ -25,6 +25,17 @@ public class AdminController {
         this.authService = authService;
     }
 
+    @PostMapping(path = "/login")
+    public ResponseEntity<AuthenticationResponse> adminLogin(@RequestBody String email, String password) {
+        try {
+            ServiceDto service = new ServiceDto();
+            return ResponseEntity.ok().body(new AuthenticationResponse("Accepted", "Service Name: " + service.getServiceName() + "/nService Description: " + service.getDescription()));
+
+        } catch (Exception e) {
+            logger.error("Failed to get service categories");
+            return ResponseEntity.badRequest().body(new AuthenticationResponse("Denied", "Failed to get service categories" + e.getMessage()));
+        }
+    }
 
     @GetMapping(path = "/getServicesCategories")
     public ResponseEntity<AuthenticationResponse> getAdminService(@RequestBody Long serviceId) {
