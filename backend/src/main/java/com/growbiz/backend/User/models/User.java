@@ -19,17 +19,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
-public class Partner implements UserDetails {
-
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank
-    private String firstName;
-
-    private String lastName;
 
     @NotBlank
     @Email
@@ -38,18 +31,16 @@ public class Partner implements UserDetails {
     @NotBlank
     private String password;
 
+    @NotBlank
+    private String firstName;
+
+    private String lastName;
     @Enumerated(EnumType.STRING)
-    private Role userRole;
-
-    @NotBlank
-    private String businessName;
-
-    @NotBlank
-    private BusinessCategory businessCategory;
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(userRole.name()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

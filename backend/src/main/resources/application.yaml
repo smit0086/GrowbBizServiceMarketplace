@@ -12,3 +12,5 @@ spring:
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
+security:
+  key:
