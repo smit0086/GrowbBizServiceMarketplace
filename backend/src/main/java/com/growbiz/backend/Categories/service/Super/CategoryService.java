@@ -1,4 +1,4 @@
-package com.growbiz.backend.Categories.service;
+package com.growbiz.backend.Categories.service.Super;
 
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.repository.ICategoryRepository;

@@ -27,9 +27,6 @@ public class Category {
     @NotBlank
     private String tax;
 
-    @Enumerated(EnumType.STRING)
-    private SubCategory subCategory;
-
     public Long getId() {
         return id;
     }
@@ -52,14 +49,6 @@ public class Category {
 
     public void setTax(String tax) {
         this.tax = tax;
-    }
-
-    public SubCategory getSubCategory() {
-        return subCategory;
-    }
-
-    public void setSubCategory(SubCategory subCategory) {
-        this.subCategory = subCategory;
     }
 
 }

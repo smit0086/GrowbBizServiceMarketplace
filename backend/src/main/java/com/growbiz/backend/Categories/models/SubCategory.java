@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,8 +21,8 @@ public class SubCategory {
     private Long id;
 
     @NotBlank
-    @Email
     private String name;
+    private Long superCategoryID;
 
     public Long getId() {
         return id;
@@ -39,5 +38,13 @@ public class SubCategory {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getSuperCategoryID() {
+        return superCategoryID;
+    }
+
+    public void setSuperCategoryID(Long superCategoryID) {
+        this.superCategoryID = superCategoryID;
     }
 }
