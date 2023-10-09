@@ -8,12 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, Controller } from 'react-hook-form';
+import { ERROR_MESSAGE, REGEX } from "@/lib/constants";
 
 export function UserAuthForm({ className, ...props }) {
     const [isLoading, setIsLoading] = React.useState(false);
-    const { handleSubmit, control, formState: { errors } } = useForm({
-        mode: "onChange"
-    });
+    const { handleSubmit, control, formState: { errors } } = useForm();
 
     async function onSubmit(data) {
         setIsLoading(true);
@@ -36,7 +35,14 @@ export function UserAuthForm({ className, ...props }) {
                             control={control}
                             defaultValue=""
                             rules={{
-                                required: 'Email is required'
+                                required: {
+                                    value: true,
+                                    message: ERROR_MESSAGE.REQUIRED
+                                },
+                                pattern: {
+                                    value: REGEX.EMAIL,
+                                    message: ERROR_MESSAGE.INVALID_EMAIL
+                                }
                             }}
                             render={({ field }) => (
                                 <Input
@@ -51,7 +57,7 @@ export function UserAuthForm({ className, ...props }) {
                                 />
                             )}
                         />
-                        {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+                        {errors.email && <span className="text-xs text-destructive">{errors.email.message}</span>}
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
@@ -60,7 +66,10 @@ export function UserAuthForm({ className, ...props }) {
                             name="password"
                             defaultValue=""
                             rules={{
-                                required: 'Password is required'
+                                required: {
+                                    value: true,
+                                    message: ERROR_MESSAGE.REQUIRED
+                                }
                             }}
                             render={({ field }) => (
                                 <Input
@@ -72,7 +81,7 @@ export function UserAuthForm({ className, ...props }) {
                                 />
                             )}
                         />
-                        {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+                        {errors.password && <span className="text-xs text-destructive">{errors.password.message}</span>}
                     </div>
                     <Button disabled={isLoading}>
                         {isLoading && (

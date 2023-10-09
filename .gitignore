@@ -1,4 +1,8 @@
 # Ignore IDE generated files
 .idea
 .vscode
+
 **/.DS_Store
+
+# Ignore compiled classes
+growbiz/target/
