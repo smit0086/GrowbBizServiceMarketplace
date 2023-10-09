@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +17,7 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
-    @Value("{security.key}")
-    private static String SECRET_KEY;
+    private static String SECRET_KEY = "";
 
     /**
      * Here we extract email i.e. the subject of the JWT
@@ -55,7 +53,7 @@ public class JWTService {
      */
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
     }
 
     private Key getSignInKey() {
