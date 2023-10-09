@@ -43,11 +43,11 @@ public class UserAuthenticationService implements IUserAuthenticationService {
     }
 
     @Override
-    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
+    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest, String role) {
         authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken
-                        (authenticationRequest.getEmail() + ":" + authenticationRequest.getRole().name(), authenticationRequest.getPassword()));
-        User userInfo = userService.getUserByEmailAndRole(authenticationRequest.getEmail() + ":" + authenticationRequest.getRole().name());
+                        (authenticationRequest.getEmail() + ":" + role, authenticationRequest.getPassword()));
+        User userInfo = userService.getUserByEmailAndRole(authenticationRequest.getEmail() + ":" + role);
         return AuthenticationResponse.builder()
                 .token(jwtService.generateToken(userInfo))
                 .subject(userInfo.getEmail())

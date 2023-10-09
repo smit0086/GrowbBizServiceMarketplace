@@ -7,10 +7,7 @@ import com.growbiz.backend.UserAuthentication.service.IUserAuthenticationService
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,8 +23,8 @@ public class UserAuthenticationController {
     }
 
     @PostMapping(path = "/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authRequest) {
-        return ResponseEntity.ok(authenticationService.authenticate(authRequest));
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authRequest, @RequestParam("role") String role) {
+        return ResponseEntity.ok(authenticationService.authenticate(authRequest, role));
     }
 
 }
