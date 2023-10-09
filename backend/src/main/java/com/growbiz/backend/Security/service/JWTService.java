@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +18,14 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
-    // TODO - move it to yaml config
-    private static final String SECRET_KEY = "26e3ed5988bc73d53036ea4f729f28d0ddb2e6cf30af0ef7914a528bdd6f3692";
+    @Value("{security.key}")
+    private static String SECRET_KEY;
 
     /**
      * Here we extract email i.e. the subject of the JWT
      *
-     * @param token - token
-     * @return - return String
+     * @param token
+     * @return
      */
     public String extractUserEmail(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -33,8 +34,8 @@ public class JWTService {
     /**
      * Here we extract email i.e. the subject of the JWT
      *
-     * @param token - token
-     * @return - return Date
+     * @param token
+     * @return
      */
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
@@ -49,12 +50,12 @@ public class JWTService {
     /**
      * Extract all claims from the JWT
      *
-     * @param token - token
-     * @return - return Claims
+     * @param token
+     * @return
      */
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(getSignInKey()).parseClaimsJws(token).getBody();
     }
 
     private Key getSignInKey() {
@@ -65,8 +66,8 @@ public class JWTService {
     /**
      * Generate Token using only the userLogin details.
      *
-     * @param userLogin - userLogin
-     * @return - return String
+     * @param userLogin
+     * @return
      */
     public String generateToken(UserDetails userLogin) {
         return generateToken(new HashMap<>(), userLogin);
@@ -75,9 +76,9 @@ public class JWTService {
     /**
      * Generate Token using the extraClaims.
      *
-     * @param extraClaims - extraClaims
-     * @param userLogin   - userLogin
-     * @return - return String
+     * @param extraClaims
+     * @param userLogin
+     * @return
      */
     public String generateToken(Map<String, Object> extraClaims, UserDetails userLogin) {
         return Jwts.builder().setClaims(extraClaims)
@@ -96,5 +97,4 @@ public class JWTService {
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date(System.currentTimeMillis()));
     }
-    
 }

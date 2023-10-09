@@ -1,14 +1,16 @@
 package com.growbiz.backend.UserAuthentication.controller;
 
-import com.growbiz.backend.User.models.Customer;
-import com.growbiz.backend.User.models.Partner;
+import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.UserAuthentication.model.AuthenticationRequest;
 import com.growbiz.backend.UserAuthentication.model.AuthenticationResponse;
 import com.growbiz.backend.UserAuthentication.service.IUserAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,18 +20,14 @@ public class UserAuthenticationController {
     @Autowired
     IUserAuthenticationService authenticationService;
 
-    @PostMapping(path = "/signupCustomer")
-    public ResponseEntity<AuthenticationResponse> resigerUser(@RequestBody Customer customer) {
-        return ResponseEntity.ok(authenticationService.register(customer));
+    @PostMapping(path = "/signup")
+    public ResponseEntity<AuthenticationResponse> resigerUser(@RequestBody User userInfo) {
+        return ResponseEntity.ok(authenticationService.register(userInfo));
     }
 
-    @PostMapping(path = "/signupPartner")
-    public ResponseEntity<AuthenticationResponse> resigerUser(@RequestBody Partner partner) {
-        return ResponseEntity.ok(authenticationService.register(partner));
+    @PostMapping(path = "/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authRequest) {
+        return ResponseEntity.ok(authenticationService.authenticate(authRequest));
     }
 
-    @PostMapping(path = "/authenticateCustomer?role={role}")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authRequest, @RequestParam String role) {
-        return ResponseEntity.ok(authenticationService.authenticate(authRequest, role));
-    }
 }
