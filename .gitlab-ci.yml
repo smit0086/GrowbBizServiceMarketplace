@@ -57,3 +57,24 @@ build-backend:
     artifacts:
         paths:
             - backend/target/backend-0.0.1-SNAPSHOT.jar
+
+release:
+    stage: release
+    image: docker:latest
+    services:
+        - docker:dind
+    variables:
+        DOCKER_DRIVER: "overlay"
+    
+    before-script:
+        - docker version
+        - "docker info"
+        - "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+    
+    script:
+        - cd backend
+        - "docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest --pull ."
+        - "docker push ${CI_REGISTRY}/backend:latest"
+    
+    after-script:
+        - "docker logout ${CI_REGISTRY}"
