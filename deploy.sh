@@ -16,7 +16,7 @@ log() {
 
 # Usage: check_docker_service_running SERVICE
 check_docker_service_running() {
-    if [ -z `docker-compose ps -q $1` ] || [ -z `docker ps -q --no-trunc | grep $(docker-compose ps -q $1)` ]; then
+    if [ -z `docker compose ps -q $1` ] || [ -z `docker ps -q --no-trunc | grep $(docker compose ps -q $1)` ]; then
         log "$1 not running."
         return 1
     else
