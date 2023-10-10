@@ -19,7 +19,11 @@ export const authOptions = {
                         credentials.role
                     );
                     if (typeof res !== "undefined") {
-                        return { email: res.subject, apiToken: res.token };
+                        return {
+                            email: res.subject,
+                            role: res.role,
+                            apiToken: res.token,
+                        };
                     } else {
                         return null;
                     }

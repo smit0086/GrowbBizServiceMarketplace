@@ -24,7 +24,7 @@ export function UserAuthForm({ className, ...props }) {
         await signIn("credentials", {
             email: data.email,
             password: data.password,
-            role: "PARTNER",
+            role: "CUSTOMER",
             redirect: true,
             callbackUrl: props.callbackUrl ?? "/",
         });
