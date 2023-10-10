@@ -37,8 +37,8 @@ else
 fi
 
 docker compose build
-docker compose up &> $DOCKER_COMPOSE_LOG
-docker compose logs > compose.log
+docker compose up --detach
+docker compose logs > "$DOCKER_COMPOSE_LOG"
 sleep 80
 check_docker_service_running backend
 
