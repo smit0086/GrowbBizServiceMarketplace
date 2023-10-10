@@ -58,8 +58,8 @@ build-backend:
         paths:
             - backend/target/backend-0.0.1-SNAPSHOT.jar
 
-release:
-    stage: release
+publish-backend:
+    stage: publish
     image: docker:latest
     services:
         - docker:dind
