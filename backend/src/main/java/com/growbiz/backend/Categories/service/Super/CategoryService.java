@@ -17,37 +17,55 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Optional<Category> getCategoryByID(Long categoryID) {
-        return iCategoryRepository.findById(categoryID);
+        try {
+            return iCategoryRepository.findById(categoryID);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
     public List<Category> fetchCategoryList() {
-        return (List<Category>) iCategoryRepository.findAll();
+        try {
+            return (List<Category>) iCategoryRepository.findAll();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    //needs checking
     @Override
     public void addCategory(Category newCategory, Long newCategoryID) {
-        iCategoryRepository.save(newCategory);
+        try {
+            iCategoryRepository.save(newCategory);
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
     @Override
     public Category updateCategory(Category category, Long categoryID) {
-        Category categoryUpdated = iCategoryRepository.findById(categoryID).get();
+        try {
+            Category categoryUpdated = iCategoryRepository.findById(categoryID).get();
 
-        if (Objects.nonNull(category.getName()) && !"".equalsIgnoreCase(category.getName())) {
-            categoryUpdated.setName(category.getName());
+            if (Objects.nonNull(category.getName()) && !"".equalsIgnoreCase(category.getName())) {
+                categoryUpdated.setName(category.getName());
+            }
+
+            if (Objects.nonNull(category.getTax()) && !"".equalsIgnoreCase(category.getTax())) {
+                categoryUpdated.setTax(category.getTax());
+            }
+            return iCategoryRepository.save(categoryUpdated);
+        } catch (Exception e) {
+            return null;
         }
-
-        if (Objects.nonNull(category.getTax()) && !"".equalsIgnoreCase(category.getTax())) {
-            categoryUpdated.setTax(category.getTax());
-        }
-
-        return iCategoryRepository.save(categoryUpdated);
     }
 
     @Override
     public void deleteCategory(Long categoryID) {
-        iCategoryRepository.deleteById(categoryID);
+        try {
+            iCategoryRepository.deleteById(categoryID);
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 }
