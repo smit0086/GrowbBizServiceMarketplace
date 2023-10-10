@@ -20,7 +20,6 @@ export function UserAuthForm({ className, ...props }) {
 
     async function onSubmit(data) {
         setIsLoading(true);
-        // TODO: SET PROPER ROLE
         await signIn("credentials", {
             email: data.email,
             password: data.password,

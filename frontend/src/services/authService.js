@@ -4,14 +4,16 @@ export const authenticate = async (email, password, role) => {
         password,
         role,
     };
-    // TODO: ADD ENV VARIABLE
-    const resp = await fetch("http://localhost:9002/auth/authenticate", {
-        method: "post",
-        body: JSON.stringify(body),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    const resp = await fetch(
+        `${process.env.SERVER_ADDRESS}/auth/authenticate`,
+        {
+            method: "post",
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+    );
     try {
         const data = await resp.json();
         return data;
