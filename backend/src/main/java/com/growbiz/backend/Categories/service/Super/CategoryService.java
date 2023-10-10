@@ -38,11 +38,11 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public void addCategory(Category newCategory, Long newCategoryID) {
+    public Category addCategory(Category newCategory, Long newCategoryID) {
         try {
-            iCategoryRepository.save(newCategory);
+            return iCategoryRepository.save(newCategory);
         } catch (Exception e) {
-            e.getMessage();
+            throw e;
         }
     }
 

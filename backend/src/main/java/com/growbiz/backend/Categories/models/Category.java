@@ -21,34 +21,11 @@ public class Category {
     private Long id;
 
     @NotBlank
-    @Email
     private String name;
 
     @NotBlank
     private String tax;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTax() {
-        return tax;
-    }
-
-    public void setTax(String tax) {
-        this.tax = tax;
-    }
 
 }

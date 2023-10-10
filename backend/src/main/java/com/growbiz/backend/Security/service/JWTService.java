@@ -18,8 +18,8 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
-    @Value("{security.key}")
-    private static String SECRET_KEY;
+
+    private static String SECRET_KEY = "f524dc1dede396675482a80365275f77d39289f651cd47af037b3fc3ef6cbbb1";
 
     /**
      * Here we extract email i.e. the subject of the JWT
