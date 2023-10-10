@@ -64,5 +64,6 @@ deploy-dev-backend:
     variables:
         DEPLOY_PATH: "/home/student/deployment/dev"
     script:
-        - ssh "${SSH_USER}@${SSH_HOST}" "mkdir -p ${DEPLOY_PATH}"
+        - chmod 400 "${SSH_KEY}"
+        - ssh -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "mkdir -p ${DEPLOY_PATH}"
         - scp -i "${SSH_KEY}" -r . "${SSH_USER}@${SSH_HOST}:${DEPLOY_PATH}"
