@@ -20,3 +20,23 @@ export const authenticate = async (email, password, role) => {
         console.log("err", err);
     }
 };
+
+export const signup = async (firstName, lastName, email, password, role) => {
+    const body = JSON.stringify({
+        email,
+        firstName,
+        lastName,
+        password,
+        role: role,
+    });
+    const resp = await (
+        await fetch("/api/auth/signup", {
+            method: "post",
+            body,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    ).json();
+    return resp;
+};

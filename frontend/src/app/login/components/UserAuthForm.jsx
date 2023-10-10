@@ -8,7 +8,7 @@ import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ERROR_MESSAGE, REGEX } from "@/lib/constants";
+import { ERROR_MESSAGE, REGEX, ROLES } from "@/lib/constants";
 
 export function UserAuthForm({ className, ...props }) {
     const [isLoading, setIsLoading] = React.useState(false);
@@ -24,7 +24,7 @@ export function UserAuthForm({ className, ...props }) {
         await signIn("credentials", {
             email: data.email,
             password: data.password,
-            role: "CUSTOMER",
+            role: ROLES.CUSTOMER,
             redirect: true,
             callbackUrl: props.callbackUrl ?? "/",
         });

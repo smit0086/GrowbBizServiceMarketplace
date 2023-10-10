@@ -9,27 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, Controller } from "react-hook-form";
-import { ERROR_MESSAGE, REGEX } from "@/lib/constants";
-
-const signupCustomer = async (firstName, lastName, email, password) => {
-    const body = JSON.stringify({
-        email,
-        firstName,
-        lastName,
-        password,
-        role: "CUSTOMER",
-    });
-    const resp = await (
-        await fetch("/api/auth/signup", {
-            method: "post",
-            body,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-    ).json();
-    return resp;
-};
+import { ERROR_MESSAGE, REGEX, ROLES } from "@/lib/constants";
+import { signup } from "@/services/authService";
 
 export function UserAuthForm({ className, ...props }) {
     const [isLoading, setIsLoading] = React.useState(false);
@@ -42,23 +23,21 @@ export function UserAuthForm({ className, ...props }) {
     async function onSubmit(data) {
         setIsLoading(true);
 
-        const user = await signupCustomer(
+        await signup(
             data.firstName,
             data.lastName,
             data.email,
-            data.password
+            data.password,
+            ROLES.CUSTOMER
         );
         await signIn("credentials", {
             email: data.email,
             password: data.password,
-            role: "CUSTOMER",
+            role: ROLES.CUSTOMER,
             redirect: true,
             callbackUrl: props.callbackUrl ?? "/",
         });
-
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 3000);
+        setIsLoading(false);
     }
 
     return (
