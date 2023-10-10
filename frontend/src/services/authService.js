@@ -4,7 +4,6 @@ export const authenticate = async (email, password, role) => {
         password,
         role,
     };
-    console.log("body", body);
     // TODO: ADD ENV VARIABLE
     const resp = await fetch("http://localhost:9002/auth/authenticate", {
         method: "post",

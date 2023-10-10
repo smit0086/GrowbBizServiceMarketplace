@@ -18,7 +18,6 @@ export function UserAuthForm({ className, ...props }) {
         formState: { errors },
     } = useForm();
     const onSubmit = async (data) => {
-        console.log(data);
         setIsLoading(true);
 
         await signIn("credentials", {
