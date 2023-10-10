@@ -47,4 +47,5 @@ public class SubCategory {
     public void setSuperCategoryID(Long superCategoryID) {
         this.superCategoryID = superCategoryID;
     }
+
 }

@@ -2,6 +2,8 @@ package com.growbiz.backend.Categories.service.Super;
 
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.repository.ICategoryRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class CategoryService implements ICategoryService {
 
     @Autowired

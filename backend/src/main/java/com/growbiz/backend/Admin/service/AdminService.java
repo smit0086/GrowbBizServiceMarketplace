@@ -28,12 +28,12 @@ public class AdminService implements IAdminService{
             categoryService.addCategory(category, category.getId());
             return AuthenticationResponse.builder()
                     .token("Pass")
-                    .subject("Category ID: " + category.getId().toString() + "Added!")
+                    .subject("Category ID: " + category.getId().toString() + " Added!")
                     .build();
         } catch (Exception e) {
             return AuthenticationResponse.builder()
                     .token("Fail")
-                    .subject("Category ID: " + category.getId().toString() + "Failed!")
+                    .subject("Category ID: " + category.getId().toString() + " Failed!")
                     .build();
         }
     }
@@ -44,12 +44,12 @@ public class AdminService implements IAdminService{
             if (categoryService.updateCategory(category, category.getId()) != null) {
                 return AuthenticationResponse.builder()
                         .token("Pass")
-                        .subject("Category ID: " + category.getId().toString() + "Added!")
+                        .subject("Category ID: " + category.getId().toString() + " Updated!")
                         .build();
             } else {
                 return AuthenticationResponse.builder()
                         .token("Fail")
-                        .subject("Category ID: " + category.getId().toString() + "Failed!")
+                        .subject("Category ID: " + category.getId().toString() + " Failed!")
                         .build();
             }
         } catch (Exception e) {
@@ -66,12 +66,12 @@ public class AdminService implements IAdminService{
             categoryService.deleteCategory(category.getId());
             return AuthenticationResponse.builder()
                     .token("Pass")
-                    .subject("Category ID: " + category.getId().toString() + "Added!")
+                    .subject("Category ID: " + category.getId().toString() + " Deleted!")
                     .build();
         } catch (Exception e) {
             return AuthenticationResponse.builder()
                     .token("Fail")
-                    .subject("Category ID: " + category.getId().toString() + "Failed!")
+                    .subject("Category ID: " + category.getId().toString() + " Failed!")
                     .build();
         }
     }
@@ -82,12 +82,12 @@ public class AdminService implements IAdminService{
             subCategoryService.addCategory(subCategory, subCategory.getId());
             return AuthenticationResponse.builder()
                     .token("Pass")
-                    .subject("Category ID: " + subCategory.getId().toString() + "Added!")
+                    .subject("Category ID: " + subCategory.getId().toString() + " Added!")
                     .build();
         } catch (Exception e) {
             return AuthenticationResponse.builder()
                     .token("Fail")
-                    .subject("Category ID: " + subCategory.getId().toString() + "Failed!")
+                    .subject("Category ID: " + subCategory.getId().toString() + " Failed!")
                     .build();
         }
     }
@@ -98,18 +98,18 @@ public class AdminService implements IAdminService{
             if (subCategoryService.updateSubCategory(subCategory, subCategory.getId()) != null) {
                 return AuthenticationResponse.builder()
                         .token("Pass")
-                        .subject("Category ID: " + subCategory.getId().toString() + "Added!")
+                        .subject("Category ID: " + subCategory.getId().toString() + " Updated!")
                         .build();
             } else {
                 return AuthenticationResponse.builder()
                         .token("Fail")
-                        .subject("Category ID: " + subCategory.getId().toString() + "Failed!")
+                        .subject("Category ID: " + subCategory.getId().toString() + " Failed!")
                         .build();
             }
         } catch (Exception e) {
             return AuthenticationResponse.builder()
                     .token("Fail")
-                    .subject("Category ID: " + subCategory.getId().toString() + "Failed!")
+                    .subject("Category ID: " + subCategory.getId().toString() + " Failed!")
                     .build();
         }
     }
@@ -120,7 +120,7 @@ public class AdminService implements IAdminService{
             subCategoryService.deleteCategory(subCategory.getId());
             return AuthenticationResponse.builder()
                     .token("Pass")
-                    .subject("Category ID: " + subCategory.getId().toString() + "Added!")
+                    .subject("Category ID: " + subCategory.getId().toString() + " Deleted!")
                     .build();
         } catch (Exception e) {
             return AuthenticationResponse.builder()
