@@ -67,3 +67,4 @@ deploy-dev-backend:
         - chmod 400 "${SSH_KEY}"
         - ssh -o StrictHostKeyChecking=no -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "mkdir -p ${DEPLOY_PATH}"
         - scp -o StrictHostKeyChecking=no -i "${SSH_KEY}" -r . "${SSH_USER}@${SSH_HOST}:${DEPLOY_PATH}"
+        - ssh -o StrictHostKeyChecking=no -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "cd ${DEPLOY_PATH} && ./deploy.sh &"
