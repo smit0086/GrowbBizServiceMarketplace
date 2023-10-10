@@ -1,28 +1,65 @@
 "use client";
 
 import * as React from "react";
+import { signIn } from "next-auth/react";
 
 import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller } from "react-hook-form";
 import { ERROR_MESSAGE, REGEX } from "@/lib/constants";
+
+const signupCustomer = async (firstName, lastName, email, password) => {
+    const body = JSON.stringify({
+        email,
+        firstName,
+        lastName,
+        password,
+        role: "CUSTOMER",
+    });
+    const resp = await (
+        await fetch("/api/auth/signup", {
+            method: "post",
+            body,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    ).json();
+    return resp;
+};
 
 export function UserAuthForm({ className, ...props }) {
     const [isLoading, setIsLoading] = React.useState(false);
-    const { handleSubmit, control, formState: { errors } } = useForm();
+    const {
+        handleSubmit,
+        control,
+        formState: { errors },
+    } = useForm();
 
     async function onSubmit(data) {
         setIsLoading(true);
-        
-        console.log(data);
+
+        const user = await signupCustomer(
+            data.firstName,
+            data.lastName,
+            data.email,
+            data.password
+        );
+        await signIn("credentials", {
+            email: data.email,
+            password: data.password,
+            role: "CUSTOMER",
+            redirect: true,
+            callbackUrl: props.callbackUrl ?? "/",
+        });
 
         setTimeout(() => {
             setIsLoading(false);
         }, 3000);
-    } 
+    }
 
     return (
         <div className={cn("grid gap-6", className)} {...props}>
@@ -37,8 +74,8 @@ export function UserAuthForm({ className, ...props }) {
                             rules={{
                                 required: {
                                     value: true,
-                                    message: ERROR_MESSAGE.REQUIRED
-                                }
+                                    message: ERROR_MESSAGE.REQUIRED,
+                                },
                             }}
                             render={({ field }) => (
                                 <Input
@@ -50,7 +87,11 @@ export function UserAuthForm({ className, ...props }) {
                                 />
                             )}
                         />
-                        {errors.firstName && <span className="text-xs text-destructive">{errors.firstName.message}</span>}
+                        {errors.firstName && (
+                            <span className="text-xs text-destructive">
+                                {errors.firstName.message}
+                            </span>
+                        )}
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="lastName">Last Name</Label>
@@ -61,8 +102,8 @@ export function UserAuthForm({ className, ...props }) {
                             rules={{
                                 required: {
                                     value: true,
-                                    message: ERROR_MESSAGE.REQUIRED
-                                }
+                                    message: ERROR_MESSAGE.REQUIRED,
+                                },
                             }}
                             render={({ field }) => (
                                 <Input
@@ -74,7 +115,11 @@ export function UserAuthForm({ className, ...props }) {
                                 />
                             )}
                         />
-                        {errors.lastName && <span className="text-xs text-destructive">{errors.lastName.message}</span>}
+                        {errors.lastName && (
+                            <span className="text-xs text-destructive">
+                                {errors.lastName.message}
+                            </span>
+                        )}
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
@@ -85,12 +130,12 @@ export function UserAuthForm({ className, ...props }) {
                             rules={{
                                 required: {
                                     value: true,
-                                    message: ERROR_MESSAGE.REQUIRED
+                                    message: ERROR_MESSAGE.REQUIRED,
                                 },
                                 pattern: {
                                     value: REGEX.EMAIL,
                                     message: ERROR_MESSAGE.INVALID_EMAIL,
-                                }
+                                },
                             }}
                             render={({ field }) => (
                                 <Input
@@ -105,7 +150,11 @@ export function UserAuthForm({ className, ...props }) {
                                 />
                             )}
                         />
-                        {errors.email && <span className="text-xs text-destructive">{errors.email.message}</span>}
+                        {errors.email && (
+                            <span className="text-xs text-destructive">
+                                {errors.email.message}
+                            </span>
+                        )}
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
@@ -116,12 +165,12 @@ export function UserAuthForm({ className, ...props }) {
                             rules={{
                                 required: {
                                     value: true,
-                                    message: ERROR_MESSAGE.REQUIRED
+                                    message: ERROR_MESSAGE.REQUIRED,
                                 },
                                 pattern: {
                                     value: REGEX.PASSWORD_POLICY,
                                     message: ERROR_MESSAGE.INVALID_PASSWORD,
-                                }
+                                },
                             }}
                             render={({ field }) => (
                                 <Input
@@ -133,7 +182,11 @@ export function UserAuthForm({ className, ...props }) {
                                 />
                             )}
                         />
-                        {errors.password && <span className="text-xs text-destructive">{errors.password.message}</span>}
+                        {errors.password && (
+                            <span className="text-xs text-destructive">
+                                {errors.password.message}
+                            </span>
+                        )}
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="password">Confirm Password</Label>
@@ -144,14 +197,16 @@ export function UserAuthForm({ className, ...props }) {
                             rules={{
                                 required: {
                                     value: true,
-                                    message: ERROR_MESSAGE.REQUIRED
+                                    message: ERROR_MESSAGE.REQUIRED,
                                 },
                                 validate: (confirmPassword, allValues) => {
-                                    if (confirmPassword !== allValues.password) {
-                                        return 'Passwords do not match';
+                                    if (
+                                        confirmPassword !== allValues.password
+                                    ) {
+                                        return "Passwords do not match";
                                     }
                                     return true;
-                                }
+                                },
                             }}
                             render={({ field }) => (
                                 <Input
@@ -163,7 +218,11 @@ export function UserAuthForm({ className, ...props }) {
                                 />
                             )}
                         />
-                        {errors.confirmPassword && <span className="text-xs text-destructive">{errors.confirmPassword.message}</span>}
+                        {errors.confirmPassword && (
+                            <span className="text-xs text-destructive">
+                                {errors.confirmPassword.message}
+                            </span>
+                        )}
                     </div>
                     <Button disabled={isLoading}>
                         {isLoading && (
