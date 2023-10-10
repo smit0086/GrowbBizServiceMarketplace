@@ -14,3 +14,13 @@ services:
       - '8080:8080'
     expose:
       - '8080'
+  
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+      - mysql_db
+    ports:
+      - '3000:3000'
+    expose:
+      - '3000'

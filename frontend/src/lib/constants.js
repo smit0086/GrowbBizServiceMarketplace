@@ -4,7 +4,8 @@ export const COPY = {
     PARTNER_TESTIMONIAL:
         "GrowBiz works wonders! Our sales have soared since using it. Highly recommended!",
     PARTNER_NAME: "John Doe",
-    CUSTOMER_TESTIMONIAL: "Your trusted partner for on-demand home services, just a click away."
+    CUSTOMER_TESTIMONIAL:
+        "Your trusted partner for on-demand home services, just a click away.",
 };
 
 export const REGEX = {
@@ -17,4 +18,5 @@ export const ERROR_MESSAGE = {
     INVALID_EMAIL: "Please enter a valid email",
     INVALID_PASSWORD:
         "Password should be 8 characters and include at least 1 letter, 1 number and 1 special character!",
+    PASSWORD_NOT_MATCH: "Password do not match!",
 };
