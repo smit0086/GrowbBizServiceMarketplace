@@ -60,6 +60,7 @@ build-backend:
 
 deploy-dev-backend:
     stage: deploy
+    image: kroniak/ssh-client
     variables:
         DEPLOY_PATH: "/home/student/deployment/dev"
     script:
