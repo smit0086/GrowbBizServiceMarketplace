@@ -45,6 +45,11 @@ public class JWTService {
         return claimsResolver.apply(allClaims);
     }
 
+    public String extractRole(String token) {
+        final Claims allClaims = extractAllClaims(token);
+        return (String) allClaims.get("role");
+    }
+
     /**
      * Extract all claims from the JWT
      *
@@ -67,8 +72,10 @@ public class JWTService {
      * @param userLogin
      * @return
      */
-    public String generateToken(UserDetails userLogin) {
-        return generateToken(new HashMap<>(), userLogin);
+    public String generateToken(UserDetails userLogin, String role) {
+        Map<String, String> claims = new HashMap<>();
+        claims.put("role", role);
+        return generateToken(claims, userLogin);
     }
 
     /**
@@ -78,7 +85,7 @@ public class JWTService {
      * @param userLogin
      * @return
      */
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userLogin) {
+    public String generateToken(Map<String, String> extraClaims, UserDetails userLogin) {
         return Jwts.builder().setClaims(extraClaims)
                 .setSubject(userLogin.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -95,4 +102,5 @@ public class JWTService {
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date(System.currentTimeMillis()));
     }
+
 }
