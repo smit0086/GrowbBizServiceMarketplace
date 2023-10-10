@@ -60,12 +60,6 @@ build-backend:
 
 publish-backend:
     stage: publish
-    image: docker:latest
-    services:
-        - docker:dind
-    variables:
-        # DOCKER_DRIVER: "overlay"
-        DOCKER_TLS_CERTDIR: "/certs"
     
     before_script:
         - docker version
