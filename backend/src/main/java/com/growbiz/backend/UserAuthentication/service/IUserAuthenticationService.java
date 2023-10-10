@@ -8,5 +8,5 @@ import com.growbiz.backend.UserAuthentication.model.AuthenticationResponse;
 public interface IUserAuthenticationService {
     public AuthenticationResponse register(User userInfo);
 
-    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest, String role);
+    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest);
 }
