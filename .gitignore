@@ -3,6 +3,6 @@
 .vscode
 
 **/.DS_Store
-
+backend/files/**
 # Ignore compiled classes
 growbiz/target/
