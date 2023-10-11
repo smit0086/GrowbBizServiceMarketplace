@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 
 import { cn } from "@/lib/utils";
@@ -8,7 +9,7 @@ import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ERROR_MESSAGE, REGEX } from "@/lib/constants";
+import { ERROR_MESSAGE, REGEX, ROLES } from "@/lib/constants";
 
 export function UserAuthForm({ className, ...props }) {
     const {
@@ -16,13 +17,17 @@ export function UserAuthForm({ className, ...props }) {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const onSubmit = (data) => {
-        console.log(data);
+    const onSubmit = async (data) => {
         setIsLoading(true);
 
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 3000);
+        await signIn("credentials", {
+            email: data.email,
+            password: data.password,
+            role: ROLES.ADMIN,
+            redirect: true,
+            callbackUrl: props.callbackUrl ?? "/",
+        });
+        setIsLoading(false);
     };
     const [isLoading, setIsLoading] = React.useState(false);
 
