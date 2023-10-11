@@ -17,7 +17,7 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
-    private static String SECRET_KEY = "";
+    private static final String SECRET_KEY = "";
 
     /**
      * Here we extract email i.e. the subject of the JWT

@@ -49,6 +49,7 @@ public class UserAuthenticationService implements IUserAuthenticationService {
                 .authenticate(new UsernamePasswordAuthenticationToken
                         (authenticationRequest.getEmail() + ":" + authenticationRequest.getRole().name(), authenticationRequest.getPassword()));
         User userInfo = userService.getUserByEmailAndRole(authenticationRequest.getEmail() + ":" + authenticationRequest.getRole().name());
+
         return AuthenticationResponse.builder()
                 .token(jwtService.generateToken(userInfo, authenticationRequest.getRole().name()))
                 .subject(userInfo.getEmail())
