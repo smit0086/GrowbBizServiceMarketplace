@@ -24,7 +24,8 @@ build-frontend:
     artifacts:
         name: fe_app
         paths:
-            - ./frontend
+            - ./frontend/fe_app/
+            - ./frontend/.env
     only:
         - main
         - dev
