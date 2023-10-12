@@ -1,17 +1,14 @@
 package com.growbiz.backend.UserAuthentication.model;
 
-import com.growbiz.backend.User.models.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.growbiz.backend.Responses.model.BasicResponse;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class AuthenticationResponse {
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+public class AuthenticationResponse extends BasicResponse {
     private String token;
-    private String subject;
-    private Role role;
+
 }

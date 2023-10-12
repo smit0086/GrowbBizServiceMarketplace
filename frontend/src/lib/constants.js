@@ -20,3 +20,9 @@ export const ERROR_MESSAGE = {
         "Password should be 8 characters and include at least 1 letter, 1 number and 1 special character!",
     PASSWORD_NOT_MATCH: "Password do not match!",
 };
+
+export const ROLES = {
+    ADMIN: "ADMIN",
+    PARTNER: "PARTNER",
+    CUSTOMER: "CUSTOMER",
+};

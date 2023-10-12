@@ -37,7 +37,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         logger.info("Entering JWTAuthenticationFilter.doFilterInternal()");
         final String authenticationHeader = request.getHeader("Authorization");
-        logger.info("Auth Header: " + authenticationHeader);
 
         if (Objects.isNull(authenticationHeader) || !authenticationHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -47,9 +46,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         // Extracted userEmail from JWT
         final String userEmail = jwtService.extractUserEmail(token);
         final String userRole = jwtService.extractRole(token);
-        
+
         if (Objects.nonNull(userEmail) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail + ":" + userRole);
+
             if (jwtService.isTokenValid(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken
                         = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -59,5 +59,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
         }
         filterChain.doFilter(request, response);
+        logger.info("Exiting from JWTAuthenticationFilter.doFilterInternal()");
     }
 }

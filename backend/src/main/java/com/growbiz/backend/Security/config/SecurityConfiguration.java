@@ -1,11 +1,13 @@
 package com.growbiz.backend.Security.config;
 
 import com.growbiz.backend.Security.service.JWTAuthenticationFilter;
+import com.growbiz.backend.User.models.Role;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,7 +33,12 @@ public class SecurityConfiguration {
 
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/business/").hasAuthority(Role.PARTNER.name())
+                        .requestMatchers(HttpMethod.POST, "/business/save").hasAuthority(Role.PARTNER.name())
+                        .requestMatchers(HttpMethod.GET, "/business/all").hasAuthority(Role.PARTNER.name())
+                        .requestMatchers(HttpMethod.POST, "/admin/**").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/admin/**").permitAll()
                         .anyRequest().authenticated()
                 ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

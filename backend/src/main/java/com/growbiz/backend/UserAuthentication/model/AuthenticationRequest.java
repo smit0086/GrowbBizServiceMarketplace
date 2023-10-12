@@ -1,17 +1,17 @@
 package com.growbiz.backend.UserAuthentication.model;
 
-import com.growbiz.backend.User.models.Role;
+import com.growbiz.backend.Responses.model.BasicRequest;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
-    private String email;
+@EqualsAndHashCode(callSuper = true)
+public class AuthenticationRequest extends BasicRequest {
     private String password;
-    private Role role;
 }

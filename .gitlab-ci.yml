@@ -3,8 +3,6 @@ stages:
     - publish
     - deploy
 
-variables:
-
 build-frontend:
     stage: build
     image: node:18-alpine
@@ -25,24 +23,31 @@ build-frontend:
             - ./frontend/fe_app/
     only:
         - main
+        - dev
 
-publish-frontend-package:
-    stage: publish
-    image: curlimages/curl:latest
-    dependencies:
-        - build-frontend
+build-backend:
+    stage: build
+    image: maven:3.9.4-eclipse-temurin-17
     script:
-        - tar -zcvf fe_app.tar.gz ./frontend/fe_app/
-        - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file fe_app.tar.gz "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/frontend/0.0.1/fe_app.tar.gz"'
+        - echo "Building backend..."
+        - cd backend
+        - ./mvnw install
+    artifacts:
+        paths:
+            - backend/target/backend-0.0.1-SNAPSHOT.jar
     only:
         - main
+        - dev
 
-deploy-frontend:
+deploy-dev-backend:
     stage: deploy
     image: kroniak/ssh-client
-    dependencies: []
+    variables:
+        DEPLOY_PATH: "/home/student/deployment/dev"
     script:
-        - chmod 400 $SSH_KEY
-        - ssh -o StrictHostKeyChecking=no -i $SSH_KEY "${SSH_USER}@${SSH_HOST}" "source ~/.nvm/nvm.sh; sh deploy.sh ${CI_JOB_TOKEN} ${CI_API_V4_URL} ${CI_PROJECT_ID}"
+        - chmod 400 "${SSH_KEY}"
+        - ssh -o StrictHostKeyChecking=no -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "mkdir -p ${DEPLOY_PATH}"
+        - scp -o StrictHostKeyChecking=no -i "${SSH_KEY}" -r [!.]* "${SSH_USER}@${SSH_HOST}:${DEPLOY_PATH}"
+        - ssh -o StrictHostKeyChecking=no -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "cd ${DEPLOY_PATH} && ./deploy.sh"
     only:
-        - main
+        - dev

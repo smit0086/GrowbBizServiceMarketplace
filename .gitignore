@@ -2,7 +2,11 @@
 .idea
 .vscode
 
-**/.DS_Store
+# Ignore generated log files
+*.log
 
+# Ignore Apple specific files
+**/.DS_Store
+backend/files/**
 # Ignore compiled classes
 growbiz/target/
