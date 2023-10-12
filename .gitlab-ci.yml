@@ -6,6 +6,9 @@ stages:
 build-frontend:
     stage: build
     image: node:18-alpine
+    before_script:
+        - chmod +x ./setup_env.sh
+        - ./setup_env.sh
     script:
         - ls
         - cd ./frontend
