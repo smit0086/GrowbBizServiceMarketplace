@@ -16,4 +16,5 @@ import lombok.experimental.SuperBuilder;
 public class CategoryRequest extends BasicRequest {
     private long categoryID;
     private String categoryName;
+    private Boolean isSubCategory;
 }
