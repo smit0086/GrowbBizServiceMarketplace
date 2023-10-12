@@ -1,11 +1,9 @@
 package com.growbiz.backend.Security.service;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +17,7 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
-    @Value("${secret}")
-    private String SECRET_KEY;
+    private static String SECRET_KEY = "shdylvh2wNW6JpSW8EjdHhzzXabkFymh39mK4rznScgqXnN9BH2DgkaJfWj5Ko9";
 
     /**
      * Here we extract email i.e. the subject of the JWT

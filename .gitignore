@@ -2,6 +2,10 @@
 .idea
 .vscode
 
+# Ignore generated log files
+*.log
+
+# Ignore Apple specific files
 **/.DS_Store
 backend/files/**
 # Ignore compiled classes
