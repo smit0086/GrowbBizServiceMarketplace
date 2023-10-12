@@ -40,11 +40,11 @@ public class SubCategoryService implements ISubCategoryService {
 
 
     @Override
-    public void addCategory(SubCategory newSubCategory, Long newCategoryID) {
+    public SubCategory addCategory(SubCategory newSubCategory, Long newCategoryID) {
         try {
-            iSubCategoryRepository.save(newSubCategory);
+            return iSubCategoryRepository.save(newSubCategory);
         } catch (Exception e) {
-            throw e;
+            return null;
         }
     }
 

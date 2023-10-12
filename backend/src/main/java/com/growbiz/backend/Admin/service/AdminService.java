@@ -4,12 +4,16 @@ import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
-import com.growbiz.backend.UserAuthentication.model.AuthenticationResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @RequiredArgsConstructor
@@ -23,110 +27,84 @@ public class AdminService implements IAdminService{
     private final ISubCategoryService subCategoryService;
 
     @Override
-    public AuthenticationResponse addCategory(Category category) {
+    public List<Category> fetchAllCategories() {
+        return StreamSupport.stream(categoryService.fetchCategoryList().spliterator(), false)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Category> fetchCategoryByID(long categoryID) {
+        return categoryService.getCategoryByID(categoryID);
+    }
+
+    @Override
+    public Category addCategory(Category newCategory) {
         try {
-            Category category1 = categoryService.addCategory(category, category.getId());
-            return AuthenticationResponse.builder()
-                    .token("Pass")
-                    .subject("Category ID: " + category.getId()+ " Added!")
-                    .build();
+            Category category = categoryService.addCategory(newCategory, newCategory.getId());
+            return category;
         } catch (Exception e) {
-            return AuthenticationResponse.builder()
-                    .token("Fail")
-                    .subject("Category ID: " + category.getId() + " Failed!")
-                    .build();
+            return null;
         }
     }
 
     @Override
-    public AuthenticationResponse updateCategory(Category category) {
+    public Category updateCategory(Category updatedCategory) {
         try {
-            if (categoryService.updateCategory(category, category.getId()) != null) {
-                return AuthenticationResponse.builder()
-                        .token("Pass")
-                        .subject("Category ID: " + category.getId() + " Updated!")
-                        .build();
-            } else {
-                return AuthenticationResponse.builder()
-                        .token("Fail")
-                        .subject("Category ID: " + category.getId() + " Failed!")
-                        .build();
-            }
+            Category category = categoryService.updateCategory(updatedCategory, updatedCategory.getId());
+            return category;
         } catch (Exception e) {
-            return AuthenticationResponse.builder()
-                    .token("Fail")
-                    .subject("Category ID: " + category.getId() + "Failed!")
-                    .build();
+            return null;
         }
     }
 
     @Override
-    public AuthenticationResponse deleteCategory(Category category) {
+    public Boolean deleteCategory(Category category) {
         try {
             categoryService.deleteCategory(category.getId());
-            return AuthenticationResponse.builder()
-                    .token("Pass")
-                    .subject("Category ID: " + category.getId() + " Deleted!")
-                    .build();
+            return true;
         } catch (Exception e) {
-            return AuthenticationResponse.builder()
-                    .token("Fail")
-                    .subject("Category ID: " + category.getId() + " Failed!")
-                    .build();
+            return false;
         }
     }
 
     @Override
-    public AuthenticationResponse addSubCategory(SubCategory subCategory) {
+    public List<SubCategory> fetchAllSubCategories() {
+        return StreamSupport.stream(subCategoryService.fetchSubCategoryList().spliterator(), false)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<SubCategory> fetchSubCategoriesByID(long subCategoryID) {
+        return subCategoryService.getSubCategoryByID(subCategoryID);
+    }
+
+    @Override
+    public SubCategory addSubCategory(SubCategory newSubCategory) {
         try {
-            subCategoryService.addCategory(subCategory, subCategory.getId());
-            return AuthenticationResponse.builder()
-                    .token("Pass")
-                    .subject("Category ID: " + subCategory.getId() + " Added!")
-                    .build();
+            SubCategory subCategory = subCategoryService.addCategory(newSubCategory, newSubCategory.getId());
+            return subCategory;
         } catch (Exception e) {
-            return AuthenticationResponse.builder()
-                    .token("Fail")
-                    .subject("Category ID: " + subCategory.getId() + " Failed!")
-                    .build();
+            return null;
         }
     }
 
     @Override
-    public AuthenticationResponse updateSubCategory(SubCategory subCategory) {
+    public SubCategory updateSubCategory(SubCategory updatedSubCategory) {
         try {
-            if (subCategoryService.updateSubCategory(subCategory, subCategory.getId()) != null) {
-                return AuthenticationResponse.builder()
-                        .token("Pass")
-                        .subject("Category ID: " + subCategory.getId() + " Updated!")
-                        .build();
-            } else {
-                return AuthenticationResponse.builder()
-                        .token("Fail")
-                        .subject("Category ID: " + subCategory.getId() + " Failed!")
-                        .build();
-            }
+            SubCategory subCategory = subCategoryService.updateSubCategory(updatedSubCategory, updatedSubCategory.getId());
+            return subCategory;
         } catch (Exception e) {
-            return AuthenticationResponse.builder()
-                    .token("Fail")
-                    .subject("Category ID: " + subCategory.getId() + " Failed!")
-                    .build();
+            return null;
         }
     }
 
     @Override
-    public AuthenticationResponse deleteSubCategory(SubCategory subCategory) {
+    public Boolean deleteSubCategory(SubCategory subCategory) {
         try {
             subCategoryService.deleteCategory(subCategory.getId());
-            return AuthenticationResponse.builder()
-                    .token("Pass")
-                    .subject("Category ID: " + subCategory.getId() + " Deleted!")
-                    .build();
+            return true;
         } catch (Exception e) {
-            return AuthenticationResponse.builder()
-                    .token("Fail")
-                    .subject("Category ID: " + subCategory.getId() + "Failed!")
-                    .build();
+            return false;
         }
     }
 

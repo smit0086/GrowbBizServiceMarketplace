@@ -2,6 +2,7 @@ package com.growbiz.backend.Admin.controller;
 
 import com.growbiz.backend.Admin.service.IAdminService;
 import com.growbiz.backend.Categories.models.Category;
+import com.growbiz.backend.Categories.models.CategoryResponse;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.UserAuthentication.model.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,68 +23,68 @@ public class AdminController {
     @Autowired
     IAdminService adminService;
 
-    @PostMapping(path = "/addCategory")
-    public ResponseEntity<AuthenticationResponse> addCategory(@RequestBody Category newCategory) {
-        AuthenticationResponse response = adminService.addCategory(newCategory);
-
-        if (response.getToken() == "Pass") {
-            return ResponseEntity.ok(response);
-        } else {
-            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-        }
-    }
-
-    @PostMapping(path = "/updateCategory")
-    public ResponseEntity<AuthenticationResponse> updateCategory(@RequestBody Category newCategory) {
-        AuthenticationResponse response = adminService.updateCategory(newCategory);
-
-        if (response.getToken() == "Pass") {
-            return ResponseEntity.ok(response);
-        } else {
-            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-        }
-    }
-    @PostMapping(path = "/deleteCategory")
-    public ResponseEntity<AuthenticationResponse> deleteCategory(@RequestBody Category category) {
-        AuthenticationResponse response = adminService.deleteCategory(category);
-
-        if (response.getToken() == "Pass") {
-            return ResponseEntity.ok(response);
-        } else {
-            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-        }
-    }
-
-    @PostMapping(path = "/addSubCategory")
-    public ResponseEntity<AuthenticationResponse> addSubCategory(@RequestBody SubCategory newCategory) {
-        AuthenticationResponse response = adminService.addSubCategory(newCategory);
-
-        if (response.getToken() == "Pass") {
-            return ResponseEntity.ok(response);
-        } else {
-            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-        }
-    }
-
-    @PostMapping(path = "/updateSubCategory")
-    public ResponseEntity<AuthenticationResponse> updateSubCategory(@RequestBody SubCategory newCategory) {
-        AuthenticationResponse response = adminService.updateSubCategory(newCategory);
-
-        if (response.getToken() == "Pass") {
-            return ResponseEntity.ok(response);
-        } else {
-            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-        }
-    }
-    @PostMapping(path = "/deleteSubCategory")
-    public ResponseEntity<AuthenticationResponse> deleteSubCategory(@RequestBody SubCategory subCategory) {
-        AuthenticationResponse response = adminService.deleteSubCategory(subCategory);
-
-        if (response.getToken() == "Pass") {
-            return ResponseEntity.ok(response);
-        } else {
-            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-        }
-    }
+//    @PostMapping(path = "/addCategory")
+//    public ResponseEntity<CategoryResponse> addCategory(@RequestBody Category newCategory) {
+//        Category category = adminService.addCategory(newCategory);
+//
+//        if (category != null) {
+//            return ResponseEntity.ok(response);
+//        } else {
+//            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
+//        }
+//    }
+//
+//    @PostMapping(path = "/updateCategory")
+//    public ResponseEntity<AuthenticationResponse> updateCategory(@RequestBody Category newCategory) {
+//        AuthenticationResponse response = adminService.updateCategory(newCategory);
+//
+//        if (response.getToken() == "Pass") {
+//            return ResponseEntity.ok(response);
+//        } else {
+//            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
+//        }
+//    }
+//    @PostMapping(path = "/deleteCategory")
+//    public ResponseEntity<AuthenticationResponse> deleteCategory(@RequestBody Category category) {
+//        AuthenticationResponse response = adminService.deleteCategory(category);
+//
+//        if (response.getToken() == "Pass") {
+//            return ResponseEntity.ok(response);
+//        } else {
+//            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
+//        }
+//    }
+//
+//    @PostMapping(path = "/addSubCategory")
+//    public ResponseEntity<AuthenticationResponse> addSubCategory(@RequestBody SubCategory newCategory) {
+//        AuthenticationResponse response = adminService.addSubCategory(newCategory);
+//
+//        if (response.getToken() == "Pass") {
+//            return ResponseEntity.ok(response);
+//        } else {
+//            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
+//        }
+//    }
+//
+//    @PostMapping(path = "/updateSubCategory")
+//    public ResponseEntity<AuthenticationResponse> updateSubCategory(@RequestBody SubCategory newCategory) {
+//        AuthenticationResponse response = adminService.updateSubCategory(newCategory);
+//
+//        if (response.getToken() == "Pass") {
+//            return ResponseEntity.ok(response);
+//        } else {
+//            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
+//        }
+//    }
+//    @PostMapping(path = "/deleteSubCategory")
+//    public ResponseEntity<AuthenticationResponse> deleteSubCategory(@RequestBody SubCategory subCategory) {
+//        AuthenticationResponse response = adminService.deleteSubCategory(subCategory);
+//
+//        if (response.getToken() == "Pass") {
+//            return ResponseEntity.ok(response);
+//        } else {
+//            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
+//        }
+//    }
 
 }

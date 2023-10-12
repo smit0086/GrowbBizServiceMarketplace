@@ -11,7 +11,7 @@ public interface ISubCategoryService {
     List<SubCategory> fetchSubCategoryList();
 
     //needs checking
-    void addCategory(SubCategory newSubCategory, Long newCategoryID);
+    SubCategory addCategory(SubCategory newSubCategory, Long newCategoryID);
 
     SubCategory updateSubCategory(SubCategory category, Long categoryID);
 

@@ -2,18 +2,28 @@ package com.growbiz.backend.Admin.service;
 
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
-import com.growbiz.backend.UserAuthentication.model.AuthenticationResponse;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface IAdminService {
-    AuthenticationResponse addCategory(Category category);
+    List<Category> fetchAllCategories();
 
-    AuthenticationResponse updateCategory(Category category);
+    Optional<Category> fetchCategoryByID(long categoryID);
 
-    AuthenticationResponse deleteCategory(Category category);
+    Category addCategory(Category category);
 
-    AuthenticationResponse addSubCategory(SubCategory subCategory);
+    Category updateCategory(Category category);
 
-    AuthenticationResponse updateSubCategory(SubCategory subCategory);
+    Boolean deleteCategory(Category category);
 
-    AuthenticationResponse deleteSubCategory(SubCategory subCategory);
+    List<SubCategory> fetchAllSubCategories();
+
+    Optional<SubCategory> fetchSubCategoriesByID(long subCategoryID);
+
+    SubCategory addSubCategory(SubCategory subCategory);
+
+    SubCategory updateSubCategory(SubCategory subCategory);
+
+    Boolean deleteSubCategory(SubCategory subCategory);
 }
