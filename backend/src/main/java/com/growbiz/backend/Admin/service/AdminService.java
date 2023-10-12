@@ -25,7 +25,7 @@ public class AdminService implements IAdminService{
     @Override
     public AuthenticationResponse addCategory(Category category) {
         try {
-            categoryService.addCategory(category, category.getId());
+            Category category1 = categoryService.addCategory(category, category.getId());
             return AuthenticationResponse.builder()
                     .token("Pass")
                     .subject("Category ID: " + category.getId()+ " Added!")
