@@ -1,19 +1,18 @@
 package com.growbiz.backend.Admin.controller;
 
 import com.growbiz.backend.Admin.service.IAdminService;
+import com.growbiz.backend.Categories.helper.CategoriesControllerHelper;
 import com.growbiz.backend.Categories.models.Category;
+import com.growbiz.backend.Categories.models.CategoryRequest;
 import com.growbiz.backend.Categories.models.CategoryResponse;
 import com.growbiz.backend.Categories.models.SubCategory;
-import com.growbiz.backend.UserAuthentication.model.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLOutput;
+import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -23,68 +22,93 @@ public class AdminController {
     @Autowired
     IAdminService adminService;
 
-//    @PostMapping(path = "/addCategory")
-//    public ResponseEntity<CategoryResponse> addCategory(@RequestBody Category newCategory) {
-//        Category category = adminService.addCategory(newCategory);
-//
-//        if (category != null) {
-//            return ResponseEntity.ok(response);
-//        } else {
-//            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-//        }
-//    }
-//
-//    @PostMapping(path = "/updateCategory")
-//    public ResponseEntity<AuthenticationResponse> updateCategory(@RequestBody Category newCategory) {
-//        AuthenticationResponse response = adminService.updateCategory(newCategory);
-//
-//        if (response.getToken() == "Pass") {
-//            return ResponseEntity.ok(response);
-//        } else {
-//            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-//        }
-//    }
-//    @PostMapping(path = "/deleteCategory")
-//    public ResponseEntity<AuthenticationResponse> deleteCategory(@RequestBody Category category) {
-//        AuthenticationResponse response = adminService.deleteCategory(category);
-//
-//        if (response.getToken() == "Pass") {
-//            return ResponseEntity.ok(response);
-//        } else {
-//            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-//        }
-//    }
-//
-//    @PostMapping(path = "/addSubCategory")
-//    public ResponseEntity<AuthenticationResponse> addSubCategory(@RequestBody SubCategory newCategory) {
-//        AuthenticationResponse response = adminService.addSubCategory(newCategory);
-//
-//        if (response.getToken() == "Pass") {
-//            return ResponseEntity.ok(response);
-//        } else {
-//            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-//        }
-//    }
-//
-//    @PostMapping(path = "/updateSubCategory")
-//    public ResponseEntity<AuthenticationResponse> updateSubCategory(@RequestBody SubCategory newCategory) {
-//        AuthenticationResponse response = adminService.updateSubCategory(newCategory);
-//
-//        if (response.getToken() == "Pass") {
-//            return ResponseEntity.ok(response);
-//        } else {
-//            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-//        }
-//    }
-//    @PostMapping(path = "/deleteSubCategory")
-//    public ResponseEntity<AuthenticationResponse> deleteSubCategory(@RequestBody SubCategory subCategory) {
-//        AuthenticationResponse response = adminService.deleteSubCategory(subCategory);
-//
-//        if (response.getToken() == "Pass") {
-//            return ResponseEntity.ok(response);
-//        } else {
-//            return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-//        }
-//    }
+    @Autowired
+    private CategoriesControllerHelper helper;
+
+    @GetMapping(path = "/allCategories")
+    public ResponseEntity<CategoryResponse> getAllCategories() {
+        return helper.createCategoryResponse(adminService.fetchAllCategories());
+    }
+
+    @GetMapping(path = "/get")
+    public ResponseEntity<CategoryResponse> getCategory(@RequestBody CategoryRequest categoryRequest) {
+        return helper.createCategoryResponse(List.of(adminService.fetchCategoryByID(categoryRequest.getCategoryID())));
+    }
+
+    @PostMapping(path = "/addCategory")
+    public ResponseEntity<CategoryResponse> addCategory(@RequestBody Category newCategory) throws Exception {
+        Category category = adminService.addCategory(newCategory);
+
+        if (category != null) {
+            return helper.createCategoryResponse(List.of(category));
+        } else {
+            //return (ResponseEntity<CategoryResponse>) helper.createCategoryResponse(List.of(category)).badRequest();
+            throw new Exception();
+        }
+    }
+
+    @PostMapping(path = "/updateCategory")
+    public ResponseEntity<CategoryResponse> updateCategory(@RequestBody Category newCategory) throws Exception {
+        Category category = adminService.updateCategory(newCategory);
+
+        if (category != null) {
+            return helper.createCategoryResponse(List.of(category));
+        } else {
+            throw new Exception();
+        }
+    }
+    @PostMapping(path = "/deleteCategory")
+    public ResponseEntity<CategoryResponse> deleteCategory(@RequestBody Category oldCategory) throws Exception {
+        Boolean isDeleted = adminService.deleteCategory(oldCategory);
+
+        if (isDeleted) {
+            return helper.deleteCategoryResponse(false, true);
+        } else {
+            throw new Exception();
+        }
+    }
+
+    @GetMapping(path = "/allSubCategories")
+    public ResponseEntity<CategoryResponse> getAllSubCategories() {
+        return helper.createSubCategoryResponse(adminService.fetchAllSubCategories());
+    }
+
+    @GetMapping(path = "/getSub")
+    public ResponseEntity<CategoryResponse> getSubCategory(@RequestBody CategoryRequest categoryRequest) {
+        return helper.createCategoryResponse(List.of(adminService.fetchCategoryByID(categoryRequest.getCategoryID())));
+    }
+
+    @PostMapping(path = "/addSubCategory")
+    public ResponseEntity<CategoryResponse> addSubCategory(@RequestBody SubCategory newCategory) throws Exception{
+        SubCategory subCategory = adminService.addSubCategory(newCategory);
+
+        if (subCategory != null) {
+            return helper.createSubCategoryResponse(List.of(subCategory));
+        } else {
+            throw new Exception();
+        }
+    }
+
+    @PostMapping(path = "/updateSubCategory")
+    public ResponseEntity<CategoryResponse> updateSubCategory(@RequestBody SubCategory newCategory) throws Exception {
+        SubCategory subCategory = adminService.updateSubCategory(newCategory);
+
+        if (subCategory != null) {
+            return helper.createSubCategoryResponse(List.of(subCategory));
+        } else {
+            //return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
+            throw new Exception();
+        }
+    }
+    @PostMapping(path = "/deleteSubCategory")
+    public ResponseEntity<CategoryResponse> deleteSubCategory(@RequestBody SubCategory newSubCategory) throws Exception {
+        Boolean isDeleted = adminService.deleteSubCategory(newSubCategory);
+
+        if (isDeleted) {
+            return helper.deleteCategoryResponse(true, true);
+        } else {
+            throw new Exception();
+        }
+    }
 
 }

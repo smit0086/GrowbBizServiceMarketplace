@@ -1,7 +1,6 @@
 package com.growbiz.backend.Categories.models;
 
 import com.growbiz.backend.Responses.model.BasicRequest;
-import com.growbiz.backend.User.models.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

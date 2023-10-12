@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ISubCategoryService {
-    Optional<SubCategory> getSubCategoryByID(Long categoryID);
+    SubCategory getSubCategoryByID(Long categoryID);
 
     List<SubCategory> fetchSubCategoryList();
 

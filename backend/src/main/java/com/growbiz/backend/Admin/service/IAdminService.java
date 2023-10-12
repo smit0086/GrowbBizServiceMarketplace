@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface IAdminService {
     List<Category> fetchAllCategories();
 
-    Optional<Category> fetchCategoryByID(long categoryID);
+    Category fetchCategoryByID(long categoryID);
 
     Category addCategory(Category category);
 
@@ -19,7 +19,7 @@ public interface IAdminService {
 
     List<SubCategory> fetchAllSubCategories();
 
-    Optional<SubCategory> fetchSubCategoriesByID(long subCategoryID);
+    SubCategory fetchSubCategoriesByID(long subCategoryID);
 
     SubCategory addSubCategory(SubCategory subCategory);
 

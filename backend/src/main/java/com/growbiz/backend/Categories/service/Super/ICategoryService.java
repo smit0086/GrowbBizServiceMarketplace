@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public interface ICategoryService {
 
-    Optional<Category> getCategoryByID(Long categoryID);
+    Category getCategoryByID(Long categoryID);
 
     List<Category> fetchCategoryList();
 

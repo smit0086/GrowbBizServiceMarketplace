@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +19,9 @@ public class CategoryService implements ICategoryService {
     ICategoryRepository iCategoryRepository;
 
     @Override
-    public Optional<Category> getCategoryByID(Long categoryID) {
+    public Category getCategoryByID(Long categoryID) {
         try {
-            return iCategoryRepository.findById(categoryID);
+            return iCategoryRepository.findById((categoryID)).get();
         } catch (Exception e) {
             return null;
         }

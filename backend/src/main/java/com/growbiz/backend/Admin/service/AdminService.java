@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -33,7 +32,7 @@ public class AdminService implements IAdminService{
     }
 
     @Override
-    public Optional<Category> fetchCategoryByID(long categoryID) {
+    public Category fetchCategoryByID(long categoryID) {
         return categoryService.getCategoryByID(categoryID);
     }
 
@@ -74,7 +73,7 @@ public class AdminService implements IAdminService{
     }
 
     @Override
-    public Optional<SubCategory> fetchSubCategoriesByID(long subCategoryID) {
+    public SubCategory fetchSubCategoriesByID(long subCategoryID) {
         return subCategoryService.getSubCategoryByID(subCategoryID);
     }
 

@@ -21,9 +21,9 @@ public class SubCategoryService implements ISubCategoryService {
     ISubCategoryRepository iSubCategoryRepository;
 
     @Override
-    public Optional<SubCategory> getSubCategoryByID(Long categoryID) {
+    public SubCategory getSubCategoryByID(Long categoryID) {
         try {
-            return iSubCategoryRepository.findById(categoryID);
+            return iSubCategoryRepository.findById(categoryID).get();
         } catch (Exception e) {
             return null;
         }
