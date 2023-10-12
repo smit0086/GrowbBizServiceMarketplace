@@ -11,9 +11,9 @@ services:
       - mysql_db
     container_name: backend
     ports:
-      - '8080:8080'
+      - '9002:9002'
     expose:
-      - '8080'
+      - '9002'
   
   frontend:
     build: ./frontend

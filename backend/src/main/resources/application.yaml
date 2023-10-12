@@ -12,4 +12,4 @@ spring:
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
-hashing: ${GROWBIZ_SECRET_KEY}
+secret: ${GROWBIZ_SECRET_KEY}
