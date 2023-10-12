@@ -17,6 +17,7 @@ build-frontend:
         - npm run build
         - mkdir fe_app
         - mkdir ./fe_app/.next
+        - cp .env ./fe_app/.env
         - cp -r ./public ./fe_app/public
         - cp -a ./.next/standalone/. ./fe_app
         - cp -r ./.next/static ./fe_app/.next/static
@@ -27,6 +28,7 @@ build-frontend:
     only:
         - main
         - dev
+        - issue-30-add-env-var-support-to-ci
 
 build-backend:
     stage: build
@@ -41,6 +43,7 @@ build-backend:
     only:
         - main
         - dev
+        - issue-30-add-env-var-support-to-ci
 
 deploy-dev-backend:
     stage: deploy
@@ -53,4 +56,5 @@ deploy-dev-backend:
         - scp -o StrictHostKeyChecking=no -i "${SSH_KEY}" -r [!.]* "${SSH_USER}@${SSH_HOST}:${DEPLOY_PATH}"
         - ssh -o StrictHostKeyChecking=no -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "cd ${DEPLOY_PATH} && ./deploy.sh"
     only:
+        - issue-30-add-env-var-support-to-ci
         - dev
