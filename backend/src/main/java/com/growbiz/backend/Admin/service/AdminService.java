@@ -73,7 +73,7 @@ public class AdminService implements IAdminService{
     }
 
     @Override
-    public SubCategory fetchSubCategoriesByID(long subCategoryID) {
+    public SubCategory fetchSubCategoryByID(long subCategoryID) {
         return subCategoryService.getSubCategoryByID(subCategoryID);
     }
 

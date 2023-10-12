@@ -9,5 +9,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 public class AuthenticationResponse extends BasicResponse {
+    private String token;
 
 }

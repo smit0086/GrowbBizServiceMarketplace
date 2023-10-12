@@ -3,12 +3,13 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    url: jdbc:mysql://localhost:3306/sys
-    password: B00931734
+    username:
+    url:
+    password:
   jpa:
     hibernate:
       ddl-auto: update
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
+secret:

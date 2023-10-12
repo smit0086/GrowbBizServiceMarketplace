@@ -38,7 +38,6 @@ public class BusinessControllerHelper {
     public ResponseEntity<BusinessResponse> createBusinessResponse(List<Business> businessList) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.ok(BusinessResponse.builder()
-                .token(jwtService.generateToken(user, user.getRole().name()))
                 .businesses(businessList)
                 .subject(user.getEmail())
                 .role(user.getRole())

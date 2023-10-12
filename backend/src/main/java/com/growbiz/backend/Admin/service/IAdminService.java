@@ -19,7 +19,7 @@ public interface IAdminService {
 
     List<SubCategory> fetchAllSubCategories();
 
-    SubCategory fetchSubCategoriesByID(long subCategoryID);
+    SubCategory fetchSubCategoryByID(long subCategoryID);
 
     SubCategory addSubCategory(SubCategory subCategory);
 

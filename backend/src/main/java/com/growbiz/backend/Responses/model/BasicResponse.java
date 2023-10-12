@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 public abstract class BasicResponse {
-    private String token;
+
     private String subject;
     private Role role;
 }

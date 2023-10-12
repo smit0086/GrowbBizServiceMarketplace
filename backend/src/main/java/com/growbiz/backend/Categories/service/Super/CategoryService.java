@@ -21,7 +21,8 @@ public class CategoryService implements ICategoryService {
     @Override
     public Category getCategoryByID(Long categoryID) {
         try {
-            return iCategoryRepository.findById((categoryID)).get();
+            Category category = iCategoryRepository.findById(categoryID).get();
+            return category;
         } catch (Exception e) {
             return null;
         }

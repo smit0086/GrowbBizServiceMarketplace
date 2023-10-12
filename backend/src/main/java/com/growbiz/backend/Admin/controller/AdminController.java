@@ -20,7 +20,7 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    IAdminService adminService;
+    private IAdminService adminService;
 
     @Autowired
     private CategoriesControllerHelper helper;
@@ -75,7 +75,7 @@ public class AdminController {
 
     @GetMapping(path = "/getSub")
     public ResponseEntity<CategoryResponse> getSubCategory(@RequestBody CategoryRequest categoryRequest) {
-        return helper.createCategoryResponse(List.of(adminService.fetchCategoryByID(categoryRequest.getCategoryID())));
+        return helper.createSubCategoryResponse(List.of(adminService.fetchSubCategoryByID(categoryRequest.getCategoryID())));
     }
 
     @PostMapping(path = "/addSubCategory")

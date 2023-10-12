@@ -23,7 +23,8 @@ public class SubCategoryService implements ISubCategoryService {
     @Override
     public SubCategory getSubCategoryByID(Long categoryID) {
         try {
-            return iSubCategoryRepository.findById(categoryID).get();
+            SubCategory subCategory = iSubCategoryRepository.findById(categoryID).get();
+            return subCategory;
         } catch (Exception e) {
             return null;
         }
