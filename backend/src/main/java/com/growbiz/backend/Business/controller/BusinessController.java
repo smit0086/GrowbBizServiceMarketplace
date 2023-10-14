@@ -45,7 +45,7 @@ public class BusinessController {
         return helper.createBusinessResponse(List.of(businessService.save(helper.getBusinessRequestFromJSON(businessRequestJson, file))));
     }
 
-    @RequestMapping(path = "/{businessId}", method = RequestMethod.PUT,
+    @RequestMapping(path = "/update/{businessId}", method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<BusinessResponse> updateBusiness(@RequestPart("business") String businessRequestJson, @RequestPart("file") MultipartFile file, @PathVariable("businessId") Long businessId) {
         return helper.createBusinessResponse(List.of(businessService.updateBusiness(helper.getBusinessRequestFromJSON(businessRequestJson, file), businessId)));
