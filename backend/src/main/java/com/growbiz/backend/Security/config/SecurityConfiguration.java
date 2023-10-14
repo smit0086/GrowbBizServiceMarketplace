@@ -34,6 +34,7 @@ public class SecurityConfiguration {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/business/").hasAuthority(Role.PARTNER.name())
+                        .requestMatchers(HttpMethod.GET, "/business/download").hasAnyAuthority(Role.PARTNER.name(), Role.ADMIN.name())
                         .requestMatchers(HttpMethod.POST, "/business/save").hasAuthority(Role.PARTNER.name())
                         .requestMatchers(HttpMethod.PUT, "/{businessId}").hasAuthority(Role.PARTNER.name())
                         .requestMatchers(HttpMethod.PUT, "/{businessId}/verify").hasAuthority(Role.ADMIN.name())

@@ -5,6 +5,7 @@ import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Business.model.BusinessResponse;
 import com.growbiz.backend.Business.model.BusinessStatus;
 import com.growbiz.backend.Business.service.IBusinessService;
+import com.growbiz.backend.Business.service.IFileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,6 +22,9 @@ public class BusinessController {
 
     @Autowired
     private IBusinessService businessService;
+
+    @Autowired
+    private IFileStorageService fileStorageService;
 
     @Autowired
     private BusinessControllerHelper helper;
@@ -52,7 +56,14 @@ public class BusinessController {
         Business business = businessService.findById(businessId);
         business.setStatus(BusinessStatus.APPROVED);
         businessService.save(business);
-        return ResponseEntity.ok("Success");
+        return ResponseEntity.ok("Verified!");
+    }
+
+    @GetMapping(path = "/download")
+    public ResponseEntity<byte[]> downloadFile(@RequestParam String email) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(fileStorageService.downloadFile(email));
     }
 
 }
