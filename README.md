@@ -67,7 +67,7 @@
 <td><code>/business/</code></td>
 <td><code>GET</code></td>
 <td><code>PARTNER</code></td>
-<td>{"email":"email"}</td>
+<td></td>
 <td>{"token":"token","subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
 <td><code>YES</code></td>
 <td>This API is used to get the Business of the PARTNER.</td>

@@ -1,6 +1,7 @@
 package com.growbiz.backend.Business.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -21,6 +22,7 @@ public class FileStorageService implements IFileStorageService {
         Path folderPath = Paths.get(root + "/" + email);
         File filePath = new File(folderPath + "/" + file.getOriginalFilename());
         try {
+            FileSystemUtils.deleteRecursively(new File(folderPath.toString()));
             Files.createDirectories(folderPath);
             file.transferTo(filePath);
         } catch (IOException ioException) {
