@@ -12,3 +12,5 @@ spring:
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
+web:
+  cors: http://csci5308vm2.research.cs.dal.ca:3000/

@@ -5,8 +5,12 @@ import { ROLES } from "./lib/constants";
 // middleware is applied to all routes, use conditionals to select
 const protected_routes = {
     CUSTOMER: ["/dashboard"],
-    PARTNER: ["/partner/dashboard", "/partner/business/create"],
-    ADMIN: ["/admin/dashboard"],
+    PARTNER: [
+        "/partner/dashboard",
+        "/partner/business/status",
+        "/partner/business/create",
+    ],
+    ADMIN: ["/admin/dashboard", "/admin/business/verify"],
 };
 
 const flattened_protected_routes = [
