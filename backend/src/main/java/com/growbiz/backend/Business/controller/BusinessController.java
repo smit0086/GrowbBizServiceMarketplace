@@ -3,7 +3,7 @@ package com.growbiz.backend.Business.controller;
 import com.growbiz.backend.Business.helper.BusinessControllerHelper;
 import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Business.model.BusinessResponse;
-import com.growbiz.backend.Business.model.BusinessStatus;
+import com.growbiz.backend.Business.model.VerificationRequest;
 import com.growbiz.backend.Business.service.IBusinessService;
 import com.growbiz.backend.Business.service.IFileStorageService;
 import lombok.RequiredArgsConstructor;
@@ -52,11 +52,11 @@ public class BusinessController {
     }
 
     @PutMapping(path = "/{businessId}/verify")
-    public ResponseEntity<String> verifyBusiness(@PathVariable("businessId") Long businessId) {
+    public ResponseEntity<String> verifyBusiness(@PathVariable("businessId") Long businessId, @RequestBody VerificationRequest verificationRequest) {
         Business business = businessService.findById(businessId);
-        business.setStatus(BusinessStatus.APPROVED);
+        business.setStatus(verificationRequest.getStatus());
         businessService.save(business);
-        return ResponseEntity.ok("Verified!");
+        return ResponseEntity.ok("Business " + business.getBusinessName() + " has been " + verificationRequest.getStatus() + "! Email has been sent to the Partner");
     }
 
     @GetMapping(path = "/download")
