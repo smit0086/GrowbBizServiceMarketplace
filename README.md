@@ -40,7 +40,7 @@
 <td>{"firstName":"firstName","lastName":"lastName","email":"email","password":"password","role":"role"}</td>
 <td>{"token":"token","subject":"email","role":"role"}</td>
 <td><code>NO</code></td>
-<td>This API is used to signup an user.</td>
+<td>This API is used to Sign Up a user.</td>
 </tr>
 
 <tr>
@@ -50,25 +50,15 @@
 <td>{"email":"email","password":"password","role":"role"}</td>
 <td>{"token":"token","subject":"email","role":"role"}</td>
 <td><code>NO</code></td>
-<td>This API is used to login to the application.</td>
+<td>This API is used to Login to the application.</td>
 </tr>
 
 <tr>
-<td><code>/business/save</code></td>
-<td><code>POST</code></td>
-<td><code>PARTNER</code></td>
-<td>file and business{"businessName":"businessName","email":"email","categoryId":"categoryId","role":"role"}</td>
-<td>{"token":"token","subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
-<td><code>YES</code></td>
-<td>This API is used to register a Business.</td>
-</tr>
-
-<tr>
-<td><code>/business/</code></td>
+<td><code>/business/?email=email</code></td>
 <td><code>GET</code></td>
 <td><code>PARTNER</code></td>
-<td>{"email":"email"}</td>
-<td>{"token":"token","subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
+<td></td>
+<td>{"subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
 <td><code>YES</code></td>
 <td>This API is used to get the Business of the PARTNER.</td>
 </tr>
@@ -78,19 +68,59 @@
 <td><code>GET</code></td>
 <td><code>ADMIN</code></td>
 <td></td>
-<td>{"token":"token","subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
+<td>{"subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
 <td><code>YES</code></td>
-<td>This API is used to get ALL the businesses in the Application</td>
+<td>This API is used to get ALL the businesses in the Application.</td>
 </tr>
 
 <tr>
-<td><code>/business/all?status=pending</code></td>
+<td><code>/business/all?status=PENDING</code></td>
 <td><code>GET</code></td>
 <td><code>ADMIN</code></td>
 <td></td>
-<td>{"token":"token","subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
+<td>{"subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
 <td><code>YES</code></td>
-<td>This API is used to get ALL the businesses in the Application with PENDING status</td>
+<td>This API is used to get ALL the businesses in the Application with Query param "status".</td>
+</tr>
+
+<tr>
+<td><code>/business/save</code></td>
+<td><code>POST</code></td>
+<td><code>PARTNER</code></td>
+<td>file and business{"businessName":"businessName","email":"email","categoryId":"categoryId","role":"role"}</td>
+<td>{"subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
+<td><code>YES</code></td>
+<td>This API is used to register a Business.</td>
+</tr>
+
+<tr>
+<td><code>/business/update/{businessId}</code></td>
+<td><code>PUT</code></td>
+<td><code>PARTNER</code></td>
+<td>file and business{"businessName":"businessName","email":"email","categoryId":"categoryId","role":"role"}</td>
+<td>{"subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
+<td><code>YES</code></td>
+<td>This API is used to update the business details based on businessId</td>
+</tr>
+
+<tr>
+<td><code>/business/{businessId}/verify</code></td>
+<td><code>PUT</code></td>
+<td><code>ADMIN</code></td>
+<td></td>
+<td>Verified!</td>
+<td><code>YES</code></td>
+<td>This API is used to update the businessStatus to APPROVED</td>
+</tr>
+
+<tr>
+<td><code>/business/download?email=email</code></td>
+<td><code>GET</code></td>
+<td><code>ADMIN</code><code>PARTNER</code></td>
+<td></td>
+<td>MediaType.IMAGE_JPEG</td>
+<td><code>YES</code></td>
+<td>This API is used to download the verification document of the given PARTNER</td>
 </tr>
 
 </tbody>
