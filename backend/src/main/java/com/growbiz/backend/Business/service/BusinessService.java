@@ -4,6 +4,8 @@ import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Business.model.BusinessRequest;
 import com.growbiz.backend.Business.model.BusinessStatus;
 import com.growbiz.backend.Business.repository.IBusinessRepository;
+import com.growbiz.backend.Exception.exceptions.BusinessAlreadyExistsException;
+import com.growbiz.backend.Exception.exceptions.BusinessNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -38,7 +40,11 @@ public class BusinessService implements IBusinessService {
 
     @Override
     public Business findByEmail(String email) {
-        return businessRepository.findByEmail(email);
+        Business business = businessRepository.findByEmail(email);
+        if (Objects.isNull(business)) {
+            throw new BusinessNotFoundException("There is no business linked to the given email");
+        }
+        return business;
     }
 
     @Override
@@ -57,6 +63,9 @@ public class BusinessService implements IBusinessService {
 
     @Override
     public Business save(BusinessRequest businessRequest) {
+        if (Objects.nonNull(businessRepository.findByEmail(businessRequest.getEmail()))) {
+            throw new BusinessAlreadyExistsException("Business already exists with the given email");
+        }
         String fileURL = fileStorageService.uploadFileToStorage(businessRequest.getFile(), businessRequest.getEmail());
         Business business = Business.builder()
                 .businessName(businessRequest.getBusinessName())
@@ -64,6 +73,7 @@ public class BusinessService implements IBusinessService {
                 .fileURL(fileURL)
                 .status(BusinessStatus.PENDING)
                 .categoryId(businessRequest.getCategoryId())
+                .description(businessRequest.getDescription())
                 .build();
         businessRepository.save(business);
         return business;
@@ -79,6 +89,7 @@ public class BusinessService implements IBusinessService {
                 .fileURL(fileURL)
                 .status(BusinessStatus.PENDING)
                 .categoryId(businessRequest.getCategoryId())
+                .description(businessRequest.getDescription())
                 .build();
         businessRepository.save(business);
         return business;
