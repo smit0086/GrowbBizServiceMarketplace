@@ -41,3 +41,5 @@ export const signup = async (firstName, lastName, email, password, role) => {
     ).json();
     return resp;
 };
+
+
