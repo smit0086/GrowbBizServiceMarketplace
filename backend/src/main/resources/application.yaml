@@ -12,5 +12,16 @@ spring:
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+    host: smtp.gmail.com
+    username:
+    password:
+    port: 587
 web:
   cors: http://csci5308vm2.research.cs.dal.ca:3000/
