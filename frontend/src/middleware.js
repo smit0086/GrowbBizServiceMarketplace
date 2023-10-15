@@ -4,8 +4,8 @@ import { NextResponse } from "next/server";
 // middleware is applied to all routes, use conditionals to select
 const protected_routes = {
     CUSTOMER: ["/dashboard"],
-    PARTNER: ["/partner/dashboard"],
-    ADMIN: ["/admin/dashboard"],
+    PARTNER: ["/partner/dashboard", "/partner/business/status"],
+    ADMIN: ["/admin/dashboard", "/admin/business/verify"],
 };
 
 const flattened_protected_routes = [

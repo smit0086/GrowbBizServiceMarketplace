@@ -20,13 +20,8 @@ public class UserService implements IUserService {
      * @param email takes combination string as email:role
      * @return User fetched from the database
      */
-    public User getUserByEmailAndRole(String email) {
-        String[] arr = email.split(":");
-        User user = iUserRepository.findByEmailAndRole(arr[0], Role.valueOf(arr[1]));
-        if (Objects.isNull(user)) {
-            throw new UsernameNotFoundException("No User Name Available");
-        }
-        return user;
+    public User getUserByEmailAndRole(String email, String role) {
+        return iUserRepository.findByEmailAndRole(email, Role.valueOf(role));
     }
 
     public void saveUser(User user) {
@@ -47,6 +42,11 @@ public class UserService implements IUserService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return getUserByEmailAndRole(username);
+        String[] arr = username.split(":");
+        User user = getUserByEmailAndRole(arr[0], arr[1]);
+        if (Objects.isNull(user)) {
+            throw new UsernameNotFoundException("No Username exists with email: " + arr[0]);
+        }
+        return user;
     }
 }

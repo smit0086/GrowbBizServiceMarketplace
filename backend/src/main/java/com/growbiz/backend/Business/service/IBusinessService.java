@@ -6,11 +6,17 @@ import com.growbiz.backend.Business.model.BusinessRequest;
 import java.util.List;
 
 public interface IBusinessService {
+    List<Business> fetchBusinesses(String role);
+
     public List<Business> fetchAllBusinesses();
 
     public Business findByEmail(String email);
 
-    public List<Business> fetchAllPendingBusinesses();
+    public Business findById(Long businessId);
 
-    Business save(BusinessRequest businessRequest);
+    public Business save(BusinessRequest businessRequest);
+
+    public void save(Business business);
+
+    public Business updateBusiness(BusinessRequest businessRequest, Long businessId);
 }

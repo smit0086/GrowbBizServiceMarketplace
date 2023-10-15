@@ -57,6 +57,7 @@ public class AdminController {
             throw new Exception();
         }
     }
+
     @PostMapping(path = "/deleteCategory")
     public ResponseEntity<CategoryResponse> deleteCategory(@RequestBody Category oldCategory) throws Exception {
         Boolean isDeleted = adminService.deleteCategory(oldCategory);
@@ -79,7 +80,7 @@ public class AdminController {
     }
 
     @PostMapping(path = "/addSubCategory")
-    public ResponseEntity<CategoryResponse> addSubCategory(@RequestBody SubCategory newCategory) throws Exception{
+    public ResponseEntity<CategoryResponse> addSubCategory(@RequestBody SubCategory newCategory) throws Exception {
         SubCategory subCategory = adminService.addSubCategory(newCategory);
 
         if (subCategory != null) {
@@ -100,6 +101,7 @@ public class AdminController {
             throw new Exception();
         }
     }
+
     @PostMapping(path = "/deleteSubCategory")
     public ResponseEntity<CategoryResponse> deleteSubCategory(@RequestBody SubCategory newSubCategory) throws Exception {
         Boolean isDeleted = adminService.deleteSubCategory(newSubCategory);
