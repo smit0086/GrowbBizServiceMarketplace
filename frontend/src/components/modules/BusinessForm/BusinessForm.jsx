@@ -1,7 +1,9 @@
 "use client";
+import React from "react";
+import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +22,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import React from "react";
 import { ERROR_MESSAGE } from "@/lib/constants";
 import {
     Form,
@@ -47,13 +48,40 @@ const formSchema = z.object({
         .refine((val) => !!val, ERROR_MESSAGE.REQUIRED),
 });
 const BusinessForm = ({ categories }) => {
+    const session = useSession();
+
     const [isLoading, setIsLoading] = React.useState(false);
     const form = useForm({
         resolver: zodResolver(formSchema),
     });
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         setIsLoading(true);
-        console.log({ data });
+        const businessData = {
+            businessName: data.businessName,
+            email: session.data.user.email,
+            categoryId: parseInt(data.businessCategory, 10),
+            role: session.data.user.role,
+        };
+        const formData = new FormData();
+        formData.append("file", data.verificationDocuments);
+        formData.append("business", JSON.stringify(businessData));
+        console.log(formData);
+        console.log("env", process.env.NEXT_PUBLIC_SERVER_ADDRESS);
+        try {
+            const resp = await (
+                await fetch(`/api/business/save`, {
+                    method: "POST",
+                    body: formData,
+                })
+            ).json();
+            if (resp.businesses.length) {
+                setIsLoading(false);
+                window.location.reload();
+            }
+        } catch (err) {
+            setIsLoading(false);
+            console.error(err);
+        }
     };
     return (
         <div className="grid h-screen">
