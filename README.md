@@ -30,6 +30,7 @@
 <th>Response</th>
 <th>Token</th>
 <th>Usage</th>
+<th>Exceptions</th>
 </tr>
 </thead>
 <tbody>
@@ -41,6 +42,7 @@
 <td>{"token":"token","subject":"email","role":"role"}</td>
 <td><code>NO</code></td>
 <td>This API is used to Sign Up a user.</td>
+<td><ul><li>UserAlreadyExistsException - 41001 - The email you are trying to register is already registered</li></ul></td>
 </tr>
 
 <tr>
@@ -51,6 +53,7 @@
 <td>{"token":"token","subject":"email","role":"role"}</td>
 <td><code>NO</code></td>
 <td>This API is used to Login to the application.</td>
+<td><ul><li>UsernameNotFoundException - 41002 - No Username exists with email: email</li><li>BadCredentialsException - 41003 - Incorrect username or password. Please sign in with correct credentials</li></ul></td>
 </tr>
 
 <tr>
@@ -58,9 +61,10 @@
 <td><code>GET</code></td>
 <td><code>PARTNER</code></td>
 <td></td>
-<td>{"subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
+<td>{"subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL","description":"description"}]}</td>
 <td><code>YES</code></td>
 <td>This API is used to get the Business of the PARTNER.</td>
+<td><ul><li>BusinessNotFoundException - 42002 - There is no business linked to the given email</li></ul></td>
 </tr>
 
 <tr>
@@ -68,7 +72,7 @@
 <td><code>GET</code></td>
 <td><code>ADMIN</code></td>
 <td></td>
-<td>{"subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
+<td>{"subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL","description":"description"}]}</td>
 <td><code>YES</code></td>
 <td>This API is used to get ALL the businesses in the Application.</td>
 </tr>
@@ -87,10 +91,11 @@
 <td><code>/business/save</code></td>
 <td><code>POST</code></td>
 <td><code>PARTNER</code></td>
-<td>file and business{"businessName":"businessName","email":"email","categoryId":"categoryId","role":"role"}</td>
+<td>file and business{"businessName":"businessName","email":"email","categoryId":"categoryId","role":"role","description":"description"}</td>
 <td>{"subject":"email","role":"role","businesses":[{"businessId":"businessId","businessName":"businessName","email":"email","status":"status","categoryId":"categoryId","fileURL":"fileURL"}]}</td>
 <td><code>YES</code></td>
 <td>This API is used to register a Business.</td>
+<td><ul><li>BusinessAlreadyExistsException - 42001 - Business already exists with the given email</li></ul></td>
 </tr>
 
 <tr>

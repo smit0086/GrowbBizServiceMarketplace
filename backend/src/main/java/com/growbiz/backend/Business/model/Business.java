@@ -30,4 +30,6 @@ public class Business {
 
     private String fileURL;
 
+    private String description;
+
 }
