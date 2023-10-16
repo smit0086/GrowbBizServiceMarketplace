@@ -128,6 +128,39 @@
 <td>This API is used to download the verification document of the given PARTNER</td>
 </tr>
 
+<tr>
+<td><code>/admin/allCategories</code></td>
+<td><code>GET</code></td>
+<td><code>ALL</code></td>
+<td></td>
+<td>{[{"id": id, "name": name, "tax": tax}], "isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to get all business categories for ALL users</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>/admin/get</code></td>
+<td><code>GET</code></td>
+<td><code>ALL</code></td>
+<td></td>
+<td>{{"id": id, "name": name, "tax": tax}, "isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to get a specific business categories for ALL users</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>/admin/addCategory</code></td>
+<td><code>POST</code></td>
+<td><code>ADMIN</code></td>
+<td></td>
+<td>{{"id": id, "name": name, "tax": tax}, "isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to get a specific business categories for ALL users</td>
+<td></td>
+</tr>
+
 </tbody>
 </table>
 

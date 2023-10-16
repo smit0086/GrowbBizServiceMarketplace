@@ -43,7 +43,7 @@ export function categoryForm({ className, ...props }) {
                             render={({ field }) => (
                                 <Input
                                     {...field}
-                                    id="email"
+                                    id="name"
                                     placeholder="E.g: House Management Services..."
                                     type="text"
                                     autoCapitalize="none"
