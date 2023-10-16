@@ -4,7 +4,6 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function POST(request) {
     const session = await getServerSession(authOptions);
-    console.log("ses", session);
     const formData = await request.formData();
     const business = await (
         await fetch(`${process.env.SERVER_ADDRESS}/business/save`, {

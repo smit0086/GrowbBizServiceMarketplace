@@ -1,6 +1,6 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
-import { ROLES } from "./lib/constants";
+import { BUSSINESS_STATUS, ROLES } from "./lib/constants";
 
 // middleware is applied to all routes, use conditionals to select
 const protected_routes = {
@@ -71,21 +71,13 @@ export default withAuth(
                         );
                     }
                 } else {
-                    if (business.status !== "APPROVED") {
-                        console.log(
-                            "req.nextUrl.pathname",
-                            req.nextUrl.pathname
-                        );
+                    if (business.status !== BUSSINESS_STATUS.APPROVED) {
                         if (
                             req.nextUrl.pathname !== "/partner/business/status"
                         ) {
-                            console.log(
-                                "req.nextUrl.pathname",
-                                req.nextUrl.pathname
+                            return NextResponse.redirect(
+                                new URL("/partner/business/status", req.url)
                             );
-                            // return NextResponse.redirect(
-                            //     new URL("/partner/business/status", req.url)
-                            // );
                         }
                     }
                     if (req.nextUrl.pathname === "/partner/business/create") {
