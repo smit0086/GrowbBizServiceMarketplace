@@ -1,4 +1,4 @@
-const createBusiness = async (
+export const createBusiness = async (
     businessName,
     email,
     categoryId,
