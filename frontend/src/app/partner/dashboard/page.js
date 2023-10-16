@@ -1,7 +1,7 @@
 import Navbar from "@/components/modules/Navbar/Navbar";
 import React from "react";
 
-const PartnerDashboard = () => {
+const PartnerDashboard = async () => {
     return (
         <>
             <Navbar callbackUrl="/partner/login" />

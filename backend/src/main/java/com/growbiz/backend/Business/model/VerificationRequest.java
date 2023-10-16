@@ -6,4 +6,6 @@ import lombok.Data;
 public class VerificationRequest {
 
     BusinessStatus status;
+
+    String reason;
 }

@@ -6,6 +6,7 @@ import com.growbiz.backend.Business.model.BusinessResponse;
 import com.growbiz.backend.Business.model.VerificationRequest;
 import com.growbiz.backend.Business.service.IBusinessService;
 import com.growbiz.backend.Business.service.IFileStorageService;
+import com.growbiz.backend.Business.service.ISendEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,6 +26,9 @@ public class BusinessController {
 
     @Autowired
     private IFileStorageService fileStorageService;
+
+    @Autowired
+    private ISendEmailService sendEmailService;
 
     @Autowired
     private BusinessControllerHelper helper;
@@ -55,7 +59,9 @@ public class BusinessController {
     public ResponseEntity<String> verifyBusiness(@PathVariable("businessId") Long businessId, @RequestBody VerificationRequest verificationRequest) {
         Business business = businessService.findById(businessId);
         business.setStatus(verificationRequest.getStatus());
+        business.setReason(verificationRequest.getReason());
         businessService.save(business);
+        sendEmailService.sendEmail(business.getEmail(), "Your Business has been " + verificationRequest.getStatus(), helper.getEmailBody(verificationRequest));
         return ResponseEntity.ok("Business " + business.getBusinessName() + " has been " + verificationRequest.getStatus() + "! Email has been sent to the Partner");
     }
 
