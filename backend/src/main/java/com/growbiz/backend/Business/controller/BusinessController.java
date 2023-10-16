@@ -59,6 +59,7 @@ public class BusinessController {
     public ResponseEntity<String> verifyBusiness(@PathVariable("businessId") Long businessId, @RequestBody VerificationRequest verificationRequest) {
         Business business = businessService.findById(businessId);
         business.setStatus(verificationRequest.getStatus());
+        business.setReason(verificationRequest.getReason());
         businessService.save(business);
         sendEmailService.sendEmail(business.getEmail(), "Your Business has been " + verificationRequest.getStatus(), helper.getEmailBody(verificationRequest));
         return ResponseEntity.ok("Business " + business.getBusinessName() + " has been " + verificationRequest.getStatus() + "! Email has been sent to the Partner");
