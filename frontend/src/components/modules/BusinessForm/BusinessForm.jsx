@@ -120,6 +120,9 @@ const BusinessForm = ({ categories }) => {
                                                             (category) => (
                                                                 <SelectItem
                                                                     value={`${category.id}`}
+                                                                    key={
+                                                                        category.id
+                                                                    }
                                                                 >
                                                                     {
                                                                         category.name
