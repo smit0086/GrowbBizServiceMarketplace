@@ -112,10 +112,10 @@
 <td><code>/business/{businessId}/verify</code></td>
 <td><code>PUT</code></td>
 <td><code>ADMIN</code></td>
-<td></td>
-<td>Verified!</td>
+<td>{"status":"status", "reason":"reason"}</td>
+<td>Business "businessName" has been APPROVED/DECLINED! Email has been sent to the Partner!</td>
 <td><code>YES</code></td>
-<td>This API is used to update the businessStatus to APPROVED</td>
+<td>This API is used to update the businessStatus to APPROVED/DECLINED. <i>(Note: An email is sent to the PARTNER)</i></td>
 </tr>
 
 <tr>

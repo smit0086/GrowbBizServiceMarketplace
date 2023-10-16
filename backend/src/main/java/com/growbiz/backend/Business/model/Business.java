@@ -32,4 +32,6 @@ public class Business {
 
     private String description;
 
+    private String reason;
+
 }
