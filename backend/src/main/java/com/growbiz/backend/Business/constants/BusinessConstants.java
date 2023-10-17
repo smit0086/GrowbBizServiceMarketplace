@@ -1,4 +1,4 @@
-package com.growbiz.backend.Business.model;
+package com.growbiz.backend.Business.constants;
 
 public class BusinessConstants {
     public static final String APPROVAL_MESSAGE = "We are delighted to inform you that your business application has been approved! Congratulations! We are excited to have you on board, and we look forward to a fruitful and successful partnership.";

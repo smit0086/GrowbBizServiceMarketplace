@@ -21,7 +21,7 @@ public class UserAuthenticationController {
     IUserAuthenticationService authenticationService;
 
     @PostMapping(path = "/signup")
-    public ResponseEntity<AuthenticationResponse> resigerUser(@RequestBody User userInfo) {
+    public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody User userInfo) {
         return ResponseEntity.ok(authenticationService.register(userInfo));
     }
 

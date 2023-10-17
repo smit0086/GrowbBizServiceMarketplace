@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -26,9 +25,6 @@ public class SecurityConfiguration {
     @Autowired
     private final JWTAuthenticationFilter jwtAuthFilter;
 
-    @Autowired
-    private final AuthenticationProvider authenticationProvider;
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -42,12 +38,11 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, "/{businessId}/verify").hasAuthority(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.GET, "/business/all").hasAuthority(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.POST, "/admin/**").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.PUT, "/business/businessHours").hasAnyAuthority(Role.PARTNER.name())
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").permitAll()
                         .anyRequest().authenticated()
                 ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
-
 }

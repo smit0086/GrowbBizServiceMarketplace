@@ -24,6 +24,9 @@ public class BusinessService implements IBusinessService {
     @Autowired
     private IBusinessRepository businessRepository;
 
+    @Autowired
+    private IBusinessHourService businessHourService;
+
     @Override
     public List<Business> fetchBusinesses(String status) {
         if (Objects.isNull(status)) {
@@ -66,6 +69,7 @@ public class BusinessService implements IBusinessService {
         if (Objects.nonNull(businessRepository.findByEmail(businessRequest.getEmail()))) {
             throw new BusinessAlreadyExistsException("Business already exists with the given email");
         }
+
         String fileURL = fileStorageService.uploadFileToStorage(businessRequest.getFile(), businessRequest.getEmail());
         Business business = Business.builder()
                 .businessName(businessRequest.getBusinessName())
@@ -75,8 +79,9 @@ public class BusinessService implements IBusinessService {
                 .categoryId(businessRequest.getCategoryId())
                 .description(businessRequest.getDescription())
                 .build();
-        businessRepository.save(business);
-        return business;
+        Business saveBusiness = businessRepository.save(business);
+        businessHourService.init(saveBusiness.getBusinessId());
+        return saveBusiness;
     }
 
     @Override
