@@ -1,6 +1,7 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 import { BUSSINESS_STATUS, ROLES } from "./lib/constants";
+import { getBusiness } from "./services/businessService";
 
 // middleware is applied to all routes, use conditionals to select
 const protected_routes = {
@@ -47,18 +48,10 @@ export default withAuth(
                 let business = [];
                 let businessLength = 0;
                 try {
-                    business = await (
-                        await fetch(
-                            `${process.env.SERVER_ADDRESS}/business/?email=${req.nextauth.token.email}`,
-                            {
-                                method: "get",
-                                headers: {
-                                    "Content-type": "application/json",
-                                    Authorization: `Bearer ${req.nextauth.token.apiToken}`,
-                                },
-                            }
-                        )
-                    ).json();
+                    business = await getBusiness(
+                        req.nextauth.token.email,
+                        req.nextauth.token.apiToken
+                    );
                     businessLength = business?.businesses?.length;
                     business = business?.businesses[0];
                 } catch (err) {

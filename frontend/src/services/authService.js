@@ -5,7 +5,7 @@ export const authenticate = async (email, password, role) => {
         role,
     };
     const resp = await fetch(
-        `${process.env.SERVER_ADDRESS}/auth/authenticate`,
+        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/auth/authenticate`,
         {
             method: "post",
             body: JSON.stringify(body),

@@ -1,30 +1,41 @@
-import { StatusVerification } from "./components/StatusVerification";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getBusiness } from "@/services/businessService";
+import { BUSSINESS_STATUS } from "@/lib/constants";
+import { getAllCategories } from "@/services/categoryService";
+import UpdateBusinessForm from "@/components/modules/BusinessForm/UpdateBusinessForm";
+import { VerificationFailed } from "./components/VerificationFailed";
 
-export default function ProviderBusinessStatus() {
-    return (
-        <>
-            <Link
-                href="/partner/login"
-                className={cn(
-                    buttonVariants({ variant: "ghost" }),
-                    "absolute right-4 top-4 md:right-8 md:top-8"
-                )}
-            >
-                Logout
-            </Link>
+export default async function ProviderBusinessStatus() {
+    const session = await getServerSession(authOptions);
+    const business = (await getBusiness(session.user.email, session.apiToken))
+        .businesses[0];
+    const categories = await getAllCategories(session.apiToken);
+    if (business.status === BUSSINESS_STATUS.PENDING) {
+        return (
             <div style={centeringStyles}>
-                <StatusVerification />
+                <VerificationFailed />
             </div>
-        </>
-    );
+        );
+    } else if (business.status === BUSSINESS_STATUS.DECLINED) {
+        return (
+            <UpdateBusinessForm
+                categories={categories}
+                failureReason={business.reason}
+                formDefaults={{
+                    businessName: business.businessName,
+                    businessCategory: business.categoryId.toString(),
+                }}
+                businessId={business.businessId}
+            />
+        );
+    }
+    return <>{business.status}</>;
 }
 
 const centeringStyles = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '50vh'
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "50vh",
 };
