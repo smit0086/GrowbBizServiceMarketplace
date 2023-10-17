@@ -11,7 +11,7 @@ export const getAllCategories = async (token) => {
         ).json();
         return re.categories;
     } catch (err) {
-        console.err({ err });
+        console.error({ err });
         return [];
     }
 };
