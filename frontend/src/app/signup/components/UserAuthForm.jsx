@@ -23,20 +23,22 @@ export function UserAuthForm({ className, ...props }) {
     async function onSubmit(data) {
         setIsLoading(true);
 
-        await signup(
+        const res = await signup(
             data.firstName,
             data.lastName,
             data.email,
             data.password,
             ROLES.CUSTOMER
         );
-        await signIn("credentials", {
-            email: data.email,
-            password: data.password,
-            role: ROLES.CUSTOMER,
-            redirect: true,
-            callbackUrl: props.callbackUrl ?? "/",
-        });
+        if (res) {
+            await signIn("credentials", {
+                email: data.email,
+                password: data.password,
+                role: ROLES.CUSTOMER,
+                redirect: true,
+                callbackUrl: props.callbackUrl ?? "/",
+            });
+        }
         setIsLoading(false);
     }
 
