@@ -23,5 +23,3 @@ spring:
     username:
     password:
     port: 587
-web:
-  cors: http://csci5308vm2.research.cs.dal.ca:3000/
