@@ -26,3 +26,9 @@ export const ROLES = {
     PARTNER: "PARTNER",
     CUSTOMER: "CUSTOMER",
 };
+
+export const BUSINESS_VERIFICATION_STATUS = {
+    APPROVED: "APPROVED",
+    DECLINED: "DECLINED",
+    PENDING: "PENDING"
+}

@@ -1,22 +1,35 @@
-import { StatusVerification } from "./components/StatusVerification";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { PendingVerification } from "@/app/partner/business/status/components/PendingVerification";
+import { ApprovedVerification } from "@/app/partner/business/status/components/ApprovedVerification";
+import { DeclinedVerification } from "@/app/partner/business/status/components/DeclinedVerification";
+import Navbar from "@/components/modules/Navbar/Navbar";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getBusinessByEmail } from "@/services/businessService";
+import { BUSINESS_VERIFICATION_STATUS } from "@/lib/constants";
 
-export default function ProviderBusinessStatus() {
+export default async function ProviderBusinessStatus() {
+    const authSession = await getServerSession(authOptions);
+    const businesses = (await getBusinessByEmail(authSession.apiToken, authSession.user.email)).businesses;
+
     return (
         <>
-            <Link
-                href="/partner/login"
-                className={cn(
-                    buttonVariants({ variant: "ghost" }),
-                    "absolute right-4 top-4 md:right-8 md:top-8"
-                )}
-            >
-                Logout
-            </Link>
+            <Navbar callbackUrl="/partner/login" />
             <div style={centeringStyles}>
-                <StatusVerification />
+                {businesses[0].status === BUSINESS_VERIFICATION_STATUS.PENDING ?
+                    <PendingVerification />
+                    :
+                    <></>
+                }
+                {businesses[0].status === BUSINESS_VERIFICATION_STATUS.APPROVED ?
+                    <ApprovedVerification />
+                    :
+                    <></>
+                }
+                {businesses[0].status === BUSINESS_VERIFICATION_STATUS.DECLINED ?
+                    <DeclinedVerification business={businesses[0]} />
+                    :
+                    <></>
+                }
             </div>
         </>
     );

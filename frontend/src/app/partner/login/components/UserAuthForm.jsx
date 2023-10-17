@@ -24,7 +24,7 @@ export function UserAuthForm({ className, ...props }) {
             password: data.password,
             role: ROLES.PARTNER,
             redirect: true,
-            callbackUrl: props.callbackUrl ?? "/",
+            callbackUrl: props.callbackUrl ?? "/partner/business/status",
         });
         setIsLoading(false);
     };
