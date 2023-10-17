@@ -1,9 +1,6 @@
 package com.growbiz.backend.Business.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +21,7 @@ public class Business {
     private String businessName;
 
     @Email
+    @Column(unique = true)
     private String email;
 
     private BusinessStatus status;
@@ -31,5 +29,9 @@ public class Business {
     private Long categoryId;
 
     private String fileURL;
+
+    private String description;
+
+    private String reason;
 
 }

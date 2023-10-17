@@ -1,5 +1,9 @@
 package com.growbiz.backend.Admin.controller;
 
+import com.growbiz.backend.Exception.exceptions.CategoryNotFoundException;
+import com.growbiz.backend.Exception.exceptions.CategoryAlreadyExistsException;
+import com.growbiz.backend.Exception.exceptions.SubCategoryNotFoundException;
+import com.growbiz.backend.Exception.exceptions.SubCategoryAlreadyExistsException;
 import com.growbiz.backend.Admin.service.IAdminService;
 import com.growbiz.backend.Categories.helper.CategoriesControllerHelper;
 import com.growbiz.backend.Categories.models.Category;
@@ -42,8 +46,7 @@ public class AdminController {
         if (category != null) {
             return helper.createCategoryResponse(List.of(category));
         } else {
-            //return (ResponseEntity<CategoryResponse>) helper.createCategoryResponse(List.of(category)).badRequest();
-            throw new Exception();
+            throw new CategoryAlreadyExistsException("The requested new category to add, already exists!");
         }
     }
 
@@ -54,9 +57,10 @@ public class AdminController {
         if (category != null) {
             return helper.createCategoryResponse(List.of(category));
         } else {
-            throw new Exception();
+            throw new CategoryNotFoundException("The specified category for update in not found");
         }
     }
+
     @PostMapping(path = "/deleteCategory")
     public ResponseEntity<CategoryResponse> deleteCategory(@RequestBody Category oldCategory) throws Exception {
         Boolean isDeleted = adminService.deleteCategory(oldCategory);
@@ -64,7 +68,7 @@ public class AdminController {
         if (isDeleted) {
             return helper.deleteCategoryResponse(false, true);
         } else {
-            throw new Exception();
+            throw new CategoryNotFoundException("The specified category for deletion in not found");
         }
     }
 
@@ -79,13 +83,13 @@ public class AdminController {
     }
 
     @PostMapping(path = "/addSubCategory")
-    public ResponseEntity<CategoryResponse> addSubCategory(@RequestBody SubCategory newCategory) throws Exception{
+    public ResponseEntity<CategoryResponse> addSubCategory(@RequestBody SubCategory newCategory) throws Exception {
         SubCategory subCategory = adminService.addSubCategory(newCategory);
 
         if (subCategory != null) {
             return helper.createSubCategoryResponse(List.of(subCategory));
         } else {
-            throw new Exception();
+            throw new SubCategoryAlreadyExistsException("The requested new subcategory to add, already exists!");
         }
     }
 
@@ -96,10 +100,10 @@ public class AdminController {
         if (subCategory != null) {
             return helper.createSubCategoryResponse(List.of(subCategory));
         } else {
-            //return (ResponseEntity<AuthenticationResponse>) ResponseEntity.badRequest();
-            throw new Exception();
+            throw new SubCategoryNotFoundException("The specified subcategory for update in not found");
         }
     }
+
     @PostMapping(path = "/deleteSubCategory")
     public ResponseEntity<CategoryResponse> deleteSubCategory(@RequestBody SubCategory newSubCategory) throws Exception {
         Boolean isDeleted = adminService.deleteSubCategory(newSubCategory);
@@ -107,7 +111,7 @@ public class AdminController {
         if (isDeleted) {
             return helper.deleteCategoryResponse(true, true);
         } else {
-            throw new Exception();
+            throw new SubCategoryNotFoundException("The specified subcategory for deletion in not found");
         }
     }
 

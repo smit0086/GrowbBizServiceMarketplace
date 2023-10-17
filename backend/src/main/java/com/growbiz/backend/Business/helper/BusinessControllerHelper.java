@@ -2,9 +2,7 @@ package com.growbiz.backend.Business.helper;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.growbiz.backend.Business.model.Business;
-import com.growbiz.backend.Business.model.BusinessRequest;
-import com.growbiz.backend.Business.model.BusinessResponse;
+import com.growbiz.backend.Business.model.*;
 import com.growbiz.backend.Security.service.JWTService;
 import com.growbiz.backend.User.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +40,12 @@ public class BusinessControllerHelper {
                 .subject(user.getEmail())
                 .role(user.getRole())
                 .build());
+    }
+
+    public String getEmailBody(VerificationRequest verificationRequest) {
+        if (BusinessStatus.APPROVED.equals(verificationRequest.getStatus())) {
+            return BusinessConstants.APPROVAL_MESSAGE;
+        }
+        return BusinessConstants.DECLINED_MESSAGE;
     }
 }

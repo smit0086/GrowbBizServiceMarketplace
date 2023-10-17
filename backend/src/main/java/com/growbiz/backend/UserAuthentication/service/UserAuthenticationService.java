@@ -1,5 +1,6 @@
 package com.growbiz.backend.UserAuthentication.service;
 
+import com.growbiz.backend.Exception.exceptions.UserAlreadyExistsException;
 import com.growbiz.backend.Security.service.JWTService;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.service.IUserService;
@@ -12,6 +13,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +37,9 @@ public class UserAuthenticationService implements IUserAuthenticationService {
 
     @Override
     public AuthenticationResponse register(User userInfo) {
+        if (Objects.nonNull(userService.getUserByEmailAndRole(userInfo.getEmail(), userInfo.getRole().name()))) {
+            throw new UserAlreadyExistsException("The email you are trying to register is already registered");
+        }
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
         userService.saveUser(userInfo);
         return AuthenticationResponse.builder()
@@ -48,7 +54,7 @@ public class UserAuthenticationService implements IUserAuthenticationService {
         authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken
                         (authenticationRequest.getEmail() + ":" + authenticationRequest.getRole().name(), authenticationRequest.getPassword()));
-        User userInfo = userService.getUserByEmailAndRole(authenticationRequest.getEmail() + ":" + authenticationRequest.getRole().name());
+        User userInfo = (User) userService.loadUserByUsername(authenticationRequest.getEmail() + ":" + authenticationRequest.getRole().name());
 
         return AuthenticationResponse.builder()
                 .token(jwtService.generateToken(userInfo, authenticationRequest.getRole().name()))
