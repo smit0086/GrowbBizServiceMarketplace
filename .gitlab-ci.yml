@@ -26,6 +26,7 @@ build-frontend:
         paths:
             - ./frontend/fe_app/
             - ./frontend/.env
+            - ./.env
     only:
         - main
         - dev

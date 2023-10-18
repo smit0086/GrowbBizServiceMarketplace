@@ -6,6 +6,11 @@ services:
       - '3306'
 
   backend:
+    environment:
+      - JDBC_USERNAME=${JDBC_USERNAME}
+      - JDBC_URL=${JDBC_URL}
+      - JDBC_PASSWORD=${JDBC_PASSWORD}
+      - GROWBIZ_SECRET_KEY=${GROWBIZ_SECRET_KEY}
     build: ./backend
     depends_on:
       - mysql_db
