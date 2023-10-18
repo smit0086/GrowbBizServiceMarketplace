@@ -6,6 +6,9 @@ stages:
 build-frontend:
     stage: build
     image: node:18-alpine
+    before_script:
+        - chmod +x ./setup_env.sh
+        - sh ./setup_env.sh
     script:
         - ls
         - cd ./frontend
@@ -14,6 +17,7 @@ build-frontend:
         - npm run build
         - mkdir fe_app
         - mkdir ./fe_app/.next
+        - cp .env ./fe_app/.env
         - cp -r ./public ./fe_app/public
         - cp -a ./.next/standalone/. ./fe_app
         - cp -r ./.next/static ./fe_app/.next/static
@@ -21,6 +25,7 @@ build-frontend:
         name: fe_app
         paths:
             - ./frontend/fe_app/
+            - ./frontend/.env
     only:
         - main
         - dev

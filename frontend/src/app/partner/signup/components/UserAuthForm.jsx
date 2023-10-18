@@ -21,20 +21,22 @@ export function UserAuthForm({ className, ...props }) {
     } = useForm();
     const onSubmit = async (data) => {
         setIsLoading(true);
-        await signup(
+        const res = await signup(
             data.firstName,
             data.lastName,
             data.email,
             data.password,
             ROLES.PARTNER
         );
-        await signIn("credentials", {
-            email: data.email,
-            password: data.password,
-            role: ROLES.PARTNER,
-            redirect: true,
-            callbackUrl: props.callbackUrl ?? "/",
-        });
+        if (res) {
+            await signIn("credentials", {
+                email: data.email,
+                password: data.password,
+                role: ROLES.PARTNER,
+                redirect: true,
+                callbackUrl: props.callbackUrl ?? "/",
+            });
+        }
         setIsLoading(false);
     };
     const [isLoading, setIsLoading] = React.useState(false);

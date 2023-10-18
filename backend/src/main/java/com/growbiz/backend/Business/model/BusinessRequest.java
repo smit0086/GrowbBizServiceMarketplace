@@ -21,4 +21,6 @@ public class BusinessRequest extends BasicRequest {
 
     private MultipartFile file;
 
+    private String description;
+
 }
