@@ -17,13 +17,16 @@ export const createBusiness = async (
     formData.append("business", JSON.stringify(businessData));
     try {
         const resp = await (
-            await fetch(`${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/business/save`, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/business/save`,
+                {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
         ).json();
         return resp;
     } catch (err) {
@@ -91,7 +94,7 @@ export const getBusinessesByPendingStatus = async (token) => {
             method: "get",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
             },
         }
     );
@@ -110,7 +113,7 @@ export const getBusinessByEmail = async (token, email) => {
             method: "get",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
             },
         }
     );
@@ -125,7 +128,7 @@ export const getBusinessByEmail = async (token, email) => {
 export const verifyBusiness = async (token, businessId, status, reason) => {
     const requestBody = {
         status,
-        reason
+        reason,
     };
 
     try {
@@ -136,11 +139,11 @@ export const verifyBusiness = async (token, businessId, status, reason) => {
                 body: JSON.stringify(requestBody),
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                }
+                    Authorization: `Bearer ${token}`,
+                },
             }
         );
-        
+
         if (!resp.ok) {
             throw new Error(`Request failed with status: ${resp.status}`);
         }
@@ -158,7 +161,7 @@ export const downloadDocumentByEmail = async (token, email) => {
             method: "get",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
             },
         }
     );

@@ -10,6 +10,7 @@ const protected_routes = {
         "/partner/dashboard",
         "/partner/business/status",
         "/partner/business/create",
+        "/partner/business/operating-hours",
     ],
     ADMIN: ["/admin/dashboard", "/admin/business/verify"],
 };
@@ -71,6 +72,12 @@ export default withAuth(
                             return NextResponse.redirect(
                                 new URL("/partner/business/status", req.url)
                             );
+                        }
+                    } else {
+                        if (
+                            req.nextUrl.pathname === "/partner/business/status"
+                        ) {
+                            return NextResponse.redirect(new URL("/", req.url));
                         }
                     }
                     if (req.nextUrl.pathname === "/partner/business/create") {

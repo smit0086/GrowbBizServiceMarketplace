@@ -60,7 +60,6 @@ const BusinessForm = ({
     businessId,
 }) => {
     const session = useSession();
-    console.log(session);
     const [isLoading, setIsLoading] = React.useState(false);
     const form = useForm({
         resolver: zodResolver(formSchema),
