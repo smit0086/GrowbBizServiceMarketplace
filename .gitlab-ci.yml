@@ -30,7 +30,6 @@ build-frontend:
     only:
         - main
         - dev
-        - feature/issue-29-create-rest-api-for-managing-businesses
 
 build-backend:
     stage: build
@@ -45,7 +44,6 @@ build-backend:
     only:
         - main
         - dev
-        - feature/issue-29-create-rest-api-for-managing-businesses
 
 deploy-dev-backend:
     stage: deploy
@@ -60,4 +58,3 @@ deploy-dev-backend:
         - ssh -o StrictHostKeyChecking=no -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "cd ${DEPLOY_PATH} && ./deploy.sh"
     only:
         - dev
-        - feature/issue-29-create-rest-api-for-managing-businesses
