@@ -3,6 +3,7 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const formSchema = z.object({
     businessName: z
@@ -47,21 +49,39 @@ const formSchema = z.object({
         .any()
         .refine((val) => !!val, ERROR_MESSAGE.REQUIRED),
 });
-const BusinessForm = ({ categories }) => {
+const BusinessForm = ({
+    categories,
+    title,
+    subtitle,
+    buttonText,
+    databaseMutator,
+    failureReason,
+    formDefaults,
+    businessId,
+}) => {
     const session = useSession();
     const [isLoading, setIsLoading] = React.useState(false);
     const form = useForm({
         resolver: zodResolver(formSchema),
+        defaultValues: {
+            businessName: formDefaults?.businessName || "",
+            businessCategory: formDefaults?.businessCategory || "",
+        },
     });
     const onSubmit = async (data) => {
         setIsLoading(true);
-        await createBusiness(
+        const resp = await databaseMutator(
             data.businessName,
             session.data.user.email,
             parseInt(data.businessCategory, 10),
             session.data.user.role,
-            data.verificationDocuments
+            data.verificationDocuments,
+            session.data.apiToken,
+            businessId
         );
+        if (resp) {
+            window.location.reload();
+        }
         setIsLoading(false);
     };
     return (
@@ -70,14 +90,21 @@ const BusinessForm = ({ categories }) => {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <CardHeader className="space-y-1">
-                            <CardTitle className="text-2xl">
-                                Register your business
-                            </CardTitle>
-                            <CardDescription>
-                                Please enter your business details
-                            </CardDescription>
+                            <CardTitle className="text-2xl">{title}</CardTitle>
+                            <CardDescription>{subtitle}</CardDescription>
                         </CardHeader>
                         <CardContent className="grid gap-4">
+                            {failureReason && (
+                                <Alert variant="destructive">
+                                    <ExclamationTriangleIcon className="h-4 w-4" />
+                                    <AlertTitle>
+                                        Disapproval reason:{" "}
+                                    </AlertTitle>
+                                    <AlertDescription>
+                                        {failureReason}
+                                    </AlertDescription>
+                                </Alert>
+                            )}
                             <div className="grid gap-2">
                                 <FormField
                                     control={form.control}
@@ -120,6 +147,9 @@ const BusinessForm = ({ categories }) => {
                                                             (category) => (
                                                                 <SelectItem
                                                                     value={`${category.id}`}
+                                                                    key={
+                                                                        category.id
+                                                                    }
                                                                 >
                                                                     {
                                                                         category.name
@@ -175,7 +205,7 @@ const BusinessForm = ({ categories }) => {
                                 {isLoading && (
                                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                                 )}
-                                Register
+                                {buttonText}
                             </Button>
                         </CardFooter>
                     </form>

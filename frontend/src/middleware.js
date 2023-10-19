@@ -1,6 +1,7 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 import { BUSSINESS_STATUS, ROLES } from "./lib/constants";
+import { getBusiness } from "./services/businessService";
 
 // middleware is applied to all routes, use conditionals to select
 const protected_routes = {
@@ -9,6 +10,7 @@ const protected_routes = {
         "/partner/dashboard",
         "/partner/business/status",
         "/partner/business/create",
+        "/partner/business/operating-hours",
     ],
     ADMIN: ["/admin/dashboard", "/admin/business/verify", "/admin/category", "/admin/category/update", "/admin/category/create"],
 };
@@ -47,18 +49,10 @@ export default withAuth(
                 let business = [];
                 let businessLength = 0;
                 try {
-                    business = await (
-                        await fetch(
-                            `${process.env.SERVER_ADDRESS}/business/?email=${req.nextauth.token.email}`,
-                            {
-                                method: "get",
-                                headers: {
-                                    "Content-type": "application/json",
-                                    Authorization: `Bearer ${req.nextauth.token.apiToken}`,
-                                },
-                            }
-                        )
-                    ).json();
+                    business = await getBusiness(
+                        req.nextauth.token.email,
+                        req.nextauth.token.apiToken
+                    );
                     businessLength = business?.businesses?.length;
                     business = business?.businesses[0];
                 } catch (err) {
@@ -78,6 +72,12 @@ export default withAuth(
                             return NextResponse.redirect(
                                 new URL("/partner/business/status", req.url)
                             );
+                        }
+                    } else {
+                        if (
+                            req.nextUrl.pathname === "/partner/business/status"
+                        ) {
+                            return NextResponse.redirect(new URL("/", req.url));
                         }
                     }
                     if (req.nextUrl.pathname === "/partner/business/create") {
