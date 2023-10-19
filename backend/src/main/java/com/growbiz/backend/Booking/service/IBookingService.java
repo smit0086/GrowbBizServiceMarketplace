@@ -11,7 +11,9 @@ public interface IBookingService {
 
     Booking getBookingById(Long id);
 
-    List<Booking> getAllBookingsByUserId(Long userId);
+    List<Booking> findByServiceId(Long serviceId);
+
+    List<Booking> findByUserId(Long userId);
 
     void save(Booking booking);
 

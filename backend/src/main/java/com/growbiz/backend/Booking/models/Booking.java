@@ -1,13 +1,12 @@
 package com.growbiz.backend.Booking.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.growbiz.backend.User.models.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.sql.Date;
 
 @Data
 @Builder
@@ -20,18 +19,19 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonIgnore
     private User user;
 
     /* TODO: Establish relationship with Service entity */
     private Long serviceId;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "start_time")
-    private Date startTime;
+    private String date;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "start_time")
+    private String startTime;
+
     @Column(name = "end_time")
-    private Date endTime;
+    private String endTime;
 }

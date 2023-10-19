@@ -1,6 +1,5 @@
 package com.growbiz.backend.User.models;
 
-import com.growbiz.backend.Booking.models.Booking;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -42,9 +41,6 @@ public class User implements UserDetails {
     private String lastName;
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @OneToOne(mappedBy = "user")
-    private Booking booking;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -30,9 +30,16 @@ public class BookingController {
         return helper.createBookingResponse(List.of(booking));
     }
 
-    @GetMapping(path = "/user/{userId}")
-    public ResponseEntity<BookingResponse> getAllUserBookings(@PathVariable Long userId) {
-        List<Booking> bookings = bookingService.getAllBookingsByUserId(userId);
+    @GetMapping(path = "/user/{id}")
+    public ResponseEntity<BookingResponse> getAllUserBookings(@PathVariable Long id) {
+        List<Booking> bookings = bookingService.findByUserId(id);
+
+        return helper.createBookingResponse(bookings);
+    }
+
+    @GetMapping(path = "/service/{serviceId}")
+    public ResponseEntity<BookingResponse> getAllBookingsByService(@PathVariable Long serviceId) {
+        List<Booking> bookings = bookingService.findByServiceId(serviceId);
 
         return helper.createBookingResponse(bookings);
     }
