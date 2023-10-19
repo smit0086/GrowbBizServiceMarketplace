@@ -1,7 +1,7 @@
-export const addCategory = async (token,category_name, tax) => {
+export const addCategory = async (token, category_name, tax) => {
     const body = {
-        category_name,
-        tax
+        name: category_name,
+        tax,
     };
     const resp = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/addCategory`,
@@ -10,7 +10,7 @@ export const addCategory = async (token,category_name, tax) => {
             body: JSON.stringify(body),
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
             },
         }
     );
@@ -26,7 +26,7 @@ export const updateCategory = async (category_id, category_name, tax) => {
     const body = {
         category_id,
         category_name,
-        tax
+        tax,
     };
     const resp = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/updateCategory`,
@@ -50,7 +50,7 @@ export const deleteCategory = async (category_id, category_name, tax) => {
     const body = {
         category_id,
         category_name,
-        tax
+        tax,
     };
     const resp = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/deleteCategory`,
@@ -70,9 +70,23 @@ export const deleteCategory = async (category_id, category_name, tax) => {
     }
 };
 
-
-
-
-
-
-
+export const getAllCategories = async (token) => {
+    try {
+        const re = await (
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/allCategories`,
+                {
+                    method: "get",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+        ).json();
+        return re.categories;
+    } catch (err) {
+        console.error({ err });
+        return [];
+    }
+};

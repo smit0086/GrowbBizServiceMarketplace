@@ -1,4 +1,3 @@
-import React from "react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Icons } from "@/components/icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -13,6 +12,7 @@ import {
 import { getBusiness } from "@/services/businessService";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
+import React from "react";
 import NavItem from "./NavItem";
 import ProfileMenuLogout from "./ProfileMenuLogout";
 
