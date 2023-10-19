@@ -10,12 +10,11 @@ import { Label } from "@/components/ui/label";
 import { useForm, Controller } from "react-hook-form";
 import { addCategory } from "@/services/categoriesServices";
 import { useSession } from "next-auth/react";
-
-
+import { useRouter } from "next/navigation";
 export function CategoryForm({ className, ...props }) {
-
-    const session =  useSession();
-    console.log(session.data.apiToken);
+    const session = useSession();
+    const router = useRouter();
+    console.log(router);
     const [isLoading, setIsLoading] = React.useState(false);
     const {
         handleSubmit,
@@ -26,7 +25,7 @@ export function CategoryForm({ className, ...props }) {
     async function onSubmit(data) {
         setIsLoading(true);
         await addCategory(session.data.apiToken, data.name, data.tax);
-        setIsLoading(false);
+        router.push("/admin/category");
     }
 
     return (
@@ -80,4 +79,3 @@ export function CategoryForm({ className, ...props }) {
         </div>
     );
 }
-
