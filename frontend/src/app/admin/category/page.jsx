@@ -3,23 +3,16 @@
 import Navbar from "@/components/modules/Navbar/Navbar";
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { categoryForm } from "./components/categoryForm";
-import { categoriesTable } from "./components/categoryForm";
+import { CategoriesTable } from "./components/CategoriesTable";
 
 const category = () => 
 {
-    const [showComponent, setShowComponent] = useState(false);
-
-    const callForm = () => {
-        setShowComponent(!showComponent);
-    };
-
     return (
         <>
             <Navbar />
             <div>Business Categories</div>
-            <Button onClick={callForm} text="Add Category"/>
-            <categoriesTable/>
+            <Button asChild={true}><a href="/admin/category/create" >Add category</a></Button>
+            <CategoriesTable />
         </>
     );
 };

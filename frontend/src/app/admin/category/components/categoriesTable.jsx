@@ -1,29 +1,36 @@
+"use client";
+
 import React from 'react';
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui/table"
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
-const categoriesTable = async () => {
-
-  const session = await getServerSession(authOptions);
+export async function CategoriesTable({ className, ...props }) {
+  const session =  useSession();
+  console.log(session.data.apiToken);
   const categoriesListResponse = await (
     await fetch(`${process.env.SERVER_ADDRESS}/admin/allCategories`, {
       method: "get",
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${session.apiToken}`,
-
       },
     })
   ).json();
+
+// }
+
+// const CategoriesTable = async () => {
+
+//   const session = await getServerSession(authOptions);
+//   const categoriesListResponse = await (
+//     await fetch(`${process.env.SERVER_ADDRESS}/admin/allCategories`, {
+//       method: "get",
+//       headers: {
+//         "Content-type": "application/json",
+//         Authorization: `Bearer ${session.apiToken}`,
+//       },
+//     })
+//   ).json();
 
   return (
     <div>
@@ -49,4 +56,4 @@ const categoriesTable = async () => {
   );
 };
 
-export default categoriesTable;
+export default CategoriesTable;
