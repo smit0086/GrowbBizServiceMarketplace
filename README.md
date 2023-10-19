@@ -1,24 +1,11 @@
 # GrowBiz
 
-## Steps to Run the DB and Backend
+## Steps to Run the GrowBiz Application
 
 1. In the backend directory, run `./mvnw install`.
 2. After successful compilation and build, go to the root directory of the repository and run `docker-compose build`.
 3. After docker images are built successfully, run `docker-compose up`.
-4. Before testing the APIs, `roles` table has to be populated -
-    1. Roles table can be populated using the following steps -
-        1. `docker container exec -it mysql_db /bin/bash`
-        2. `$ mysql -u root -p growbiz`
-        3. Enter the password, which is test123.
-        4. Run the following INSERT statements -
-         ```sql
-         -- Populate user roles table
-         INSERT INTO roles(name) VALUES('ROLE_ADMIN');
-         INSERT INTO roles(name) VALUES('ROLE_CUSTOMER');
-         INSERT INTO roles(name) VALUES('ROLE_BUSINESS_OWNER');
-         ```
-
-5. API Table
+4. API Table
 
 <table>
 <thead>
@@ -128,8 +115,38 @@
 <td>This API is used to download the verification document of the given PARTNER</td>
 </tr>
 
+<tr>
+<td><code>/booking/add</code></td>
+<td><code>POST</code></td>
+<td><code>ADMIN</code>,<code>PARTNER</code>,<code>CUSTOMER</code></td>
+<td></td>
+<td></td>
+<td><code>YES</code></td>
+<td>This API is used to fetch all the bookings</td>
+</tr>
+
+<tr>
+<td><code>/booking/user/{userId}</code></td>
+<td><code>POST</code></td>
+<td><code>ADMIN</code>,<code>PARTNER</code>,<code>CUSTOMER</code></td>
+<td></td>
+<td></td>
+<td><code>YES</code></td>
+<td>This API is used to fetch all the bookings for a user given user ID</td>
+</tr>
+
+<tr>
+<td><code>/booking/service/{serviceId}</code></td>
+<td><code>POST</code></td>
+<td><code>ADMIN</code>,<code>PARTNER</code>,<code>CUSTOMER</code></td>
+<td></td>
+<td></td>
+<td><code>YES</code></td>
+<td>This API is used to fetch all the bookings for a service given service ID</td>
+</tr>
+
 </tbody>
 </table>
 
-6. `Ctrl + c` to stop the containers.
-7. Please run `docker-compose down` after stopping the containers.
+1. `Ctrl + c` to stop the containers.
+2. Please run `docker-compose down` after stopping the containers.
