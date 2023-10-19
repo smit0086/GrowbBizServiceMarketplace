@@ -10,6 +10,7 @@ const protected_routes = {
         "/partner/dashboard",
         "/partner/business/status",
         "/partner/business/create",
+        "/partner/business/service"
     ],
     ADMIN: ["/admin/dashboard", "/admin/business/verify"],
 };
