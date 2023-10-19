@@ -37,7 +37,13 @@ export async function CategoriesTable({ className, ...props }) {
                                 </Button>
                             </td>
                             <td>
-                                <Button>delete</Button>
+                                <Button asChild>
+                                    <Link
+                                        href={`/admin/category/delete/${item.id}`}
+                                    >
+                                        Delete
+                                    </Link>
+                                </Button>
                             </td>
                         </tr>
                     ))}
