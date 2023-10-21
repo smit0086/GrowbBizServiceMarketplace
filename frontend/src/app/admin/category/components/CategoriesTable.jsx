@@ -4,6 +4,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getAllCategories } from "@/services/categoriesServices";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import DeleteCategory from "./DeleteCategory";
+import category from "../page";
 
 export async function CategoriesTable({ className, ...props }) {
     const session = await getServerSession(authOptions);
@@ -37,13 +39,7 @@ export async function CategoriesTable({ className, ...props }) {
                                 </Button>
                             </td>
                             <td>
-                                <Button asChild>
-                                    <Link
-                                        href={`/admin/category/delete/${item.id}`}
-                                    >
-                                        Delete
-                                    </Link>
-                                </Button>
+                                <DeleteCategory category={item} />
                             </td>
                         </tr>
                     ))}

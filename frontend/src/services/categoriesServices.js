@@ -47,10 +47,10 @@ export const updateCategory = async (token, category_id, category_name, tax) => 
     }
 };
 
-export const deleteCategory = async (category_id, category_name, tax) => {
+export const deleteCategory = async (token, category_id, category_name, tax) => {
     const body = {
-        category_id,
-        category_name,
+        id: category_id,
+        name: category_name,
         tax,
     };
     const resp = await fetch(
@@ -60,6 +60,7 @@ export const deleteCategory = async (category_id, category_name, tax) => {
             body: JSON.stringify(body),
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
         }
     );
