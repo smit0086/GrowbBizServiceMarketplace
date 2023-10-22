@@ -42,6 +42,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.PUT, "/{businessId}/verify").hasAuthority(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.GET, "/business/all").hasAuthority(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.POST, "/admin/**").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers("/booking/**").hasAnyAuthority(Role.ADMIN.name(), Role.PARTNER.name(), Role.CUSTOMER.name())
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/admin/**").permitAll()
                         .anyRequest().authenticated()
