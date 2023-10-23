@@ -12,7 +12,7 @@ const protected_routes = {
         "/partner/business/create",
         "/partner/business/operating-hours",
     ],
-    ADMIN: ["/admin/dashboard", "/admin/business/verify"],
+    ADMIN: ["/admin/dashboard", "/admin/business/verify", "/admin/category", "/admin/category/update", "/admin/category/create"],
 };
 
 const flattened_protected_routes = [
