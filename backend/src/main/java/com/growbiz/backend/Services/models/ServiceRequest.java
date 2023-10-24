@@ -1,11 +1,14 @@
-package com.growbiz.backend.Services.model;
+package com.growbiz.backend.Services.models;
 import com.growbiz.backend.Responses.model.BasicRequest;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.time.LocalTime;
 
 @Data
 @SuperBuilder
@@ -15,6 +18,8 @@ import lombok.experimental.SuperBuilder;
 public class ServiceRequest extends BasicRequest {
     private long serviceID;
     private String serviceName;
+    private String description;
+    private LocalTime timeRequired;
     private long businessID;
     private long subCategoryID;
 }
