@@ -49,6 +49,6 @@ public class BookingController {
 
     @GetMapping(path = "/getSlot/{businessId}")
     public ResponseEntity<FreeSlotsResponse> getFreeTimeSlots(@PathVariable Long businessId, @RequestParam("date") Date date) {
-        return helper.createFreeSlotsResponse(bookingService.getFreeSlots(businessId, date));
+        return helper.createFreeSlotsResponse(bookingService.getFreeSlotsForWeek(businessId, date));
     }
 }
