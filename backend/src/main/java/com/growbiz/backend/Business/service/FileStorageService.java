@@ -47,7 +47,7 @@ public class FileStorageService implements IFileStorageService {
                     .toList();
             return Files.readAllBytes(files.get(0).toPath());
         } catch (IOException ioException) {
-            System.out.println("Error in FileStorageService.downloadFile " + ioException);
+            System.err.println("Error in FileStorageService.downloadFile " + ioException);
         }
         return null;
     }

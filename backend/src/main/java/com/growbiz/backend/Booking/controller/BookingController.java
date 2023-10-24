@@ -4,12 +4,14 @@ import com.growbiz.backend.Booking.helper.BookingControllerHelper;
 import com.growbiz.backend.Booking.models.Booking;
 import com.growbiz.backend.Booking.models.BookingRequest;
 import com.growbiz.backend.Booking.models.BookingResponse;
+import com.growbiz.backend.Booking.models.FreeSlotsResponse;
 import com.growbiz.backend.Booking.service.IBookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -19,6 +21,7 @@ public class BookingController {
 
     @Autowired
     private IBookingService bookingService;
+
 
     @Autowired
     private BookingControllerHelper helper;
@@ -42,5 +45,10 @@ public class BookingController {
         List<Booking> bookings = bookingService.findByServiceId(serviceId);
 
         return helper.createBookingResponse(bookings);
+    }
+
+    @GetMapping(path = "/getSlot/{businessId}")
+    public ResponseEntity<FreeSlotsResponse> getFreeTimeSlots(@PathVariable Long businessId, @RequestParam("date") Date date) {
+        return helper.createFreeSlotsResponse(bookingService.getFreeSlots(businessId, date));
     }
 }

@@ -2,8 +2,10 @@ package com.growbiz.backend.Business.controller;
 
 import com.growbiz.backend.Business.helper.BusinessControllerHelper;
 import com.growbiz.backend.Business.model.Business;
+import com.growbiz.backend.Business.model.BusinessHourRequest;
 import com.growbiz.backend.Business.model.BusinessResponse;
 import com.growbiz.backend.Business.model.VerificationRequest;
+import com.growbiz.backend.Business.service.IBusinessHourService;
 import com.growbiz.backend.Business.service.IBusinessService;
 import com.growbiz.backend.Business.service.IFileStorageService;
 import com.growbiz.backend.Business.service.ISendEmailService;
@@ -29,6 +31,9 @@ public class BusinessController {
 
     @Autowired
     private ISendEmailService sendEmailService;
+
+    @Autowired
+    private IBusinessHourService businessHourService;
 
     @Autowired
     private BusinessControllerHelper helper;
@@ -72,6 +77,12 @@ public class BusinessController {
                 .body(fileStorageService.downloadFile(email));
     }
 
+    @PutMapping(path = "/businessHours")
+    public ResponseEntity<String> updateBusinessHour(@RequestBody BusinessHourRequest businessHourRequest) {
+        businessHourService.saveBusinessHours(businessHourRequest);
+        return ResponseEntity.ok("Updated");
+    }
 }
+
 
 

@@ -2,9 +2,12 @@ package com.growbiz.backend.Booking.service;
 
 import com.growbiz.backend.Booking.models.Booking;
 import com.growbiz.backend.Booking.models.BookingRequest;
+import com.growbiz.backend.Booking.models.SlotRange;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface IBookingService {
@@ -18,4 +21,6 @@ public interface IBookingService {
     void save(Booking booking);
 
     Booking save(BookingRequest bookingRequest);
+
+    Map<Date, List<SlotRange>> getFreeSlots(Long businessId, Date date);
 }
