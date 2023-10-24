@@ -1,4 +1,4 @@
-package com.growbiz.backend.Services.model;
+package com.growbiz.backend.Services.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.growbiz.backend.Business.model.Business;
@@ -17,7 +17,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Service {
+public class Services {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
