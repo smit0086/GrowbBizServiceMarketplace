@@ -2,9 +2,11 @@ package com.growbiz.backend.Services.service;
 
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.models.ServiceRequest;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface IServicesService {
     Services getServiceById(Long serviceId);
 
@@ -18,5 +20,5 @@ public interface IServicesService {
 
     Services updateService(ServiceRequest service, Long serviceID);
 
-    void deleteService(Long serviceID);
+    Boolean deleteService(Long serviceID);
 }
