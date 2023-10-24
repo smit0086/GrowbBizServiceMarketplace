@@ -1,12 +1,16 @@
-import Navbar from "@/components/modules/Navbar/Navbar";
 import React from "react";
+import Navbar from "@/components/modules/Navbar/Navbar";
 
 const partnerNavItems = [
     {
-        title: "Operating hours",
-        route: "/partner/business/operating-hours",
-        icon: "clock",
-        iconClassNames: "w-10 p-1",
+        title: "Business Verify",
+        route: "/admin/business/verify",
+        icon: "layoutGrid",
+    },
+    {
+        title: "Business Category",
+        route: "/admin/category",
+        icon: "badgeCheck",
     },
 ];
 
