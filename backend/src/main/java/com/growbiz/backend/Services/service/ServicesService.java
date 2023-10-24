@@ -95,11 +95,12 @@ public class ServicesService implements IServicesService {
     }
 
     @Override
-    public void deleteService(Long serviceID) {
+    public Boolean deleteService(Long serviceID) {
         try {
             iServiceRepository.deleteById(serviceID);
+            return true;
         } catch (Exception e) {
-            e.getMessage();
+            return false;
         }
     }
 }
