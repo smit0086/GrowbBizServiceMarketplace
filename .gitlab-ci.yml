@@ -29,7 +29,6 @@ build-frontend:
     only:
         - main
         - dev
-        - issue-40-sidebar-on-admin
 
 build-backend:
     stage: build
@@ -44,7 +43,6 @@ build-backend:
     only:
         - main
         - dev
-        - issue-40-sidebar-on-admin
 
 deploy-dev-backend:
     stage: deploy
@@ -53,9 +51,9 @@ deploy-dev-backend:
         DEPLOY_PATH: "/home/student/deployment/dev"
     script:
         - chmod 400 "${SSH_KEY}"
+        - ssh -o StrictHostKeyChecking=no -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "rm -rf ${DEPLOY_PATH}"
         - ssh -o StrictHostKeyChecking=no -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "mkdir -p ${DEPLOY_PATH}"
         - scp -o StrictHostKeyChecking=no -i "${SSH_KEY}" -r [!.]* "${SSH_USER}@${SSH_HOST}:${DEPLOY_PATH}"
         - ssh -o StrictHostKeyChecking=no -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "cd ${DEPLOY_PATH} && ./deploy.sh"
     only:
         - dev
-        - issue-40-sidebar-on-admin
