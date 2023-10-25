@@ -36,7 +36,7 @@ else
     docker compose down
 fi
 
-docker compose build
+docker compose build --no-cache
 docker compose up --detach
 docker compose logs > "$DOCKER_COMPOSE_LOG"
 sleep 80
