@@ -21,6 +21,10 @@ export const authenticate = async (email, password, role) => {
             return data;
         }
     } catch (err) {
+        console.log(
+            "authSErvice error",
+            `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/auth/authenticate`
+        );
         console.log("err", err);
     }
 };

@@ -12,6 +12,9 @@ export const authOptions = {
                 role: { label: "Role", type: "role" },
             },
             async authorize(credentials, req) {
+                console.log({
+                    authorize: process.env.NEXT_PUBLIC_SERVER_ADDRESS,
+                });
                 if (typeof credentials !== "undefined") {
                     const res = await authenticate(
                         credentials.email,
