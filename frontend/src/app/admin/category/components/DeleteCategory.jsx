@@ -26,7 +26,7 @@ const DeleteCategory = ({ category }) => {
 
     const handleDeleteCategory = async () => {
         setIsLoading(true);
-        const deleteCategories = await deleteCategory(session.data.apiToken, category.id, category.name, category.tax)
+        const deleteCategories = await deleteCategory(session.data.apiToken, category.categoryID, category.name, category.tax)
         setIsLoading(false);
         setDialogOpen(false);
         router.refresh()
