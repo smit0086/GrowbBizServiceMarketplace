@@ -39,7 +39,7 @@ public class AdminService implements IAdminService{
     @Override
     public Category addCategory(Category newCategory) {
         try {
-            Category category = categoryService.addCategory(newCategory, newCategory.getId());
+            Category category = categoryService.addCategory(newCategory, newCategory.getCategoryID());
             return category;
         } catch (Exception e) {
             return null;
@@ -49,7 +49,7 @@ public class AdminService implements IAdminService{
     @Override
     public Category updateCategory(Category updatedCategory) {
         try {
-            Category category = categoryService.updateCategory(updatedCategory, updatedCategory.getId());
+            Category category = categoryService.updateCategory(updatedCategory, updatedCategory.getCategoryID());
             return category;
         } catch (Exception e) {
             return null;
@@ -59,7 +59,7 @@ public class AdminService implements IAdminService{
     @Override
     public Boolean deleteCategory(Category category) {
         try {
-            categoryService.deleteCategory(category.getId());
+            categoryService.deleteCategory(category.getCategoryID());
             return true;
         } catch (Exception e) {
             return false;
@@ -80,7 +80,7 @@ public class AdminService implements IAdminService{
     @Override
     public SubCategory addSubCategory(SubCategory newSubCategory) {
         try {
-            SubCategory subCategory = subCategoryService.addCategory(newSubCategory, newSubCategory.getId());
+            SubCategory subCategory = subCategoryService.addCategory(newSubCategory, newSubCategory.getSubCategoryID());
             return subCategory;
         } catch (Exception e) {
             return null;
@@ -90,7 +90,7 @@ public class AdminService implements IAdminService{
     @Override
     public SubCategory updateSubCategory(SubCategory updatedSubCategory) {
         try {
-            SubCategory subCategory = subCategoryService.updateSubCategory(updatedSubCategory, updatedSubCategory.getId());
+            SubCategory subCategory = subCategoryService.updateSubCategory(updatedSubCategory, updatedSubCategory.getSubCategoryID());
             return subCategory;
         } catch (Exception e) {
             return null;
@@ -100,7 +100,7 @@ public class AdminService implements IAdminService{
     @Override
     public Boolean deleteSubCategory(SubCategory subCategory) {
         try {
-            subCategoryService.deleteCategory(subCategory.getId());
+            subCategoryService.deleteCategory(subCategory.getSubCategoryID());
             return true;
         } catch (Exception e) {
             return false;

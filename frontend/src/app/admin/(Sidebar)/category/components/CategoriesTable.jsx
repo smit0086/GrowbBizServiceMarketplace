@@ -25,14 +25,14 @@ export async function CategoriesTable({ className, ...props }) {
                 </thead>
                 <tbody>
                     {categories.map((item) => (
-                        <tr key={item.id}>
-                            <td>{item.id}</td>
+                        <tr key={item.categoryID}>
+                            <td>{item.categoryID}</td>
                             <td>{item.name}</td>
                             <td>{item.tax}</td>
                             <td>
                                 <Button asChild>
                                     <Link
-                                        href={`/admin/category/update/${item.id}`}
+                                        href={`/admin/category/update/${item.categoryID}`}
                                     >
                                         Edit
                                     </Link>

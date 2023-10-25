@@ -15,7 +15,7 @@ import java.util.Date;
 public class SubCategoriesExceptionHandler {
 
     @ExceptionHandler(SubCategoryAlreadyExistsException.class)
-    public ResponseEntity<BasicErrorResponse> handleBusinessNotFoundException(SubCategoryAlreadyExistsException subCategoryAlreadyExistsException) {
+    public ResponseEntity<BasicErrorResponse> handleSubCategoryAlreadyExistsException(SubCategoryAlreadyExistsException subCategoryAlreadyExistsException) {
 
         return new ResponseEntity<>(new BasicErrorResponse(ErrorMessages.SUBCATEGORY_ALREADY_EXIST.getValue(),
                 subCategoryAlreadyExistsException.getMessage(),
@@ -23,7 +23,7 @@ public class SubCategoriesExceptionHandler {
     }
 
     @ExceptionHandler(SubCategoryNotFoundException.class)
-    public ResponseEntity<BasicErrorResponse> handleBusinessNotFoundException(SubCategoryNotFoundException subCategoryNotFoundException) {
+    public ResponseEntity<BasicErrorResponse> handleSubCategoryNotFoundException(SubCategoryNotFoundException subCategoryNotFoundException) {
 
         return new ResponseEntity<>(new BasicErrorResponse(ErrorMessages.SUBCATEGORY_NOT_FOUND.getValue(),
                 subCategoryNotFoundException.getMessage(),
