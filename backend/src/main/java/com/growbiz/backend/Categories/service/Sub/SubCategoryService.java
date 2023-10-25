@@ -30,15 +30,6 @@ public class SubCategoryService implements ISubCategoryService {
         }
     }
 
-//    @Override
-//    public List<SubCategory> getByCategoryId(Long categoryId) {
-//        try {
-//            return iSubCategoryRepository.findByCategoryCategoryID(categoryId);
-//        } catch (Exception e) {
-//            return null;
-//        }
-//    }
-
     @Override
     public List<SubCategory> fetchSubCategoryList() {
         try {
