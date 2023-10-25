@@ -1,9 +1,7 @@
 package com.growbiz.backend.Categories.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,5 +21,9 @@ public class SubCategory {
     @NotBlank
     private String name;
 
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "categoryID", referencedColumnName = "categoryID")
+//    @JsonIgnore
+//    private Category category;
     private Long superCategoryID;
 }
