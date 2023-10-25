@@ -77,11 +77,6 @@ public class AdminController {
         return helper.createSubCategoryResponse(adminService.fetchAllSubCategories());
     }
 
-//    @GetMapping(path = "/allSubCategoriesByCategory")
-//    public ResponseEntity<CategoryResponse> getAllSubCategoriesByCategory() {
-//        return helper.createSubCategoryResponse(adminService.getByCategoryId());
-//    }
-
     @GetMapping(path = "/getSub")
     public ResponseEntity<CategoryResponse> getSubCategory(@RequestBody CategoryRequest categoryRequest) {
         return helper.createSubCategoryResponse(List.of(adminService.fetchSubCategoryByID(categoryRequest.getCategoryID())));
