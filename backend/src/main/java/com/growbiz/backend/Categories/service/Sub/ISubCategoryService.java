@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface ISubCategoryService {
     SubCategory getSubCategoryByID(Long categoryID);
 
+//    List<SubCategory> getByCategoryId(Long categoryId);
+
     List<SubCategory> fetchSubCategoryList();
 
     //needs checking
