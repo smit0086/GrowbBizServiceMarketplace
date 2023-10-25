@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
     Table,
     TableBody,
@@ -8,21 +8,22 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
-import axios from 'axios';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
-const categoriesTable = () => {
-  const [data, setData] = useState([]);
+const categoriesTable = async () => {
 
-  useEffect(() => {
-    // Make a GET request to your API here
-    axios.get('/admin/allCategories')
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  }, []); // The empty dependency array ensures this effect runs once after the component mounts
+  const session = await getServerSession(authOptions);
+  const categoriesListResponse = await (
+    await fetch(`${process.env.SERVER_ADDRESS}/admin/allCategories`, {
+      method: "get",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${session.apiToken}`,
+
+      },
+    })
+  ).json();
 
   return (
     <div>
@@ -35,7 +36,7 @@ const categoriesTable = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {categoriesListResponse.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.name}</td>
@@ -48,4 +49,4 @@ const categoriesTable = () => {
   );
 };
 
-export default DataTable;
+export default categoriesTable;
