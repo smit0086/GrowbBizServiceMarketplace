@@ -38,7 +38,7 @@ public class Services {
     private Business business;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subCategoryId", referencedColumnName = "id")
+    @JoinColumn(name = "subCategoryID", referencedColumnName = "subCategoryID")
     @JsonIgnore
     private SubCategory subCategory;
 }

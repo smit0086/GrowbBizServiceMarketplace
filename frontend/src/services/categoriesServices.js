@@ -24,7 +24,7 @@ export const addCategory = async (token, category_name, tax) => {
 
 export const updateCategory = async (token, category_id, category_name, tax) => {
     const body = {
-        id: category_id,
+        categoryID: category_id,
         name: category_name,
         tax,
     };
@@ -49,7 +49,7 @@ export const updateCategory = async (token, category_id, category_name, tax) => 
 
 export const deleteCategory = async (token, category_id, category_name, tax) => {
     const body = {
-        id: category_id,
+        categoryID: category_id,
         name: category_name,
         tax,
     };

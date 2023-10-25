@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +43,7 @@ public class ServicesService implements IServicesService {
     @Override
     public List<Services> getServiceByBusinessId(Long businessId) {
         try {
-            return (List<Services>) iServiceRepository.findByBusinessId(businessId);
+            return iServiceRepository.findByBusinessBusinessId(businessId);
         } catch (Exception e) {
             return null;
         }
@@ -51,7 +52,7 @@ public class ServicesService implements IServicesService {
     @Override
     public List<Services> getServiceBySubCategoryId(Long subCategoryId) {
         try {
-            return (List<Services>) iServiceRepository.findBySubCategoryId(subCategoryId);
+            return iServiceRepository.findBySubCategorySubCategoryID(subCategoryId);
         } catch (Exception e) {
             return null;
         }
@@ -67,28 +68,51 @@ public class ServicesService implements IServicesService {
     }
 
     @Override
-    public Services addService(Services newService) {
+    public Services addService(ServiceRequest newService) {
         try {
-            return iServiceRepository.save(newService);
+            Business business = businessService.findById(newService.getBusinessID());
+            SubCategory subCategory = subCategoryService.getSubCategoryByID(newService.getSubCategoryID());
+
+            Services service =  Services.builder()
+                    .serviceId(newService.getServiceID())
+                    .serviceName(newService.getServiceName())
+                    .description(newService.getDescription())
+                    .timeRequired(newService.getTimeRequired())
+                    .business(business)
+                    .subCategory(subCategory)
+                    .build();
+
+            return iServiceRepository.save(service);
         } catch (Exception e) {
             return null;
         }
     }
 
     @Override
-    public Services updateService(ServiceRequest service, Long serviceID) {
+    public Services updateService(ServiceRequest changedService) {
         try {
-            Business business = businessService.findById(service.getBusinessID());
-            SubCategory subCategory = subCategoryService.getSubCategoryByID(service.getSubCategoryID());
-            Services serviceUpdated =  Services.builder()
-                    .serviceId(serviceID)
-                    .serviceName(service.getServiceName())
-                    .description(service.getDescription())
-                    .timeRequired(service.getTimeRequired())
-                    .business(business)
-                    .subCategory(subCategory)
-                    .build();
+            Services serviceUpdated = iServiceRepository.findById(changedService.getServiceID()).get();
+
+            if (Objects.nonNull(changedService.getServiceName()) && !"".equalsIgnoreCase(changedService.getServiceName())) {
+                serviceUpdated.setServiceName(changedService.getServiceName());
+            }
+
+            if (Objects.nonNull(changedService.getTimeRequired())) {
+                serviceUpdated.setTimeRequired(changedService.getTimeRequired());
+            }
+
+            if (Objects.nonNull(changedService.getBusinessID())) {
+                Business business = businessService.findById(changedService.getBusinessID());
+                serviceUpdated.setBusiness(business);
+            }
+
+            if (Objects.nonNull(changedService.getSubCategoryID())) {
+                SubCategory subCategory = subCategoryService.getSubCategoryByID(changedService.getSubCategoryID());
+                serviceUpdated.setSubCategory(subCategory);
+            }
+
             return iServiceRepository.save(serviceUpdated);
+
         } catch (Exception e) {
             return null;
         }

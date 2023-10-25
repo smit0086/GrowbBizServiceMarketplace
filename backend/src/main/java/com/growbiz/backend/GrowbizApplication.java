@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 public class GrowbizApplication {
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(GrowbizApplication.class, args);
 	}
