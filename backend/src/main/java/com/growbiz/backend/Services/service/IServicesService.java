@@ -16,9 +16,9 @@ public interface IServicesService {
 
     List<Services> fetchServiceList();
 
-    Services addService(Services newService);
+    Services addService(ServiceRequest newService);
 
-    Services updateService(ServiceRequest service, Long serviceID);
+    Services updateService(ServiceRequest service);
 
     Boolean deleteService(Long serviceID);
 }

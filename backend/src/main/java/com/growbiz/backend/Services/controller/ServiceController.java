@@ -1,6 +1,5 @@
 package com.growbiz.backend.Services.controller;
 
-import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Categories.helper.CategoriesControllerHelper;
 import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.ServiceNotFoundException;
@@ -18,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/service")
+@RequestMapping("/services")
 public class ServiceController {
     @Autowired
     private IServicesService servicesService;
@@ -31,20 +30,24 @@ public class ServiceController {
 
     @GetMapping(path = "/allServices")
     public ResponseEntity<ServiceResponse> getAllServices() {
-        return serviceHelper.createServiceResponse(servicesService.fetchServiceList());
+        return serviceHelper.createServiceResponse(servicesService.fetchServiceList(), false);
     }
 
     @GetMapping(path = "/allServicesByBusinessId")
-    public ResponseEntity<ServiceResponse> getAllServicesByBusinessId(@RequestBody Business business) {
-        return serviceHelper.createServiceResponse(servicesService.getServiceByBusinessId(business.getBusinessId()));
+    public ResponseEntity<ServiceResponse> getAllServicesByBusinessId(@RequestParam Long businessID) {
+        return serviceHelper.createServiceResponse(servicesService.getServiceByBusinessId(businessID), false);
+    }
+
+    @GetMapping(path = "/allServicesBySubCategoryId")
+    public ResponseEntity<ServiceResponse> getAllServicesBySubCategoryId(@RequestParam Long subCategoryID) {
+        return serviceHelper.createServiceResponse(servicesService.getServiceBySubCategoryId(subCategoryID), false);
     }
 
     @PostMapping(path = "/addService")
-    public ResponseEntity<ServiceResponse> addService(@RequestBody Services newService) {
+    public ResponseEntity<ServiceResponse> addService(@RequestBody ServiceRequest newService) {
         Services service = servicesService.addService(newService);
-
         if (service != null) {
-            return serviceHelper.createServiceResponse(List.of(service));
+            return serviceHelper.createServiceResponse(List.of(service), false);
         } else {
             throw new ServiceAlreadyExistsException("The requested new service to add, already exists!");
         }
@@ -52,10 +55,10 @@ public class ServiceController {
 
     @PutMapping(path = "/updateService")
     public ResponseEntity<ServiceResponse> updateService(@RequestBody ServiceRequest newService) throws Exception {
-        Services updateService = servicesService.updateService(newService, newService.getServiceID());
+        Services updateService = servicesService.updateService(newService);
 
         if (updateService != null) {
-            return serviceHelper.createServiceResponse(List.of(updateService));
+            return serviceHelper.createServiceResponse(List.of(updateService), true);
         } else {
             throw new ServiceNotFoundException("The specified service for update in not found");
         }

@@ -1,11 +1,14 @@
 server:
-  port: 9002
+  port: 9003
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: springuser   //root
-    url: jdbc:mysql://mysql_db:3306/growbiz
-    password: spring
+    username: root
+    url: jdbc:mysql://localhost:3306/growbiz
+    password: B00931734
+#    username: springuser
+#    url: jdbc:mysql://mysql_db:3306/growbiz
+#    password: spring
   jpa:
     hibernate:
       ddl-auto: update

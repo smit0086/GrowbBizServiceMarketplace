@@ -16,10 +16,11 @@ public class ServicesControllerHelper {
     @Autowired
     private JWTService jwtService;
 
-    public ResponseEntity<ServiceResponse> createServiceResponse (List<Services> servicesList) {
+    public ResponseEntity<ServiceResponse> createServiceResponse (List<Services> servicesList, Boolean isUpdated) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.ok(ServiceResponse.builder()
                 .services(servicesList)
+                .isUpdated(isUpdated)
                 .subject(user.getEmail())
                 .role(user.getRole())
                 .build());

@@ -1,15 +1,16 @@
-export const addSubCategory = async (subcategory_name, tax) => {
+export const addCategory = async (token, category_name, tax) => {
     const body = {
-        subcategory_name,
-        tax
+        name: category_name,
+        tax,
     };
     const resp = await fetch(
-        `${process.env.SERVER_ADDRESS}/admin/addSubCategory`,
+        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/addCategory`,
         {
             method: "post",
             body: JSON.stringify(body),
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
         }
     );
@@ -21,19 +22,20 @@ export const addSubCategory = async (subcategory_name, tax) => {
     }
 };
 
-export const updateSubCategory = async (subcategory_id, subcategory_name, tax) => {
+export const updateCategory = async (token, category_id, category_name, tax) => {
     const body = {
-        subcategory_id,
-        subcategory_name,
-        tax
+        categoryID: category_id,
+        name: category_name,
+        tax,
     };
     const resp = await fetch(
-        `${process.env.SERVER_ADDRESS}/admin/updateSubCategory`,
+        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/updateCategory`,
         {
             method: "post",
             body: JSON.stringify(body),
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
         }
     );
@@ -45,19 +47,20 @@ export const updateSubCategory = async (subcategory_id, subcategory_name, tax) =
     }
 };
 
-export const deleteSubCategory = async (subcategory_id, subcategory_name, tax) => {
+export const deleteCategory = async (token, category_id, category_name, tax) => {
     const body = {
-        subcategory_id,
-        subcategory_name,
-        tax
+        categoryID: category_id,
+        name: category_name,
+        tax,
     };
     const resp = await fetch(
-        `${process.env.SERVER_ADDRESS}/admin/deleteSubCategory`,
+        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/deleteCategory`,
         {
             method: "post",
             body: JSON.stringify(body),
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
         }
     );
@@ -69,9 +72,26 @@ export const deleteSubCategory = async (subcategory_id, subcategory_name, tax) =
     }
 };
 
-
-
-
+export const getAllCategories = async (token) => {
+    try {
+        const re = await (
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/allCategories`,
+                {
+                    method: "get",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+        ).json();
+        return re.categories;
+    } catch (err) {
+        console.error({ err });
+        return [];
+    }
+};
 
 
 
