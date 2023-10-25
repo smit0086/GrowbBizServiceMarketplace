@@ -1,15 +1,16 @@
-export const addCategory = async (category_name, tax) => {
+export const addCategory = async (token,category_name, tax) => {
     const body = {
         category_name,
         tax
     };
     const resp = await fetch(
-        `${process.env.SERVER_ADDRESS}/admin/addCategory`,
+        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/addCategory`,
         {
             method: "post",
             body: JSON.stringify(body),
             headers: {
                 "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             },
         }
     );
@@ -28,7 +29,7 @@ export const updateCategory = async (category_id, category_name, tax) => {
         tax
     };
     const resp = await fetch(
-        `${process.env.SERVER_ADDRESS}/admin/updateCategory`,
+        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/updateCategory`,
         {
             method: "post",
             body: JSON.stringify(body),
@@ -52,7 +53,7 @@ export const deleteCategory = async (category_id, category_name, tax) => {
         tax
     };
     const resp = await fetch(
-        `${process.env.SERVER_ADDRESS}/admin/deleteCategory`,
+        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/deleteCategory`,
         {
             method: "post",
             body: JSON.stringify(body),

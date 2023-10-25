@@ -9,10 +9,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm, Controller } from "react-hook-form";
 import { addCategory } from "@/services/categoriesServices";
+import { useSession } from "next-auth/react";
 
 
-export function categoryForm({ className, ...props }) {
+export function CategoryForm({ className, ...props }) {
 
+    const session =  useSession();
+    console.log(session.data.apiToken);
     const [isLoading, setIsLoading] = React.useState(false);
     const {
         handleSubmit,
@@ -22,11 +25,7 @@ export function categoryForm({ className, ...props }) {
 
     async function onSubmit(data) {
         setIsLoading(true);
-        await addCategory("Category", {
-            name: data.category_name,
-            tax: data.tax,
-            callbackUrl: props.callbackUrl ?? "/",
-        });
+        await addCategory(session.data.apiToken, data.name, data.tax);
         setIsLoading(false);
     }
 

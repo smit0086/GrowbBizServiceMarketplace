@@ -32,8 +32,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        return http.cors(request -> new CorsConfiguration().addAllowedOrigin("*"))
-                .csrf(AbstractHttpConfigurer::disable)
+        return http.cors(request -> new CorsConfiguration().addAllowedOrigin("*")).csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/business/").hasAuthority(Role.PARTNER.name())
                         .requestMatchers(HttpMethod.GET, "/business/download").hasAnyAuthority(Role.PARTNER.name(), Role.ADMIN.name())
@@ -50,5 +49,4 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
-
 }
