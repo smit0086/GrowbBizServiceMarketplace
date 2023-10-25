@@ -8,7 +8,6 @@ export const getAllCategories = async (token) => {
                     headers: {
                         "Content-type": "application/json",
                         Authorization: `Bearer ${token}`,
-                        test: "test header",
                     },
                 }
             )
