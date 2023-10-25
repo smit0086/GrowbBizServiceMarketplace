@@ -2,8 +2,6 @@ package com.growbiz.backend.Services.controller;
 
 import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Categories.helper.CategoriesControllerHelper;
-import com.growbiz.backend.Categories.models.Category;
-import com.growbiz.backend.Exception.exceptions.CategoryAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.ServiceNotFoundException;
 import com.growbiz.backend.Services.helper.ServicesControllerHelper;
@@ -36,7 +34,6 @@ public class ServiceController {
         return serviceHelper.createServiceResponse(servicesService.fetchServiceList());
     }
 
-    // Questions to ask
     @GetMapping(path = "/allServicesByBusinessId")
     public ResponseEntity<ServiceResponse> getAllServicesByBusinessId(@RequestBody Business business) {
         return serviceHelper.createServiceResponse(servicesService.getServiceByBusinessId(business.getBusinessId()));
@@ -64,7 +61,7 @@ public class ServiceController {
         }
     }
 
-    @DeleteMapping(path = "/deleteCategory")
+    @DeleteMapping(path = "/deleteService")
     public ResponseEntity<ServiceResponse> deleteService(@RequestBody Services oldService) throws Exception {
         Boolean isDeleted = servicesService.deleteService(oldService.getServiceId());
         if (isDeleted) {
