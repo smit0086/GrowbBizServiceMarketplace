@@ -31,8 +31,7 @@ public class BookingService implements IBookingService {
 
     @Autowired
     private final IBusinessHourService businessHourService;
-
-
+    
     @Autowired
     private final BookingServiceHelper helper;
 
