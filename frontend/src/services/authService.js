@@ -5,6 +5,7 @@ export const authenticate = async (email, password, role) => {
         role,
     };
     try {
+        console.log({ test: process.env.NEXT_PUBLIC_SERVER_ADDRESS });
         const resp = await fetch(
             `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/auth/authenticate`,
             {
@@ -51,5 +52,3 @@ export const signup = async (firstName, lastName, email, password, role) => {
         return false;
     }
 };
-
-
