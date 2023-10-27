@@ -23,46 +23,74 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ERROR_MESSAGE } from "@/lib/constants";
-import { useForm, Controller } from 'react-hook-form';
-import { verifyBusiness, downloadDocumentByEmail } from "@/services/businessService";
+import { useForm, Controller } from "react-hook-form";
+import {
+    verifyBusiness,
+    downloadDocumentByEmail,
+} from "@/services/businessService";
 import { BUSSINESS_STATUS } from "@/lib/constants";
 import { Icons } from "@/components/icons";
 
-const BusinessApprovalForm = ({ business, authSession, setRefreshBusinesses, categories }) => {
-    const { handleSubmit, control, formState: { errors } } = useForm();
+const BusinessApprovalForm = ({
+    business,
+    authSession,
+    setRefreshBusinesses,
+    categories,
+}) => {
+    const {
+        handleSubmit,
+        control,
+        formState: { errors },
+    } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [isApprovalDialogOpen, setApprovalDialogOpen] = useState(false);
     const [isRejectionDialogOpen, setRejectionDialogOpen] = useState(false);
 
     const handleApproveBusiness = async (data) => {
         setIsLoading(true);
-        const verification_response = await verifyBusiness(authSession.apiToken, data.business.businessId, BUSSINESS_STATUS.APPROVED, "");
+        const verification_response = await verifyBusiness(
+            authSession.apiToken,
+            data.business.businessId,
+            BUSSINESS_STATUS.APPROVED,
+            ""
+        );
         setIsLoading(false);
         setApprovalDialogOpen(false);
         setRefreshBusinesses(true);
-    }
+    };
 
     const handleRejectBusiness = async (data) => {
         setIsLoading(true);
-        const verification_response = await verifyBusiness(authSession.apiToken, data.business.businessId, BUSSINESS_STATUS.DECLINED, data.formData.rejection_reason);
+        const verification_response = await verifyBusiness(
+            authSession.apiToken,
+            data.business.businessId,
+            BUSSINESS_STATUS.DECLINED,
+            data.formData.rejection_reason
+        );
         setIsLoading(false);
         setRejectionDialogOpen(false);
         setRefreshBusinesses(true);
-    }
+    };
 
     const downloadDocument = async () => {
-        const response = await downloadDocumentByEmail(authSession.apiToken, business.email);
+        const response = await downloadDocumentByEmail(
+            authSession.apiToken,
+            business.email
+        );
 
-        const contentDisposition = response.headers.get('content-disposition');
-        const filenameMatch = contentDisposition && contentDisposition.match(/filename="(.+)"/);
-        const filename = filenameMatch ? filenameMatch[1] : `Verification_Document_of_${business.businessName}.jpg`;
+        const contentDisposition = response.headers.get("content-disposition");
+        const filenameMatch =
+            contentDisposition && contentDisposition.match(/filename="(.+)"/);
+        const filename = filenameMatch
+            ? filenameMatch[1]
+            : `Verification_Document_of_${business.businessName}.jpg`;
         const imageBlob = await response.blob();
         const imageUrl = URL.createObjectURL(imageBlob);
-        const downloadLink = document.createElement('a');
+        const downloadLink = document.createElement("a");
         downloadLink.href = imageUrl;
         downloadLink.download = filename;
         downloadLink.click();
-    }
+    };
 
     return (
         <>
@@ -74,13 +102,41 @@ const BusinessApprovalForm = ({ business, authSession, setRefreshBusinesses, cat
                 <CardContent>
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor={`category-${business.businessId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Category</Label>
-                            <span id={`category-${business.businessId}`} style={{ fontSize: '0.875rem' }}>{categories.find(category => category.id === business.categoryId)?.name}</span>
+                            <Label
+                                htmlFor={`category-${business.businessId}`}
+                                style={{ fontSize: "1rem", fontWeight: "bold" }}
+                            >
+                                Category
+                            </Label>
+                            <span
+                                id={`category-${business.businessId}`}
+                                style={{ fontSize: "0.875rem" }}
+                            >
+                                {
+                                    categories.find(
+                                        (category) =>
+                                            category.categoryID ===
+                                            business.categoryId
+                                    )?.name
+                                }
+                            </span>
                         </div>
                         <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor={`document-${business.businessId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Documents</Label>
+                            <Label
+                                htmlFor={`document-${business.businessId}`}
+                                style={{ fontSize: "1rem", fontWeight: "bold" }}
+                            >
+                                Documents
+                            </Label>
                             <span id={`document-${business.businessId}`}>
-                                <Link href={business.fileURL} onClick={downloadDocument} className="underline underline-offset-4 hover:text-primary" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.875rem' }}>
+                                <Link
+                                    href={business.fileURL}
+                                    onClick={downloadDocument}
+                                    className="underline underline-offset-4 hover:text-primary"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{ fontSize: "0.875rem" }}
+                                >
                                     Download
                                 </Link>
                             </span>
@@ -89,7 +145,10 @@ const BusinessApprovalForm = ({ business, authSession, setRefreshBusinesses, cat
                 </CardContent>
                 <CardFooter className="flex justify-between">
                     <div className="flex space-x-4">
-                        <Dialog open={isRejectionDialogOpen} onOpenChange={setRejectionDialogOpen}>
+                        <Dialog
+                            open={isRejectionDialogOpen}
+                            onOpenChange={setRejectionDialogOpen}
+                        >
                             <DialogTrigger asChild>
                                 <Button variant="destructive">Reject</Button>
                             </DialogTrigger>
@@ -97,13 +156,23 @@ const BusinessApprovalForm = ({ business, authSession, setRefreshBusinesses, cat
                                 <DialogHeader>
                                     <DialogTitle>Confirmation</DialogTitle>
                                 </DialogHeader>
-                                <form onSubmit={handleSubmit((formData) => {
-                                    handleRejectBusiness({ business, formData });
-                                })}>
-                                    <div style={{ marginBottom: '1.2rem' }}>
+                                <form
+                                    onSubmit={handleSubmit((formData) => {
+                                        handleRejectBusiness({
+                                            business,
+                                            formData,
+                                        });
+                                    })}
+                                >
+                                    <div style={{ marginBottom: "1.2rem" }}>
                                         <div>
-                                            <Label htmlFor="name" className="text-right">
-                                                Please provide the reason to reject the {business.businessName}
+                                            <Label
+                                                htmlFor="name"
+                                                className="text-right"
+                                            >
+                                                Please provide the reason to
+                                                reject the{" "}
+                                                {business.businessName}
                                             </Label>
                                             <Controller
                                                 name="rejection_reason"
@@ -113,8 +182,9 @@ const BusinessApprovalForm = ({ business, authSession, setRefreshBusinesses, cat
                                                 rules={{
                                                     required: {
                                                         value: true,
-                                                        message: ERROR_MESSAGE.REQUIRED
-                                                    }
+                                                        message:
+                                                            ERROR_MESSAGE.REQUIRED,
+                                                    },
                                                 }}
                                                 render={({ field }) => (
                                                     <Input
@@ -124,11 +194,21 @@ const BusinessApprovalForm = ({ business, authSession, setRefreshBusinesses, cat
                                                     />
                                                 )}
                                             />
-                                            {errors.rejection_reason && <span className="text-xs text-destructive">{errors.rejection_reason.message}</span>}
+                                            {errors.rejection_reason && (
+                                                <span className="text-xs text-destructive">
+                                                    {
+                                                        errors.rejection_reason
+                                                            .message
+                                                    }
+                                                </span>
+                                            )}
                                         </div>
                                     </div>
                                     <DialogFooter>
-                                        <Button type="submit" disabled={isLoading}>
+                                        <Button
+                                            type="submit"
+                                            disabled={isLoading}
+                                        >
                                             {isLoading && (
                                                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                                             )}
@@ -138,7 +218,10 @@ const BusinessApprovalForm = ({ business, authSession, setRefreshBusinesses, cat
                                 </form>
                             </DialogContent>
                         </Dialog>
-                        <Dialog open={isApprovalDialogOpen} onOpenChange={setApprovalDialogOpen}>
+                        <Dialog
+                            open={isApprovalDialogOpen}
+                            onOpenChange={setApprovalDialogOpen}
+                        >
                             <DialogTrigger asChild>
                                 <Button>Approve</Button>
                             </DialogTrigger>
@@ -146,16 +229,30 @@ const BusinessApprovalForm = ({ business, authSession, setRefreshBusinesses, cat
                                 <DialogHeader>
                                     <DialogTitle>Confirmation</DialogTitle>
                                 </DialogHeader>
-                                <form onSubmit={handleSubmit((formData) => handleApproveBusiness({ business, formData }))}>
-                                    <div style={{ marginBottom: '1.2rem' }}>
+                                <form
+                                    onSubmit={handleSubmit((formData) =>
+                                        handleApproveBusiness({
+                                            business,
+                                            formData,
+                                        })
+                                    )}
+                                >
+                                    <div style={{ marginBottom: "1.2rem" }}>
                                         <div>
-                                            <Label htmlFor="name" className="text-right">
-                                                Are you sure you want to approve the {business.businessName}?
+                                            <Label
+                                                htmlFor="name"
+                                                className="text-right"
+                                            >
+                                                Are you sure you want to approve
+                                                the {business.businessName}?
                                             </Label>
                                         </div>
                                     </div>
                                     <DialogFooter>
-                                        <Button type="submit" disabled={isLoading}>
+                                        <Button
+                                            type="submit"
+                                            disabled={isLoading}
+                                        >
                                             {isLoading && (
                                                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                                             )}
@@ -170,6 +267,6 @@ const BusinessApprovalForm = ({ business, authSession, setRefreshBusinesses, cat
             </Card>
         </>
     );
-}
+};
 
 export default BusinessApprovalForm;
