@@ -3,11 +3,10 @@ package com.growbiz.backend.Services.service;
 import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Business.service.IBusinessService;
 import com.growbiz.backend.Categories.models.SubCategory;
-import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Services.models.ServiceRequest;
+import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.repository.IServiceRepository;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,8 +71,7 @@ public class ServicesService implements IServicesService {
         try {
             Business business = businessService.findById(newService.getBusinessID());
             SubCategory subCategory = subCategoryService.getSubCategoryByID(newService.getSubCategoryID());
-
-            Services service =  Services.builder()
+            Services service = Services.builder()
                     .serviceId(newService.getServiceID())
                     .serviceName(newService.getServiceName())
                     .description(newService.getDescription())

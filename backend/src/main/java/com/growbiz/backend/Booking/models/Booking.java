@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
+import java.util.Date;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -27,11 +30,11 @@ public class Booking {
     /* TODO: Establish relationship with Service entity */
     private Long serviceId;
 
-    private String date;
+    private Date date;
 
     @Column(name = "start_time")
-    private String startTime;
+    private LocalTime startTime;
 
     @Column(name = "end_time")
-    private String endTime;
+    private LocalTime endTime;
 }
