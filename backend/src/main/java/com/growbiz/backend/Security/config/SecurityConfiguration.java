@@ -44,6 +44,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.GET, "/category/**").hasAnyAuthority(Role.ADMIN.name(), Role.PARTNER.name(), Role.CUSTOMER.name())
                         .requestMatchers("/booking/**").hasAnyAuthority(Role.ADMIN.name(), Role.PARTNER.name(), Role.CUSTOMER.name())
+                        .requestMatchers(HttpMethod.GET, "/services/**").hasAnyAuthority(Role.ADMIN.name(), Role.PARTNER.name(), Role.CUSTOMER.name())
                         .requestMatchers("/services/**").hasAnyAuthority(Role.ADMIN.name(), Role.PARTNER.name())
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
                         .anyRequest().authenticated()
