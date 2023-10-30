@@ -1,4 +1,4 @@
-package com.growbiz.backend.Categories.helper;
+package com.growbiz.backend.Admin.helper;
 
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.CategoryResponse;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class CategoryControllerHelper {
+public class AdminControllerHelper {
 
     public ResponseEntity<CategoryResponse> createCategoryResponse(List<Category> categoriesList) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -32,5 +32,14 @@ public class CategoryControllerHelper {
                 .role(user.getRole())
                 .build());
     }
-}
 
+    public ResponseEntity<CategoryResponse> deleteCategoryResponse(Boolean isSubCategory, Boolean deleted) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(CategoryResponse.builder()
+                .isDeleted(deleted)
+                .isSubCategory(isSubCategory)
+                .subject(user.getEmail())
+                .role(user.getRole())
+                .build());
+    }
+}

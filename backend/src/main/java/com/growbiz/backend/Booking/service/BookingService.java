@@ -81,6 +81,21 @@ public class BookingService implements IBookingService {
         return booking;
     }
 
+    /**
+     * The method does the following things:
+     * 1. get all the current Week dates.
+     * 2. fetches the business hour of the given businessId.
+     * 3. fetch all the services of the given businessId.
+     * 4. fetch all the booking list of the services fetched in step3.
+     * 5. get free slots for all the days in the current week using getFreeSlots method.
+     * 6. sort the final list using the date and return it.
+     *
+     * @param businessId - businessId
+     * @param date       - date
+     * @param serviceId  - serviceId
+     * @return - map of Date and All the free slots
+     * @author - an370985@dal.ca
+     */
     @Override
     public Map<Date, List<SlotRange>> getFreeSlotsForWeek(Long businessId, Date date, Long serviceId) {
         Map<Date, List<SlotRange>> freeSlots = new HashMap<>();
@@ -98,6 +113,4 @@ public class BookingService implements IBookingService {
                         Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue, LinkedHashMap::new));
     }
-
-
 }

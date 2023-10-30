@@ -1,7 +1,7 @@
 package com.growbiz.backend.Admin.controller;
 
+import com.growbiz.backend.Admin.helper.AdminControllerHelper;
 import com.growbiz.backend.Admin.service.IAdminService;
-import com.growbiz.backend.Categories.helper.CategoryControllerHelper;
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.CategoryResponse;
 import com.growbiz.backend.Categories.models.SubCategory;
@@ -29,7 +29,7 @@ public class AdminController {
     private IAdminService adminService;
 
     @Autowired
-    private CategoryControllerHelper helper;
+    private AdminControllerHelper helper;
 
     @PostMapping(path = "/addCategory")
     public ResponseEntity<CategoryResponse> addCategory(@RequestBody Category newCategory) throws Exception {

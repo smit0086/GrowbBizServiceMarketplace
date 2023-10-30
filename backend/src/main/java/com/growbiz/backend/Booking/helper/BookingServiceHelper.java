@@ -63,7 +63,7 @@ public class BookingServiceHelper {
         LocalTime start = null;
         LocalTime end = null;
 
-        switch (DayOfWeek.valueOf(getDayOfWeek(date).toUpperCase())) {
+        switch (DayOfWeek.valueOf(getDayOfWeek(date))) {
             case MONDAY -> {
                 if (Objects.isNull(businessHour.getMonday_start())) {
                     break;
@@ -114,12 +114,6 @@ public class BookingServiceHelper {
                 end = businessHour.getSunday_end();
             }
         }
-        bookingList.forEach(booking -> {
-            System.out.println(sdf.format(date));
-            System.out.println(sdf.format(booking.getDate()));
-            System.out.println(sdf.format(date).equals(sdf.format(booking.getDate())));
-        });
-
         if (Objects.nonNull(start) && Objects.nonNull(end)) {
             return populateAllFreeSlots(start, end,
                     Duration.between(LocalTime.of(0, 0), servicesService.getServiceById(serviceId).getTimeRequired()).toMinutes(),
@@ -131,11 +125,11 @@ public class BookingServiceHelper {
     /**
      * Algorithm to populate all the free slots
      *
-     * @param start
-     * @param end
-     * @param duration
-     * @param bookingList
-     * @return
+     * @param start       - start time
+     * @param end         - end time
+     * @param duration    - total duration taken by the service
+     * @param bookingList - the booking list
+     * @return - list of free slots
      * @author - an370985@dal.ca
      */
     private List<SlotRange> populateAllFreeSlots(LocalTime start, LocalTime end, long duration, List<Booking> bookingList) {
@@ -163,9 +157,15 @@ public class BookingServiceHelper {
         return freeSlots;
     }
 
+    /**
+     * This method gets the day of the given date
+     *
+     * @param date - date
+     * @return - day
+     */
     private String getDayOfWeek(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        return new SimpleDateFormat("EEEE").format(cal.getTime());
+        return new SimpleDateFormat("EEEE").format(cal.getTime()).toUpperCase();
     }
 }
