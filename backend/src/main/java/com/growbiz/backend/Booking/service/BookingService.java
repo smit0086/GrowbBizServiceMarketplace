@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -89,7 +90,13 @@ public class BookingService implements IBookingService {
         List<Booking> bookingList = new ArrayList<>();
         servicesList.forEach(services -> bookingList.addAll(findByServiceId(services.getServiceId())));
         dateListOfCurrentWeek.forEach(day -> freeSlots.put(day, helper.getFreeSlots(date, businessHour, serviceId, bookingList)));
-        return freeSlots;
+        return freeSlots.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
     }
 
 

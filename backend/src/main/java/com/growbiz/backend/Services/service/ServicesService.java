@@ -72,7 +72,6 @@ public class ServicesService implements IServicesService {
             Business business = businessService.findById(newService.getBusinessID());
             SubCategory subCategory = subCategoryService.getSubCategoryByID(newService.getSubCategoryID());
             Services service = Services.builder()
-                    .serviceId(newService.getServiceID())
                     .serviceName(newService.getServiceName())
                     .description(newService.getDescription())
                     .timeRequired(newService.getTimeRequired())
@@ -82,6 +81,7 @@ public class ServicesService implements IServicesService {
 
             return iServiceRepository.save(service);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

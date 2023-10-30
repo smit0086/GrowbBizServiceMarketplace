@@ -114,6 +114,12 @@ public class BookingServiceHelper {
                 end = businessHour.getSunday_end();
             }
         }
+        bookingList.forEach(booking -> {
+            System.out.println(sdf.format(date));
+            System.out.println(sdf.format(booking.getDate()));
+            System.out.println(sdf.format(date).equals(sdf.format(booking.getDate())));
+        });
+
         if (Objects.nonNull(start) && Objects.nonNull(end)) {
             return populateAllFreeSlots(start, end,
                     Duration.between(LocalTime.of(0, 0), servicesService.getServiceById(serviceId).getTimeRequired()).toMinutes(),
