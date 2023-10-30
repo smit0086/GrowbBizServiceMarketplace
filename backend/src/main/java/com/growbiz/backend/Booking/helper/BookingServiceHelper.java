@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -117,7 +118,13 @@ public class BookingServiceHelper {
         if (Objects.nonNull(start) && Objects.nonNull(end)) {
             return populateAllFreeSlots(start, end,
                     Duration.between(LocalTime.of(0, 0), servicesService.getServiceById(serviceId).getTimeRequired()).toMinutes(),
-                    bookingList.stream().filter(booking -> sdf.format(date).equals(sdf.format(booking.getDate()))).toList());
+                    bookingList.stream().filter(booking -> {
+                        try {
+                            return date.equals(sdf.parse(booking.getDate()));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }).toList());
         }
         return freeSlots;
     }

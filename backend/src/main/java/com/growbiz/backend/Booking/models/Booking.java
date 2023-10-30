@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
-import java.util.Date;
 
 @Data
 @Builder
@@ -30,7 +29,7 @@ public class Booking {
     /* TODO: Establish relationship with Service entity */
     private Long serviceId;
 
-    private Date date;
+    private String date;
 
     @Column(name = "start_time")
     private LocalTime startTime;

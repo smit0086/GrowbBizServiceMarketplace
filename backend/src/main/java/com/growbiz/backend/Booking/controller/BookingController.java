@@ -50,7 +50,7 @@ public class BookingController {
 
     @GetMapping(path = "/getSlot/{businessId}/{serviceId}")
     public ResponseEntity<FreeSlotsResponse> getFreeTimeSlots(@PathVariable Long businessId, @PathVariable Long serviceId, @RequestParam("date") String dateString) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = formatter.parse(dateString);
         return helper.createFreeSlotsResponse(bookingService.getFreeSlotsForWeek(businessId, date, serviceId));
     }
