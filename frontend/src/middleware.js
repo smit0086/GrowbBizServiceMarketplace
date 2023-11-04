@@ -10,9 +10,10 @@ const protected_routes = {
         "/partner/dashboard",
         "/partner/business/status",
         "/partner/business/create",
+        "/partner/business/operating-hours",
         "/partner/business/service"
     ],
-    ADMIN: ["/admin/dashboard", "/admin/business/verify"],
+    ADMIN: ["/admin/dashboard", "/admin/business/verify", "/admin/category", "/admin/category/update", "/admin/category/create"],
 };
 
 const flattened_protected_routes = [
@@ -72,6 +73,12 @@ export default withAuth(
                             return NextResponse.redirect(
                                 new URL("/partner/business/status", req.url)
                             );
+                        }
+                    } else {
+                        if (
+                            req.nextUrl.pathname === "/partner/business/status"
+                        ) {
+                            return NextResponse.redirect(new URL("/", req.url));
                         }
                     }
                     if (req.nextUrl.pathname === "/partner/business/create") {

@@ -60,7 +60,6 @@ const BusinessForm = ({
     businessId,
 }) => {
     const session = useSession();
-    console.log(session);
     const [isLoading, setIsLoading] = React.useState(false);
     const form = useForm({
         resolver: zodResolver(formSchema),
@@ -147,9 +146,9 @@ const BusinessForm = ({
                                                         categories.map(
                                                             (category) => (
                                                                 <SelectItem
-                                                                    value={`${category.id}`}
+                                                                    value={`${category.categoryID}`}
                                                                     key={
-                                                                        category.id
+                                                                        category.categoryID
                                                                     }
                                                                 >
                                                                     {

@@ -1,8 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-import PendingBusinessesLoader  from "@/app/admin/business/verify/components/PendingBusinessesLoader";
-import Navbar from "@/components/modules/Navbar/Navbar";
+import PendingBusinessesLoader from "./components/PendingBusinessesLoader";
 import { getAllCategories } from "@/services/categoryService";
 
 export default async function BusinessApproval() {
@@ -11,8 +10,10 @@ export default async function BusinessApproval() {
 
     return (
         <>
-            <Navbar callbackUrl="/admin/login" />
-            <PendingBusinessesLoader authSession={authSession} categories={categories} />
+            <PendingBusinessesLoader
+                authSession={authSession}
+                categories={categories}
+            />
         </>
     );
 }

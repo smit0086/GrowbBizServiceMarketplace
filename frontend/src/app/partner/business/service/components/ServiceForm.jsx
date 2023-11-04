@@ -31,6 +31,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
     serviceName: z.string({
@@ -38,7 +39,13 @@ const formSchema = z.object({
     }).min(1),
     price: z.number({
         required_error: ERROR_MESSAGE.REQUIRED
-    }).min(0)
+    }).min(0),
+    timeRequired: z.number({
+        required_error: ERROR_MESSAGE.REQUIRED
+    }).min(0),
+    description: z.string({
+        required_error: ERROR_MESSAGE.REQUIRED
+    }).min(1)
 })
 
 const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, setRenderServiceForm, formDefaults, setFormDefaults, title, subtitle, buttonText }) => {
@@ -47,12 +54,15 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
         defaultValues: {
             serviceName: formDefaults?.serviceName,
             price: formDefaults?.servicePrice,
+            timeRequired: formDefaults?.timeRequired,
+            description: formDefaults?.description
         }
     });
     const [isLoading, setLoading] = useState(false);
 
     const onSubmit = async (data) => {
         setLoading(true);
+        console.log(data);
         if (formDefaults === undefined || formDefaults === null) {
             const maxServiceId = services.reduce((maxId, service) => {
                 return Math.max(maxId, parseInt(service.serviceId, 10));
@@ -61,6 +71,8 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
                 serviceId: (maxServiceId + 1).toString(),
                 serviceName: data.serviceName,
                 servicePrice: data.price,
+                timeRequired: data.timeRequired,
+                description: data.description
             };
             setServices((prevServices) => [...prevServices, newService]);
             setRenderServiceForm(false);
@@ -75,6 +87,8 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
                             ...service,
                             serviceName: data.serviceName,
                             servicePrice: data.price,
+                            timeRequired: data.timeRequired,
+                            description: data.description
                         };
                     }
                     return service;
@@ -157,6 +171,48 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
                                                     onChange={(e) => {
                                                         field.onChange(parseFloat(e.target.value));
                                                     }}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="grid gap-2">
+                                <FormField
+                                    control={form.control}
+                                    name="timeRequired"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Time Required (Minutes)</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="time required"
+                                                    {...field}
+                                                    type="number"
+                                                    defaultValue={field.value}
+                                                    min={0}
+                                                    onChange={(e) => {
+                                                        field.onChange(parseInt(e.target.value));
+                                                    }}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="grid gap-2">
+                                <FormField
+                                    control={form.control}
+                                    name="description"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Description</FormLabel>
+                                            <FormControl>
+                                                <Textarea
+                                                    placeholder="provide a description about service"
+                                                    {...field}
                                                 />
                                             </FormControl>
                                             <FormMessage />
