@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -30,8 +32,8 @@ public class Booking {
     private String date;
 
     @Column(name = "start_time")
-    private String startTime;
+    private LocalTime startTime;
 
     @Column(name = "end_time")
-    private String endTime;
+    private LocalTime endTime;
 }

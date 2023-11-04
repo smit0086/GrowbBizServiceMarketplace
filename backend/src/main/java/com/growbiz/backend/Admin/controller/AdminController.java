@@ -1,19 +1,21 @@
 package com.growbiz.backend.Admin.controller;
 
-import com.growbiz.backend.Exception.exceptions.CategoryNotFoundException;
-import com.growbiz.backend.Exception.exceptions.CategoryAlreadyExistsException;
-import com.growbiz.backend.Exception.exceptions.SubCategoryNotFoundException;
-import com.growbiz.backend.Exception.exceptions.SubCategoryAlreadyExistsException;
+import com.growbiz.backend.Admin.helper.AdminControllerHelper;
 import com.growbiz.backend.Admin.service.IAdminService;
-import com.growbiz.backend.Categories.helper.CategoriesControllerHelper;
 import com.growbiz.backend.Categories.models.Category;
-import com.growbiz.backend.Categories.models.CategoryRequest;
 import com.growbiz.backend.Categories.models.CategoryResponse;
 import com.growbiz.backend.Categories.models.SubCategory;
+import com.growbiz.backend.Exception.exceptions.CategoryAlreadyExistsException;
+import com.growbiz.backend.Exception.exceptions.CategoryNotFoundException;
+import com.growbiz.backend.Exception.exceptions.SubCategoryAlreadyExistsException;
+import com.growbiz.backend.Exception.exceptions.SubCategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -27,17 +29,7 @@ public class AdminController {
     private IAdminService adminService;
 
     @Autowired
-    private CategoriesControllerHelper helper;
-
-    @GetMapping(path = "/allCategories")
-    public ResponseEntity<CategoryResponse> getAllCategories() {
-        return helper.createCategoryResponse(adminService.fetchAllCategories());
-    }
-
-    @GetMapping(path = "/get")
-    public ResponseEntity<CategoryResponse> getCategory(@RequestBody CategoryRequest categoryRequest) {
-        return helper.createCategoryResponse(List.of(adminService.fetchCategoryByID(categoryRequest.getCategoryID())));
-    }
+    private AdminControllerHelper helper;
 
     @PostMapping(path = "/addCategory")
     public ResponseEntity<CategoryResponse> addCategory(@RequestBody Category newCategory) throws Exception {
@@ -70,16 +62,6 @@ public class AdminController {
         } else {
             throw new CategoryNotFoundException("The specified category for deletion in not found");
         }
-    }
-
-    @GetMapping(path = "/allSubCategories")
-    public ResponseEntity<CategoryResponse> getAllSubCategories() {
-        return helper.createSubCategoryResponse(adminService.fetchAllSubCategories());
-    }
-
-    @GetMapping(path = "/getSub")
-    public ResponseEntity<CategoryResponse> getSubCategory(@RequestBody CategoryRequest categoryRequest) {
-        return helper.createSubCategoryResponse(List.of(adminService.fetchSubCategoryByID(categoryRequest.getCategoryID())));
     }
 
     @PostMapping(path = "/addSubCategory")

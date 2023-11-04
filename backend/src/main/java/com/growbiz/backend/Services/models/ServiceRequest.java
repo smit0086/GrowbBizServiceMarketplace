@@ -1,7 +1,6 @@
 package com.growbiz.backend.Services.models;
-import com.growbiz.backend.Responses.model.BasicRequest;
 
-import jakarta.validation.constraints.NotBlank;
+import com.growbiz.backend.Responses.model.BasicRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

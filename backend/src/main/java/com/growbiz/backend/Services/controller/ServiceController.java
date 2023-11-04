@@ -1,6 +1,6 @@
 package com.growbiz.backend.Services.controller;
 
-import com.growbiz.backend.Categories.helper.CategoriesControllerHelper;
+import com.growbiz.backend.Categories.helper.CategoryControllerHelper;
 import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.ServiceNotFoundException;
 import com.growbiz.backend.Services.helper.ServicesControllerHelper;
@@ -23,7 +23,7 @@ public class ServiceController {
     private IServicesService servicesService;
 
     @Autowired
-    private CategoriesControllerHelper categoryHelper;
+    private CategoryControllerHelper categoryHelper;
 
     @Autowired
     private ServicesControllerHelper serviceHelper;
