@@ -1,6 +1,7 @@
 package com.growbiz.backend.Booking.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.User.models.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,8 +27,10 @@ public class Booking {
     @JsonIgnore
     private User user;
 
-    /* TODO: Establish relationship with Service entity */
-    private Long serviceId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id", referencedColumnName = "serviceId")
+    @JsonIgnore
+    private Services service;
 
     private String date;
 

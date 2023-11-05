@@ -14,5 +14,5 @@ public interface IBookingRepository extends CrudRepository<Booking, Long> {
     @Query("FROM Booking b WHERE b.user.id = :userId")
     List<Booking> findByUserId(@Param("userId") Long userId);
 
-    List<Booking> findByServiceId(Long serviceId);
+    List<Booking> findByServiceServiceId(Long serviceId);
 }
