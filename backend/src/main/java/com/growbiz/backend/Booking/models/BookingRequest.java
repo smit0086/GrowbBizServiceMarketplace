@@ -7,6 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalTime;
+
 
 @Data
 @SuperBuilder
@@ -21,7 +23,7 @@ public class BookingRequest extends BasicRequest {
 
     private String date;
 
-    private String startTime;
+    private LocalTime startTime;
 
-    private String endTime;
+    private LocalTime endTime;
 }

@@ -76,7 +76,7 @@ export const getAllCategories = async (token) => {
     try {
         const re = await (
             await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/allCategories`,
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/category/allCategories`,
                 {
                     method: "get",
                     headers: {
