@@ -1,5 +1,7 @@
 package com.growbiz.backend.Categories.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.User.models.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -26,6 +28,8 @@ public class Category {
     @NotBlank
     private String tax;
 
-
+    @OneToOne(mappedBy = "category")
+    @JsonIgnore
+    private Business business;
 
 }
