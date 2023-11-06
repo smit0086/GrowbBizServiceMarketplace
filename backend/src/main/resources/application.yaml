@@ -1,25 +1,25 @@
 server:
-    port: 9002
+  port: 9002
 spring:
-    datasource:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        username: springuser
-        url: jdbc:mysql://mysql_db:3306/growbiz
-        password: spring
-    jpa:
-        hibernate:
-            ddl-auto: update
-    main:
-        allow-bean-definition-overriding: true
-        allow-circular-references: true
-    mail:
-        properties:
-            mail:
-                smtp:
-                    starttls:
-                        enable: true
-                    auth: true
-        host: smtp.gmail.com
-        username: smitpatel0045@gmail.com
-        password: xabp neyq wynk ufyt
-        port: 587
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: springuser
+    url: jdbc:mysql://mysql_db:3306/growbiz
+    password: spring
+  jpa:
+    hibernate:
+      ddl-auto: update
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+    host: smtp.gmail.com
+    username:
+    password:
+    port: 587
