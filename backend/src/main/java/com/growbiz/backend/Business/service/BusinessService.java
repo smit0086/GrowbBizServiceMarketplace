@@ -4,6 +4,7 @@ import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Business.model.BusinessRequest;
 import com.growbiz.backend.Business.model.BusinessStatus;
 import com.growbiz.backend.Business.repository.IBusinessRepository;
+import com.growbiz.backend.Categories.service.Super.ICategoryService;
 import com.growbiz.backend.Exception.exceptions.BusinessAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.BusinessNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class BusinessService implements IBusinessService {
     private IBusinessRepository businessRepository;
     @Autowired
     private IBusinessHourService businessHourService;
+
+    @Autowired
+    private ICategoryService categoryService;
 
     @Override
     public List<Business> fetchBusinesses(String status) {
@@ -74,7 +78,7 @@ public class BusinessService implements IBusinessService {
                 .email(businessRequest.getEmail())
                 .fileURL(fileURL)
                 .status(BusinessStatus.PENDING)
-                .categoryId(businessRequest.getCategoryId())
+                .category(categoryService.getCategoryByID(businessRequest.getCategoryId()))
                 .description(businessRequest.getDescription())
                 .build();
         Business savedBusiness = businessRepository.save(business);
@@ -91,7 +95,7 @@ public class BusinessService implements IBusinessService {
                 .email(businessRequest.getEmail())
                 .fileURL(fileURL)
                 .status(BusinessStatus.PENDING)
-                .categoryId(businessRequest.getCategoryId())
+                .category(categoryService.getCategoryByID(businessRequest.getCategoryId()))
                 .description(businessRequest.getDescription())
                 .build();
         businessRepository.save(business);
