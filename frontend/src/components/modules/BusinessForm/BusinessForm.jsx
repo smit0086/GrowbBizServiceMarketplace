@@ -146,9 +146,9 @@ const BusinessForm = ({
                                                         categories.map(
                                                             (category) => (
                                                                 <SelectItem
-                                                                    value={`${category.id}`}
+                                                                    value={`${category.categoryID}`}
                                                                     key={
-                                                                        category.id
+                                                                        category.categoryID
                                                                     }
                                                                 >
                                                                     {

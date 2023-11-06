@@ -6,6 +6,7 @@ const partnerNavItems = [
         title: "Operating hours",
         route: "/partner/business/operating-hours",
         icon: "clock",
+        iconClassNames: "w-10 p-1",
     },
 ];
 

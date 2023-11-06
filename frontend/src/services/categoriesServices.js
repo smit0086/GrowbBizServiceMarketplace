@@ -24,7 +24,7 @@ export const addCategory = async (token, category_name, tax) => {
 
 export const updateCategory = async (token, category_id, category_name, tax) => {
     const body = {
-        id: category_id,
+        categoryID: category_id,
         name: category_name,
         tax,
     };
@@ -49,7 +49,7 @@ export const updateCategory = async (token, category_id, category_name, tax) => 
 
 export const deleteCategory = async (token, category_id, category_name, tax) => {
     const body = {
-        id: category_id,
+        categoryID: category_id,
         name: category_name,
         tax,
     };
@@ -76,7 +76,7 @@ export const getAllCategories = async (token) => {
     try {
         const re = await (
             await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/allCategories`,
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/category/allCategories`,
                 {
                     method: "get",
                     headers: {

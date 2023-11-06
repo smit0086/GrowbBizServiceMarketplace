@@ -23,6 +23,8 @@ public class BusinessService implements IBusinessService {
     private IFileStorageService fileStorageService;
     @Autowired
     private IBusinessRepository businessRepository;
+    @Autowired
+    private IBusinessHourService businessHourService;
 
     @Override
     public List<Business> fetchBusinesses(String status) {
@@ -75,7 +77,8 @@ public class BusinessService implements IBusinessService {
                 .categoryId(businessRequest.getCategoryId())
                 .description(businessRequest.getDescription())
                 .build();
-        businessRepository.save(business);
+        Business savedBusiness = businessRepository.save(business);
+        businessHourService.init(savedBusiness.getBusinessId());
         return business;
     }
 
