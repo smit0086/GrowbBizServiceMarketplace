@@ -44,7 +44,7 @@ public class BusinessHourService implements IBusinessHourService {
             businessHour.saturday_start(LocalTime.parse(businessHourRequest.getBusinessHours().get(DayOfWeek.SATURDAY)[0]))
                     .saturday_end(LocalTime.parse(businessHourRequest.getBusinessHours().get(DayOfWeek.SATURDAY)[1]));
         }
-        if (businessHourRequest.getBusinessHours().containsKey(DayOfWeek.SATURDAY)) {
+        if (businessHourRequest.getBusinessHours().containsKey(DayOfWeek.SUNDAY)) {
             businessHour.sunday_start(LocalTime.parse(businessHourRequest.getBusinessHours().get(DayOfWeek.SUNDAY)[0]))
                     .sunday_end(LocalTime.parse(businessHourRequest.getBusinessHours().get(DayOfWeek.SUNDAY)[1]));
         }
