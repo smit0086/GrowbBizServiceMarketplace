@@ -18,6 +18,7 @@ public class ServiceRequest extends BasicRequest {
     private long serviceID;
     private String serviceName;
     private String description;
+    private double price;
     private LocalTime timeRequired;
     private long businessID;
     private long subCategoryID;

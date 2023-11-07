@@ -31,6 +31,9 @@ public class Services {
     private String description;
 
     @NotNull
+    private Double price;
+
+    @NotNull
     private LocalTime timeRequired;
 
     @ManyToOne(fetch = FetchType.LAZY)
