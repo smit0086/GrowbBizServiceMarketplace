@@ -36,4 +36,8 @@ public class Booking {
 
     @Column(name = "end_time")
     private LocalTime endTime;
+
+    private double amount;
+
+    private String note;
 }

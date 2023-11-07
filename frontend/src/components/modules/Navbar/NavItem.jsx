@@ -8,12 +8,12 @@ const NavItem = ({ icon, route, iconClassNames }) => {
     const Component = Icons[icon];
     const path = usePathname();
     return (
-        <Link href={route} className="inline-block mt-4">
+        <a href={route} className="inline-block mt-4">
             <Component
                 className={iconClassNames ?? undefined}
                 isFilled={path.startsWith(route)}
             />
-        </Link>
+        </a>
     );
 };
 

@@ -26,4 +26,8 @@ public class BookingRequest extends BasicRequest {
     private LocalTime startTime;
 
     private LocalTime endTime;
+
+    private double amount;
+
+    private String note;
 }

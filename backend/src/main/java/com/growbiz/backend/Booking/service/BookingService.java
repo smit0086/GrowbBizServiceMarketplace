@@ -76,6 +76,8 @@ public class BookingService implements IBookingService {
                 .date(bookingRequest.getDate())
                 .startTime(bookingRequest.getStartTime())
                 .endTime(bookingRequest.getEndTime())
+                .amount(bookingRequest.getAmount())
+                .note(bookingRequest.getNote())
                 .build();
         save(booking);
         return booking;

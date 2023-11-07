@@ -1,10 +1,7 @@
 package com.growbiz.backend.Business.controller;
 
 import com.growbiz.backend.Business.helper.BusinessControllerHelper;
-import com.growbiz.backend.Business.model.Business;
-import com.growbiz.backend.Business.model.BusinessHourRequest;
-import com.growbiz.backend.Business.model.BusinessResponse;
-import com.growbiz.backend.Business.model.VerificationRequest;
+import com.growbiz.backend.Business.model.*;
 import com.growbiz.backend.Business.service.IBusinessHourService;
 import com.growbiz.backend.Business.service.IBusinessService;
 import com.growbiz.backend.Business.service.IFileStorageService;
@@ -81,6 +78,12 @@ public class BusinessController {
     public ResponseEntity<String> updateBusinessHour(@RequestBody BusinessHourRequest businessHourRequest) {
         businessHourService.saveBusinessHours(businessHourRequest);
         return ResponseEntity.ok("Updated");
+    }
+
+    @GetMapping(path = "/businessHours")
+    public ResponseEntity<BusinessHourResponse> getBusinessHours(@RequestParam String businessId){
+        Long bId = Long.parseLong(businessId);
+        return helper.createBusinessHourResponse(businessHourService.getBusinessHour(bId));
     }
 
 }
