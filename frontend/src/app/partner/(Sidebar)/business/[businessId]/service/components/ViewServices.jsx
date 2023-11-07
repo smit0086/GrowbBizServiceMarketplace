@@ -42,7 +42,7 @@ const ViewServices = ({ authSession, predefinedServices, businessId, fetchedServ
                                     <div className="grid w-full items-center gap-4">
                                         <div className="flex flex-col space-y-1.5">
                                             <Label htmlFor={`service-${service.serviceId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Price per hour</Label>
-                                            <span id={`service-${service.serviceId}`} style={{ fontSize: '0.875rem' }}>{service.servicePrice} CAD</span>
+                                            <span id={`service-${service.serviceId}`} style={{ fontSize: '0.875rem' }}>{service.price} CAD</span>
                                         </div>
                                         <div className="flex flex-col space-y-1.5">
                                             <Label htmlFor={`service-${service.serviceId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Time required</Label>

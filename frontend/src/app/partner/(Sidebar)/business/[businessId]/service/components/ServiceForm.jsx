@@ -64,7 +64,7 @@ const ServiceForm = ({ authSession, predefinedServices, cancelButton, services, 
         resolver: zodResolver(formSchema),
         defaultValues: {
             serviceName: formDefaults?.serviceName,
-            price: formDefaults?.servicePrice,
+            price: formDefaults?.price,
             timeRequired: formDefaults?.timeRequired,
             description: formDefaults?.description,
         },
@@ -79,11 +79,11 @@ const ServiceForm = ({ authSession, predefinedServices, cancelButton, services, 
         const formattedHours = hours.toString().padStart(2, '0');
         const formattedMinutes = remainingMinutes.toString().padStart(2, '0');
         if (formDefaults === undefined || formDefaults === null) {
-            const addedService = await addService(authSession.apiToken, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId);
+            const addedService = await addService(authSession.apiToken, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price);
             const newService = {
                 serviceId: addedService.service_id,
                 serviceName: data.serviceName,
-                servicePrice: data.price,
+                price: data.price,
                 timeRequired: data.timeRequired,
                 description: data.description,
             };
@@ -91,14 +91,14 @@ const ServiceForm = ({ authSession, predefinedServices, cancelButton, services, 
             setRenderServiceForm(false);
         }
         else {
-            const updatedService = await updateService(authSession.apiToken, formDefaults.serviceId, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId);
+            const updatedService = await updateService(authSession.apiToken, formDefaults.serviceId, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price);
             setServices((prevServices) =>
                 prevServices.map((service) => {
                     if (service.serviceId === formDefaults.serviceId) {
                         return {
                             ...service,
                             serviceName: data.serviceName,
-                            servicePrice: data.price,
+                            price: data.price,
                             timeRequired: data.timeRequired,
                             description: data.description,
                         };
@@ -264,9 +264,9 @@ const ServiceForm = ({ authSession, predefinedServices, cancelButton, services, 
                                 type="submit"
                                 disabled={isLoading}
                             >
-                                {/* {isLoading && (
+                                {isLoading && (
                                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                                )} */}
+                                )}
                                 {buttonText}
                             </Button>
                         </CardFooter>

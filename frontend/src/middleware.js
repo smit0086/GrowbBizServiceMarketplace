@@ -8,10 +8,7 @@ const protected_routes = {
     CUSTOMER: ["/dashboard","/service/booking"],
     PARTNER: [
         "/partner/dashboard",
-        "/partner/business/status",
-        "/partner/business/create",
-        "/partner/business/operating-hours",
-        "/partner/business/service"
+        "/partner/business"
     ],
     ADMIN: ["/admin/dashboard", "/admin/business/verify", "/admin/category", "/admin/category/update", "/admin/category/create"],
 };

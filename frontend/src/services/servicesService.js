@@ -1,7 +1,8 @@
-export const addService = async (token, serviceName, description, timeRequired, businessID, subCategoryID) => {
+export const addService = async (token, serviceName, description, timeRequired, businessID, subCategoryID, price) => {
     const body = {
         serviceName,
         description,
+        price,
         timeRequired,
         businessID,
         subCategoryID
@@ -47,11 +48,12 @@ export const getServicesByBusinessId = async (token, businessID) => {
     }
 };
 
-export const updateService = async (token, serviceId, serviceName, description, timeRequired, businessID, subCategoryID) => {
+export const updateService = async (token, serviceId, serviceName, description, timeRequired, businessID, subCategoryID, price) => {
     const body = {
         serviceID: serviceId,
         serviceName,
         description,
+        price,
         timeRequired,
         businessID,
         subCategoryID

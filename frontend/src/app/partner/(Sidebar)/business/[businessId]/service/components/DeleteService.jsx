@@ -55,9 +55,9 @@ const DeleteService = ({ authSession, service, services, setServices }) => {
                         </div>
                         <DialogFooter>
                             <Button type="submit" disabled={isLoading}>
-                                {/* {isLoading && (
+                                {isLoading && (
                                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                                )} */}
+                                )}
                                 Confirm
                             </Button>
                         </DialogFooter>
