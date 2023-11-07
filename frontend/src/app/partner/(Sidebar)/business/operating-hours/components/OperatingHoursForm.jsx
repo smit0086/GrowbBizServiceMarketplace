@@ -150,6 +150,7 @@ const OperatingHoursForm = ({ businessHours, businessId }) => {
                                             ).map((time) => (
                                                 <SelectItem
                                                     value={time.toString()}
+                                                    key={`start_${time}`}
                                                 >
                                                     {generateTimeString(time)}
                                                 </SelectItem>
@@ -175,6 +176,7 @@ const OperatingHoursForm = ({ businessHours, businessId }) => {
                                                     operatingHours[item].start
                                             ).map((time) => (
                                                 <SelectItem
+                                                    key={`end_${time}`}
                                                     value={time.toString()}
                                                 >
                                                     {generateTimeString(time)}
