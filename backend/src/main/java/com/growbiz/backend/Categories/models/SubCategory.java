@@ -25,5 +25,4 @@ public class SubCategory {
     @JoinColumn(name = "categoryID", referencedColumnName = "categoryID")
     @JsonIgnore
     private Category category;
-
 }

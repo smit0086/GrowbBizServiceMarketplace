@@ -2,6 +2,7 @@ package com.growbiz.backend.Admin.service;
 
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
+import com.growbiz.backend.Categories.models.SubCategoryRequest;
 import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +50,7 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public SubCategory addSubCategory(SubCategory newSubCategory) {
+    public SubCategory addSubCategory(SubCategoryRequest newSubCategory) {
         try {
             return subCategoryService.addSubCategory(newSubCategory);
         } catch (Exception e) {
@@ -58,9 +59,9 @@ public class AdminService implements IAdminService {
     }
 
     @Override
-    public SubCategory updateSubCategory(SubCategory updatedSubCategory) {
+    public SubCategory updateSubCategory(SubCategoryRequest updatedSubCategory) {
         try {
-            return subCategoryService.updateSubCategory(updatedSubCategory, updatedSubCategory.getCategory().getCategoryID());
+            return subCategoryService.updateSubCategory(updatedSubCategory, updatedSubCategory.getCategoryID());
         } catch (Exception e) {
             return null;
         }

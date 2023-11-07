@@ -1,6 +1,7 @@
 package com.growbiz.backend.Categories.service.Sub;
 
 import com.growbiz.backend.Categories.models.SubCategory;
+import com.growbiz.backend.Categories.models.SubCategoryRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,9 +11,9 @@ public interface ISubCategoryService {
 
     List<SubCategory> fetchSubCategoryList();
 
-    SubCategory addSubCategory(SubCategory newSubCategory);
+    SubCategory addSubCategory(SubCategoryRequest newSubCategory);
 
-    SubCategory updateSubCategory(SubCategory category, Long categoryID);
+    SubCategory updateSubCategory(SubCategoryRequest category, Long categoryID);
 
     void deleteSubCategory(Long categoryID);
 }

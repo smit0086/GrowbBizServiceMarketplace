@@ -5,6 +5,7 @@ import com.growbiz.backend.Admin.service.IAdminService;
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.CategoryResponse;
 import com.growbiz.backend.Categories.models.SubCategory;
+import com.growbiz.backend.Categories.models.SubCategoryRequest;
 import com.growbiz.backend.Exception.exceptions.CategoryAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.CategoryNotFoundException;
 import com.growbiz.backend.Exception.exceptions.SubCategoryAlreadyExistsException;
@@ -65,7 +66,7 @@ public class AdminController {
     }
 
     @PostMapping(path = "/addSubCategory")
-    public ResponseEntity<CategoryResponse> addSubCategory(@RequestBody SubCategory newSubCategory) throws Exception {
+    public ResponseEntity<CategoryResponse> addSubCategory(@RequestBody SubCategoryRequest newSubCategory) throws Exception {
         SubCategory subCategory = adminService.addSubCategory(newSubCategory);
 
         if (subCategory != null) {
@@ -76,7 +77,7 @@ public class AdminController {
     }
 
     @PostMapping(path = "/updateSubCategory")
-    public ResponseEntity<CategoryResponse> updateSubCategory(@RequestBody SubCategory updatedSubCategory) throws Exception {
+    public ResponseEntity<CategoryResponse> updateSubCategory(@RequestBody SubCategoryRequest updatedSubCategory) throws Exception {
         SubCategory subCategory = adminService.updateSubCategory(updatedSubCategory);
 
         if (subCategory != null) {

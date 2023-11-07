@@ -2,6 +2,8 @@ package com.growbiz.backend.Categories.service.Sub;
 
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
+import com.growbiz.backend.Categories.models.SubCategoryRequest;
+import com.growbiz.backend.Categories.repository.ICategoryRepository;
 import com.growbiz.backend.Categories.repository.ISubCategoryRepository;
 import com.growbiz.backend.Exception.exceptions.SubCategoryAlreadyExistsException;
 
@@ -18,6 +20,8 @@ import java.util.Objects;
 @Slf4j
 public class SubCategoryService implements ISubCategoryService {
 
+    @Autowired
+    ICategoryRepository iCategoryRepository;
     @Autowired
     ISubCategoryRepository iSubCategoryRepository;
 
@@ -41,10 +45,17 @@ public class SubCategoryService implements ISubCategoryService {
     }
 
     @Override
-    public SubCategory addSubCategory(SubCategory newSubCategory) {
+    public SubCategory addSubCategory(SubCategoryRequest newSubCategory) {
         try {
-            if(Objects.nonNull(iSubCategoryRepository.findByName(newSubCategory.getName()))) {
-                return iSubCategoryRepository.save(newSubCategory);
+            boolean checkSubCategoryExists = Objects.nonNull(iSubCategoryRepository.findByName(newSubCategory.getSubCategoryName()));
+
+            if(checkSubCategoryExists) {
+                Category category = iCategoryRepository.findById(newSubCategory.getCategoryID()).get();
+                SubCategory subCategoryToAdd =  SubCategory.builder()
+                        .name(newSubCategory.getSubCategoryName())
+                        .category(category)
+                        .build();
+                return iSubCategoryRepository.save(subCategoryToAdd);
             } else {
                 throw new SubCategoryAlreadyExistsException("SubCategory already Exists");
             }
@@ -54,17 +65,16 @@ public class SubCategoryService implements ISubCategoryService {
     }
 
     @Override
-    public SubCategory updateSubCategory(SubCategory subCategory, Long categoryID) {
+    public SubCategory updateSubCategory(SubCategoryRequest subCategory, Long categoryID) {
         try {
             SubCategory updatedSubCategory = iSubCategoryRepository.findById(subCategory.getSubCategoryID()).get();
 
-            Category category = iSubCategoryRepository.findByCategoryCategoryID(categoryID);
-
-            if (Objects.nonNull(subCategory.getName()) && !"".equalsIgnoreCase(subCategory.getName())) {
-                updatedSubCategory.setName(subCategory.getName());
+            if (Objects.nonNull(subCategory.getSubCategoryName()) && !"".equalsIgnoreCase(subCategory.getSubCategoryName())) {
+                updatedSubCategory.setName(subCategory.getSubCategoryName());
             }
 
-            if (Objects.nonNull(subCategory.getCategory().getCategoryID())) {
+            if (Objects.nonNull(subCategory.getCategoryID())) {
+                Category category = iCategoryRepository.findById(categoryID).get();
                 updatedSubCategory.setCategory(category);
             }
             return iSubCategoryRepository.save(updatedSubCategory);
