@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface IServiceRepository extends CrudRepository<Services, Long> {
 
-    //@Query("FROM Service s WHERE s.business.id = :businessId")
+    Services findByServiceNameAndBusinessBusinessId(String serviceName, Long businessId);
+
     List<Services> findByBusinessBusinessId(Long businessId);
 
-//    @Query("FROM Service b WHERE b.subCategory.id = :subCategoryId")
     List<Services> findBySubCategorySubCategoryID(Long subCategoryId);
 }
