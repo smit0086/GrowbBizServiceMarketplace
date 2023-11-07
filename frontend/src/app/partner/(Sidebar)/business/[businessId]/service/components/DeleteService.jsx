@@ -13,18 +13,18 @@ import {
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
+import { deleteService } from "@/services/servicesService";
 import { Icons } from "@/components/icons";
 
-const DeleteService = ({ service, services, setServices }) => {
+const DeleteService = ({ authSession, service, services, setServices }) => {
     const { handleSubmit } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [isDialogOpen, setDialogOpen] = useState(false);
 
     const handleDeleteService = async (data) => {
         setIsLoading(true);
-        const updatedServices = services.filter(
-            (s) => s.serviceId !== data.service.serviceId
-        );
+        const deletedService = await deleteService(authSession.apiToken, service.serviceId);
+        const updatedServices = services.filter((s) => s.serviceId !== data.service.serviceId);
         setServices(updatedServices);
         setIsLoading(false);
         setDialogOpen(false);

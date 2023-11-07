@@ -3,27 +3,29 @@
 import * as React from "react";
 import ServiceForm from "./ServiceForm";
 
-const AddService = ({ predefinedServices, cancelButton, services, setServices, setRenderAddService, formDefaults, setFormDefaults }) => {
-    const title = "Add Service";
-    const subtitle = "Please add a service for your business.";
-    const buttonText = "Add";
+const UpdateService = ({ authSession, predefinedServices, cancelButton, services, setServices, setRenderUpdateService, formDefaults, setFormDefaults, businessId }) => {
+    const title = "Update Service";
+    const subtitle = "Please update a service for your business.";
+    const buttonText = "Update";
 
     return (
         <>
             <ServiceForm
+                authSession={authSession}
                 predefinedServices={predefinedServices}
                 cancelButton={cancelButton}
                 services={services}
                 setServices={setServices}
-                setRenderServiceForm={setRenderAddService}
+                setRenderServiceForm={setRenderUpdateService}
                 formDefaults={formDefaults}
                 setFormDefaults={setFormDefaults}
                 title={title}
                 subtitle={subtitle}
                 buttonText={buttonText}
+                businessId={businessId}
             />
         </>
     );
 }
 
-export default AddService;
+export default UpdateService;

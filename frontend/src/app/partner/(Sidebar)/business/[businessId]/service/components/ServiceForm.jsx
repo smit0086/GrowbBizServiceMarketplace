@@ -32,6 +32,8 @@ import {
 } from "@/components/ui/card";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
+import { addService } from "@/services/servicesService";
+import { updateService } from "@/services/servicesService";
 import { Icons } from "@/components/icons";
 
 const formSchema = z.object({
@@ -57,55 +59,46 @@ const formSchema = z.object({
         .min(1),
 });
 
-const ServiceForm = ({
-    predefinedServices,
-    cancelButton,
-    services,
-    setServices,
-    setRenderServiceForm,
-    formDefaults,
-    setFormDefaults,
-    title,
-    subtitle,
-    buttonText,
-}) => {
+const ServiceForm = ({ authSession, predefinedServices, cancelButton, services, setServices, setRenderServiceForm, formDefaults, setFormDefaults, title, subtitle, buttonText, businessId }) => {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
             serviceName: formDefaults?.serviceName,
-            price: formDefaults?.servicePrice,
+            price: formDefaults?.price,
             timeRequired: formDefaults?.timeRequired,
             description: formDefaults?.description,
         },
     });
     const [isLoading, setLoading] = useState(false);
+    const [subCategoryId, setSubCategoryId] = useState();
 
     const onSubmit = async (data) => {
         setLoading(true);
-        console.log(data);
+        const hours = Math.floor(data.timeRequired / 60);
+        const remainingMinutes = data.timeRequired % 60;
+        const formattedHours = hours.toString().padStart(2, '0');
+        const formattedMinutes = remainingMinutes.toString().padStart(2, '0');
         if (formDefaults === undefined || formDefaults === null) {
-            const maxServiceId = services.reduce((maxId, service) => {
-                return Math.max(maxId, parseInt(service.serviceId, 10));
-            }, 0);
+            const addedService = await addService(authSession.apiToken, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price);
             const newService = {
-                serviceId: (maxServiceId + 1).toString(),
+                serviceId: addedService.service_id,
                 serviceName: data.serviceName,
-                servicePrice: data.price,
+                price: data.price,
                 timeRequired: data.timeRequired,
                 description: data.description,
             };
             setServices((prevServices) => [...prevServices, newService]);
             setRenderServiceForm(false);
-            console.log("New service added:");
-            console.log(newService);
-        } else {
+        }
+        else {
+            const updatedService = await updateService(authSession.apiToken, formDefaults.serviceId, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price);
             setServices((prevServices) =>
                 prevServices.map((service) => {
                     if (service.serviceId === formDefaults.serviceId) {
                         return {
                             ...service,
                             serviceName: data.serviceName,
-                            servicePrice: data.price,
+                            price: data.price,
                             timeRequired: data.timeRequired,
                             description: data.description,
                         };
@@ -115,10 +108,6 @@ const ServiceForm = ({
             );
             setFormDefaults(null);
             setRenderServiceForm(false);
-            console.log(
-                "Service updated with serviceId:",
-                formDefaults.serviceId
-            );
         }
 
         setLoading(false);
@@ -138,43 +127,53 @@ const ServiceForm = ({
                                 <FormField
                                     control={form.control}
                                     name="serviceName"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Service</FormLabel>
-                                            <Select
-                                                onValueChange={(e) => {
-                                                    field.onChange(e);
-                                                }}
-                                                defaultValue={field.value}
-                                            >
-                                                <FormControl>
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Select" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent position="popper">
-                                                    {predefinedServices &&
-                                                        predefinedServices.map(
-                                                            (
-                                                                predefinedService
-                                                            ) => (
-                                                                <SelectItem
-                                                                    value={`${predefinedService.predefinedServiceName}`}
-                                                                    key={
-                                                                        predefinedService.predefinedServiceId
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        predefinedService.predefinedServiceName
-                                                                    }
-                                                                </SelectItem>
-                                                            )
-                                                        )}
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                    render={({ field }) => {
+                                        const defaultValue = field.value;
+                                        const selectedService = predefinedServices.find(service => service.predefinedServiceName === defaultValue);
+
+                                        if (selectedService) {
+                                            setSubCategoryId(selectedService.predefinedServiceId);
+                                        }
+
+                                        return (
+                                            <FormItem>
+                                                <FormLabel>Service</FormLabel>
+                                                <Select
+                                                    onValueChange={(e) => {
+                                                        field.onChange(e);
+                                                        const selectedServiceId = predefinedServices.find(service => service.predefinedServiceName === e)?.predefinedServiceId;
+                                                        setSubCategoryId(selectedServiceId);
+                                                    }}
+                                                    defaultValue={field.value}
+                                                >
+                                                    <FormControl>
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Select" />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent position="popper">
+                                                        {predefinedServices &&
+                                                            predefinedServices.map(
+                                                                (predefinedService) => (
+                                                                    <SelectItem
+                                                                        value={`${predefinedService.predefinedServiceName}`}
+                                                                        key={
+                                                                            predefinedService.predefinedServiceId
+                                                                        }
+                                                                    >
+                                                                        {
+                                                                            predefinedService.predefinedServiceName
+                                                                        }
+                                                                    </SelectItem>
+                                                                )
+                                                            )}
+                                                    </SelectContent>
+                                                </Select>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )
+                                    }
+                                    }
                                 />
                             </div>
                             <div className="grid gap-2">
@@ -258,18 +257,13 @@ const ServiceForm = ({
                             </div>
                         </CardContent>
                         <CardFooter className="flex justify-between">
-                            {cancelButton && (
-                                <Button
-                                    variant="destructive"
-                                    type="button"
-                                    onClick={() => {
-                                        setRenderServiceForm(false);
-                                    }}
-                                >
-                                    Cancel
-                                </Button>
-                            )}
-                            <Button type="submit" disabled={isLoading}>
+                            {cancelButton &&
+                                <Button variant="destructive" type="button" onClick={() => { setRenderServiceForm(false) }}>Cancel</Button>
+                            }
+                            <Button
+                                type="submit"
+                                disabled={isLoading}
+                            >
                                 {isLoading && (
                                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                                 )}
