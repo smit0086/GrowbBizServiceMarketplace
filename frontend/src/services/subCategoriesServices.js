@@ -94,4 +94,23 @@ export const getAllCategories = async (token) => {
 };
 
 
-
+export const getAllSubCategories = async (token) => {
+    try {
+        const re = await (
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/category/allSubCategories`,
+                {
+                    method: "get",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+        ).json();
+        return re.subCategories;
+    } catch (err) {
+        console.error({ err });
+        return [];
+    }
+};

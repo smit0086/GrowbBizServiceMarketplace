@@ -13,14 +13,16 @@ import {
 } from "@/components/ui/dialog";
 import { useForm } from 'react-hook-form';
 import { Label } from "@/components/ui/label";
+import { deleteService } from "@/services/servicesService";
 
-const DeleteService = ({ service, services, setServices }) => {
+const DeleteService = ({ authSession, service, services, setServices }) => {
     const { handleSubmit } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [isDialogOpen, setDialogOpen] = useState(false);
 
     const handleDeleteService = async (data) => {
         setIsLoading(true);
+        const deletedService = await deleteService(authSession.apiToken, service.serviceId);
         const updatedServices = services.filter((s) => s.serviceId !== data.service.serviceId);
         setServices(updatedServices);
         setIsLoading(false);
@@ -47,9 +49,9 @@ const DeleteService = ({ service, services, setServices }) => {
                         </div>
                         <DialogFooter>
                             <Button type="submit" disabled={isLoading}>
-                                {isLoading && (
+                                {/* {isLoading && (
                                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                                )}
+                                )} */}
                                 Confirm
                             </Button>
                         </DialogFooter>
