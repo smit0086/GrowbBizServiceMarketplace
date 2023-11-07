@@ -43,8 +43,8 @@ public class AdminController {
     }
 
     @PostMapping(path = "/updateCategory")
-    public ResponseEntity<CategoryResponse> updateCategory(@RequestBody Category newCategory) throws Exception {
-        Category category = adminService.updateCategory(newCategory);
+    public ResponseEntity<CategoryResponse> updateCategory(@RequestBody Category updatedCategory) throws Exception {
+        Category category = adminService.updateCategory(updatedCategory);
 
         if (category != null) {
             return helper.createCategoryResponse(List.of(category));
@@ -65,8 +65,8 @@ public class AdminController {
     }
 
     @PostMapping(path = "/addSubCategory")
-    public ResponseEntity<CategoryResponse> addSubCategory(@RequestBody SubCategory newCategory) throws Exception {
-        SubCategory subCategory = adminService.addSubCategory(newCategory);
+    public ResponseEntity<CategoryResponse> addSubCategory(@RequestBody SubCategory newSubCategory) throws Exception {
+        SubCategory subCategory = adminService.addSubCategory(newSubCategory);
 
         if (subCategory != null) {
             return helper.createSubCategoryResponse(List.of(subCategory));
@@ -76,8 +76,8 @@ public class AdminController {
     }
 
     @PostMapping(path = "/updateSubCategory")
-    public ResponseEntity<CategoryResponse> updateSubCategory(@RequestBody SubCategory newCategory) throws Exception {
-        SubCategory subCategory = adminService.updateSubCategory(newCategory);
+    public ResponseEntity<CategoryResponse> updateSubCategory(@RequestBody SubCategory updatedSubCategory) throws Exception {
+        SubCategory subCategory = adminService.updateSubCategory(updatedSubCategory);
 
         if (subCategory != null) {
             return helper.createSubCategoryResponse(List.of(subCategory));
@@ -87,8 +87,8 @@ public class AdminController {
     }
 
     @PostMapping(path = "/deleteSubCategory")
-    public ResponseEntity<CategoryResponse> deleteSubCategory(@RequestBody SubCategory newSubCategory) throws Exception {
-        Boolean isDeleted = adminService.deleteSubCategory(newSubCategory);
+    public ResponseEntity<CategoryResponse> deleteSubCategory(@RequestBody SubCategory oldSubCategory) throws Exception {
+        Boolean isDeleted = adminService.deleteSubCategory(oldSubCategory);
 
         if (isDeleted) {
             return helper.deleteCategoryResponse(true, true);

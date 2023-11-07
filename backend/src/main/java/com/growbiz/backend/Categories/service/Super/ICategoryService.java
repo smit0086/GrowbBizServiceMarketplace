@@ -15,9 +15,9 @@ public interface ICategoryService {
 
     List<Category> fetchCategoryList();
 
-    Category addCategory(Category newCategory, Long newCategory_ID);
+    Category addCategory(Category newCategory);
 
-    Category updateCategory(Category category, Long categoryID);
+    Category updateCategory(Category category);
 
     void deleteCategory(Long categoryID);
 }

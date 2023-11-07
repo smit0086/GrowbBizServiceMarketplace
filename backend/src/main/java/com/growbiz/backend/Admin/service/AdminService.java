@@ -23,7 +23,7 @@ public class AdminService implements IAdminService {
     @Override
     public Category addCategory(Category newCategory) {
         try {
-            return categoryService.addCategory(newCategory, newCategory.getCategoryID());
+            return categoryService.addCategory(newCategory);
         } catch (Exception e) {
             return null;
         }
@@ -32,7 +32,7 @@ public class AdminService implements IAdminService {
     @Override
     public Category updateCategory(Category updatedCategory) {
         try {
-            return categoryService.updateCategory(updatedCategory, updatedCategory.getCategoryID());
+            return categoryService.updateCategory(updatedCategory);
         } catch (Exception e) {
             return null;
         }
@@ -51,7 +51,7 @@ public class AdminService implements IAdminService {
     @Override
     public SubCategory addSubCategory(SubCategory newSubCategory) {
         try {
-            return subCategoryService.addCategory(newSubCategory, newSubCategory.getSubCategoryID());
+            return subCategoryService.addSubCategory(newSubCategory);
         } catch (Exception e) {
             return null;
         }
@@ -60,7 +60,7 @@ public class AdminService implements IAdminService {
     @Override
     public SubCategory updateSubCategory(SubCategory updatedSubCategory) {
         try {
-            return subCategoryService.updateSubCategory(updatedSubCategory, updatedSubCategory.getSubCategoryID());
+            return subCategoryService.updateSubCategory(updatedSubCategory, updatedSubCategory.getCategory().getCategoryID());
         } catch (Exception e) {
             return null;
         }
@@ -69,7 +69,7 @@ public class AdminService implements IAdminService {
     @Override
     public Boolean deleteSubCategory(SubCategory subCategory) {
         try {
-            subCategoryService.deleteCategory(subCategory.getSubCategoryID());
+            subCategoryService.deleteSubCategory(subCategory.getSubCategoryID());
             return true;
         } catch (Exception e) {
             return false;

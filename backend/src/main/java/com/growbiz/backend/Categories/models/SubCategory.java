@@ -21,9 +21,9 @@ public class SubCategory {
     @NotBlank
     private String name;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "categoryID", referencedColumnName = "categoryID")
-//    @JsonIgnore
-//    private Category category;
-    private Long superCategoryID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoryID", referencedColumnName = "categoryID")
+    @JsonIgnore
+    private Category category;
+
 }

@@ -1,8 +1,6 @@
 package com.growbiz.backend.Categories.models;
 
-import com.growbiz.backend.User.models.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

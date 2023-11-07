@@ -8,14 +8,11 @@ import java.util.Optional;
 public interface ISubCategoryService {
     SubCategory getSubCategoryByID(Long categoryID);
 
-//    List<SubCategory> getByCategoryId(Long categoryId);
-
     List<SubCategory> fetchSubCategoryList();
 
-    //needs checking
-    SubCategory addCategory(SubCategory newSubCategory, Long newCategoryID);
+    SubCategory addSubCategory(SubCategory newSubCategory);
 
     SubCategory updateSubCategory(SubCategory category, Long categoryID);
 
-    void deleteCategory(Long categoryID);
+    void deleteSubCategory(Long categoryID);
 }
