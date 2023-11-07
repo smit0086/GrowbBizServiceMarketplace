@@ -11,8 +11,9 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
+import { Icons } from "@/components/icons";
 
 const DeleteService = ({ service, services, setServices }) => {
     const { handleSubmit } = useForm();
@@ -21,11 +22,13 @@ const DeleteService = ({ service, services, setServices }) => {
 
     const handleDeleteService = async (data) => {
         setIsLoading(true);
-        const updatedServices = services.filter((s) => s.serviceId !== data.service.serviceId);
+        const updatedServices = services.filter(
+            (s) => s.serviceId !== data.service.serviceId
+        );
         setServices(updatedServices);
         setIsLoading(false);
         setDialogOpen(false);
-    }
+    };
 
     return (
         <>
@@ -37,11 +40,16 @@ const DeleteService = ({ service, services, setServices }) => {
                     <DialogHeader>
                         <DialogTitle>Confirmation</DialogTitle>
                     </DialogHeader>
-                    <form onSubmit={handleSubmit((formData) => handleDeleteService({ service, formData }))}>
-                        <div style={{ marginBottom: '1.2rem' }}>
+                    <form
+                        onSubmit={handleSubmit((formData) =>
+                            handleDeleteService({ service, formData })
+                        )}
+                    >
+                        <div style={{ marginBottom: "1.2rem" }}>
                             <div>
                                 <Label htmlFor="name" className="text-right">
-                                    Are you sure you want to delete the {service.serviceName}?
+                                    Are you sure you want to delete the{" "}
+                                    {service.serviceName}?
                                 </Label>
                             </div>
                         </div>
@@ -58,6 +66,6 @@ const DeleteService = ({ service, services, setServices }) => {
             </Dialog>
         </>
     );
-}
+};
 
 export default DeleteService;
