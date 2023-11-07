@@ -11,9 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { getBusiness } from "@/services/businessService";
 import { getServerSession } from "next-auth";
-import Link from "next/link";
 import React from "react";
-import { BadgeCheck } from "lucide-react";
 import NavItem from "./NavItem";
 import ProfileMenuLogout from "./ProfileMenuLogout";
 import { ROLES } from "@/lib/constants";
@@ -31,9 +29,9 @@ const Navbar = async ({ navItems }) => {
 
     return (
         <div className="absolute p-3 z-50 bg-secondary flex flex-col w-16 h-screen justify-between items-center">
-            <Link href={`/${session.user.role.toLowerCase()}/dashboard`}>
+            <a href={`/${session.user.role.toLowerCase()}/dashboard`}>
                 <Icons.logo className="w-full p-1" />
-            </Link>
+            </a>
             <div className="h-full mt-24">
                 {navItems?.map((item) => (
                     <NavItem
@@ -52,7 +50,7 @@ const Navbar = async ({ navItems }) => {
                     >
                         <Avatar>
                             <AvatarImage
-                                src={`${process.env.NEXT_PUBLIC_CDN_ADDRESS}/avatar.svg`}
+                                src={`${process.env.NEXT_PUBLIC_CDN_ADDRESS}avatar.svg`}
                             />
                             <AvatarFallback>AV</AvatarFallback>
                         </Avatar>

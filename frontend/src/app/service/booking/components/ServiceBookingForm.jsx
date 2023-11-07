@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +10,7 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage
+    FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import {
@@ -40,20 +40,25 @@ import {
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import { Icons } from "@/components/icons";
 
 const formSchema = z.object({
     slotDate: z.date({
-        required_error: ERROR_MESSAGE.REQUIRED
+        required_error: ERROR_MESSAGE.REQUIRED,
     }),
     slotTime: z.string({
-        required_error: ERROR_MESSAGE.REQUIRED
+        required_error: ERROR_MESSAGE.REQUIRED,
     }),
-    note: z.string().optional()
-})
+    note: z.string().optional(),
+});
 
-const ServiceBookingForm = ({ service, availableDates, availableTimeSlots }) => {
+const ServiceBookingForm = ({
+    service,
+    availableDates,
+    availableTimeSlots,
+}) => {
     const form = useForm({
-        resolver: zodResolver(formSchema)
+        resolver: zodResolver(formSchema),
     });
     const { reset } = useForm();
     const [selectedDate, setSelectedDate] = useState();
@@ -63,11 +68,11 @@ const ServiceBookingForm = ({ service, availableDates, availableTimeSlots }) => 
         setLoading(true);
         console.log(data);
         setLoading(false);
-    }
+    };
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-    }
+    };
 
     return (
         <div className="grid h-screen">
@@ -75,8 +80,12 @@ const ServiceBookingForm = ({ service, availableDates, availableTimeSlots }) => 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
                         <CardHeader className="space-y-1">
-                            <CardTitle className="text-2xl">Service Booking</CardTitle>
-                            <CardDescription>Please book a service.</CardDescription>
+                            <CardTitle className="text-2xl">
+                                Service Booking
+                            </CardTitle>
+                            <CardDescription>
+                                Please book a service.
+                            </CardDescription>
                         </CardHeader>
                         <CardContent className="grid gap-4">
                             <div className="grid gap-2">
@@ -88,7 +97,8 @@ const ServiceBookingForm = ({ service, availableDates, availableTimeSlots }) => 
                             <div className="grid gap-2">
                                 <FormLabel>Service Price</FormLabel>
                                 <div className="text-gray-600">
-                                    {service.servicePrice} (Base Price) + {service.serviceTax}% (Tax)
+                                    {service.servicePrice} (Base Price) +{" "}
+                                    {service.serviceTax}% (Tax)
                                 </div>
                             </div>
                             <div className="grip gap-2">
@@ -106,28 +116,51 @@ const ServiceBookingForm = ({ service, availableDates, availableTimeSlots }) => 
                                                             variant={"outline"}
                                                             className={cn(
                                                                 "w-[240px] pl-3 text-left font-normal",
-                                                                !field.value && "text-muted-foreground"
+                                                                !field.value &&
+                                                                    "text-muted-foreground"
                                                             )}
                                                         >
                                                             {field.value ? (
-                                                                format(field.value, "PPP")
+                                                                format(
+                                                                    field.value,
+                                                                    "PPP"
+                                                                )
                                                             ) : (
-                                                                <span>Pick a date</span>
+                                                                <span>
+                                                                    Pick a date
+                                                                </span>
                                                             )}
                                                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                                         </Button>
                                                     </FormControl>
                                                 </PopoverTrigger>
-                                                <PopoverContent className="w-auto p-0" align="start">
+                                                <PopoverContent
+                                                    className="w-auto p-0"
+                                                    align="start"
+                                                >
                                                     <Calendar
                                                         mode="single"
                                                         selected={field.value}
                                                         onSelect={(date) => {
-                                                            field.onChange(date);
-                                                            handleDateChange(date);
+                                                            field.onChange(
+                                                                date
+                                                            );
+                                                            handleDateChange(
+                                                                date
+                                                            );
                                                         }}
                                                         disabled={(date) =>
-                                                            date < new Date("1900-01-01") || !availableDates.includes(date.toISOString().split('T')[0])
+                                                            date <
+                                                                new Date(
+                                                                    "1900-01-01"
+                                                                ) ||
+                                                            !availableDates.includes(
+                                                                date
+                                                                    .toISOString()
+                                                                    .split(
+                                                                        "T"
+                                                                    )[0]
+                                                            )
                                                         }
                                                         initialFocus
                                                     />
@@ -201,11 +234,10 @@ const ServiceBookingForm = ({ service, availableDates, availableTimeSlots }) => 
                             </div>
                         </CardContent>
                         <CardFooter className="flex justify-between">
-                            <Button variant="destructive" type="button">Cancel</Button>
-                            <Button
-                                type="submit"
-                                disabled={isLoading}
-                            >
+                            <Button variant="destructive" type="button">
+                                Cancel
+                            </Button>
+                            <Button type="submit" disabled={isLoading}>
                                 {isLoading && (
                                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                                 )}
@@ -217,6 +249,6 @@ const ServiceBookingForm = ({ service, availableDates, availableTimeSlots }) => 
             </Card>
         </div>
     );
-}
+};
 
 export default ServiceBookingForm;

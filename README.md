@@ -150,9 +150,9 @@
 <td><code>GET</code></td>
 <td><code>ALL</code></td>
 <td></td>
-<td>{[{"id": id, "name": name, "tax": tax}], "isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td>{[{"categoryID": id, "name": name, "tax": tax}], "isSubCategory": Boolean, "isDeleted": Boolean}</td>
 <td><code>YES</code></td>
-<td>This API is used to get all business categories for ALL users</td>
+<td>This API is used to fetch all business categories</td>
 <td></td>
 </tr>
 
@@ -161,9 +161,9 @@
 <td><code>GET</code></td>
 <td><code>ALL</code></td>
 <td></td>
-<td>{{"id": id, "name": name, "tax": tax}, "isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td>{{"categoryID": id, "name": name, "tax": tax}, "isSubCategory": Boolean, "isDeleted": Boolean}</td>
 <td><code>YES</code></td>
-<td>This API is used to get a specific business categories for ALL users</td>
+<td>This API is used to fetch a specific a business category by its ID</td>
 <td></td>
 </tr>
 
@@ -171,11 +171,143 @@
 <td><code>/admin/addCategory</code></td>
 <td><code>POST</code></td>
 <td><code>ADMIN</code></td>
-<td></td>
-<td>{{"id": id, "name": name, "tax": tax}, "isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td>{"name": name, "tax": tax}</td>
+<td>{{"categoryID": id, "name": name, "tax": tax}, "isSubCategory": Boolean, "isDeleted": Boolean}</td>
 <td><code>YES</code></td>
-<td>This API is used to get a specific business categories for ALL users</td>
+<td>This API is used to add a specific business category</td>
 <td></td>
+</tr>
+
+<tr>
+<td><code>/admin/updateCategory</code></td>
+<td><code>POST</code></td>
+<td><code>ADMIN</code></td>
+<td>{"categoryID": id, "name": name, "tax": tax}</td>
+<td>{{"categoryID": id, "name": name, "tax": tax}, "isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to update a specific business category</td>
+<td><ul><li>CategoryNotFoundException - 43102 - The specified category for update in not found</li></ul></td>
+</tr>
+
+<tr>
+<td><code>/admin/deleteCategory</code></td>
+<td><code>POST</code></td>
+<td><code>ADMIN</code></td>
+<td>{"categoryID": id, "name": name, "tax": tax}</td>
+<td>{"isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to delete a specific business category</td>
+<td><ul><li>CategoryNotFoundException - 43102 - The specified category for delete in not found</li></ul></td>
+</tr>
+
+<tr>
+<td><code>/admin/allSubCategories</code></td>
+<td><code>GET</code></td>
+<td><code>ALL</code></td>
+<td></td>
+<td>{[{"subCategoryID": id, "name": name, "tax": tax}], "isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to fetch all business subcategories</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>/admin/getSub</code></td>
+<td><code>GET</code></td>
+<td><code>ALL</code></td>
+<td></td>
+<td>{{"subCategoryID": id, "name": name, "tax": tax}, "isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to fetch a specific a business subcategory by its ID</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>/admin/addSubCategory</code></td>
+<td><code>POST</code></td>
+<td><code>ADMIN</code></td>
+<td>{"name": name, "tax": tax}</td>
+<td>{{"subCategoryID": id, "name": name, "tax": tax}, "isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to add a specific business subcategory</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>/admin/updateSubCategory</code></td>
+<td><code>POST</code></td>
+<td><code>ADMIN</code></td>
+<td>{"subCategoryID": id, "name": name, "tax": tax}</td>
+<td>{{"subCategoryID": id, "name": name, "tax": tax}, "isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to update a specific business subcategory</td>
+<td><ul><li>SubCategoryNotFoundException - 43202 - The specified category for update in not found</li></ul></td>
+</tr>
+
+<tr>
+<td><code>/admin/deleteSubCategory</code></td>
+<td><code>POST</code></td>
+<td><code>ADMIN</code></td>
+<td>{"subCategoryID": id, "name": name, "tax": tax}</td>
+<td>{"isSubCategory": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to delete a specific business subcategory</td>
+<td><ul><li>SubCategoryNotFoundException - 43202 - The specified subcategory for delete in not found</li></ul></td>
+</tr>
+
+<tr>
+<td><code>/admin/allServices</code></td>
+<td><code>GET</code></td>
+<td><code>ADMIN</code><code>PARTNER</code></td>
+<td></td>
+<td>{[{"serviceId": serviceId, "serviceName": serviceName, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}], "isUpdated": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to fetch all services</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>/admin/allServicesByBusinessId</code></td>
+<td><code>GET</code></td>
+<td><code>ADMIN</code><code>PARTNER</code></td>
+<td>@RequestParam businessID=businessID</td>
+<td>{[{"serviceId": serviceId, "serviceName": serviceName, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}], "isUpdated": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to fetch a specific a business service by its businessID</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>/admin/allServicesBySubCategoryId</code></td>
+<td><code>POST</code></td>
+<td><code>ADMIN</code></td>
+<td>@RequestParam subCategoryID=subCategoryID</td>
+<td>{[{"serviceId": serviceId, "serviceName": serviceName, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}], "isUpdated": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to add a specific a business service by its subCategoryID</td>
+<td></td>
+</tr>
+
+<tr>
+<td><code>/admin/updateService</code></td>
+<td><code>POST</code></td>
+<td><code>ADMIN</code></td>
+<td>{"serviceId": serviceId, "serviceName": serviceName, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}</td>
+<td>{[{"serviceId": serviceId, "serviceName": serviceName, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}], "isUpdated": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to update a specific business service</td>
+<td><ul><li>ServiceNotFoundException - 44002 - The specified business service for update in not found</li></ul></td>
+</tr>
+
+<tr>
+<td><code>/admin/deleteService</code></td>
+<td><code>POST</code></td>
+<td><code>ADMIN</code></td>
+<td>{"serviceId": serviceId, "serviceName": serviceName, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}</td>
+<td>{"isUpdated": Boolean, "isDeleted": Boolean}</td>
+<td><code>YES</code></td>
+<td>This API is used to delete a specific business service</td>
+<td><ul><li>ServiceNotFoundException - 44002 - The specified business service for delete in not found</li></ul></td>
 </tr>
 
 </tbody>
