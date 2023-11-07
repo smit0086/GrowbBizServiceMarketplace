@@ -171,3 +171,46 @@ export const downloadDocumentByEmail = async (token, email) => {
         console.log("err", err);
     }
 };
+
+export const getBusinessHours = async (token, businessId) => {
+    const endpoint = `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/business/businessHours?businessId=${businessId}`;
+    const resp = await fetch(endpoint, {
+        method: "get",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    try {
+        if (resp.ok) {
+            return await resp.json();
+        }
+        throw resp;
+    } catch (err) {
+        console.log("err", err);
+    }
+};
+
+export const saveBusinessHours = async (token, businessId, businessHours) => {
+    const endpoint = `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/business/businessHours`;
+    const resp = await fetch(endpoint, {
+        method: "put",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+            businessId: parseInt(businessId),
+            businessHours,
+        }),
+    });
+    try {
+        if (resp.ok) {
+            return true;
+        }
+        throw resp;
+    } catch (err) {
+        console.error("err", err);
+        return false;
+    }
+};

@@ -48,4 +48,11 @@ public class BusinessControllerHelper {
         }
         return BusinessConstants.DECLINED_MESSAGE;
     }
+
+    public ResponseEntity<BusinessHourResponse> createBusinessHourResponse(BusinessHour businessHour) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(BusinessHourResponse.builder().businessHour(businessHour).subject(user.getEmail())
+                .role(user.getRole())
+                .build());
+    }
 }
