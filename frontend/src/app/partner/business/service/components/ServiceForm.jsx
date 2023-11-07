@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,31 +32,51 @@ import {
 } from "@/components/ui/card";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
+import { Icons } from "@/components/icons";
 
 const formSchema = z.object({
-    serviceName: z.string({
-        required_error: ERROR_MESSAGE.REQUIRED
-    }).min(1),
-    price: z.number({
-        required_error: ERROR_MESSAGE.REQUIRED
-    }).min(0),
-    timeRequired: z.number({
-        required_error: ERROR_MESSAGE.REQUIRED
-    }).min(0),
-    description: z.string({
-        required_error: ERROR_MESSAGE.REQUIRED
-    }).min(1)
-})
+    serviceName: z
+        .string({
+            required_error: ERROR_MESSAGE.REQUIRED,
+        })
+        .min(1),
+    price: z
+        .number({
+            required_error: ERROR_MESSAGE.REQUIRED,
+        })
+        .min(0),
+    timeRequired: z
+        .number({
+            required_error: ERROR_MESSAGE.REQUIRED,
+        })
+        .min(0),
+    description: z
+        .string({
+            required_error: ERROR_MESSAGE.REQUIRED,
+        })
+        .min(1),
+});
 
-const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, setRenderServiceForm, formDefaults, setFormDefaults, title, subtitle, buttonText }) => {
+const ServiceForm = ({
+    predefinedServices,
+    cancelButton,
+    services,
+    setServices,
+    setRenderServiceForm,
+    formDefaults,
+    setFormDefaults,
+    title,
+    subtitle,
+    buttonText,
+}) => {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
             serviceName: formDefaults?.serviceName,
             price: formDefaults?.servicePrice,
             timeRequired: formDefaults?.timeRequired,
-            description: formDefaults?.description
-        }
+            description: formDefaults?.description,
+        },
     });
     const [isLoading, setLoading] = useState(false);
 
@@ -72,14 +92,13 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
                 serviceName: data.serviceName,
                 servicePrice: data.price,
                 timeRequired: data.timeRequired,
-                description: data.description
+                description: data.description,
             };
             setServices((prevServices) => [...prevServices, newService]);
             setRenderServiceForm(false);
             console.log("New service added:");
             console.log(newService);
-        }
-        else {
+        } else {
             setServices((prevServices) =>
                 prevServices.map((service) => {
                     if (service.serviceId === formDefaults.serviceId) {
@@ -88,7 +107,7 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
                             serviceName: data.serviceName,
                             servicePrice: data.price,
                             timeRequired: data.timeRequired,
-                            description: data.description
+                            description: data.description,
                         };
                     }
                     return service;
@@ -96,11 +115,14 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
             );
             setFormDefaults(null);
             setRenderServiceForm(false);
-            console.log("Service updated with serviceId:", formDefaults.serviceId);
+            console.log(
+                "Service updated with serviceId:",
+                formDefaults.serviceId
+            );
         }
 
         setLoading(false);
-    }
+    };
 
     return (
         <div className="grid h-screen">
@@ -133,7 +155,9 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
                                                 <SelectContent position="popper">
                                                     {predefinedServices &&
                                                         predefinedServices.map(
-                                                            (predefinedService) => (
+                                                            (
+                                                                predefinedService
+                                                            ) => (
                                                                 <SelectItem
                                                                     value={`${predefinedService.predefinedServiceName}`}
                                                                     key={
@@ -159,7 +183,9 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
                                     name="price"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Pricer per hour</FormLabel>
+                                            <FormLabel>
+                                                Pricer per hour
+                                            </FormLabel>
                                             <FormControl>
                                                 <Input
                                                     placeholder="price"
@@ -169,7 +195,11 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
                                                     step="0.01"
                                                     min={0}
                                                     onChange={(e) => {
-                                                        field.onChange(parseFloat(e.target.value));
+                                                        field.onChange(
+                                                            parseFloat(
+                                                                e.target.value
+                                                            )
+                                                        );
                                                     }}
                                                 />
                                             </FormControl>
@@ -184,7 +214,9 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
                                     name="timeRequired"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Time Required (Minutes)</FormLabel>
+                                            <FormLabel>
+                                                Time Required (Minutes)
+                                            </FormLabel>
                                             <FormControl>
                                                 <Input
                                                     placeholder="time required"
@@ -193,7 +225,11 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
                                                     defaultValue={field.value}
                                                     min={0}
                                                     onChange={(e) => {
-                                                        field.onChange(parseInt(e.target.value));
+                                                        field.onChange(
+                                                            parseInt(
+                                                                e.target.value
+                                                            )
+                                                        );
                                                     }}
                                                 />
                                             </FormControl>
@@ -222,13 +258,18 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
                             </div>
                         </CardContent>
                         <CardFooter className="flex justify-between">
-                            {cancelButton &&
-                                <Button variant="destructive" type="button" onClick={() => { setRenderServiceForm(false) }}>Cancel</Button>
-                            }
-                            <Button
-                                type="submit"
-                                disabled={isLoading}
-                            >
+                            {cancelButton && (
+                                <Button
+                                    variant="destructive"
+                                    type="button"
+                                    onClick={() => {
+                                        setRenderServiceForm(false);
+                                    }}
+                                >
+                                    Cancel
+                                </Button>
+                            )}
+                            <Button type="submit" disabled={isLoading}>
                                 {isLoading && (
                                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                                 )}
@@ -240,6 +281,6 @@ const ServiceForm = ({ predefinedServices, cancelButton, services, setServices, 
             </Card>
         </div>
     );
-}
+};
 
 export default ServiceForm;
