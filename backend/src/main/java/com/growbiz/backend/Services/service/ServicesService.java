@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +34,8 @@ public class ServicesService implements IServicesService {
     @Override
     public Services getServiceById(Long serviceId) {
         try {
-            Services service = iServiceRepository.findById(serviceId).get();
-            return service;
+            Optional<Services> service = iServiceRepository.findById(serviceId);
+            return service.orElse(null);
         } catch (Exception e) {
             return null;
         }
