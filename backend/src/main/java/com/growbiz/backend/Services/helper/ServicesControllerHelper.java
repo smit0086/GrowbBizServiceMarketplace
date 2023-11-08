@@ -1,5 +1,8 @@
 package com.growbiz.backend.Services.helper;
 
+import com.growbiz.backend.Categories.models.Category;
+import com.growbiz.backend.Categories.models.CategoryResponse;
+import com.growbiz.backend.Responses.model.BasicResponse;
 import com.growbiz.backend.Security.service.JWTService;
 import com.growbiz.backend.Services.models.ServiceResponse;
 import com.growbiz.backend.Services.models.Services;
@@ -33,6 +36,10 @@ public class ServicesControllerHelper {
                 .subject(user.getEmail())
                 .role(user.getRole())
                 .build());
+    }
+
+    public ResponseEntity<ServiceResponse> taxValueRetrievedResponse(List<Services> service, String tax) {
+        return ResponseEntity.ok(ServiceResponse.builder().services(service).tax(tax).build());
     }
 }
 
