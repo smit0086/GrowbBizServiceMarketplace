@@ -69,25 +69,26 @@ public class JWTService {
     /**
      * Generate Token using only the userLogin details.
      *
-     * @param userLogin
+     * @param username
+     * @param role
      * @return
      */
-    public String generateToken(UserDetails userLogin, String role) {
+    public String generateToken(String username, String role) {
         Map<String, String> claims = new HashMap<>();
         claims.put("role", role);
-        return generateToken(claims, userLogin);
+        return generateToken(claims, username);
     }
 
     /**
      * Generate Token using the extraClaims.
      *
      * @param extraClaims
-     * @param userLogin
+     * @param username
      * @return
      */
-    public String generateToken(Map<String, String> extraClaims, UserDetails userLogin) {
+    public String generateToken(Map<String, String> extraClaims, String username) {
         return Jwts.builder().setClaims(extraClaims)
-                .setSubject(userLogin.getUsername())
+                .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24 * 24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)

@@ -43,7 +43,7 @@ public class UserAuthenticationService implements IUserAuthenticationService {
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
         userService.saveUser(userInfo);
         return AuthenticationResponse.builder()
-                .token(jwtService.generateToken(userInfo, userInfo.getRole().name()))
+                .token(jwtService.generateToken(userInfo.getUsername(), userInfo.getRole().name()))
                 .subject(userInfo.getEmail())
                 .role(userInfo.getRole())
                 .build();
@@ -54,11 +54,10 @@ public class UserAuthenticationService implements IUserAuthenticationService {
         authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken
                         (authenticationRequest.getEmail() + ":" + authenticationRequest.getRole().name(), authenticationRequest.getPassword()));
-        User userInfo = (User) userService.loadUserByUsername(authenticationRequest.getEmail() + ":" + authenticationRequest.getRole().name());
 
         return AuthenticationResponse.builder()
-                .token(jwtService.generateToken(userInfo, authenticationRequest.getRole().name()))
-                .subject(userInfo.getEmail())
+                .token(jwtService.generateToken(authenticationRequest.getEmail(), authenticationRequest.getRole().name()))
+                .subject(authenticationRequest.getEmail())
                 .role(authenticationRequest.getRole())
                 .build();
     }
