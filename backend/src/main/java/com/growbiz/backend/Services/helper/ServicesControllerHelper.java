@@ -1,5 +1,8 @@
 package com.growbiz.backend.Services.helper;
 
+import com.growbiz.backend.Categories.models.Category;
+import com.growbiz.backend.Categories.models.CategoryResponse;
+import com.growbiz.backend.Responses.model.BasicResponse;
 import com.growbiz.backend.Security.service.JWTService;
 import com.growbiz.backend.Services.models.ServiceResponse;
 import com.growbiz.backend.Services.models.Services;
@@ -16,7 +19,7 @@ public class ServicesControllerHelper {
     @Autowired
     private JWTService jwtService;
 
-    public ResponseEntity<ServiceResponse> createServiceResponse (List<Services> servicesList, Boolean isUpdated) {
+    public ResponseEntity<ServiceResponse> createServiceResponse(List<Services> servicesList, Boolean isUpdated) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.ok(ServiceResponse.builder()
                 .services(servicesList)
@@ -32,6 +35,16 @@ public class ServicesControllerHelper {
                 .isDeleted(deleted)
                 .subject(user.getEmail())
                 .role(user.getRole())
+                .build());
+    }
+
+    public ResponseEntity<ServiceResponse> createServiceResponseWithTax(List<Services> service, String tax) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(ServiceResponse.builder()
+                .services(service)
+                .subject(user.getEmail())
+                .role(user.getRole())
+                .tax(tax)
                 .build());
     }
 }
