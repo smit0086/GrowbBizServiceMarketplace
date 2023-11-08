@@ -19,7 +19,7 @@ public class ServicesControllerHelper {
     @Autowired
     private JWTService jwtService;
 
-    public ResponseEntity<ServiceResponse> createServiceResponse (List<Services> servicesList, Boolean isUpdated) {
+    public ResponseEntity<ServiceResponse> createServiceResponse(List<Services> servicesList, Boolean isUpdated) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.ok(ServiceResponse.builder()
                 .services(servicesList)
@@ -38,8 +38,14 @@ public class ServicesControllerHelper {
                 .build());
     }
 
-    public ResponseEntity<ServiceResponse> taxValueRetrievedResponse(List<Services> service, String tax) {
-        return ResponseEntity.ok(ServiceResponse.builder().services(service).tax(tax).build());
+    public ResponseEntity<ServiceResponse> createServiceResponseWithTax(List<Services> service, String tax) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(ServiceResponse.builder()
+                .services(service)
+                .subject(user.getEmail())
+                .role(user.getRole())
+                .tax(tax)
+                .build());
     }
 }
 

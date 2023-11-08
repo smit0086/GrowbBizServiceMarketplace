@@ -1,7 +1,6 @@
 package com.growbiz.backend.Services.controller;
 
 import com.growbiz.backend.Categories.helper.CategoryControllerHelper;
-import com.growbiz.backend.Categories.models.CategoryResponse;
 import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.ServiceNotFoundException;
 import com.growbiz.backend.Services.helper.ServicesControllerHelper;
@@ -44,17 +43,6 @@ public class ServiceController {
         return serviceHelper.createServiceResponse(servicesService.getServiceBySubCategoryId(subCategoryID), false);
     }
 
-    @GetMapping(path = "/getTaxByServiceId")
-    public ResponseEntity<ServiceResponse> getTaxByServiceId(@RequestParam Long serviceID) {
-        Services service = servicesService.getServiceById(serviceID);
-        if (service != null) {
-            String tax = servicesService.getTaxForService(service);
-            return serviceHelper.taxValueRetrievedResponse(List.of(service), tax);
-        } else {
-            throw new ServiceNotFoundException("The specified service is not found");
-        }
-    }
-
     @PostMapping(path = "/addService")
     public ResponseEntity<ServiceResponse> addService(@RequestBody ServiceRequest newService) {
         Services service = servicesService.addService(newService);
@@ -88,6 +76,12 @@ public class ServiceController {
 
     @GetMapping(path = "/getService")
     public ResponseEntity<ServiceResponse> getService(@RequestParam Long serviceId) {
-        return serviceHelper.createServiceResponse(List.of(servicesService.getServiceById(serviceId)), false);
+        Services service = servicesService.getServiceById(serviceId);
+        if (service != null) {
+            String tax = servicesService.getTaxForService(service);
+            return serviceHelper.createServiceResponseWithTax(List.of(service), tax);
+        } else {
+            throw new ServiceNotFoundException("The specified service is not found");
+        }
     }
 }
