@@ -49,7 +49,7 @@ build-backend:
         - issue-65
 
 code-quality-issue-job:
-    stage: issue
+    stage: build
     dependencies:
         - build-backend
     image: "python:3.10"
