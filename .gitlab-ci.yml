@@ -1,5 +1,6 @@
 stages:
     - build
+    - issue
     - publish
     - deploy
 
@@ -49,7 +50,7 @@ build-backend:
         - issue-65
 
 code-quality-issue-job:
-    stage: build
+    stage: issue
     dependencies:
         - build-backend
     image: "python:3.10"
