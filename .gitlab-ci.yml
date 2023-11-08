@@ -54,7 +54,7 @@ code-quality-issue-job:
         - build-backend
     image: "python:3.10"
     script:
-        - ls -a smells/
+        - ls -a $CI_PROJECT_DIR/smells/
         - pip install -r $CI_PROJECT_DIR/.gitlab/requirements.txt
         - python $CI_PROJECT_DIR/.gitlab/issue.py $CI_COMMIT_SHA
     only:
