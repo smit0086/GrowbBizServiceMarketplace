@@ -42,7 +42,7 @@ build-backend:
     artifacts:
         paths:
             - backend/target/backend-0.0.1-SNAPSHOT.jar
-            - smells/
+            - $CI_PROJECT_DIR/smells/
     only:
         - main
         - dev
