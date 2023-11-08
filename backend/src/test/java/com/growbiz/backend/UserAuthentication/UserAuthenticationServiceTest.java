@@ -44,7 +44,7 @@ public class UserAuthenticationServiceTest {
     private AuthenticationResponse expectedResponse;
 
     @Before
-    public void init() throws Exception {
+    public void init() {
         MockitoAnnotations.openMocks(this);
         expectedResponse = AuthenticationResponse.builder()
                 .token("tokenReturned")
