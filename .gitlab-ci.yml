@@ -1,5 +1,6 @@
 stages:
     - build
+    - issue
     - publish
     - deploy
 
@@ -37,9 +38,25 @@ build-backend:
         - echo "Building backend..."
         - cd backend
         - ./mvnw install
+        - echo "Identifying code smells..."
+        - java -jar $CI_PROJECT_DIR/.gitlab/DesigniteJava.jar -i $CI_PROJECT_DIR/backend/ -o $CI_PROJECT_DIR/smells/ -d
     artifacts:
         paths:
             - backend/target/backend-0.0.1-SNAPSHOT.jar
+            - $CI_PROJECT_DIR/smells/
+    only:
+        - main
+        - dev
+
+code-quality-issue-job:
+    stage: issue
+    dependencies:
+        - build-backend
+    image: "python:3.10"
+    script:
+        - ls -a $CI_PROJECT_DIR/smells/
+        - pip install -r $CI_PROJECT_DIR/.gitlab/requirements.txt
+        - python $CI_PROJECT_DIR/.gitlab/issue.py $CI_COMMIT_SHA
     only:
         - main
         - dev
