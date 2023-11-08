@@ -47,7 +47,6 @@ build-backend:
     only:
         - main
         - dev
-        - issue-65
 
 code-quality-issue-job:
     stage: issue
@@ -61,7 +60,6 @@ code-quality-issue-job:
     only:
         - main
         - dev
-        - issue-65
 
 deploy-dev-backend:
     stage: deploy
