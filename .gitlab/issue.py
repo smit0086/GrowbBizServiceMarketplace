@@ -5,7 +5,7 @@ from csv2md import table
 import csv
 
 commit = sys.argv[1]
-path_to_smells = "smells/"
+path_to_smells = os.environ['CI_PROJECT_DIR'] + "smells/"
 smell_files = [f for f in os.listdir(path_to_smells) if os.path.isfile(
     os.path.join(path_to_smells, f)) and str(f).strip().endswith(".csv")]
 
