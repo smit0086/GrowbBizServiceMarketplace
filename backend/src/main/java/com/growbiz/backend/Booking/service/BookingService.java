@@ -62,6 +62,11 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    public List<Booking> findByBusinessId(Long businessId) {
+        return bookingRepository.findByServiceBusinessBusinessId(businessId);
+    }
+
+    @Override
     public void save(Booking booking) {
         bookingRepository.save(booking);
     }

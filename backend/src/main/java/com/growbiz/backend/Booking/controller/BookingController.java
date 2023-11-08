@@ -48,6 +48,13 @@ public class BookingController {
         return helper.createBookingResponse(bookings);
     }
 
+    @GetMapping(path = "/business/{businessId}")
+    public ResponseEntity<BookingResponse> getAllBookingsByBusinessId(@PathVariable Long businessId) {
+        List<Booking> bookings = bookingService.findByBusinessId(businessId);
+
+        return helper.createBookingResponse(bookings);
+    }
+
     @GetMapping(path = "/getSlot/{businessId}/{serviceId}")
     public ResponseEntity<FreeSlotsResponse> getFreeTimeSlots(@PathVariable Long businessId, @PathVariable Long serviceId, @RequestParam("date") String dateString) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
