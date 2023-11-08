@@ -7,8 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface IBusinessRepository extends CrudRepository<Business, Long> {
-    public Business findByEmail(String email);
+    Business findByEmail(String email);
 
-    public List<Business> findByStatusEquals(BusinessStatus status);
-
+    List<Business> findByStatusEquals(BusinessStatus status);
 }

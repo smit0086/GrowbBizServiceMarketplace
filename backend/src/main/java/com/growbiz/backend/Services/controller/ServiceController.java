@@ -54,7 +54,7 @@ public class ServiceController {
     }
 
     @PutMapping(path = "/updateService")
-    public ResponseEntity<ServiceResponse> updateService(@RequestBody ServiceRequest newService) throws Exception {
+    public ResponseEntity<ServiceResponse> updateService(@RequestBody ServiceRequest newService) {
         Services updateService = servicesService.updateService(newService);
 
         if (updateService != null) {
@@ -65,12 +65,17 @@ public class ServiceController {
     }
 
     @DeleteMapping(path = "/deleteService")
-    public ResponseEntity<ServiceResponse> deleteService(@RequestBody Services oldService) throws Exception {
+    public ResponseEntity<ServiceResponse> deleteService(@RequestBody Services oldService) {
         Boolean isDeleted = servicesService.deleteService(oldService.getServiceId());
         if (isDeleted) {
             return serviceHelper.deleteServiceResponse(true);
         } else {
             throw new ServiceNotFoundException("The specified service for deletion in not found");
         }
+    }
+
+    @GetMapping(path = "/getService")
+    public ResponseEntity<ServiceResponse> getService(@RequestParam Long serviceId) {
+        return serviceHelper.createServiceResponse(List.of(servicesService.getServiceById(serviceId)), false);
     }
 }
