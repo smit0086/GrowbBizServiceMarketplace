@@ -282,7 +282,7 @@
 <td><code>POST</code></td>
 <td><code>ADMIN</code></td>
 <td>@RequestParam subCategoryID=subCategoryID</td>
-<td>{[{"serviceId": serviceId, "serviceName": serviceName, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}], "isUpdated": Boolean, "isDeleted": Boolean}</td>
+<td>{[{"serviceId": serviceId, "serviceName": serviceName,"price": price, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}], "isUpdated": Boolean, "isDeleted": Boolean}</td>
 <td><code>YES</code></td>
 <td>This API is used to add a specific a business service by its subCategoryID</td>
 <td></td>
@@ -292,7 +292,7 @@
 <td><code>/admin/updateService</code></td>
 <td><code>POST</code></td>
 <td><code>ADMIN</code></td>
-<td>{"serviceId": serviceId, "serviceName": serviceName, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}</td>
+<td>{"serviceId": serviceId, "serviceName": serviceName, "price": price, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}</td>
 <td>{[{"serviceId": serviceId, "serviceName": serviceName, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}], "isUpdated": Boolean, "isDeleted": Boolean}</td>
 <td><code>YES</code></td>
 <td>This API is used to update a specific business service</td>
@@ -303,7 +303,7 @@
 <td><code>/admin/deleteService</code></td>
 <td><code>POST</code></td>
 <td><code>ADMIN</code></td>
-<td>{"serviceId": serviceId, "serviceName": serviceName, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}</td>
+<td>{"serviceId": serviceId, "serviceName": serviceName,"price": price, "description": description, "timeRequired": timeRequired, "businessId": "businessId", "subCategoryId": "subCategoryId"}</td>
 <td>{"isUpdated": Boolean, "isDeleted": Boolean}</td>
 <td><code>YES</code></td>
 <td>This API is used to delete a specific business service</td>

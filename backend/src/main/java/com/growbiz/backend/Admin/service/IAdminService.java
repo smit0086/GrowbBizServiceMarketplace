@@ -2,6 +2,7 @@ package com.growbiz.backend.Admin.service;
 
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
+import com.growbiz.backend.Categories.models.SubCategoryRequest;
 
 public interface IAdminService {
 
@@ -11,9 +12,9 @@ public interface IAdminService {
 
     Boolean deleteCategory(Category category);
 
-    SubCategory addSubCategory(SubCategory subCategory);
+    SubCategory addSubCategory(SubCategoryRequest subCategory);
 
-    SubCategory updateSubCategory(SubCategory subCategory);
+    SubCategory updateSubCategory(SubCategoryRequest subCategory);
 
     Boolean deleteSubCategory(SubCategory subCategory);
 }

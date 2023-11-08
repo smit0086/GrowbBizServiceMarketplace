@@ -49,7 +49,7 @@ public class ServiceController {
         if (service != null) {
             return serviceHelper.createServiceResponse(List.of(service), false);
         } else {
-            throw new ServiceAlreadyExistsException("The requested new service to add, already exists!");
+             throw new ServiceAlreadyExistsException("The requested new service to add, already exists!");
         }
     }
 
