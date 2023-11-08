@@ -53,12 +53,17 @@ public class BookingService implements IBookingService {
 
     @Override
     public List<Booking> findByServiceId(Long serviceId) {
-        return bookingRepository.findByServiceId(serviceId);
+        return bookingRepository.findByServiceServiceId(serviceId);
     }
 
     @Override
     public List<Booking> findByUserId(Long userId) {
         return bookingRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<Booking> findByBusinessId(Long businessId) {
+        return bookingRepository.findByServiceBusinessBusinessId(businessId);
     }
 
     @Override
@@ -72,7 +77,7 @@ public class BookingService implements IBookingService {
         Booking booking = Booking
                 .builder()
                 .user(bookingUser)
-                .serviceId(bookingRequest.getServiceId())
+                .service(servicesService.getServiceById(bookingRequest.getServiceId()))
                 .date(bookingRequest.getDate())
                 .startTime(bookingRequest.getStartTime())
                 .endTime(bookingRequest.getEndTime())
