@@ -22,8 +22,7 @@ for sf in smell_files:
     title = str(sf).replace(".csv", "")+" for commit - "+str(commit)
     query_params = f"title={title}&labels=quality"
     body = {
-        "description": {raw_md},
-        "assignee_ids": [5181, 5121, 4464, 5174, 5210]
+        "description": {raw_md}
     }
     gitlab_output = requests.post(
         f"https://git.cs.dal.ca/api/v4/projects/77374/issues?{query_params}", headers=headers, data=body)
