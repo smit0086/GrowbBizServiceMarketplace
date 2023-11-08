@@ -76,6 +76,12 @@ public class ServiceController {
 
     @GetMapping(path = "/getService")
     public ResponseEntity<ServiceResponse> getService(@RequestParam Long serviceId) {
-        return serviceHelper.createServiceResponse(List.of(servicesService.getServiceById(serviceId)), false);
+        Services service = servicesService.getServiceById(serviceId);
+        if (service != null) {
+            String tax = servicesService.getTaxForService(service);
+            return serviceHelper.createServiceResponseWithTax(List.of(service), tax);
+        } else {
+            throw new ServiceNotFoundException("The specified service is not found");
+        }
     }
 }

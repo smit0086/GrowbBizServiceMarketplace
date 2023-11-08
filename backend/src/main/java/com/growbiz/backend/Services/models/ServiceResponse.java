@@ -12,6 +12,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class ServiceResponse extends BasicResponse {
     private List<Services> services;
+    private String tax;
     private Boolean isUpdated;
     private Boolean isDeleted;
 }

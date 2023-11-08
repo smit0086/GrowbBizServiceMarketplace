@@ -18,6 +18,8 @@ public interface IBookingService {
 
     List<Booking> findByUserId(Long userId);
 
+    List<Booking> findByBusinessId(Long businessId);
+
     void save(Booking booking);
 
     Booking save(BookingRequest bookingRequest);
