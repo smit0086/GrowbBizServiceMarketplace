@@ -28,7 +28,7 @@ public class Business {
 
     private BusinessStatus status;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "categoryID")
     @JsonIgnore
     private Category category;

@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 public class SubCategoryRequest extends BasicRequest {
     private long subCategoryID;
-    private String subCategoryName;
+    private String name;
     private long categoryID;
     private Boolean isSubCategory;
 }

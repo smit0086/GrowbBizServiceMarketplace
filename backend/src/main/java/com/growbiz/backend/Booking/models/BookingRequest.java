@@ -17,8 +17,6 @@ import java.time.LocalTime;
 @EqualsAndHashCode(callSuper = true)
 public class BookingRequest extends BasicRequest {
 
-    private Long userId;
-
     private Long serviceId;
 
     private String date;

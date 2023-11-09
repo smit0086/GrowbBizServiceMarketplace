@@ -7,7 +7,6 @@ import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
 import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
-import com.growbiz.backend.Exception.exceptions.ServiceNotFoundException;
 import com.growbiz.backend.Services.models.ServiceRequest;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.repository.IServiceRepository;
@@ -68,10 +67,10 @@ public class ServicesService implements IServicesService {
     @Override
     public String getTaxForService(Services service) {
         try {
-             SubCategory subCategory = service.getSubCategory();
-             Long categoryID = subCategory.getCategory().getCategoryID();
-             Category category = iCategoryService.getCategoryByID(categoryID);
-             return category.getTax();
+            SubCategory subCategory = service.getSubCategory();
+            Long categoryID = subCategory.getCategory().getCategoryID();
+            Category category = iCategoryService.getCategoryByID(categoryID);
+            return category.getTax();
         } catch (Exception e) {
             return null;
         }
@@ -91,11 +90,11 @@ public class ServicesService implements IServicesService {
         try {
             boolean checkNameAndBusiness =
                     Objects.nonNull(iServiceRepository.findByServiceNameAndBusinessBusinessId(
-                    newService.getServiceName(),
-                    newService.getBusinessID())
+                            newService.getServiceName(),
+                            newService.getBusinessID())
                     );
 
-            if(!checkNameAndBusiness){
+            if (!checkNameAndBusiness) {
                 Business business = businessService.findById(newService.getBusinessID());
                 SubCategory subCategory = subCategoryService.getSubCategoryByID(newService.getSubCategoryID());
                 Services service = Services.builder()
