@@ -3,7 +3,6 @@ package com.growbiz.backend.Categories.service.Super;
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.repository.ICategoryRepository;
 import com.growbiz.backend.Exception.exceptions.CategoryAlreadyExistsException;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public Category addCategory(Category newCategory) {
         try {
-            if(!Objects.nonNull(iCategoryRepository.findByName(newCategory.getName()))) {
+            if (iCategoryRepository.findByName(newCategory.getName()).isEmpty()) {
                 return iCategoryRepository.save(newCategory);
             } else {
                 throw new CategoryAlreadyExistsException("Category already Exists");
