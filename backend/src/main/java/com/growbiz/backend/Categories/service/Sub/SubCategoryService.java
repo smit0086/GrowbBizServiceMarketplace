@@ -46,9 +46,7 @@ public class SubCategoryService implements ISubCategoryService {
     @Override
     public SubCategory addSubCategory(SubCategoryRequest newSubCategory) {
         try {
-            boolean checkSubCategoryExists = iSubCategoryRepository.findByName(newSubCategory.getName()).isEmpty();
-
-            if (checkSubCategoryExists) {
+            if (iSubCategoryRepository.findByName(newSubCategory.getName()).isEmpty()) {
                 Category category = iCategoryRepository.findById(newSubCategory.getCategoryID()).get();
                 SubCategory subCategoryToAdd = SubCategory.builder()
                         .name(newSubCategory.getName())
