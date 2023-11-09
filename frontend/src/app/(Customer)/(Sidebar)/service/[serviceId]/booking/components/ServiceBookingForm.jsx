@@ -41,6 +41,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Icons } from "@/components/icons";
+import { bookService } from "@/services/bookingService";
 
 const formSchema = z.object({
     slotDate: z.date({
@@ -53,7 +54,9 @@ const formSchema = z.object({
 });
 
 const ServiceBookingForm = ({
+    authSession,
     service,
+    tax,
     availableDates,
     availableTimeSlots,
 }) => {
@@ -66,12 +69,19 @@ const ServiceBookingForm = ({
 
     const onSubmit = async (data) => {
         setLoading(true);
-        console.log(data);
+
+        const formattedDate = format(data.slotDate, 'yyyy-MM-dd');
+        const [startTimeStr, endTimeStr] = data.slotTime.split(" - ");
+        const startTime = startTimeStr.replace(" AM", "");
+        const endTime = endTimeStr.replace(" AM", "");
+
+        const bookedService = await bookService(authSession.apiToken, service.serviceId, formattedDate, startTime, endTime, service.price, data.note, authSession.user.email);
+
         setLoading(false);
     };
 
     const handleDateChange = (date) => {
-        setSelectedDate(date);
+        setSelectedDate(format(date, 'yyyy-MM-dd'));
     };
 
     return (
@@ -97,8 +107,8 @@ const ServiceBookingForm = ({
                             <div className="grid gap-2">
                                 <FormLabel>Service Price</FormLabel>
                                 <div className="text-gray-600">
-                                    {service.servicePrice} (Base Price) +{" "}
-                                    {service.serviceTax}% (Tax)
+                                    {service.price} (Base Price) +{" "}
+                                    {tax}% (Tax)
                                 </div>
                             </div>
                             <div className="grip gap-2">
@@ -117,7 +127,7 @@ const ServiceBookingForm = ({
                                                             className={cn(
                                                                 "w-[240px] pl-3 text-left font-normal",
                                                                 !field.value &&
-                                                                    "text-muted-foreground"
+                                                                "text-muted-foreground"
                                                             )}
                                                         >
                                                             {field.value ? (
@@ -151,9 +161,9 @@ const ServiceBookingForm = ({
                                                         }}
                                                         disabled={(date) =>
                                                             date <
-                                                                new Date(
-                                                                    "1900-01-01"
-                                                                ) ||
+                                                            new Date(
+                                                                "1900-01-01"
+                                                            ) ||
                                                             !availableDates.includes(
                                                                 date
                                                                     .toISOString()
@@ -192,7 +202,8 @@ const ServiceBookingForm = ({
                                                     </FormControl>
                                                     <SelectContent position="popper">
                                                         {availableTimeSlots &&
-                                                            availableTimeSlots.map(
+                                                            availableTimeSlots[selectedDate] &&
+                                                            availableTimeSlots[selectedDate].map(
                                                                 (timeSlot) => (
                                                                     <SelectItem
                                                                         value={`${timeSlot}`}

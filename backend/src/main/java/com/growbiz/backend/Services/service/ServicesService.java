@@ -69,7 +69,7 @@ public class ServicesService implements IServicesService {
     public String getTaxForService(Services service) {
         try {
              SubCategory subCategory = service.getSubCategory();
-             Long categoryID = subCategory.getSuperCategoryID();
+            Long categoryID = subCategory.getCategory().getCategoryID();
              Category category = iCategoryService.getCategoryByID(categoryID);
              return category.getTax();
         } catch (Exception e) {

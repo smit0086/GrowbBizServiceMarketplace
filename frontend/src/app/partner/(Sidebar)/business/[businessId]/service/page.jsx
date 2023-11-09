@@ -5,10 +5,9 @@ import { getAllSubCategories } from "@/services/subCategoriesServices";
 import { getBusiness } from "@/services/businessService";
 import { getServicesByBusinessId } from "@/services/servicesService";
 
-export default async function ServiceManagement() {
+export default async function ServiceManagement(context) {
     const authSession = await getServerSession(authOptions);
-    const business = await getBusiness(authSession.user.email, authSession.apiToken);
-    const businessId = business.businesses[0].businessId;
+    const businessId = Number(context.params.businessId);
     const subCategories = await getAllSubCategories(authSession.apiToken);
 
     function convertHHMMToMinutes(formattedTime) {

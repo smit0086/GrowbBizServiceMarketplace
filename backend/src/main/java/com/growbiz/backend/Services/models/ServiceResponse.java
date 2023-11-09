@@ -13,6 +13,7 @@ import java.util.List;
 public class ServiceResponse extends BasicResponse {
     private List<Services> services;
     private String tax;
+    private Long businessId;
     private Boolean isUpdated;
     private Boolean isDeleted;
 }
