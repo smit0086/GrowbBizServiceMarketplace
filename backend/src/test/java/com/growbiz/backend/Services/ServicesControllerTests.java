@@ -3,6 +3,7 @@ package com.growbiz.backend.Services;
 import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
+import com.growbiz.backend.Exception.exceptions.ServiceNotFoundException;
 import com.growbiz.backend.Services.controller.ServiceController;
 import com.growbiz.backend.Services.helper.ServicesControllerHelper;
 import com.growbiz.backend.Services.models.ServiceRequest;
@@ -97,6 +98,63 @@ public class ServicesControllerTests {
 
         assertThrows(ServiceAlreadyExistsException.class , () -> {
             serviceController.addService(mockServiceToAdd);
+        });
+    }
+
+    @Test
+    public void updateExistingServiceSuccessTest() {
+
+    }
+
+    @Test
+    public void updateNonExistingServiceSuccessTest() {
+
+    }
+
+    @Test
+    public void deleteServiceSuccessTest() {
+        Services mockServiceToDelete = Services
+                .builder()
+                .serviceId(1L)
+                .serviceName("Nail Care")
+                .description("Loren Epsom")
+                .price(24.00)
+                .business(mockBusiness)
+                .subCategory(mockSubCategory)
+                .build();
+
+        when(servicesService.deleteService(mockServiceToDelete.getServiceId())).thenReturn(true);
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().isDeleted(true).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+
+        when(servicesHelper.deleteServiceResponse(true)).thenReturn(expectedResponse);
+
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.deleteService(mockServiceToDelete);
+        assertEquals(expectedResponse, resultResponse);
+    }
+
+    @Test
+    public void deleteNonExistingServiceTest() {
+        Services mockServiceToDelete = Services
+                .builder()
+                .serviceId(0L)
+                .serviceName("Nail Care")
+                .description("Loren Epsom")
+                .price(24.00)
+                .business(mockBusiness)
+                .subCategory(mockSubCategory)
+                .build();
+
+        when(servicesService.deleteService(mockServiceToDelete.getServiceId())).thenReturn(false);
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().isDeleted(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+
+        when(servicesHelper.deleteServiceResponse(false)).thenReturn(expectedResponse);
+
+        assertThrows(ServiceNotFoundException.class , () -> {
+            serviceController.deleteService(mockServiceToDelete);
         });
     }
 }
