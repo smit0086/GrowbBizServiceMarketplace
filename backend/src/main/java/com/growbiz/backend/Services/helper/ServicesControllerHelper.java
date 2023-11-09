@@ -45,6 +45,7 @@ public class ServicesControllerHelper {
                 .subject(user.getEmail())
                 .role(user.getRole())
                 .tax(tax)
+                .businessId(service.get(0).getBusiness().getBusinessId())
                 .build());
     }
 }
