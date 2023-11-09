@@ -2,6 +2,7 @@ package com.growbiz.backend.Services;
 
 import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Categories.models.SubCategory;
+import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
 import com.growbiz.backend.Services.controller.ServiceController;
 import com.growbiz.backend.Services.helper.ServicesControllerHelper;
 import com.growbiz.backend.Services.models.ServiceRequest;
@@ -18,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 public class ServicesControllerTests {
@@ -80,5 +81,22 @@ public class ServicesControllerTests {
         ResponseEntity<ServiceResponse> resultResponse = serviceController.addService(mockServiceToAdd);
         assertEquals(expectedResponse, resultResponse);
     }
-}
 
+    @Test
+    public void addExistingServiceSuccessTest() {
+        ServiceRequest mockServiceToAdd = ServiceRequest
+                .builder()
+                .serviceName("Nail Care")
+                .description("Loren Epsom")
+                .price(24.00)
+                .businessID(1)
+                .subCategoryID(1)
+                .build();
+
+        when(servicesService.addService(mockServiceToAdd)).thenReturn(null);
+
+        assertThrows(ServiceAlreadyExistsException.class , () -> {
+            serviceController.addService(mockServiceToAdd);
+        });
+    }
+}
