@@ -7,7 +7,6 @@ export const addService = async (token, serviceName, description, timeRequired, 
         businessID,
         subCategoryID
     };
-    console.log(body);
     const resp = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/services/addService`,
         {
@@ -102,5 +101,47 @@ export const deleteService = async (token, serviceId) => {
         return data;
     } catch (err) {
         console.log("err", err);
+    }
+};
+
+export const getAllServices = async (token) => {
+    try {
+        const re = await (
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/services/allServices`,
+                {
+                    method: "get",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+        ).json();
+        return re.services;
+    } catch (err) {
+        console.error({ err });
+        return [];
+    }
+};
+
+export const getService = async (token, serviceId) => {
+    try {
+        const re = await (
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/services/getService?serviceId=${serviceId}`,
+                {
+                    method: "get",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+        ).json();
+        return re;
+    } catch (err) {
+        console.error({ err });
+        return [];
     }
 };
