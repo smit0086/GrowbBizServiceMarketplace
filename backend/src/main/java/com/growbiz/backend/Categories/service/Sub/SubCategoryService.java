@@ -6,7 +6,6 @@ import com.growbiz.backend.Categories.models.SubCategoryRequest;
 import com.growbiz.backend.Categories.repository.ICategoryRepository;
 import com.growbiz.backend.Categories.repository.ISubCategoryRepository;
 import com.growbiz.backend.Exception.exceptions.SubCategoryAlreadyExistsException;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +46,10 @@ public class SubCategoryService implements ISubCategoryService {
     @Override
     public SubCategory addSubCategory(SubCategoryRequest newSubCategory) {
         try {
-            boolean checkSubCategoryExists = Objects.nonNull(iSubCategoryRepository.findByName(newSubCategory.getSubCategoryName()));
-
-            if(checkSubCategoryExists) {
+            if (iSubCategoryRepository.findByName(newSubCategory.getName()).isEmpty()) {
                 Category category = iCategoryRepository.findById(newSubCategory.getCategoryID()).get();
-                SubCategory subCategoryToAdd =  SubCategory.builder()
-                        .name(newSubCategory.getSubCategoryName())
+                SubCategory subCategoryToAdd = SubCategory.builder()
+                        .name(newSubCategory.getName())
                         .category(category)
                         .build();
                 return iSubCategoryRepository.save(subCategoryToAdd);
@@ -60,6 +57,7 @@ public class SubCategoryService implements ISubCategoryService {
                 throw new SubCategoryAlreadyExistsException("SubCategory already Exists");
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -69,8 +67,8 @@ public class SubCategoryService implements ISubCategoryService {
         try {
             SubCategory updatedSubCategory = iSubCategoryRepository.findById(subCategory.getSubCategoryID()).get();
 
-            if (Objects.nonNull(subCategory.getSubCategoryName()) && !"".equalsIgnoreCase(subCategory.getSubCategoryName())) {
-                updatedSubCategory.setName(subCategory.getSubCategoryName());
+            if (Objects.nonNull(subCategory.getName()) && !"".equalsIgnoreCase(subCategory.getName())) {
+                updatedSubCategory.setName(subCategory.getName());
             }
 
             if (Objects.nonNull(subCategory.getCategoryID())) {
