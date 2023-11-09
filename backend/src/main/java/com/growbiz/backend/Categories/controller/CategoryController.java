@@ -2,7 +2,9 @@ package com.growbiz.backend.Categories.controller;
 
 
 import com.growbiz.backend.Categories.helper.CategoryControllerHelper;
+import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.CategoryResponse;
+import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
 import lombok.RequiredArgsConstructor;
@@ -47,5 +49,12 @@ public class CategoryController {
     @GetMapping(path = "/getSubCategory")
     public ResponseEntity<CategoryResponse> getSubCategory(@RequestParam Long subCategoryId) {
         return helper.createSubCategoryResponse(List.of(subCategoryService.getSubCategoryByID(subCategoryId)));
+    }
+
+    @GetMapping(path = "/getAllSubCategoriesForCategoryId")
+    public ResponseEntity<CategoryResponse> getAllSubCategoriesForCategoryId(@RequestParam Long categoryId) {
+        Category category = categoryService.getCategoryByID(categoryId);
+        List<SubCategory> subCategories = subCategoryService.fetchSubCategoryListForCategoryID(categoryId);
+        return helper.createCategoryResponse(List.of(category), subCategories);
     }
 }

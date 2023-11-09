@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 public class ServicesControllerTests {
-
     @Mock
     private IServicesService servicesService;
     @Mock
@@ -37,7 +36,6 @@ public class ServicesControllerTests {
             .businessId(1L)
             .businessName("French Nails")
             .build();
-
     @Mock
     SubCategory mockSubCategory = SubCategory
             .builder()
@@ -45,7 +43,6 @@ public class ServicesControllerTests {
             .name("Manicure")
             .subCategoryID(2L)
             .build();
-
     @Mock
     ServiceRequest mockServiceRequest = ServiceRequest
             .builder()
@@ -55,7 +52,6 @@ public class ServicesControllerTests {
             .businessID(1)
             .subCategoryID(1)
             .build();
-
     @Mock
     Services mockService = Services
             .builder()

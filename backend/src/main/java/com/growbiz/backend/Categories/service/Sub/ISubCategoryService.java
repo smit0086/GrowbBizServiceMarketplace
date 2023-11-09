@@ -11,6 +11,8 @@ public interface ISubCategoryService {
 
     List<SubCategory> fetchSubCategoryList();
 
+    List<SubCategory> fetchSubCategoryListForCategoryID(Long categoryId);
+
     SubCategory addSubCategory(SubCategoryRequest newSubCategory);
 
     SubCategory updateSubCategory(SubCategoryRequest category, Long categoryID);

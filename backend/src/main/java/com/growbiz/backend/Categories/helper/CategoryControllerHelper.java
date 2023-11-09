@@ -32,5 +32,15 @@ public class CategoryControllerHelper {
                 .role(user.getRole())
                 .build());
     }
+
+    public ResponseEntity<CategoryResponse> createCategoryResponse(List<Category> categoriesList, List<SubCategory> subCategoriesList) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(CategoryResponse.builder()
+                .categories(categoriesList)
+                .subCategories(subCategoriesList)
+                .subject(user.getEmail())
+                .role(user.getRole())
+                .build());
+    }
 }
 
