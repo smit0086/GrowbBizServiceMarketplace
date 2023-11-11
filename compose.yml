@@ -4,6 +4,8 @@ services:
     container_name: mysql_db
     expose:
       - '3306'
+    volumes:
+      - mysql_volume:/var/lib/mysql
 
   backend:
     build: ./backend
@@ -14,6 +16,8 @@ services:
       - '9002:9002'
     expose:
       - '9002'
+    volumes:
+      - backend_volume:/files
   
   frontend:
     build: ./frontend
@@ -24,3 +28,7 @@ services:
       - '3000:3000'
     expose:
       - '3000'
+
+volumes:
+  mysql_volume:
+  backend_volume:
