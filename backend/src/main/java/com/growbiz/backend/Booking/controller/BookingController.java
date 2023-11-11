@@ -51,7 +51,6 @@ public class BookingController {
     @GetMapping(path = "/business/{businessId}")
     public ResponseEntity<BookingResponse> getAllBookingsByBusinessId(@PathVariable Long businessId) {
         List<Booking> bookings = bookingService.findByBusinessId(businessId);
-
         return helper.createBookingResponse(bookings);
     }
 
