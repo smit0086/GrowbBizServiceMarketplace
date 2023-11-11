@@ -70,7 +70,7 @@ public class BusinessController {
     @GetMapping(path = "/download")
     public ResponseEntity<byte[]> downloadFile(@RequestParam String email) {
         return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(fileStorageService.downloadFile(email));
     }
 
@@ -81,7 +81,7 @@ public class BusinessController {
     }
 
     @GetMapping(path = "/businessHours")
-    public ResponseEntity<BusinessHourResponse> getBusinessHours(@RequestParam String businessId){
+    public ResponseEntity<BusinessHourResponse> getBusinessHours(@RequestParam String businessId) {
         Long bId = Long.parseLong(businessId);
         return helper.createBusinessHourResponse(businessHourService.getBusinessHour(bId));
     }
