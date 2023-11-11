@@ -44,6 +44,15 @@ public class SubCategoryService implements ISubCategoryService {
     }
 
     @Override
+    public List<SubCategory> fetchSubCategoryListForCategoryID(Long categoryId) {
+        try {
+            return iSubCategoryRepository.findByCategoryCategoryID(categoryId);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
     public SubCategory addSubCategory(SubCategoryRequest newSubCategory) {
         try {
             if (iSubCategoryRepository.findByName(newSubCategory.getName()).isEmpty()) {

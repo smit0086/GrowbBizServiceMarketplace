@@ -46,6 +46,7 @@ public class ServiceController {
     @PostMapping(path = "/addService")
     public ResponseEntity<ServiceResponse> addService(@RequestBody ServiceRequest newService) {
         Services service = servicesService.addService(newService);
+
         if (service != null) {
             return serviceHelper.createServiceResponse(List.of(service), false);
         } else {
@@ -67,6 +68,7 @@ public class ServiceController {
     @DeleteMapping(path = "/deleteService")
     public ResponseEntity<ServiceResponse> deleteService(@RequestBody Services oldService) {
         Boolean isDeleted = servicesService.deleteService(oldService.getServiceId());
+
         if (isDeleted) {
             return serviceHelper.deleteServiceResponse(true);
         } else {
@@ -77,6 +79,7 @@ public class ServiceController {
     @GetMapping(path = "/getService")
     public ResponseEntity<ServiceResponse> getService(@RequestParam Long serviceId) {
         Services service = servicesService.getServiceById(serviceId);
+
         if (service != null) {
             String tax = servicesService.getTaxForService(service);
             return serviceHelper.createServiceResponseWithTax(List.of(service), tax);
