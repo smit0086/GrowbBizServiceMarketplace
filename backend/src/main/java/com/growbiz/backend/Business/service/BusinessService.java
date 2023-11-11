@@ -26,7 +26,6 @@ public class BusinessService implements IBusinessService {
     private IBusinessRepository businessRepository;
     @Autowired
     private IBusinessHourService businessHourService;
-
     @Autowired
     private ICategoryService categoryService;
 
@@ -83,7 +82,7 @@ public class BusinessService implements IBusinessService {
                 .build();
         Business savedBusiness = businessRepository.save(business);
         businessHourService.init(savedBusiness.getBusinessId());
-        return business;
+        return savedBusiness;
     }
 
     @Override
