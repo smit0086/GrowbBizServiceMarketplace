@@ -30,6 +30,7 @@ build-frontend:
     only:
         - main
         - dev
+        - issue-141
 
 build-backend:
     stage: build
@@ -47,6 +48,7 @@ build-backend:
     only:
         - main
         - dev
+        - issue-141
 
 code-quality-issue-job:
     stage: issue
@@ -74,3 +76,4 @@ deploy-dev-backend:
         - ssh -o StrictHostKeyChecking=no -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "cd ${DEPLOY_PATH} && ./deploy.sh"
     only:
         - dev
+        - issue-141
