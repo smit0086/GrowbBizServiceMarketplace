@@ -1,4 +1,4 @@
-export const addCategory = async (token, category_name, tax) => {
+export const addSubCategory = async (token, category_name, tax) => {
     const body = {
         name: category_name,
         tax,
@@ -22,7 +22,7 @@ export const addCategory = async (token, category_name, tax) => {
     }
 };
 
-export const updateCategory = async (token, category_id, category_name, tax) => {
+export const updateSubCategory = async (token, category_id, category_name, tax) => {
     const body = {
         categoryID: category_id,
         name: category_name,
@@ -47,7 +47,7 @@ export const updateCategory = async (token, category_id, category_name, tax) => 
     }
 };
 
-export const deleteCategory = async (token, category_id, category_name, tax) => {
+export const deleteSubCategory = async (token, category_id, category_name, tax) => {
     const body = {
         categoryID: category_id,
         name: category_name,
@@ -99,6 +99,27 @@ export const getAllSubCategories = async (token) => {
         const re = await (
             await fetch(
                 `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/category/allSubCategories`,
+                {
+                    method: "get",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+        ).json();
+        return re.subCategories;
+    } catch (err) {
+        console.error({ err });
+        return [];
+    }
+};
+
+export const getAllSubCategoriesForCategoryId = async (token, categoryId) => {
+    try {
+        const re = await (
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/category/getAllSubCategoriesForCategoryId?categoryId=${categoryId}`,
                 {
                     method: "get",
                     headers: {
