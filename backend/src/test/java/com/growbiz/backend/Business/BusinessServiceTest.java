@@ -69,7 +69,6 @@ public class BusinessServiceTest {
                 .thenReturn("D://test.img");
         when(categoryServiceMock.getCategoryByID(1L)).thenReturn(mockedCategory);
         doNothing().when(spy(new BusinessHourService())).init(1L);
-        //doNothing().when(spy(new BusinessService())).save(mockedBusiness);
     }
 
     @Test
