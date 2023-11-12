@@ -1,4 +1,4 @@
-package com.growbiz.backend.Business.service;
+package com.growbiz.backend.Email.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

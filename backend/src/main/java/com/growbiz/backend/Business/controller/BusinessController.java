@@ -5,7 +5,7 @@ import com.growbiz.backend.Business.model.*;
 import com.growbiz.backend.Business.service.IBusinessHourService;
 import com.growbiz.backend.Business.service.IBusinessService;
 import com.growbiz.backend.Business.service.IFileStorageService;
-import com.growbiz.backend.Business.service.ISendEmailService;
+import com.growbiz.backend.Email.service.ISendEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -81,7 +81,7 @@ public class BusinessController {
     }
 
     @GetMapping(path = "/businessHours")
-    public ResponseEntity<BusinessHourResponse> getBusinessHours(@RequestParam String businessId){
+    public ResponseEntity<BusinessHourResponse> getBusinessHours(@RequestParam String businessId) {
         Long bId = Long.parseLong(businessId);
         return helper.createBusinessHourResponse(businessHourService.getBusinessHour(bId));
     }
