@@ -14,7 +14,6 @@ import com.growbiz.backend.Exception.exceptions.BusinessAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.BusinessNotFoundException;
 import com.growbiz.backend.User.models.Role;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -130,17 +129,17 @@ public class BusinessServiceTest {
     }
 
     @Test
-    @Ignore
     public void testUpdateBusiness() {
+        byte[] mockByteArr = new byte[2];
         BusinessRequest mockedBusinessRequest = BusinessRequest.builder()
                 .email("testEmail@dal.ca")
                 .businessName("TestBusinessName")
                 .role(Role.PARTNER)
-                .file(new MockMultipartFile("TestName", new byte[]{anyByte()}))
+                .file(new MockMultipartFile("TestName", mockByteArr))
                 .description("TestBusinessDescription")
                 .categoryId(1L)
                 .build();
-        Business actualBusiness = businessServiceMock.updateBusiness(mockedBusinessRequest, Mockito.eq(1L));
+        Business actualBusiness = businessServiceMock.updateBusiness(mockedBusinessRequest, 1L);
         Assertions.assertEquals(mockedBusiness, actualBusiness);
     }
 }
