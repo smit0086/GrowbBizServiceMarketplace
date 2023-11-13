@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import ViewPastBookings from "./components/ViewPastBookings";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default async function PastBookingsManagement() {
     const authSession = await getServerSession(authOptions);
@@ -31,10 +32,12 @@ export default async function PastBookingsManagement() {
 
     return (
         <>
-            <div>
-                <h2 className="text-3xl p-8 pl-16">Past Bookings</h2>
-                <ViewPastBookings authSession={authSession} pastBookings={pastBookings} />
-            </div>
+            <ScrollArea className="h-[100vh] w-[95vw] rounded-md p-4">
+                <div>
+                    <h2 className="text-3xl p-8 pl-16">Past Bookings</h2>
+                    <ViewPastBookings authSession={authSession} pastBookings={pastBookings} />
+                </div>
+            </ScrollArea>
         </>
     );
 }
