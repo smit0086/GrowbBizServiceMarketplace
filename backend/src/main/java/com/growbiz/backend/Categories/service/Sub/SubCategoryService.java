@@ -54,8 +54,9 @@ public class SubCategoryService implements ISubCategoryService {
 
     @Override
     public SubCategory addSubCategory(SubCategoryRequest newSubCategory) {
-        try {
-            if (iSubCategoryRepository.findByName(newSubCategory.getName()).isEmpty()) {
+//        try {
+            List<SubCategory> subCategory = iSubCategoryRepository.findByName(newSubCategory.getName());
+            if (subCategory.isEmpty()) {
                 Category category = iCategoryRepository.findById(newSubCategory.getCategoryID()).get();
                 SubCategory subCategoryToAdd = SubCategory.builder()
                         .name(newSubCategory.getName())
@@ -65,10 +66,10 @@ public class SubCategoryService implements ISubCategoryService {
             } else {
                 throw new SubCategoryAlreadyExistsException("SubCategory already Exists");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
     }
 
     @Override

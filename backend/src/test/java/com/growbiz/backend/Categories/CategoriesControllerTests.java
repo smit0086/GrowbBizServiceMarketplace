@@ -9,7 +9,8 @@ import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
 import com.growbiz.backend.User.models.Role;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -46,7 +47,7 @@ public class CategoriesControllerTests {
             .category(mockCategory)
             .build();
 
-    @Before
+    @BeforeEach
     public void init () {
         MockitoAnnotations.openMocks(this);
     }

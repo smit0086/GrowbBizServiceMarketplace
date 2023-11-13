@@ -11,8 +11,8 @@ import com.growbiz.backend.Services.models.ServiceResponse;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
 import com.growbiz.backend.User.models.Role;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -63,7 +63,7 @@ public class ServicesControllerTests {
             .subCategory(mockSubCategory)
             .build();
 
-    @Before
+    @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
     }
