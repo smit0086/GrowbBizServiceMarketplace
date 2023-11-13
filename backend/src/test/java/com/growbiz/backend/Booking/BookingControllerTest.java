@@ -224,4 +224,40 @@ public class BookingControllerTest {
         actualResponse = bookingController.modifyBookingStatus(2L, "COMPLETED");
         assertEquals(expectedResponse, actualResponse);
     }
+
+    @Test
+    public void getAllUpcomingBookingsForBusinessTest() {
+        ResponseEntity<BookingResponse> actualResponse;
+        ResponseEntity<BookingResponse> expectedResponse = ResponseEntity.ok(
+                BookingResponse.builder()
+                        .bookings(List.of(mockBooking))
+                        .subject("test@dal.ca")
+                        .role(Role.CUSTOMER)
+                        .build()
+        );
+
+        when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, "UPCOMING")).thenReturn(List.of(mockBooking));
+        when(bookingHelper.createBookingResponse(List.of(mockBooking))).thenReturn(expectedResponse);
+
+        actualResponse = bookingController.getAllUpcomingBookingsByBusinessId(1L);
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    public void getAllCompletedBookingsForBusinessTest() {
+        ResponseEntity<BookingResponse> actualResponse;
+        ResponseEntity<BookingResponse> expectedResponse = ResponseEntity.ok(
+                BookingResponse.builder()
+                        .bookings(List.of(mockCompletedBooking))
+                        .subject("test@dal.ca")
+                        .role(Role.CUSTOMER)
+                        .build()
+        );
+
+        when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, "COMPLETED")).thenReturn(List.of(mockCompletedBooking));
+        when(bookingHelper.createBookingResponse(List.of(mockCompletedBooking))).thenReturn(expectedResponse);
+
+        actualResponse = bookingController.getAllCompletedBookingsByBusinessId(1L);
+        assertEquals(expectedResponse, actualResponse);
+    }
 }

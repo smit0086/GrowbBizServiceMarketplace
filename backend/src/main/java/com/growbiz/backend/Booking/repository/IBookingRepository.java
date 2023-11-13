@@ -20,4 +20,6 @@ public interface IBookingRepository extends CrudRepository<Booking, Long> {
     List<Booking> findByServiceServiceId(Long serviceId);
 
     List<Booking> findByServiceBusinessBusinessId(Long businessId);
+
+    List<Booking> findByServiceBusinessBusinessIdAndStatus(Long businessId, BookingStatus status);
 }

@@ -87,6 +87,18 @@ public class BookingController {
         return helper.createBookingResponse(bookings);
     }
 
+    @GetMapping(path = "/business/upcoming/{businessId}")
+    public ResponseEntity<BookingResponse> getAllUpcomingBookingsByBusinessId(@PathVariable Long businessId) {
+        List<Booking> bookings = bookingService.getAllBookingsByBusinessIdAndStatus(businessId, "UPCOMING");
+        return helper.createBookingResponse(bookings);
+    }
+
+    @GetMapping(path = "/business/completed/{businessId}")
+    public ResponseEntity<BookingResponse> getAllCompletedBookingsByBusinessId(@PathVariable Long businessId) {
+        List<Booking> bookings = bookingService.getAllBookingsByBusinessIdAndStatus(businessId, "COMPLETED");
+        return helper.createBookingResponse(bookings);
+    }
+
     @GetMapping(path = "/getSlot/{businessId}/{serviceId}")
     public ResponseEntity<FreeSlotsResponse> getFreeTimeSlots(@PathVariable Long businessId, @PathVariable Long serviceId, @RequestParam("date") String dateString) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
