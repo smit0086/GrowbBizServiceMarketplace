@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useState } from "react";
 import {
     Card,
     CardContent,
@@ -10,8 +11,28 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { useForm } from "react-hook-form";
 
-const ViewUpcomingBookings = ({upcomingBookings }) => {
+const ViewUpcomingBookings = ({ upcomingBookings }) => {
+    const [isOngoingConfirmationDialoagOpen, setOngoingConfirmationDialoagOpen] = useState(false);
+    const { handleSubmit, control, formState: { errors } } = useForm();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleOngoingStatus = (data) => {
+        setIsLoading(true);
+        setIsLoading(false);
+        setOngoingConfirmationDialoagOpen(false);
+    }
+
     return (
         <div>
             {upcomingBookings.length === 0 ?
@@ -20,7 +41,7 @@ const ViewUpcomingBookings = ({upcomingBookings }) => {
                 </div>
                 :
                 <div>
-                    <div className="flex flex-wrap gap-4" style={{marginLeft: '3%'}}>
+                    <div className="flex flex-wrap gap-4" style={{ marginLeft: '3%' }}>
                         {upcomingBookings.map((upcomingBooking) => (
                             <Card key={upcomingBooking.bookingId} className="w-[350px] ml-5">
                                 <CardHeader>
@@ -55,6 +76,53 @@ const ViewUpcomingBookings = ({upcomingBookings }) => {
                                         </div>
                                     </div>
                                 </CardContent>
+                                <CardFooter>
+                                    <div className="flex items-center space-x-4">
+                                        <Dialog
+                                            open={isOngoingConfirmationDialoagOpen}
+                                            onOpenChange={setOngoingConfirmationDialoagOpen}
+                                        >
+                                            <DialogTrigger asChild>
+                                                <Button>Set Ongoing</Button>
+                                            </DialogTrigger>
+                                            <DialogContent className="sm:max-w-[425px]">
+                                                <DialogHeader>
+                                                    <DialogTitle>Confirmation</DialogTitle>
+                                                </DialogHeader>
+                                                <form
+                                                    onSubmit={handleSubmit((formData) =>
+                                                        handleOngoingStatus({
+                                                            upcomingBooking,
+                                                            formData
+                                                        })
+                                                    )}
+                                                >
+                                                    <div style={{ marginBottom: "1.2rem" }}>
+                                                        <div>
+                                                            <Label
+                                                                htmlFor="name"
+                                                                className="text-right"
+                                                            >
+                                                                Are you sure you want to change the status to "Ongoing"?
+                                                            </Label>
+                                                        </div>
+                                                    </div>
+                                                    <DialogFooter>
+                                                        <Button
+                                                            type="submit"
+                                                            disabled={isLoading}
+                                                        >
+                                                            {isLoading && (
+                                                                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                                                            )}
+                                                            Confirm
+                                                        </Button>
+                                                    </DialogFooter>
+                                                </form>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </div>
+                                </CardFooter>
                             </Card>
                         ))}
                     </div>

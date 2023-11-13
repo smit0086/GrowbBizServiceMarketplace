@@ -1,10 +1,11 @@
-import ViewUpcomingBookings from "./components/ViewUpcomingBookings";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import ViewUpcomingBookings from "./components/ViewUpcomingBookings";
+import ViewOngoingBookings from "./components/ViewOngoingBookings";
 
 export default async function UpcomingBookingsManagement() {
     const authSession = await getServerSession(authOptions);
-    const upcomingBookings = [
+    const ongoingBookings = [
         {
             bookingId: '1',
             serviceName: "Haircut",
@@ -14,7 +15,9 @@ export default async function UpcomingBookingsManagement() {
             bookingEndTime: "11:00 AM",
             customerEmail: "john.doe@example.com",
             note: "Regular haircut"
-        },
+        }
+    ];
+    const upcomingBookings = [
         {
             bookingId: '2',
             serviceName: "Massage",
@@ -30,6 +33,8 @@ export default async function UpcomingBookingsManagement() {
     return (
         <>
             <div>
+                <h2 className="text-3xl p-8 pl-16">Ongoing Bookings</h2>
+                <ViewOngoingBookings authSession={authSession} ongoingBookings={ongoingBookings} />
                 <h2 className="text-3xl p-8 pl-16">Upcoming Bookings</h2>
                 <ViewUpcomingBookings authSession={authSession} upcomingBookings={upcomingBookings} />
             </div>
