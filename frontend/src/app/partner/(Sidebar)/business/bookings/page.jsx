@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import ViewUpcomingBookings from "./components/ViewUpcomingBookings";
 import ViewOngoingBookings from "./components/ViewOngoingBookings";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default async function UpcomingBookingsManagement() {
     const authSession = await getServerSession(authOptions);
@@ -32,12 +33,14 @@ export default async function UpcomingBookingsManagement() {
 
     return (
         <>
-            <div>
-                <h2 className="text-3xl p-8 pl-16">Ongoing Bookings</h2>
-                <ViewOngoingBookings authSession={authSession} ongoingBookings={ongoingBookings} />
-                <h2 className="text-3xl p-8 pl-16">Upcoming Bookings</h2>
-                <ViewUpcomingBookings authSession={authSession} upcomingBookings={upcomingBookings} />
-            </div>
+            <ScrollArea className="h-[100vh] w-[95vw] rounded-md p-4">
+                <div>
+                    <h2 className="text-3xl p-8 pl-16">Ongoing Bookings</h2>
+                    <ViewOngoingBookings authSession={authSession} ongoingBookings={ongoingBookings} />
+                    <h2 className="text-3xl p-8 pl-16">Upcoming Bookings</h2>
+                    <ViewUpcomingBookings authSession={authSession} upcomingBookings={upcomingBookings} />
+                </div>
+            </ScrollArea>
         </>
     );
 }
