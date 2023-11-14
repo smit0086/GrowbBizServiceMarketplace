@@ -4,8 +4,8 @@ import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Business.model.BusinessRequest;
 import com.growbiz.backend.Business.model.BusinessStatus;
 import com.growbiz.backend.Business.repository.IBusinessRepository;
-import com.growbiz.backend.Business.service.BusinessHourService;
 import com.growbiz.backend.Business.service.BusinessService;
+import com.growbiz.backend.Business.service.IBusinessHourService;
 import com.growbiz.backend.Business.service.IFileStorageService;
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,6 +44,8 @@ public class BusinessServiceTest {
     private IFileStorageService fileStorageServiceMock;
     @Mock
     private ICategoryService categoryServiceMock;
+    @Mock
+    private IBusinessHourService businessHourServiceMock;
     Business mockedBusiness;
     Category mockedCategory;
 
@@ -65,7 +68,7 @@ public class BusinessServiceTest {
         when(fileStorageServiceMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq("testEmail@dal.ca")))
                 .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
         when(categoryServiceMock.getCategoryByID(1L)).thenReturn(mockedCategory);
-        doNothing().when(spy(new BusinessHourService())).init(1L);
+        doNothing().when(businessHourServiceMock).init(anyLong());
     }
 
     @Test
