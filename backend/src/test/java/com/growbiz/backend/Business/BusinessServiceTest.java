@@ -6,12 +6,12 @@ import com.growbiz.backend.Business.model.BusinessStatus;
 import com.growbiz.backend.Business.repository.IBusinessRepository;
 import com.growbiz.backend.Business.service.BusinessHourService;
 import com.growbiz.backend.Business.service.BusinessService;
-import com.growbiz.backend.Business.service.IBusinessHourService;
 import com.growbiz.backend.Business.service.IFileStorageService;
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
 import com.growbiz.backend.Exception.exceptions.BusinessAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.BusinessNotFoundException;
+import com.growbiz.backend.TestConstants.TestConstants;
 import com.growbiz.backend.User.models.Role;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,31 +42,28 @@ public class BusinessServiceTest {
     @Mock
     private IFileStorageService fileStorageServiceMock;
     @Mock
-    private IBusinessHourService businessHourServiceMock;
-    @Mock
     private ICategoryService categoryServiceMock;
     Business mockedBusiness;
     Category mockedCategory;
-    BusinessRequest mockBusinessRequest;
 
     @Before
     public void init() {
         MockitoAnnotations.openMocks(this);
-        mockedCategory = Category.builder().categoryID(1L).name("TestCategory").tax("12.2").build();
+        mockedCategory = Category.builder().categoryID(1L).name("TestCategory").tax(TestConstants.TEST_CATEGORY_TAX).build();
         mockedBusiness = Business.builder().businessId(1L)
-                .businessName("TestBusinessName").
-                description("TestBusinessDescription")
-                .email("testEmail@dal.ca")
-                .fileURL("D://test.img")
+                .businessName(TestConstants.TEST_BUSINESS_NAME)
+                .description(TestConstants.TEST_BUSINESS_DESCRIPTION)
+                .email(TestConstants.TEST_EMAIL)
+                .fileURL(TestConstants.TEST_BUSINESS_FILE_PATH)
                 .status(BusinessStatus.PENDING)
                 .category(mockedCategory)
                 .build();
         when(businessRepositoryMock.findByStatusEquals(BusinessStatus.PENDING)).thenReturn(List.of(mockedBusiness));
         when(businessRepositoryMock.findAll()).thenReturn(List.of(mockedBusiness));
-        when(businessRepositoryMock.findByEmail("testEmail@dal.ca")).thenReturn(mockedBusiness);
+        when(businessRepositoryMock.findByEmail(TestConstants.TEST_EMAIL)).thenReturn(mockedBusiness);
         when(businessRepositoryMock.findById(1L)).thenReturn(Optional.of(mockedBusiness));
         when(fileStorageServiceMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq("testEmail@dal.ca")))
-                .thenReturn("D://test.img");
+                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
         when(categoryServiceMock.getCategoryByID(1L)).thenReturn(mockedCategory);
         doNothing().when(spy(new BusinessHourService())).init(1L);
     }
@@ -88,21 +85,21 @@ public class BusinessServiceTest {
 
     @Test
     public void testFindByEmail() {
-        Business actualBusinessWithCorrectEmail = businessServiceMock.findByEmail("testEmail@dal.ca");
+        Business actualBusinessWithCorrectEmail = businessServiceMock.findByEmail(TestConstants.TEST_EMAIL);
         Assertions.assertEquals(mockedBusiness, actualBusinessWithCorrectEmail);
         Assertions.assertThrows(BusinessNotFoundException.class, () -> businessServiceMock.findByEmail("testEmailIncorrect@dal.ca"));
     }
 
     @Test
     public void testSaveWithBusinessRequest() {
-        when(businessRepositoryMock.findByEmail("testEmail@dal.ca")).thenReturn(null);
+        when(businessRepositoryMock.findByEmail(TestConstants.TEST_EMAIL)).thenReturn(null);
         when(businessRepositoryMock.save(any(Business.class))).thenReturn(mockedBusiness);
         BusinessRequest mockedBusinessRequest = BusinessRequest.builder()
-                .email("testEmail@dal.ca")
-                .businessName("TestBusinessName")
+                .email(TestConstants.TEST_EMAIL)
+                .businessName(TestConstants.TEST_BUSINESS_NAME)
                 .role(Role.PARTNER)
-                .file(new MockMultipartFile("TestName", new byte[]{anyByte()}))
-                .description("TestBusinessDescription")
+                .file(new MockMultipartFile(TestConstants.TEST_FILE_NAME, new byte[]{anyByte()}))
+                .description(TestConstants.TEST_BUSINESS_DESCRIPTION)
                 .categoryId(1L)
                 .build();
         Business actualBusiness = businessServiceMock.save(mockedBusinessRequest);
@@ -112,11 +109,11 @@ public class BusinessServiceTest {
     @Test
     public void testBusinessAlreadyExistsException() {
         BusinessRequest mockedBusinessRequest = BusinessRequest.builder()
-                .email("testEmail@dal.ca")
-                .businessName("TestBusinessName")
+                .email(TestConstants.TEST_EMAIL)
+                .businessName(TestConstants.TEST_BUSINESS_NAME)
                 .role(Role.PARTNER)
-                .file(new MockMultipartFile("TestName", new byte[]{anyByte()}))
-                .description("TestBusinessDescription")
+                .file(new MockMultipartFile(TestConstants.TEST_FILE_NAME, new byte[]{anyByte()}))
+                .description(TestConstants.TEST_BUSINESS_DESCRIPTION)
                 .categoryId(1L)
                 .build();
         Assertions.assertThrows(BusinessAlreadyExistsException.class, () -> businessServiceMock.save(mockedBusinessRequest));
@@ -131,11 +128,11 @@ public class BusinessServiceTest {
     public void testUpdateBusiness() {
         byte[] mockByteArr = new byte[2];
         BusinessRequest mockedBusinessRequest = BusinessRequest.builder()
-                .email("testEmail@dal.ca")
-                .businessName("TestBusinessName")
+                .email(TestConstants.TEST_EMAIL)
+                .businessName(TestConstants.TEST_BUSINESS_NAME)
                 .role(Role.PARTNER)
-                .file(new MockMultipartFile("TestName", mockByteArr))
-                .description("TestBusinessDescription")
+                .file(new MockMultipartFile(TestConstants.TEST_FILE_NAME, mockByteArr))
+                .description(TestConstants.TEST_BUSINESS_DESCRIPTION)
                 .categoryId(1L)
                 .build();
         Business actualBusiness = businessServiceMock.updateBusiness(mockedBusinessRequest, 1L);
