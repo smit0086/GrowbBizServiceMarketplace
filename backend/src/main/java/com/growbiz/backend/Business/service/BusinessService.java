@@ -7,6 +7,7 @@ import com.growbiz.backend.Business.repository.IBusinessRepository;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
 import com.growbiz.backend.Exception.exceptions.BusinessAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.BusinessNotFoundException;
+import com.growbiz.backend.File.service.IFileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,7 @@
-package com.growbiz.backend.Business.service;
+package com.growbiz.backend.File.service;
 
 import com.growbiz.backend.Business.model.Business;
+import com.growbiz.backend.Business.service.IBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
