@@ -82,29 +82,67 @@ public class ServicesServiceTests {
     }
 
     @Test
-    public void getServiceSuccessTest() {
+    public void getServiceTest() {
         when(serviceRepository.findById(1L)).thenReturn(Optional.ofNullable(mockService));
         Services results = servicesService.getServiceById(1L);
         assertEquals(mockService,results);
     }
 
     @Test
-    public void getServiceByBusinessIdSuccessTest() {
+    public void getServiceByBusinessIdTest() {
         when(serviceRepository.findByBusinessBusinessId(1L)).thenReturn(List.of(mockService));
         List<Services> results = servicesService.getServiceByBusinessId(1L);
         assertEquals(List.of(mockService),results);
     }
 
     @Test
-    public void getServiceBySubCategoryIdSuccessTest() {
+    public void getServiceBySubCategoryIdTest() {
         when(serviceRepository.findBySubCategorySubCategoryID(1L)).thenReturn(List.of(mockService));
         List<Services> results = servicesService.getServiceBySubCategoryId(1L);
         assertEquals(List.of(mockService),results);
     }
 
     @Test
-    public void getTaxForServiceSuccessTest() {
+    public void getTaxForServiceTest() {
         String results = servicesService.getTaxForService(mockService);
         assertEquals(mockCategory.getTax(), results);
+    }
+
+    @Test
+    public void fetchServiceListTest() {
+
+    }
+
+    @Test
+    public void addServiceTest() {
+
+    }
+    @Test
+    public void addExistingServiceTest() {
+
+    }
+
+    @Test
+    public void updateExistingServiceTest() {
+
+    }
+
+    @Test
+    public void updateNonExistingServiceTest() {
+
+    }
+
+    @Test
+    public void deleteExistingServiceTest() {
+
+    }
+
+    @Test
+    public void getAllServicesForBusinessTest() {
+
+    }
+    @Test
+    public void getAllServicesForSubCategoryTest() {
+
     }
 }

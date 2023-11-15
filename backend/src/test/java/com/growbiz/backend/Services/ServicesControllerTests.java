@@ -34,41 +34,56 @@ public class ServicesControllerTests {
     @InjectMocks
     private ServiceController serviceController;
     @Mock
-    Business mockBusiness = Business
-            .builder()
-            .businessId(1L)
-            .businessName("French Nails")
-            .build();
+    Business mockBusiness;
     @Mock
-    SubCategory mockSubCategory = SubCategory
-            .builder()
-            .subCategoryID(1L)
-            .name("Manicure")
-            .subCategoryID(2L)
-            .build();
+    SubCategory mockSubCategory;
     @Mock
-    ServiceRequest mockServiceRequest = ServiceRequest
-            .builder()
-            .serviceName("Nail Care")
-            .description("Loren Epsom")
-            .price(24.00)
-            .businessID(1)
-            .subCategoryID(1)
-            .build();
+    ServiceRequest mockServiceRequest;
     @Mock
-    Services mockService = Services
-            .builder()
-            .serviceId(1L)
-            .serviceName("Nail Care")
-            .description("Loren Epsom")
-            .price(24.00)
-            .business(mockBusiness)
-            .subCategory(mockSubCategory)
-            .build();
+    Services mockService;
+    @Mock
+    Services mockServiceUpdated;
 
     @Before
     public void init() {
         MockitoAnnotations.openMocks(this);
+        mockSubCategory = SubCategory
+                .builder()
+                .subCategoryID(1L)
+                .name("Manicure")
+                .subCategoryID(2L)
+                .build();
+        mockBusiness = Business
+                .builder()
+                .businessId(1L)
+                .businessName("French Nails")
+                .build();
+        mockService = Services
+                .builder()
+                .serviceId(1L)
+                .serviceName("Nail Care")
+                .description("Loren Epsom")
+                .price(24.00)
+                .business(mockBusiness)
+                .subCategory(mockSubCategory)
+                .build();
+        mockServiceRequest = ServiceRequest
+                .builder()
+                .serviceName("Nail Care")
+                .description("Loren Epsom")
+                .price(24.00)
+                .businessID(1)
+                .subCategoryID(1)
+                .build();
+        mockServiceUpdated = Services
+                .builder()
+                .serviceId(1L)
+                .serviceName("Hands and Nail Care")
+                .description("Loren Epsom")
+                .price(32.00)
+                .business(mockBusiness)
+                .subCategory(mockSubCategory)
+                .build();
     }
 
     @Test
@@ -88,6 +103,7 @@ public class ServicesControllerTests {
     @Test
     public void getNonExistingServiceTest() {
         when(servicesService.getServiceById(1L)).thenReturn(null);
+
         assertThrows(ServiceNotFoundException.class , () -> {
             serviceController.getService(1L);
         });
@@ -118,16 +134,6 @@ public class ServicesControllerTests {
 
     @Test
     public void updateExistingServiceTest() {
-        Services mockServiceUpdated = Services
-                .builder()
-                .serviceId(1L)
-                .serviceName("Hands and Nail Care")
-                .description("Loren Epsom")
-                .price(32.00)
-                .business(mockBusiness)
-                .subCategory(mockSubCategory)
-                .build();
-
         when(servicesService.updateService(mockServiceRequest)).thenReturn(mockServiceUpdated);
 
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
@@ -165,11 +171,47 @@ public class ServicesControllerTests {
     public void deleteNonExistingServiceTest() {
         when(servicesService.deleteService(mockService.getServiceId())).thenReturn(false);
 
-        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().isDeleted(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
-
         assertThrows(ServiceNotFoundException.class , () -> {
             serviceController.deleteService(mockService);
         });
+    }
+
+    @Test
+    public void getAllServicesListForBusinessTest() {
+        when(servicesService.getServiceByBusinessId(1L)).thenReturn(List.of(mockService));
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+
+        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServicesByBusinessId(1L);
+        assertEquals(expectedResponse, resultResponse);
+    }
+
+    @Test
+    public void getAllServicesListForSubCategoryTest() {
+        when(servicesService.getServiceBySubCategoryId(1L)).thenReturn(List.of(mockService));
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+
+        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServicesBySubCategoryId(1L);
+        assertEquals(expectedResponse, resultResponse);
+    }
+
+    @Test
+    public void getAllServicesListTest() {
+        when(servicesService.fetchServiceList()).thenReturn(List.of(mockService));
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+
+        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServices();
+        assertEquals(expectedResponse, resultResponse);
     }
 }
