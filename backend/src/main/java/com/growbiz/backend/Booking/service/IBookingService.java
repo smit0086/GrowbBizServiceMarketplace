@@ -25,4 +25,8 @@ public interface IBookingService {
     Booking save(BookingRequest bookingRequest);
 
     Map<Date, List<SlotRange>> getFreeSlotsForWeek(Long businessId, Date date, Long serviceId);
+
+    List<Booking> getAllBookingsByUserIdAndStatus(Long userId, String status);
+
+    List<Booking> getAllBookingsByBusinessIdAndStatus(Long businessId, String status);
 }

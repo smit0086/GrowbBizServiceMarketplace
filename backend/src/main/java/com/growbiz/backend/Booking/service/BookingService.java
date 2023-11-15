@@ -3,6 +3,7 @@ package com.growbiz.backend.Booking.service;
 import com.growbiz.backend.Booking.helper.BookingServiceHelper;
 import com.growbiz.backend.Booking.models.Booking;
 import com.growbiz.backend.Booking.models.BookingRequest;
+import com.growbiz.backend.Booking.models.BookingStatus;
 import com.growbiz.backend.Booking.models.SlotRange;
 import com.growbiz.backend.Booking.repository.IBookingRepository;
 import com.growbiz.backend.Business.model.BusinessHour;
@@ -62,8 +63,18 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    public List<Booking> getAllBookingsByUserIdAndStatus(Long userId, String status) {
+        return bookingRepository.findByUserIdAndStatus(userId, BookingStatus.valueOf(status));
+    }
+
+    @Override
     public List<Booking> findByBusinessId(Long businessId) {
         return bookingRepository.findByServiceBusinessBusinessId(businessId);
+    }
+
+    @Override
+    public List<Booking> getAllBookingsByBusinessIdAndStatus(Long businessId, String status) {
+        return bookingRepository.findByServiceBusinessBusinessIdAndStatus(businessId, BookingStatus.valueOf(status));
     }
 
     @Override
@@ -83,6 +94,7 @@ public class BookingService implements IBookingService {
                 .endTime(bookingRequest.getEndTime())
                 .amount(bookingRequest.getAmount())
                 .note(bookingRequest.getNote())
+                .status(bookingRequest.getStatus())
                 .build();
         save(booking);
         return booking;
