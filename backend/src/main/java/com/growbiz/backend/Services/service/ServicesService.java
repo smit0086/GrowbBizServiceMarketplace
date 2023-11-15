@@ -90,73 +90,57 @@ public class ServicesService implements IServicesService {
     }
 
     @Override
-    public Services addService(ServiceRequest newService) {
-        try {
-            boolean checkNameAndBusiness =
-                    Objects.nonNull(iServiceRepository.findByServiceNameAndBusinessBusinessId(
-                            newService.getServiceName(),
-                            newService.getBusinessID())
-                    );
+    public Services addService(ServiceRequest newServiceRequest) {
+        boolean checkNameAndBusiness =
+                Objects.nonNull(iServiceRepository.findByServiceNameAndBusinessBusinessId(
+                        newServiceRequest.getServiceName(),
+                        newServiceRequest.getBusinessID())
+                );
 
-            if (!checkNameAndBusiness) {
-                Business business = businessService.findById(newService.getBusinessID());
-                SubCategory subCategory = subCategoryService.getSubCategoryByID(newService.getSubCategoryID());
-                String imageUrl = fileStorageService.uploadFileToStorage(newService.getImage(), newService.getEmail());
-                Services service = Services.builder()
-                        .serviceName(newService.getServiceName())
-                        .description(newService.getDescription())
-                        .price(newService.getPrice())
-                        .timeRequired(newService.getTimeRequired())
-                        .business(business)
-                        .subCategory(subCategory)
-                        .imageURL(imageUrl)
-                        .build();
-                return iServiceRepository.save(service);
-            } else {
-                throw new ServiceAlreadyExistsException("Service already Exists");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        if (checkNameAndBusiness) {
+            throw new ServiceAlreadyExistsException("Service already Exists");
         }
+
+        Business business = businessService.findById(newServiceRequest.getBusinessID());
+        SubCategory subCategory = subCategoryService.getSubCategoryByID(newServiceRequest.getSubCategoryID());
+        String imageUrl = fileStorageService.uploadFileToStorage(newServiceRequest.getImage(), newServiceRequest.getEmail());
+        Services service = Services.builder()
+                .serviceName(newServiceRequest.getServiceName())
+                .description(newServiceRequest.getDescription())
+                .price(newServiceRequest.getPrice())
+                .timeRequired(newServiceRequest.getTimeRequired())
+                .business(business)
+                .subCategory(subCategory)
+                .imageURL(imageUrl)
+                .build();
+
+        return iServiceRepository.save(service);
     }
 
     @Override
-    public Services updateService(ServiceRequest changedService) {
-        try {
-            Services serviceUpdated = iServiceRepository.findById(changedService.getServiceID()).get();
+    public Services updateService(ServiceRequest changeServiceRequest) {
+        Services serviceToUpdate = iServiceRepository.findById(changeServiceRequest.getServiceID()).get();
 
-            if (Objects.nonNull(changedService.getServiceName()) && !"".equalsIgnoreCase(changedService.getServiceName())) {
-                serviceUpdated.setServiceName(changedService.getServiceName());
-            }
-
-            if (Objects.nonNull(changedService.getDescription())) {
-                serviceUpdated.setDescription(changedService.getDescription());
-            }
-
-            if (Objects.nonNull(changedService.getPrice())) {
-                serviceUpdated.setPrice(changedService.getPrice());
-            }
-
-            if (Objects.nonNull(changedService.getTimeRequired())) {
-                serviceUpdated.setTimeRequired(changedService.getTimeRequired());
-            }
-
-            if (Objects.nonNull(changedService.getBusinessID())) {
-                Business business = businessService.findById(changedService.getBusinessID());
-                serviceUpdated.setBusiness(business);
-            }
-
-            if (Objects.nonNull(changedService.getSubCategoryID())) {
-                SubCategory subCategory = subCategoryService.getSubCategoryByID(changedService.getSubCategoryID());
-                serviceUpdated.setSubCategory(subCategory);
-            }
-
-            return iServiceRepository.save(serviceUpdated);
-
-        } catch (Exception e) {
-            return null;
+        if (Objects.nonNull(serviceToUpdate)) {
+            throw new ServiceAlreadyExistsException("Service doesn't exists");
         }
+
+        Business business = businessService.findById(changeServiceRequest.getBusinessID());
+        SubCategory subCategory = subCategoryService.getSubCategoryByID(changeServiceRequest.getSubCategoryID());
+        String imageUrl = fileStorageService.uploadFileToStorage(changeServiceRequest.getImage(), changeServiceRequest.getEmail());
+
+        Services serviceUpdated = Services.builder()
+                .serviceId(serviceToUpdate.getServiceId())
+                .serviceName(changeServiceRequest.getServiceName())
+                .description(changeServiceRequest.getDescription())
+                .price(changeServiceRequest.getPrice())
+                .timeRequired(changeServiceRequest.getTimeRequired())
+                .business(business)
+                .subCategory(subCategory)
+                .imageURL(imageUrl)
+                .build();
+
+        return iServiceRepository.save(serviceUpdated);
     }
 
     @Override
