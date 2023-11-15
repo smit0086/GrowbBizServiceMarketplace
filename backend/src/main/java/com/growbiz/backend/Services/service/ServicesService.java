@@ -7,6 +7,7 @@ import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
 import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
+import com.growbiz.backend.File.service.IFileStorageService;
 import com.growbiz.backend.Services.models.ServiceRequest;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.repository.IServiceRepository;
@@ -35,6 +36,9 @@ public class ServicesService implements IServicesService {
 
     @Autowired
     private final IBusinessService businessService;
+
+    @Autowired
+    private final IFileStorageService fileStorageService;
 
     @Override
     public Services getServiceById(Long serviceId) {
@@ -97,6 +101,7 @@ public class ServicesService implements IServicesService {
             if (!checkNameAndBusiness) {
                 Business business = businessService.findById(newService.getBusinessID());
                 SubCategory subCategory = subCategoryService.getSubCategoryByID(newService.getSubCategoryID());
+                String imageUrl = fileStorageService.uploadFileToStorage(newService.getImage(), newService.getEmail());
                 Services service = Services.builder()
                         .serviceName(newService.getServiceName())
                         .description(newService.getDescription())
@@ -104,6 +109,7 @@ public class ServicesService implements IServicesService {
                         .timeRequired(newService.getTimeRequired())
                         .business(business)
                         .subCategory(subCategory)
+                        .imageURL(imageUrl)
                         .build();
                 return iServiceRepository.save(service);
             } else {
