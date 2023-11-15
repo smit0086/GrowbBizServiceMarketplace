@@ -13,9 +13,9 @@ import com.growbiz.backend.Exception.exceptions.BusinessNotFoundException;
 import com.growbiz.backend.File.service.IFileStorageService;
 import com.growbiz.backend.TestConstants.TestConstants;
 import com.growbiz.backend.User.models.Role;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -49,7 +49,7 @@ public class BusinessServiceTest {
     Business mockedBusiness;
     Category mockedCategory;
 
-    @Before
+    @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
         mockedCategory = Category.builder().categoryID(1L).name("TestCategory").tax(TestConstants.TEST_CATEGORY_TAX).build();
@@ -61,18 +61,12 @@ public class BusinessServiceTest {
                 .status(BusinessStatus.PENDING)
                 .category(mockedCategory)
                 .build();
-        when(businessRepositoryMock.findByStatusEquals(BusinessStatus.PENDING)).thenReturn(List.of(mockedBusiness));
-        when(businessRepositoryMock.findAll()).thenReturn(List.of(mockedBusiness));
-        when(businessRepositoryMock.findByEmail(TestConstants.TEST_EMAIL)).thenReturn(mockedBusiness);
-        when(businessRepositoryMock.findById(1L)).thenReturn(Optional.of(mockedBusiness));
-        when(fileStorageServiceMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq("testEmail@dal.ca")))
-                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
-        when(categoryServiceMock.getCategoryByID(1L)).thenReturn(mockedCategory);
-        doNothing().when(businessHourServiceMock).init(anyLong());
     }
 
     @Test
     public void testFetchBusinesses() {
+        when(businessRepositoryMock.findByStatusEquals(BusinessStatus.PENDING)).thenReturn(List.of(mockedBusiness));
+        when(businessRepositoryMock.findAll()).thenReturn(List.of(mockedBusiness));
         List<Business> listOfBusinessWhenStatus = businessServiceMock.fetchBusinesses(BusinessStatus.PENDING.name());
         List<Business> listOfBusinessWhenStatusIsNull = businessServiceMock.fetchBusinesses(null);
         Assertions.assertEquals(List.of(mockedBusiness), listOfBusinessWhenStatusIsNull);
@@ -81,6 +75,7 @@ public class BusinessServiceTest {
 
     @Test
     public void testFindById() {
+        when(businessRepositoryMock.findById(1L)).thenReturn(Optional.of(mockedBusiness));
         Business actualBusinessWithCorrectId = businessServiceMock.findById(1L);
         Assertions.assertEquals(mockedBusiness, actualBusinessWithCorrectId);
         Assertions.assertThrows(UsernameNotFoundException.class, () -> businessServiceMock.findById(2L));
@@ -88,6 +83,7 @@ public class BusinessServiceTest {
 
     @Test
     public void testFindByEmail() {
+        when(businessRepositoryMock.findByEmail(TestConstants.TEST_EMAIL)).thenReturn(mockedBusiness);
         Business actualBusinessWithCorrectEmail = businessServiceMock.findByEmail(TestConstants.TEST_EMAIL);
         Assertions.assertEquals(mockedBusiness, actualBusinessWithCorrectEmail);
         Assertions.assertThrows(BusinessNotFoundException.class, () -> businessServiceMock.findByEmail("testEmailIncorrect@dal.ca"));
@@ -95,6 +91,10 @@ public class BusinessServiceTest {
 
     @Test
     public void testSaveWithBusinessRequest() {
+        when(fileStorageServiceMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq("testEmail@dal.ca")))
+                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
+        doNothing().when(businessHourServiceMock).init(anyLong());
+        when(categoryServiceMock.getCategoryByID(1L)).thenReturn(mockedCategory);
         when(businessRepositoryMock.findByEmail(TestConstants.TEST_EMAIL)).thenReturn(null);
         when(businessRepositoryMock.save(any(Business.class))).thenReturn(mockedBusiness);
         BusinessRequest mockedBusinessRequest = BusinessRequest.builder()
@@ -111,6 +111,7 @@ public class BusinessServiceTest {
 
     @Test
     public void testBusinessAlreadyExistsException() {
+        when(businessRepositoryMock.findByEmail(TestConstants.TEST_EMAIL)).thenReturn(mockedBusiness);
         BusinessRequest mockedBusinessRequest = BusinessRequest.builder()
                 .email(TestConstants.TEST_EMAIL)
                 .businessName(TestConstants.TEST_BUSINESS_NAME)
@@ -129,6 +130,9 @@ public class BusinessServiceTest {
 
     @Test
     public void testUpdateBusiness() {
+        when(fileStorageServiceMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq("testEmail@dal.ca")))
+                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
+        when(categoryServiceMock.getCategoryByID(1L)).thenReturn(mockedCategory);
         byte[] mockByteArr = new byte[2];
         BusinessRequest mockedBusinessRequest = BusinessRequest.builder()
                 .email(TestConstants.TEST_EMAIL)
