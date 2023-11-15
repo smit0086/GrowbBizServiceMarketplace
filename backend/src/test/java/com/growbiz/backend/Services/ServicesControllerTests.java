@@ -72,7 +72,7 @@ public class ServicesControllerTests {
     }
 
     @Test
-    public void getExistingServiceSuccessTest() {
+    public void getExistingServiceTest() {
         when(servicesService.getServiceById(1L)).thenReturn(mockService);
         when(servicesService.getTaxForService(mockService)).thenReturn("15");
 
@@ -86,7 +86,7 @@ public class ServicesControllerTests {
     }
 
     @Test
-    public void getNonExistingServiceSuccessTest() {
+    public void getNonExistingServiceTest() {
         when(servicesService.getServiceById(1L)).thenReturn(null);
         assertThrows(ServiceNotFoundException.class , () -> {
             serviceController.getService(1L);
@@ -95,7 +95,7 @@ public class ServicesControllerTests {
 
 
     @Test
-    public void addServiceSuccessTest() {
+    public void addServiceTest() {
         when(servicesService.addService(mockServiceRequest)).thenReturn(mockService);
 
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
@@ -108,7 +108,7 @@ public class ServicesControllerTests {
     }
 
     @Test
-    public void addExistingServiceSuccessTest() {
+    public void addExistingServiceTest() {
         when(servicesService.addService(mockServiceRequest)).thenReturn(null);
 
         assertThrows(ServiceAlreadyExistsException.class , () -> {
@@ -117,7 +117,7 @@ public class ServicesControllerTests {
     }
 
     @Test
-    public void updateExistingServiceSuccessTest() {
+    public void updateExistingServiceTest() {
         Services mockServiceUpdated = Services
                 .builder()
                 .serviceId(1L)
@@ -140,7 +140,7 @@ public class ServicesControllerTests {
     }
 
     @Test
-    public void updateNonExistingServiceSuccessTest() {
+    public void updateNonExistingServiceTest() {
         when(servicesService.updateService(mockServiceRequest)).thenReturn(null);
 
         assertThrows(ServiceNotFoundException.class , () -> {
@@ -149,7 +149,7 @@ public class ServicesControllerTests {
     }
 
     @Test
-    public void deleteServiceSuccessTest() {
+    public void deleteExistingServiceTest() {
         when(servicesService.deleteService(mockService.getServiceId())).thenReturn(true);
 
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(

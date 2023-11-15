@@ -91,56 +91,54 @@ public class ServicesService implements IServicesService {
 
     @Override
     public Services addService(ServiceRequest newServiceRequest) {
-        boolean checkNameAndBusiness =
-                Objects.nonNull(iServiceRepository.findByServiceNameAndBusinessBusinessId(
-                        newServiceRequest.getServiceName(),
-                        newServiceRequest.getBusinessID())
-                );
+        Services existingService = iServiceRepository.findByServiceNameAndBusinessBusinessId(
+                newServiceRequest.getServiceName(),
+                newServiceRequest.getBusinessID());
 
-        if (checkNameAndBusiness) {
-            throw new ServiceAlreadyExistsException("Service already Exists");
+        if (Objects.nonNull(existingService)) {
+            return null;
+        } else {
+            Business business = businessService.findById(newServiceRequest.getBusinessID());
+            SubCategory subCategory = subCategoryService.getSubCategoryByID(newServiceRequest.getSubCategoryID());
+            String imageUrl = fileStorageService.uploadFileToStorage(newServiceRequest.getImage(), newServiceRequest.getEmail());
+            Services service = Services.builder()
+                    .serviceName(newServiceRequest.getServiceName())
+                    .description(newServiceRequest.getDescription())
+                    .price(newServiceRequest.getPrice())
+                    .timeRequired(newServiceRequest.getTimeRequired())
+                    .business(business)
+                    .subCategory(subCategory)
+                    .imageURL(imageUrl)
+                    .build();
+
+            return iServiceRepository.save(service);
         }
-
-        Business business = businessService.findById(newServiceRequest.getBusinessID());
-        SubCategory subCategory = subCategoryService.getSubCategoryByID(newServiceRequest.getSubCategoryID());
-        String imageUrl = fileStorageService.uploadFileToStorage(newServiceRequest.getImage(), newServiceRequest.getEmail());
-        Services service = Services.builder()
-                .serviceName(newServiceRequest.getServiceName())
-                .description(newServiceRequest.getDescription())
-                .price(newServiceRequest.getPrice())
-                .timeRequired(newServiceRequest.getTimeRequired())
-                .business(business)
-                .subCategory(subCategory)
-                .imageURL(imageUrl)
-                .build();
-
-        return iServiceRepository.save(service);
     }
 
     @Override
     public Services updateService(ServiceRequest changeServiceRequest) {
         Services serviceToUpdate = iServiceRepository.findById(changeServiceRequest.getServiceID()).get();
 
-        if (Objects.nonNull(serviceToUpdate)) {
-            throw new ServiceAlreadyExistsException("Service doesn't exists");
+        if (Objects.isNull(serviceToUpdate)) {
+            return null;
+        } else {
+            Business business = businessService.findById(changeServiceRequest.getBusinessID());
+            SubCategory subCategory = subCategoryService.getSubCategoryByID(changeServiceRequest.getSubCategoryID());
+            String imageUrl = fileStorageService.uploadFileToStorage(changeServiceRequest.getImage(), changeServiceRequest.getEmail());
+
+            Services serviceUpdated = Services.builder()
+                    .serviceId(serviceToUpdate.getServiceId())
+                    .serviceName(changeServiceRequest.getServiceName())
+                    .description(changeServiceRequest.getDescription())
+                    .price(changeServiceRequest.getPrice())
+                    .timeRequired(changeServiceRequest.getTimeRequired())
+                    .business(business)
+                    .subCategory(subCategory)
+                    .imageURL(imageUrl)
+                    .build();
+
+            return iServiceRepository.save(serviceUpdated);
         }
-
-        Business business = businessService.findById(changeServiceRequest.getBusinessID());
-        SubCategory subCategory = subCategoryService.getSubCategoryByID(changeServiceRequest.getSubCategoryID());
-        String imageUrl = fileStorageService.uploadFileToStorage(changeServiceRequest.getImage(), changeServiceRequest.getEmail());
-
-        Services serviceUpdated = Services.builder()
-                .serviceId(serviceToUpdate.getServiceId())
-                .serviceName(changeServiceRequest.getServiceName())
-                .description(changeServiceRequest.getDescription())
-                .price(changeServiceRequest.getPrice())
-                .timeRequired(changeServiceRequest.getTimeRequired())
-                .business(business)
-                .subCategory(subCategory)
-                .imageURL(imageUrl)
-                .build();
-
-        return iServiceRepository.save(serviceUpdated);
     }
 
     @Override
