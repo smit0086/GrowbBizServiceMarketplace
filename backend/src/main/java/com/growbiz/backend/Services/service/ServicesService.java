@@ -1,5 +1,6 @@
 package com.growbiz.backend.Services.service;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Business.service.IBusinessService;
 import com.growbiz.backend.Categories.models.Category;
@@ -41,10 +42,10 @@ public class ServicesService implements IServicesService {
 
     @Override
     public Services getServiceById(Long serviceId) {
-        try {
-            Optional<Services> service = iServiceRepository.findById(serviceId);
-            return service.orElse(null);
-        } catch (Exception e) {
+        Optional<Services> service = iServiceRepository.findById(serviceId);
+        if (service.isPresent()) {
+            return service.get();
+        } else {
             return null;
         }
     }
