@@ -94,9 +94,7 @@ public class ServicesService implements IServicesService {
                 newServiceRequest.getServiceName(),
                 newServiceRequest.getBusinessID());
 
-        if (!Objects.isNull(existingService)) {
-            return null;
-        } else {
+        if (Objects.isNull(existingService)) {
             Business business = businessService.findById(newServiceRequest.getBusinessID());
             SubCategory subCategory = subCategoryService.getSubCategoryByID(newServiceRequest.getSubCategoryID());
             String imageUrl = fileStorageService.uploadFileToStorage(newServiceRequest.getImage(), newServiceRequest.getEmail());
@@ -112,6 +110,7 @@ public class ServicesService implements IServicesService {
 
             return iServiceRepository.save(service);
         }
+        return null;
     }
 
     @Override
@@ -135,7 +134,6 @@ public class ServicesService implements IServicesService {
                     .subCategory(subCategory)
                     .imageURL(imageUrl)
                     .build();
-
             return iServiceRepository.save(serviceUpdated);
         }
     }

@@ -59,6 +59,8 @@ public class ServicesServiceTests {
 
     Services mockServiceUpdated;
 
+    Services nullService = new Services();
+
     @BeforeEach
     public void init() {
 //        MockitoAnnotations.openMocks(this);
@@ -210,7 +212,7 @@ public class ServicesServiceTests {
 
     @Test
     public void updateNonExistingServiceTest() {
-        when(serviceRepository.findById(anyLong())).thenReturn(Optional.of(mockService));
+        when(serviceRepository.findById(anyLong())).thenReturn(Optional.ofNullable(nullService));
         Services results = servicesService.updateService(mockServiceRequest);
         assertNull(results);
     }

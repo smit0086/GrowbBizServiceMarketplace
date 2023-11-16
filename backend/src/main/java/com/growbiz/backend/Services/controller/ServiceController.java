@@ -10,8 +10,10 @@ import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -43,8 +45,10 @@ public class ServiceController {
         return serviceHelper.createServiceResponse(servicesService.getServiceBySubCategoryId(subCategoryID), false);
     }
 
-    @PostMapping(path = "/addService")
-    public ResponseEntity<ServiceResponse> addService(@RequestBody ServiceRequest newService) {
+    @RequestMapping(path = "/addService",
+            method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ServiceResponse> addService(@RequestPart("service") String serviceRequestJSON, @RequestPart("image") MultipartFile image) {
+        ServiceRequest newService = serviceHelper.getServiceRequestFromJSON(serviceRequestJSON, image);
         Services service = servicesService.addService(newService);
 
         if (service != null) {
@@ -54,8 +58,10 @@ public class ServiceController {
         }
     }
 
-    @PutMapping(path = "/updateService")
-    public ResponseEntity<ServiceResponse> updateService(@RequestBody ServiceRequest newService) {
+    @RequestMapping(path = "/updateService",
+            method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ServiceResponse> updateService(@RequestPart("service") String serviceRequestJSON, @RequestPart("image") MultipartFile image) {
+        ServiceRequest newService = serviceHelper.getServiceRequestFromJSON(serviceRequestJSON, image);
         Services updateService = servicesService.updateService(newService);
 
         if (updateService != null) {
