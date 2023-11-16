@@ -21,6 +21,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
+import { Icons } from "@/components/icons";
 
 const ViewOngoingBookings = ({ongoingBookings }) => {
     const [isCompletedConfirmationDialogOpen, setCompletedConfirmationDialogOpen] = useState(false);
@@ -103,7 +104,7 @@ const ViewOngoingBookings = ({ongoingBookings }) => {
                                                                 htmlFor="name"
                                                                 className="text-right"
                                                             >
-                                                                Are you sure you want to change the status to "Completed"?
+                                                                Are you sure you want to change the status to Completed?
                                                             </Label>
                                                         </div>
                                                     </div>

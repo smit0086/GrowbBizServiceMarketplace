@@ -21,6 +21,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
+import { Icons } from "@/components/icons";
 
 const ViewUpcomingBookings = ({ upcomingBookings }) => {
     const [isOngoingConfirmationDialoagOpen, setOngoingConfirmationDialoagOpen] = useState(false);
@@ -103,7 +104,7 @@ const ViewUpcomingBookings = ({ upcomingBookings }) => {
                                                                 htmlFor="name"
                                                                 className="text-right"
                                                             >
-                                                                Are you sure you want to change the status to "Ongoing"?
+                                                                Are you sure you want to change the status to Ongoing?
                                                             </Label>
                                                         </div>
                                                     </div>

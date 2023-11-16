@@ -2,8 +2,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import ViewServices from "./components/ViewServices";
 import { getAllSubCategories } from "@/services/subCategoriesServices";
-import { getBusiness } from "@/services/businessService";
 import { getServicesByBusinessId } from "@/services/servicesService";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default async function ServiceManagement(context) {
     const authSession = await getServerSession(authOptions);
@@ -31,7 +31,11 @@ export default async function ServiceManagement(context) {
 
     return (
         <>
-            <ViewServices authSession={authSession} predefinedServices={predefinedServices} businessId={businessId} fetchedServices={fetchedServices} />
+            <ScrollArea className="h-[100vh] w-[95vw] rounded-md p-4">
+                <div>
+                    <ViewServices authSession={authSession} predefinedServices={predefinedServices} businessId={businessId} fetchedServices={fetchedServices} />
+                </div>
+            </ScrollArea>
         </>
     );
 }
