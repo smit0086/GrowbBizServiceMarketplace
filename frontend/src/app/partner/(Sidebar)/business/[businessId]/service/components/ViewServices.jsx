@@ -29,9 +29,15 @@ const ViewServices = ({ authSession, predefinedServices, businessId, fetchedServ
             {services.length === 0 ?
                 <AddService authSession={authSession} predefinedServices={predefinedServices} cancelButton={false} services={services} setServices={setServices} setRenderAddService={setRenderAddService} formDefaults={formDefaults} setFormDefaults={setFormDefaults} businessId={businessId} />
                 :
+                <></>
+            }
+            {!renderAddService && !renderUpdateService ?
                 <div>
-                    <Button type="button" onClick={() => setRenderAddService(true)} style={{marginTop: '1%', marginLeft: '1%'}}>Add</Button>
-                    <div className="flex flex-wrap gap-4" style={{ marginTop: '1%', marginLeft: '1%' }}>
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-3xl p-8 pl-16">Services</h2>
+                        <Button type="button" onClick={() => setRenderAddService(true)} style={{ marginTop: '1%', marginRight: '1%' }}>Add</Button>
+                    </div>
+                    <div className="flex flex-wrap gap-4 p-8 pl-16">
                         {services.map((service) => (
                             <Card key={service.serviceId} className="w-[350px]">
                                 <CardHeader>
@@ -40,7 +46,8 @@ const ViewServices = ({ authSession, predefinedServices, businessId, fetchedServ
                                 </CardHeader>
                                 <CardContent>
                                     <div className="grid w-full items-center gap-4">
-                                        <div className="flex flex-col space-y-1.5">
+                                        <img src={service.imageURL} className="w-full h-auto" />
+                                        <div className="flex flex-col space-y-1.5 ">
                                             <Label htmlFor={`service-${service.serviceId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Price per hour</Label>
                                             <span id={`service-${service.serviceId}`} style={{ fontSize: '0.875rem' }}>{service.price} CAD</span>
                                         </div>
@@ -54,7 +61,7 @@ const ViewServices = ({ authSession, predefinedServices, businessId, fetchedServ
                                         </div>
                                     </div>
                                 </CardContent>
-                                <CardFooter className="flex justify-between">
+                                <CardFooter className="flex justify-left">
                                     <div className="flex space-x-4">
                                         <Button type="button" onClick={() => { setRenderUpdateService(true); setFormDefaults(service) }}>Update</Button>
                                         <DeleteService authSession={authSession} service={service} services={services} setServices={setServices} />
@@ -64,6 +71,8 @@ const ViewServices = ({ authSession, predefinedServices, businessId, fetchedServ
                         ))}
                     </div>
                 </div>
+                :
+                <></>
             }
         </div>
     )

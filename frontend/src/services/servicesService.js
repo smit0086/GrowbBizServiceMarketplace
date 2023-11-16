@@ -1,11 +1,12 @@
-export const addService = async (token, serviceName, description, timeRequired, businessID, subCategoryID, price) => {
+export const addService = async (token, serviceName, description, timeRequired, businessID, subCategoryID, price, serviceImage) => {
     const body = {
         serviceName,
         description,
         price,
         timeRequired,
         businessID,
-        subCategoryID
+        subCategoryID,
+        image: serviceImage
     };
     const resp = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/services/addService`,
@@ -13,7 +14,7 @@ export const addService = async (token, serviceName, description, timeRequired, 
             method: "post",
             body: JSON.stringify(body),
             headers: {
-                "Content-Type": "application/json",
+                "Content-type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
         }
@@ -47,7 +48,7 @@ export const getServicesByBusinessId = async (token, businessID) => {
     }
 };
 
-export const updateService = async (token, serviceId, serviceName, description, timeRequired, businessID, subCategoryID, price) => {
+export const updateService = async (token, serviceId, serviceName, description, timeRequired, businessID, subCategoryID, price, serviceImage) => {
     const body = {
         serviceID: serviceId,
         serviceName,
@@ -55,7 +56,8 @@ export const updateService = async (token, serviceId, serviceName, description, 
         price,
         timeRequired,
         businessID,
-        subCategoryID
+        subCategoryID,
+        image: serviceImage
     };
     const resp = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/services/updateService`,
@@ -63,7 +65,7 @@ export const updateService = async (token, serviceId, serviceName, description, 
             method: "put",
             body: JSON.stringify(body),
             headers: {
-                "Content-Type": "application/json",
+                "Content-type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
         }
