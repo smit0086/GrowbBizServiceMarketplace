@@ -45,4 +45,6 @@ public class Services {
     @JoinColumn(name = "subCategoryID", referencedColumnName = "subCategoryID")
     @JsonIgnore
     private SubCategory subCategory;
+
+    private String imageURL;
 }
