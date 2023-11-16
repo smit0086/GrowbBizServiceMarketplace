@@ -113,7 +113,7 @@ const BusinessApprovalForm = ({
                                     categories.find(
                                         (category) =>
                                             category.categoryID ===
-                                            business.categoryId
+                                            business.category.categoryID
                                     )?.name
                                 }
                             </span>
