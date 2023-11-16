@@ -94,7 +94,7 @@ public class PaymentService implements IPaymentService {
                             )
                             .build();
             PaymentIntent paymentIntent = PaymentIntent.create(params);
-            ResponseEntity.ok().body(PaymentResponse.builder().clientSecret(paymentIntent.getClientSecret()).build());
+            ResponseEntity.ok().body(PaymentResponse.builder().clientSecret(paymentIntent.getClientSecret()).paymentId(payment.getPaymentId()).build());
         } catch (StripeException e) {
             throw new RuntimeException(e);
         }

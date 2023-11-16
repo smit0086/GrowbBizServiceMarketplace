@@ -10,4 +10,5 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 public class PaymentResponse extends BasicResponse {
     String clientSecret;
+    Long paymentId;
 }
