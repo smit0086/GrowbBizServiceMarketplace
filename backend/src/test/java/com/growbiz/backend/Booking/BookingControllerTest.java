@@ -2,10 +2,7 @@ package com.growbiz.backend.Booking;
 
 import com.growbiz.backend.Booking.controller.BookingController;
 import com.growbiz.backend.Booking.helper.BookingControllerHelper;
-import com.growbiz.backend.Booking.models.Booking;
-import com.growbiz.backend.Booking.models.BookingRequest;
-import com.growbiz.backend.Booking.models.BookingResponse;
-import com.growbiz.backend.Booking.models.BookingStatus;
+import com.growbiz.backend.Booking.models.*;
 import com.growbiz.backend.Booking.service.IBookingService;
 import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Categories.models.SubCategory;
@@ -90,6 +87,7 @@ public class BookingControllerTest {
             .serviceName("Test Service")
             .description("Test")
             .price(24.00)
+            .timeRequired(LocalTime.of(0, 30))
             .business(mockBusiness)
             .subCategory(mockSubCategory)
             .build();
@@ -106,6 +104,20 @@ public class BookingControllerTest {
             .amount(120.50)
             .note("Test")
             .status(BookingStatus.UPCOMING)
+            .build();
+
+    @Mock
+    BookingBusiness mockBookingBusiness = BookingBusiness.builder()
+            .id(1L)
+            .date(TEST_BOOKING_DATE)
+            .startTime(TEST_BOOKING_START_TIME)
+            .endTime(TEST_BOOKING_END_TIME)
+            .amount(120.50)
+            .note("Test")
+            .status(BookingStatus.UPCOMING)
+            .userEmail("test@dal.ca")
+            .serviceName("Test Service")
+            .timeRequired(LocalTime.of(0, 30))
             .build();
 
     @Mock
@@ -227,17 +239,18 @@ public class BookingControllerTest {
 
     @Test
     public void getAllUpcomingBookingsForBusinessTest() {
-        ResponseEntity<BookingResponse> actualResponse;
-        ResponseEntity<BookingResponse> expectedResponse = ResponseEntity.ok(
-                BookingResponse.builder()
-                        .bookings(List.of(mockBooking))
+        ResponseEntity<BookingBusinessResponse> actualResponse;
+        ResponseEntity<BookingBusinessResponse> expectedResponse = ResponseEntity.ok(
+                BookingBusinessResponse.builder()
+                        .bookings(List.of(mockBookingBusiness))
                         .subject("test@dal.ca")
                         .role(Role.CUSTOMER)
                         .build()
         );
 
         when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, "UPCOMING")).thenReturn(List.of(mockBooking));
-        when(bookingHelper.createBookingResponse(List.of(mockBooking))).thenReturn(expectedResponse);
+        when(bookingHelper.convertToBookingBusinessList(List.of(mockBooking))).thenReturn(List.of(mockBookingBusiness));
+        when(bookingHelper.createBookingBusinessResponse(List.of(mockBookingBusiness))).thenReturn(expectedResponse);
 
         actualResponse = bookingController.getAllUpcomingBookingsByBusinessId(1L);
         assertEquals(expectedResponse, actualResponse);
@@ -245,19 +258,65 @@ public class BookingControllerTest {
 
     @Test
     public void getAllCompletedBookingsForBusinessTest() {
-        ResponseEntity<BookingResponse> actualResponse;
-        ResponseEntity<BookingResponse> expectedResponse = ResponseEntity.ok(
-                BookingResponse.builder()
-                        .bookings(List.of(mockCompletedBooking))
+        ResponseEntity<BookingBusinessResponse> actualResponse;
+        BookingBusiness mockBookingBusiness = BookingBusiness.builder()
+                .id(1L)
+                .date(mockCompletedBooking.getDate())
+                .startTime(mockCompletedBooking.getStartTime())
+                .endTime(mockCompletedBooking.getEndTime())
+                .amount(mockCompletedBooking.getAmount())
+                .note(mockCompletedBooking.getNote())
+                .status(mockCompletedBooking.getStatus())
+                .userEmail("test@dal.ca")
+                .serviceName("Test Service")
+                .timeRequired(LocalTime.of(0, 30))
+                .build();
+        ResponseEntity<BookingBusinessResponse> expectedResponse = ResponseEntity.ok(
+                BookingBusinessResponse.builder()
+                        .bookings(List.of(mockBookingBusiness))
                         .subject("test@dal.ca")
                         .role(Role.CUSTOMER)
                         .build()
         );
 
+
         when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, "COMPLETED")).thenReturn(List.of(mockCompletedBooking));
-        when(bookingHelper.createBookingResponse(List.of(mockCompletedBooking))).thenReturn(expectedResponse);
+        when(bookingHelper.convertToBookingBusinessList(List.of(mockCompletedBooking))).thenReturn(List.of(mockBookingBusiness));
+        when(bookingHelper.createBookingBusinessResponse(List.of(mockBookingBusiness))).thenReturn(expectedResponse);
 
         actualResponse = bookingController.getAllCompletedBookingsByBusinessId(1L);
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    public void getAllOngoingBookingsForBusinessTest() {
+        ResponseEntity<BookingBusinessResponse> actualResponse;
+        BookingBusiness mockBookingBusiness = BookingBusiness.builder()
+                .id(1L)
+                .date(mockCompletedBooking.getDate())
+                .startTime(mockCompletedBooking.getStartTime())
+                .endTime(mockCompletedBooking.getEndTime())
+                .amount(mockCompletedBooking.getAmount())
+                .note(mockCompletedBooking.getNote())
+                .status(mockCompletedBooking.getStatus())
+                .userEmail("test@dal.ca")
+                .serviceName("Test Service")
+                .timeRequired(LocalTime.of(0, 30))
+                .build();
+        ResponseEntity<BookingBusinessResponse> expectedResponse = ResponseEntity.ok(
+                BookingBusinessResponse.builder()
+                        .bookings(List.of(mockBookingBusiness))
+                        .subject("test@dal.ca")
+                        .role(Role.CUSTOMER)
+                        .build()
+        );
+
+
+        when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, "ONGOING")).thenReturn(List.of(mockOngoingBooking));
+        when(bookingHelper.convertToBookingBusinessList(List.of(mockOngoingBooking))).thenReturn(List.of(mockBookingBusiness));
+        when(bookingHelper.createBookingBusinessResponse(List.of(mockBookingBusiness))).thenReturn(expectedResponse);
+
+        actualResponse = bookingController.getAllOngoingBookingsByBusinessId(1L);
         assertEquals(expectedResponse, actualResponse);
     }
 }

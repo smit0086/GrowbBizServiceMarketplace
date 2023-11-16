@@ -35,7 +35,7 @@ public class BookingController {
         return helper.createBookingResponse(List.of(booking));
     }
 
-    @PutMapping(path = "/{bookingId}/status/")
+    @PutMapping(path = "/{bookingId}/status")
     public ResponseEntity<BookingResponse> modifyBookingStatus(@PathVariable("bookingId") Long bookingId, @RequestParam String status) {
         Booking booking = bookingService.getBookingById(bookingId);
 
@@ -87,15 +87,27 @@ public class BookingController {
     }
 
     @GetMapping(path = "/business/upcoming/{businessId}")
-    public ResponseEntity<BookingResponse> getAllUpcomingBookingsByBusinessId(@PathVariable Long businessId) {
+    public ResponseEntity<BookingBusinessResponse> getAllUpcomingBookingsByBusinessId(@PathVariable Long businessId) {
         List<Booking> bookings = bookingService.getAllBookingsByBusinessIdAndStatus(businessId, "UPCOMING");
-        return helper.createBookingResponse(bookings);
+        List<BookingBusiness> bookingBusinesses = helper.convertToBookingBusinessList(bookings);
+
+        return helper.createBookingBusinessResponse(bookingBusinesses);
     }
 
     @GetMapping(path = "/business/completed/{businessId}")
-    public ResponseEntity<BookingResponse> getAllCompletedBookingsByBusinessId(@PathVariable Long businessId) {
+    public ResponseEntity<BookingBusinessResponse> getAllCompletedBookingsByBusinessId(@PathVariable Long businessId) {
         List<Booking> bookings = bookingService.getAllBookingsByBusinessIdAndStatus(businessId, "COMPLETED");
-        return helper.createBookingResponse(bookings);
+        List<BookingBusiness> bookingBusinesses = helper.convertToBookingBusinessList(bookings);
+
+        return helper.createBookingBusinessResponse(bookingBusinesses);
+    }
+
+    @GetMapping(path = "/business/ongoing/{businessId}")
+    public ResponseEntity<BookingBusinessResponse> getAllOngoingBookingsByBusinessId(@PathVariable Long businessId) {
+        List<Booking> bookings = bookingService.getAllBookingsByBusinessIdAndStatus(businessId, "ONGOING");
+        List<BookingBusiness> bookingBusinesses = helper.convertToBookingBusinessList(bookings);
+
+        return helper.createBookingBusinessResponse(bookingBusinesses);
     }
 
     @GetMapping(path = "/getSlot/{businessId}/{serviceId}")
