@@ -32,7 +32,7 @@ public class PaymentService implements IPaymentService {
     IServicesService servicesService;
     @Autowired
     IBookingService bookingService;
-    @Value("${keys:stripeAPIKey}")
+    @Value("${keys.stripeAPIKey}")
     private String stripeAPIKey;
 
     @Override
@@ -86,19 +86,12 @@ public class PaymentService implements IPaymentService {
                             .putMetadata("payment_id", payment.getPaymentId().toString())
                             .setAmount(totalAmount)
                             .setCurrency("cad")
-                            .setAutomaticPaymentMethods(
-                                    PaymentIntentCreateParams.AutomaticPaymentMethods
-                                            .builder()
-                                            .setEnabled(true)
-                                            .build()
-                            )
                             .build();
             PaymentIntent paymentIntent = PaymentIntent.create(params);
-            ResponseEntity.ok().body(PaymentResponse.builder().clientSecret(paymentIntent.getClientSecret()).paymentId(payment.getPaymentId()).build());
+            return ResponseEntity.ok().body(PaymentResponse.builder().clientSecret(paymentIntent.getClientSecret()).paymentId(payment.getPaymentId()).build());
         } catch (StripeException e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.internalServerError().build();
     }
 
     private void saveToBooking(Payment payment, Long amount) {
@@ -131,6 +124,6 @@ public class PaymentService implements IPaymentService {
         Services service = servicesService.getServiceById(serviceId);
         double servicePrice = service.getPrice();
         double taxApplied = Double.parseDouble(service.getSubCategory().getCategory().getTax());
-        return (long) (servicePrice + taxApplied * 100);
+        return (long) (servicePrice + (taxApplied / 100 * servicePrice) * 100);
     }
 }
