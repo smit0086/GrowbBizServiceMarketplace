@@ -12,7 +12,7 @@ public interface IPaymentService {
 
     Payment findPaymentById(Long paymentId);
 
-    ResponseEntity<String> handleWebhook(String requestBody);
+    ResponseEntity<String> handleWebhook(String requestBody, String sigHeader);
 
     ResponseEntity<PaymentResponse> createPaymentIntent(PaymentRequest paymentRequest);
 }

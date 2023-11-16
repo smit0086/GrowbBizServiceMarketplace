@@ -1,7 +1,5 @@
 package com.growbiz.backend.Payment.service;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.growbiz.backend.Booking.models.Booking;
 import com.growbiz.backend.Booking.service.IBookingService;
 import com.growbiz.backend.Payment.model.Payment;
@@ -12,11 +10,13 @@ import com.growbiz.backend.Payment.repository.IPaymentRepository;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
 import com.stripe.Stripe;
+import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
 import com.stripe.model.EventDataObjectDeserializer;
 import com.stripe.model.PaymentIntent;
 import com.stripe.model.StripeObject;
+import com.stripe.net.Webhook;
 import com.stripe.param.PaymentIntentCreateParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +34,8 @@ public class PaymentService implements IPaymentService {
     IBookingService bookingService;
     @Value("${keys.stripeAPIKey}")
     private String stripeAPIKey;
+    @Value("${keys.stripeWebhookSecret}")
+    private String stripeWebhookSecret;
 
     @Override
     public Payment addPayment(PaymentRequest paymentRequest) {
@@ -46,13 +48,12 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
-    public ResponseEntity<String> handleWebhook(String requestBody) {
+    public ResponseEntity<String> handleWebhook(String requestBody, String sigHeader) {
         Stripe.apiKey = stripeAPIKey;
         Event event = null;
         try {
-            event = new Gson().fromJson(requestBody, Event.class);
-        } catch (JsonSyntaxException exception) {
-            exception.printStackTrace();
+            event = Webhook.constructEvent(requestBody, sigHeader, stripeWebhookSecret);
+        } catch (SignatureVerificationException e) {
             return ResponseEntity.internalServerError().build();
         }
         EventDataObjectDeserializer dataObjectDeserializer = event.getDataObjectDeserializer();

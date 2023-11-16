@@ -23,8 +23,8 @@ public class PaymentController {
     }
 
     @PostMapping(path = "/webhook")
-    public ResponseEntity<String> handleWebhook(@RequestBody String requestBody) {
-        return paymentService.handleWebhook(requestBody);
+    public ResponseEntity<String> handleWebhook(@RequestBody String requestBody, @RequestHeader("Stripe-Signature") String sigHeader) {
+        return paymentService.handleWebhook(requestBody, sigHeader);
     }
 
     @GetMapping(path = "/")
