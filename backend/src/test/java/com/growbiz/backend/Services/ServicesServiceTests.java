@@ -159,11 +159,6 @@ public class ServicesServiceTests {
         assertNull(results);
     }
 
-//    @Test
-//    public void fetchServiceListTest() {
-//
-//    }
-//
     @Test
     public void addServiceTest() {
         ServiceRequest mockedServiceRequest = ServiceRequest.builder()
@@ -220,17 +215,33 @@ public class ServicesServiceTests {
         assertNull(results);
     }
 
-//    @Test
-//    public void deleteExistingServiceTest() {
-//
-//    }
-//
-//    @Test
-//    public void getAllServicesForBusinessTest() {
-//
-//    }
-//    @Test
-//    public void getAllServicesForSubCategoryTest() {
-//
-//    }
+    @Test
+    public void deleteExistingServiceTest() {
+        doNothing().when(serviceRepository).deleteById(mockService.getServiceId());
+        Boolean result = servicesService.deleteService(mockService.getServiceId());
+        verify(serviceRepository, times(1)).deleteById(mockService.getServiceId());
+        assertTrue(result);
+    }
+
+    @Test
+    public void deleteNonExistingServiceTest() {
+        doThrow(new NullPointerException("Test Exception")).when(serviceRepository).deleteById(mockService.getServiceId());
+        Boolean result = servicesService.deleteService(mockService.getServiceId());
+        assertFalse(result);
+    }
+
+    @Test
+    public void fetchAllServicesTest(){
+        when(serviceRepository.findAll()).thenReturn(List.of(mockService));
+        List<Services> services = servicesService.fetchServiceList();
+        assertNotNull(services);
+    }
+
+    @Test
+    public void fetchEmptyServicesTest(){
+        when(serviceRepository.findAll()).thenThrow(new NullPointerException("Test Exception"));
+        List<Services> services = servicesService.fetchServiceList();
+        assertNull(services);
+    }
+
 }
