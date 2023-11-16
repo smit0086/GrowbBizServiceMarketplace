@@ -24,5 +24,5 @@ public class ServiceRequest extends BasicRequest {
     private LocalTime timeRequired;
     private long businessID;
     private long subCategoryID;
-    private MultipartFile image;
+    private String image;
 }

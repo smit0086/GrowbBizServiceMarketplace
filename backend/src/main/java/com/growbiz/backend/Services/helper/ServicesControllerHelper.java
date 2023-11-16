@@ -53,19 +53,5 @@ public class ServicesControllerHelper {
                 .businessId(service.get(0).getBusiness().getBusinessId())
                 .build());
     }
-
-    public ServiceRequest getServiceRequestFromJSON(String json, MultipartFile image) {
-        ServiceRequest serviceRequest = new ServiceRequest();
-        try {
-            ObjectMapper objectMapper = new ObjectMapper()
-                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            objectMapper.registerModule(new JavaTimeModule());
-            serviceRequest = objectMapper.readValue(json, ServiceRequest.class);
-        } catch (IOException err) {
-            System.out.println(err.toString());
-        }
-        serviceRequest.setImage(image);
-        return serviceRequest;
-    }
 }
 
