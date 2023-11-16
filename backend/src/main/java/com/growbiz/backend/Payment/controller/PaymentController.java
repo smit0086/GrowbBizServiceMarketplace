@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/payment")
@@ -27,14 +29,13 @@ public class PaymentController {
         return paymentService.handleWebhook(requestBody, sigHeader);
     }
 
-    @GetMapping(path = "/")
+    @GetMapping
     public ResponseEntity<Payment> getPayment(@RequestParam Long paymentId) {
         return ResponseEntity.ok(paymentService.findPaymentById(paymentId));
     }
 
     @GetMapping(path = "/status")
-    public ResponseEntity<Payment> getAllPayments(@RequestParam String paymentStatus) {
-        //return ResponseEntity.ok(paymentService.findPaymentById(paymentId));
-        return null;
+    public ResponseEntity<List<Payment>> getAllPayments(@RequestParam String paymentStatus) {
+        return ResponseEntity.ok(paymentService.findAllPayments());
     }
 }

@@ -23,6 +23,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @Service
 public class PaymentService implements IPaymentService {
 
@@ -45,6 +49,12 @@ public class PaymentService implements IPaymentService {
     @Override
     public Payment findPaymentById(Long paymentId) {
         return paymentRepository.findById(paymentId).orElse(null);
+    }
+
+    @Override
+    public List<Payment> findAllPayments() {
+        return StreamSupport.stream(paymentRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     @Override
