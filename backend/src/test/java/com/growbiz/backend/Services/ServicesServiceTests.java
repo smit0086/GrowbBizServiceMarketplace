@@ -63,7 +63,6 @@ public class ServicesServiceTests {
 
     @BeforeEach
     public void init() {
-//        MockitoAnnotations.openMocks(this);
         mockCategory = Category
                 .builder()
                 .categoryID(1L)

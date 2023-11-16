@@ -113,51 +113,7 @@ public class ServicesControllerTests {
         });
     }
 
-//    @Test
-//    public void addServiceTest() {
-//        when(servicesHelper.getServiceRequestFromJSON(anyString(),any(MultipartFile.class))).thenReturn(mockServiceRequest);
-//        when(servicesService.addService(mockServiceRequest)).thenReturn(mockService);
-//
-//        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-//                ServiceResponse.builder().services(List.of(mockService)).isUpdated(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
-//
-//        when(servicesHelper.createServiceResponse(List.of(mockService), false)).thenReturn(expectedResponse);
-//
-//        ResponseEntity<ServiceResponse> resultResponse = serviceController.addService(anyString(), any(MultipartFile.class));
-//        assertEquals(expectedResponse, resultResponse);
-//    }
 
-//    @Test
-//    public void addExistingServiceTest() {
-//
-//        lenient().doNothing().when(servicesHelper.getServiceRequestFromJSON(anyString(), eq(any(MultipartFile.class))));
-//        when(servicesService.addService(mockServiceRequest)).thenReturn(null);
-//
-//        assertThrows(ServiceAlreadyExistsException.class , () -> {
-//            serviceController.addService(mockServiceRequest)};
-//    }
-
-//    @Test
-//    public void updateExistingServiceTest() {
-//        when(servicesService.updateService(mockServiceRequest)).thenReturn(mockServiceUpdated);
-//
-//        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-//                ServiceResponse.builder().services(List.of(mockServiceUpdated)).isUpdated(true).role(Role.ADMIN).subject("testEmail@dal.ca").build());
-//
-//        when(servicesHelper.createServiceResponse(List.of(mockServiceUpdated), true)).thenReturn(expectedResponse);
-//
-//        ResponseEntity<ServiceResponse> resultResponse = serviceController.updateService(mockServiceRequest);
-//        assertEquals(expectedResponse, resultResponse);
-//    }
-//
-//    @Test
-//    public void updateNonExistingServiceTest() {
-//        when(servicesService.updateService(mockServiceRequest)).thenReturn(null);
-//
-//        assertThrows(ServiceNotFoundException.class , () -> {
-//            serviceController.updateService(mockServiceRequest);
-//        });
-//    }
 
     @Test
     public void deleteExistingServiceTest() {
