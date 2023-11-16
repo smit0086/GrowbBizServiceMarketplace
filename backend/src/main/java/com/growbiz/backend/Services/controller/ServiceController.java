@@ -10,8 +10,10 @@ import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -43,21 +45,24 @@ public class ServiceController {
         return serviceHelper.createServiceResponse(servicesService.getServiceBySubCategoryId(subCategoryID), false);
     }
 
-    @PostMapping(path = "/addService")
-    public ResponseEntity<ServiceResponse> addService(@RequestBody ServiceRequest newService) {
-        Services service = servicesService.addService(newService);
+    @GetMapping(path = "allServicesByCategoryId")
+    public ResponseEntity<ServiceResponse> getAllServicesByCategoryId(@RequestParam Long categoryID) {
+        return serviceHelper.createServiceResponse(servicesService.getServicesByCategoryId(categoryID), false);
+    }
 
+    @RequestMapping(path = "/addService")
+    public ResponseEntity<ServiceResponse> addService(@RequestBody ServiceRequest serviceRequest) {
+        Services service = servicesService.addService(serviceRequest);
         if (service != null) {
             return serviceHelper.createServiceResponse(List.of(service), false);
         } else {
-             throw new ServiceAlreadyExistsException("The requested new service to add, already exists!");
+            throw new ServiceAlreadyExistsException("The requested new service to add, already exists!");
         }
     }
 
-    @PutMapping(path = "/updateService")
-    public ResponseEntity<ServiceResponse> updateService(@RequestBody ServiceRequest newService) {
-        Services updateService = servicesService.updateService(newService);
-
+    @RequestMapping(path = "/updateService")
+    public ResponseEntity<ServiceResponse> updateService(@RequestBody ServiceRequest serviceRequest) {
+        Services updateService = servicesService.updateService(serviceRequest);
         if (updateService != null) {
             return serviceHelper.createServiceResponse(List.of(updateService), true);
         } else {

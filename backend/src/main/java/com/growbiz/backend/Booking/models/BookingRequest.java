@@ -28,4 +28,6 @@ public class BookingRequest extends BasicRequest {
     private double amount;
 
     private String note;
+
+    private BookingStatus status;
 }
