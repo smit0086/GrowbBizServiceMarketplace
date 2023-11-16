@@ -71,14 +71,10 @@ export const getUpcomingBookingsForBusiness = async (token, businessId) => {
 };
 
 export const updateBookingStatus = async (token, bookingId, status) => {
-    const body = {
-        status
-    };
     const resp = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/booking/${bookingId}/status/`,
+        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/booking/${bookingId}/status?status=${status}`,
         {
             method: "put",
-            body: JSON.stringify(body),
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
