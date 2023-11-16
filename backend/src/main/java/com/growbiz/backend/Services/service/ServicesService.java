@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -68,6 +69,18 @@ public class ServicesService implements IServicesService {
     }
 
     @Override
+    public List<Services> getServicesByCategoryId(Long categoryId) {
+        List<Services> services = new ArrayList<>();
+        List<SubCategory> subCategoryList = subCategoryService.fetchSubCategoryListForCategoryID(categoryId);
+        if (!subCategoryList.isEmpty()) {
+            for (SubCategory subcategory : subCategoryList) {
+                services.add(getServiceBySubCategoryId(subcategory.getSubCategoryID()).get(0));
+            }
+        }
+        return services;
+    }
+
+    @Override
     public String getTaxForService(Services service) {
         try {
             SubCategory subCategory = service.getSubCategory();
@@ -93,11 +106,9 @@ public class ServicesService implements IServicesService {
         Services existingService = iServiceRepository.findByServiceNameAndBusinessBusinessId(
                 newServiceRequest.getServiceName(),
                 newServiceRequest.getBusinessID());
-
         if (Objects.isNull(existingService)) {
             Business business = businessService.findById(newServiceRequest.getBusinessID());
             SubCategory subCategory = subCategoryService.getSubCategoryByID(newServiceRequest.getSubCategoryID());
-            String imageUrl = fileStorageService.uploadFileToStorage(newServiceRequest.getImage(), newServiceRequest.getEmail());
             Services service = Services.builder()
                     .serviceName(newServiceRequest.getServiceName())
                     .description(newServiceRequest.getDescription())
@@ -105,9 +116,8 @@ public class ServicesService implements IServicesService {
                     .timeRequired(newServiceRequest.getTimeRequired())
                     .business(business)
                     .subCategory(subCategory)
-                    .imageURL(imageUrl)
+                    .imageURL(newServiceRequest.getImage())
                     .build();
-
             return iServiceRepository.save(service);
         }
         return null;
@@ -115,24 +125,21 @@ public class ServicesService implements IServicesService {
 
     @Override
     public Services updateService(ServiceRequest changeServiceRequest) {
-        Services serviceToUpdate = iServiceRepository.findById(changeServiceRequest.getServiceID()).get();
-
-        if (Objects.isNull(serviceToUpdate)) {
+        Optional<Services> serviceToUpdate = iServiceRepository.findById(changeServiceRequest.getServiceID());
+        if (serviceToUpdate.isEmpty()) {
             return null;
         } else {
             Business business = businessService.findById(changeServiceRequest.getBusinessID());
             SubCategory subCategory = subCategoryService.getSubCategoryByID(changeServiceRequest.getSubCategoryID());
-            String imageUrl = fileStorageService.uploadFileToStorage(changeServiceRequest.getImage(), changeServiceRequest.getEmail());
-
             Services serviceUpdated = Services.builder()
-                    .serviceId(serviceToUpdate.getServiceId())
+                    .serviceId(serviceToUpdate.get().getServiceId())
                     .serviceName(changeServiceRequest.getServiceName())
                     .description(changeServiceRequest.getDescription())
                     .price(changeServiceRequest.getPrice())
                     .timeRequired(changeServiceRequest.getTimeRequired())
                     .business(business)
                     .subCategory(subCategory)
-                    .imageURL(imageUrl)
+                    .imageURL(changeServiceRequest.getImage())
                     .build();
             return iServiceRepository.save(serviceUpdated);
         }

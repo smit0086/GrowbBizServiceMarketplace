@@ -1,8 +1,8 @@
 package com.growbiz.backend.Booking.helper;
 
-import com.growbiz.backend.Booking.models.Booking;
 import com.growbiz.backend.Booking.models.SlotRange;
 import com.growbiz.backend.Business.model.BusinessHour;
+import com.growbiz.backend.Payment.model.Payment;
 import com.growbiz.backend.Services.service.IServicesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +59,7 @@ public class BookingServiceHelper {
      * @return - list of freeSlots
      * @author - an370985@dal.ca
      */
-    public List<SlotRange> getFreeSlots(Date date, BusinessHour businessHour, Long serviceId, List<Booking> bookingList) {
+    public List<SlotRange> getFreeSlots(Date date, BusinessHour businessHour, Long serviceId, List<Payment> paymentList) {
         List<SlotRange> freeSlots = new ArrayList<>();
         LocalTime start = null;
         LocalTime end = null;
@@ -118,9 +118,9 @@ public class BookingServiceHelper {
         if (Objects.nonNull(start) && Objects.nonNull(end)) {
             return populateAllFreeSlots(start, end,
                     Duration.between(LocalTime.of(0, 0), servicesService.getServiceById(serviceId).getTimeRequired()).toMinutes(),
-                    bookingList.stream().filter(booking -> {
+                    paymentList.stream().filter(payment -> {
                         try {
-                            return date.equals(sdf.parse(booking.getDate()));
+                            return date.equals(sdf.parse(payment.getDate()));
                         } catch (ParseException e) {
                             throw new RuntimeException(e);
                         }
@@ -135,15 +135,15 @@ public class BookingServiceHelper {
      * @param start       - start time
      * @param end         - end time
      * @param duration    - total duration taken by the service
-     * @param bookingList - the booking list
+     * @param paymentList - the payment list
      * @return - list of free slots
      * @author - an370985@dal.ca
      */
-    private List<SlotRange> populateAllFreeSlots(LocalTime start, LocalTime end, long duration, List<Booking> bookingList) {
+    private List<SlotRange> populateAllFreeSlots(LocalTime start, LocalTime end, long duration, List<Payment> paymentList) {
         int timeSlotGap = 30;
         List<SlotRange> freeSlots = new ArrayList<>();
         List<SlotRange> bookedSlots = new ArrayList<>();
-        bookingList.forEach(booking -> bookedSlots.add(new SlotRange(booking.getStartTime(), booking.getEndTime())));
+        paymentList.forEach(payment -> bookedSlots.add(new SlotRange(payment.getStartTime(), payment.getEndTime())));
         int availableTime = 0;
         end = end.minusMinutes(timeSlotGap);
         while (end.isAfter(start) || end.equals(start)) {

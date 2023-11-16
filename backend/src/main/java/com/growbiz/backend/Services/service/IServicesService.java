@@ -15,6 +15,8 @@ public interface IServicesService {
 
     List<Services> getServiceBySubCategoryId(Long subCategoryId);
 
+    List<Services> getServicesByCategoryId(Long categoryId);
+
     String getTaxForService(Services service);
 
     List<Services> fetchServiceList();

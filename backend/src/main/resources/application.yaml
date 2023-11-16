@@ -23,3 +23,6 @@ spring:
     username:
     password:
     port: 587
+keys:
+  stripeAPIKey:
+  stripeWebhookSecret:

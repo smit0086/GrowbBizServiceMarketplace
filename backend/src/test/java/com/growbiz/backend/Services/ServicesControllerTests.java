@@ -1,6 +1,7 @@
 package com.growbiz.backend.Services;
 
 import com.growbiz.backend.Business.model.Business;
+import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.ServiceNotFoundException;
@@ -23,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,6 +40,8 @@ public class ServicesControllerTests {
     @InjectMocks
     private ServiceController serviceController;
     @Mock
+    Category mockCategory;
+    @Mock
     Business mockBusiness;
     @Mock
     SubCategory mockSubCategory;
@@ -51,11 +55,17 @@ public class ServicesControllerTests {
     @Before
     public void init() {
         MockitoAnnotations.openMocks(this);
+        mockCategory = Category
+                .builder()
+                .categoryID(1L)
+                .name("Nail Care")
+                .tax("25")
+                .build();
         mockSubCategory = SubCategory
                 .builder()
                 .subCategoryID(1L)
                 .name("Manicure")
-                .subCategoryID(2L)
+                .category(mockCategory)
                 .build();
         mockBusiness = Business
                 .builder()
@@ -96,7 +106,7 @@ public class ServicesControllerTests {
         when(servicesService.getTaxForService(mockService)).thenReturn("15");
 
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().services(List.of(mockService)).tax("15").role(Role.ADMIN).subject("testEmail@dal.ca").build());
+                ServiceResponse.builder().services(List.of(mockService)).tax("15").role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
         when(servicesHelper.createServiceResponseWithTax(List.of(mockService), "15")).thenReturn(expectedResponse);
 
@@ -113,14 +123,12 @@ public class ServicesControllerTests {
         });
     }
 
-
-
     @Test
     public void deleteExistingServiceTest() {
         when(servicesService.deleteService(mockService.getServiceId())).thenReturn(true);
 
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().isDeleted(true).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+                ServiceResponse.builder().isDeleted(true).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
         when(servicesHelper.deleteServiceResponse(true)).thenReturn(expectedResponse);
 
@@ -142,7 +150,7 @@ public class ServicesControllerTests {
         when(servicesService.getServiceByBusinessId(1L)).thenReturn(List.of(mockService));
 
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
         when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
 
@@ -155,11 +163,24 @@ public class ServicesControllerTests {
         when(servicesService.getServiceBySubCategoryId(1L)).thenReturn(List.of(mockService));
 
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
         when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
 
         ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServicesBySubCategoryId(1L);
+        assertEquals(expectedResponse, resultResponse);
+    }
+
+    @Test
+    public void getAllServicesListForCategoryTest() {
+        when(servicesService.getServicesByCategoryId(1L)).thenReturn(List.of(mockService));
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
+
+        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServicesByCategoryId(1L);
         assertEquals(expectedResponse, resultResponse);
     }
 
