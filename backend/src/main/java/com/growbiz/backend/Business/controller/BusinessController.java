@@ -4,8 +4,8 @@ import com.growbiz.backend.Business.helper.BusinessControllerHelper;
 import com.growbiz.backend.Business.model.*;
 import com.growbiz.backend.Business.service.IBusinessHourService;
 import com.growbiz.backend.Business.service.IBusinessService;
-import com.growbiz.backend.Business.service.IFileStorageService;
-import com.growbiz.backend.Business.service.ISendEmailService;
+import com.growbiz.backend.Email.service.ISendEmailService;
+import com.growbiz.backend.File.service.IFileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -70,7 +70,7 @@ public class BusinessController {
     @GetMapping(path = "/download")
     public ResponseEntity<byte[]> downloadFile(@RequestParam String email) {
         return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(fileStorageService.downloadFile(email));
     }
 
@@ -81,7 +81,7 @@ public class BusinessController {
     }
 
     @GetMapping(path = "/businessHours")
-    public ResponseEntity<BusinessHourResponse> getBusinessHours(@RequestParam String businessId){
+    public ResponseEntity<BusinessHourResponse> getBusinessHours(@RequestParam String businessId) {
         Long bId = Long.parseLong(businessId);
         return helper.createBusinessHourResponse(businessHourService.getBusinessHour(bId));
     }

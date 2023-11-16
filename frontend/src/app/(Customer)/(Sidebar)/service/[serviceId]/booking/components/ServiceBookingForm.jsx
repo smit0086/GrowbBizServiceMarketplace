@@ -74,8 +74,9 @@ const ServiceBookingForm = ({
         const [startTimeStr, endTimeStr] = data.slotTime.split(" - ");
         const startTime = startTimeStr.replace(" AM", "");
         const endTime = endTimeStr.replace(" AM", "");
+        const totalAmount = parseFloat(service.price) + parseFloat(tax);
 
-        const bookedService = await bookService(authSession.apiToken, service.serviceId, formattedDate, startTime, endTime, service.price, data.note, authSession.user.email);
+        const bookedService = await bookService(authSession.apiToken, service.serviceId, formattedDate, startTime, endTime, totalAmount, data.note, authSession.user.email);
 
         setLoading(false);
     };

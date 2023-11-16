@@ -1,6 +1,5 @@
 package com.growbiz.backend.Business.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.growbiz.backend.Categories.models.Category;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -30,7 +29,6 @@ public class Business {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", referencedColumnName = "categoryID")
-    @JsonIgnore
     private Category category;
 
     private String fileURL;

@@ -1,11 +1,10 @@
 package com.growbiz.backend.Booking.controller;
 
 import com.growbiz.backend.Booking.helper.BookingControllerHelper;
-import com.growbiz.backend.Booking.models.Booking;
-import com.growbiz.backend.Booking.models.BookingRequest;
-import com.growbiz.backend.Booking.models.BookingResponse;
-import com.growbiz.backend.Booking.models.FreeSlotsResponse;
+import com.growbiz.backend.Booking.models.*;
 import com.growbiz.backend.Booking.service.IBookingService;
+import com.growbiz.backend.User.models.User;
+import com.growbiz.backend.User.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,18 +24,51 @@ public class BookingController {
     private IBookingService bookingService;
 
     @Autowired
+    private IUserService userService;
+
+    @Autowired
     private BookingControllerHelper helper;
 
     @PostMapping(path = "/add")
     public ResponseEntity<BookingResponse> addBooking(@RequestBody BookingRequest bookingRequest) {
         Booking booking = bookingService.save(bookingRequest);
+        return helper.createBookingResponse(List.of(booking));
+    }
+
+    @PutMapping(path = "/{bookingId}/status")
+    public ResponseEntity<BookingResponse> modifyBookingStatus(@PathVariable("bookingId") Long bookingId, @RequestParam String status) {
+        Booking booking = bookingService.getBookingById(bookingId);
+
+        booking.setStatus(BookingStatus.valueOf(status));
+        bookingService.save(booking);
 
         return helper.createBookingResponse(List.of(booking));
     }
 
-    @GetMapping(path = "/user/{id}")
-    public ResponseEntity<BookingResponse> getAllUserBookings(@PathVariable Long id) {
-        List<Booking> bookings = bookingService.findByUserId(id);
+    @GetMapping(path = "/user/")
+    public ResponseEntity<BookingResponse> getAllUserBookings(@RequestParam String email, @RequestParam String role) {
+        User user = userService.getUserByEmailAndRole(email, role);
+        List<Booking> bookings = bookingService.findByUserId(user.getId());
+
+        return helper.createBookingResponse(bookings);
+    }
+
+    @GetMapping(path = "/user/upcoming/")
+    public ResponseEntity<BookingResponse> getAllUpcomingUserBookings(
+            @RequestParam String email,
+            @RequestParam String role) {
+        User user = userService.getUserByEmailAndRole(email, role);
+        List<Booking> bookings = bookingService.getAllBookingsByUserIdAndStatus(user.getId(), BookingStatus.UPCOMING.name());
+
+        return helper.createBookingResponse(bookings);
+    }
+
+    @GetMapping(path = "/user/completed/")
+    public ResponseEntity<BookingResponse> getAllCompletedUserBookings(
+            @RequestParam String email,
+            @RequestParam String role) {
+        User user = userService.getUserByEmailAndRole(email, role);
+        List<Booking> bookings = bookingService.getAllBookingsByUserIdAndStatus(user.getId(), BookingStatus.COMPLETED.name());
 
         return helper.createBookingResponse(bookings);
     }
@@ -51,8 +83,31 @@ public class BookingController {
     @GetMapping(path = "/business/{businessId}")
     public ResponseEntity<BookingResponse> getAllBookingsByBusinessId(@PathVariable Long businessId) {
         List<Booking> bookings = bookingService.findByBusinessId(businessId);
-
         return helper.createBookingResponse(bookings);
+    }
+
+    @GetMapping(path = "/business/upcoming/{businessId}")
+    public ResponseEntity<BookingBusinessResponse> getAllUpcomingBookingsByBusinessId(@PathVariable Long businessId) {
+        List<Booking> bookings = bookingService.getAllBookingsByBusinessIdAndStatus(businessId, BookingStatus.UPCOMING);
+        List<BookingBusiness> bookingBusinesses = helper.convertToBookingBusinessList(bookings);
+
+        return helper.createBookingBusinessResponse(bookingBusinesses);
+    }
+
+    @GetMapping(path = "/business/completed/{businessId}")
+    public ResponseEntity<BookingBusinessResponse> getAllCompletedBookingsByBusinessId(@PathVariable Long businessId) {
+        List<Booking> bookings = bookingService.getAllBookingsByBusinessIdAndStatus(businessId, BookingStatus.COMPLETED);
+        List<BookingBusiness> bookingBusinesses = helper.convertToBookingBusinessList(bookings);
+
+        return helper.createBookingBusinessResponse(bookingBusinesses);
+    }
+
+    @GetMapping(path = "/business/ongoing/{businessId}")
+    public ResponseEntity<BookingBusinessResponse> getAllOngoingBookingsByBusinessId(@PathVariable Long businessId) {
+        List<Booking> bookings = bookingService.getAllBookingsByBusinessIdAndStatus(businessId, BookingStatus.ONGOING);
+        List<BookingBusiness> bookingBusinesses = helper.convertToBookingBusinessList(bookings);
+
+        return helper.createBookingBusinessResponse(bookingBusinesses);
     }
 
     @GetMapping(path = "/getSlot/{businessId}/{serviceId}")

@@ -78,16 +78,13 @@ const BusinessApprovalForm = ({
             business.email
         );
 
-        const contentDisposition = response.headers.get("content-disposition");
-        const filenameMatch =
-            contentDisposition && contentDisposition.match(/filename="(.+)"/);
-        const filename = filenameMatch
-            ? filenameMatch[1]
-            : `Verification_Document_of_${business.businessName}.jpg`;
-        const imageBlob = await response.blob();
-        const imageUrl = URL.createObjectURL(imageBlob);
+        const urlParts = business.fileURL.split('/');
+        const filename = urlParts[urlParts.length-1];
+
+        const fileBlob = await response.blob();
+        const fileUrl = URL.createObjectURL(fileBlob);
         const downloadLink = document.createElement("a");
-        downloadLink.href = imageUrl;
+        downloadLink.href = fileUrl;
         downloadLink.download = filename;
         downloadLink.click();
     };
@@ -116,7 +113,7 @@ const BusinessApprovalForm = ({
                                     categories.find(
                                         (category) =>
                                             category.categoryID ===
-                                            business.categoryId
+                                            business.category.categoryID
                                     )?.name
                                 }
                             </span>

@@ -47,6 +47,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/services/**").hasAnyAuthority(Role.ADMIN.name(), Role.PARTNER.name(), Role.CUSTOMER.name())
                         .requestMatchers("/services/**").hasAnyAuthority(Role.ADMIN.name(), Role.PARTNER.name())
                         .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/payment/webhook").permitAll()
                         .anyRequest().authenticated()
                 ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

@@ -24,7 +24,7 @@ export default async function ProviderBusinessStatus() {
                 failureReason={business.reason}
                 formDefaults={{
                     businessName: business.businessName,
-                    businessCategory: business.categoryId.toString(),
+                    businessCategory: business.category.categoryID.toString(),
                 }}
                 businessId={business.businessId}
             />
