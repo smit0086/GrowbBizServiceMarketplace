@@ -142,7 +142,19 @@ public class ServicesServiceTests {
 
     @Test
     public void getServicesByCategoryIdTest() {
+        when(subCategoryService.fetchSubCategoryListForCategoryID(anyLong())).thenReturn(List.of(mockSubCategory,mockSubCategory));
+        when(serviceRepository.findBySubCategorySubCategoryID(anyLong())).thenReturn(List.of(mockService));
 
+        List<Services> results = servicesService.getServicesByCategoryId(1L);
+
+        assertEquals(List.of(mockService,mockService), results);
+    }
+
+    @Test
+    public void getEmptyListOfServicesByCategoryIdTest() {
+        when(subCategoryService.fetchSubCategoryListForCategoryID(mockCategory.getCategoryID())).thenReturn(null);
+        List<Services> results = servicesService.getServicesByCategoryId(1L);
+        assertEquals(true,results.isEmpty());
     }
 
     @Test
