@@ -6,24 +6,31 @@ import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
+import com.growbiz.backend.File.service.IFileStorageService;
 import com.growbiz.backend.Services.models.ServiceRequest;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.repository.IServiceRepository;
 import com.growbiz.backend.Services.service.ServicesService;
+import com.growbiz.backend.TestConstants.TestConstants;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ServicesServiceTests {
@@ -37,6 +44,8 @@ public class ServicesServiceTests {
     private ICategoryService categoryService;
     @Mock
     private IBusinessService businessService;
+    @Mock
+    private IFileStorageService fileStorageService;
 
     Business mockBusiness;
 
@@ -70,9 +79,9 @@ public class ServicesServiceTests {
                 .businessId(1L)
                 .businessName("French Nails")
                 .build();
-
         mockServiceRequest = ServiceRequest
                 .builder()
+                .email("testEmail@dal.ca")
                 .serviceName("Nail Care")
                 .description("Loren Epsom")
                 .price(24.00)
@@ -94,6 +103,7 @@ public class ServicesServiceTests {
                 .serviceName("Nail Care")
                 .description("Loren Epsom")
                 .price(24.00)
+                .imageURL("image.jpeg")
                 .business(mockBusiness)
                 .subCategory(mockSubCategory)
                 .build();
@@ -130,7 +140,7 @@ public class ServicesServiceTests {
         List<Services> results1 = servicesService.getServiceBySubCategoryId(1L);
         assertEquals(List.of(mockService),results1);
 
-        when(serviceRepository.findBySubCategorySubCategoryID(1L)).thenThrow(new NullPointerException("Test Exception"));
+        when(serviceRepository.findBySubCategorySubCategoryID(anyLong())).thenThrow(new NullPointerException("Test Exception"));
         List<Services> results2 = servicesService.getServiceBySubCategoryId(1L);
         assertNull(results2);
     }
@@ -154,25 +164,62 @@ public class ServicesServiceTests {
 //
 //    }
 //
-//    @Test
-//    public void addServiceTest() {
-//
-//    }
-//    @Test
-//    public void addExistingServiceTest() {
-//
-//    }
-//
-//    @Test
-//    public void updateExistingServiceTest() {
-//
-//    }
-//
-//    @Test
-//    public void updateNonExistingServiceTest() {
-//
-//    }
-//
+    @Test
+    public void addServiceTest() {
+        ServiceRequest mockedServiceRequest = ServiceRequest.builder()
+                .email(TestConstants.TEST_EMAIL)
+                .serviceName("Nail Care")
+                .description("Loren Epsom")
+                .price(24.00)
+                .image(new MockMultipartFile(TestConstants.TEST_FILE_NAME, new byte[]{anyByte()}))
+                .businessID(1)
+                .subCategoryID(1)
+                .build();
+
+        lenient().when(fileStorageService.uploadFileToStorage(mockedServiceRequest.getImage(), Mockito.eq(TestConstants.TEST_EMAIL)))
+                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
+
+        when(serviceRepository.findByServiceNameAndBusinessBusinessId(mockServiceRequest.getServiceName(),mockServiceRequest.getBusinessID())).thenReturn(null);
+        when(serviceRepository.save(any(Services.class))).thenReturn(mockService);
+        Services results = servicesService.addService(mockedServiceRequest);
+
+        assertEquals(mockService, results);
+    }
+    @Test
+    public void addNonExistingServiceTest() {
+        when(serviceRepository.findByServiceNameAndBusinessBusinessId(anyString(), anyLong())).thenReturn(mockService);
+        Services results = servicesService.addService(mockServiceRequest);
+        assertNull(results);
+    }
+
+    @Test
+    public void updateExistingServiceTest() {
+        ServiceRequest mockedServiceRequest = ServiceRequest.builder()
+                .email(TestConstants.TEST_EMAIL)
+                .serviceName("Nail Care")
+                .description("Loren Epsom")
+                .price(24.00)
+                .image(new MockMultipartFile(TestConstants.TEST_FILE_NAME, new byte[]{anyByte()}))
+                .businessID(1)
+                .subCategoryID(1)
+                .build();
+
+        lenient().when(fileStorageService.uploadFileToStorage(mockedServiceRequest.getImage(), Mockito.eq(TestConstants.TEST_EMAIL)))
+                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
+
+        when(serviceRepository.findById(mockedServiceRequest.getServiceID())).thenReturn(Optional.of(mockService));
+        when(serviceRepository.save(any(Services.class))).thenReturn(mockService);
+        Services results = servicesService.updateService(mockedServiceRequest);
+        assertEquals(mockService, results);
+    }
+
+    @Test
+    public void updateNonExistingServiceTest() {
+        when(serviceRepository.findById(anyLong())).thenReturn(Optional.of(mockService));
+        Services results = servicesService.updateService(mockServiceRequest);
+        assertNull(results);
+    }
+
 //    @Test
 //    public void deleteExistingServiceTest() {
 //

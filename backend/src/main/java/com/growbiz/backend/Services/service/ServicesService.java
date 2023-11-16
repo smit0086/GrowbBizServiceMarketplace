@@ -1,6 +1,5 @@
 package com.growbiz.backend.Services.service;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Business.service.IBusinessService;
 import com.growbiz.backend.Categories.models.Category;
@@ -95,7 +94,7 @@ public class ServicesService implements IServicesService {
                 newServiceRequest.getServiceName(),
                 newServiceRequest.getBusinessID());
 
-        if (Objects.nonNull(existingService)) {
+        if (!Objects.isNull(existingService)) {
             return null;
         } else {
             Business business = businessService.findById(newServiceRequest.getBusinessID());
