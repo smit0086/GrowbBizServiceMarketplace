@@ -32,7 +32,6 @@ public class BookingController {
     @PostMapping(path = "/add")
     public ResponseEntity<BookingResponse> addBooking(@RequestBody BookingRequest bookingRequest) {
         Booking booking = bookingService.save(bookingRequest);
-
         return helper.createBookingResponse(List.of(booking));
     }
 

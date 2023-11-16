@@ -23,3 +23,5 @@ spring:
     username:
     password:
     port: 587
+keys:
+  stripeAPIKey: sk_test_51OCRCVG3Tid9j8Qj6C2alnlyhR4EDQY2CuV90GnVH8vRygyqlv0Wz88be7LvXgeyhKuXBIRro6ool86SkiPljJF300Osq5gVLr
