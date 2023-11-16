@@ -101,6 +101,19 @@ public class ServicesControllerTests {
     }
 
     @Test
+    public void getAllServicesListTest() {
+        when(servicesService.fetchServiceList()).thenReturn(List.of(mockService));
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+
+        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServices();
+        assertEquals(expectedResponse, resultResponse);
+    }
+
+    @Test
     public void getExistingServiceTest() {
         when(servicesService.getServiceById(1L)).thenReturn(mockService);
         when(servicesService.getTaxForService(mockService)).thenReturn("15");
@@ -120,28 +133,6 @@ public class ServicesControllerTests {
 
         assertThrows(ServiceNotFoundException.class , () -> {
             serviceController.getService(1L);
-        });
-    }
-
-    @Test
-    public void deleteExistingServiceTest() {
-        when(servicesService.deleteService(mockService.getServiceId())).thenReturn(true);
-
-        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().isDeleted(true).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
-
-        when(servicesHelper.deleteServiceResponse(true)).thenReturn(expectedResponse);
-
-        ResponseEntity<ServiceResponse> resultResponse = serviceController.deleteService(mockService);
-        assertEquals(expectedResponse, resultResponse);
-    }
-
-    @Test
-    public void deleteNonExistingServiceTest() {
-        when(servicesService.deleteService(mockService.getServiceId())).thenReturn(false);
-
-        assertThrows(ServiceNotFoundException.class , () -> {
-            serviceController.deleteService(mockService);
         });
     }
 
@@ -185,15 +176,69 @@ public class ServicesControllerTests {
     }
 
     @Test
-    public void getAllServicesListTest() {
-        when(servicesService.fetchServiceList()).thenReturn(List.of(mockService));
+    public void addServiceTest() {
+        when(servicesService.addService(mockServiceRequest)).thenReturn(mockService);
 
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+                ServiceResponse.builder().isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
         when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
 
-        ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServices();
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.addService(mockServiceRequest);
         assertEquals(expectedResponse, resultResponse);
+    }
+
+    @Test
+    public void addExistingServiceTest() {
+        when(servicesService.addService(mockServiceRequest)).thenReturn(null);
+
+        assertThrows(ServiceAlreadyExistsException
+                .class, () -> {
+            serviceController.addService(mockServiceRequest);
+        });
+    }
+
+    @Test
+    public void updateServiceTest() {
+        when(servicesService.updateService(mockServiceRequest)).thenReturn(mockService);
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
+
+        when(servicesHelper.createServiceResponse(List.of(mockService),true)).thenReturn(expectedResponse);
+
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.updateService(mockServiceRequest);
+        assertEquals(expectedResponse, resultResponse);
+    }
+
+    @Test
+    public void updateExistingServiceTest() {
+        when(servicesService.updateService(mockServiceRequest)).thenReturn(null);
+
+        assertThrows(ServiceNotFoundException
+                .class, () -> {
+            serviceController.updateService(mockServiceRequest);
+        });
+    }
+    @Test
+    public void deleteExistingServiceTest() {
+        when(servicesService.deleteService(mockService.getServiceId())).thenReturn(true);
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().isDeleted(true).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
+
+        when(servicesHelper.deleteServiceResponse(true)).thenReturn(expectedResponse);
+
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.deleteService(mockService);
+        assertEquals(expectedResponse, resultResponse);
+    }
+
+    @Test
+    public void deleteNonExistingServiceTest() {
+        when(servicesService.deleteService(mockService.getServiceId())).thenReturn(false);
+
+        assertThrows(ServiceNotFoundException.class , () -> {
+            serviceController.deleteService(mockService);
+        });
     }
 }
