@@ -46,7 +46,8 @@ const ViewServices = ({ authSession, predefinedServices, businessId, fetchedServ
                                 </CardHeader>
                                 <CardContent>
                                     <div className="grid w-full items-center gap-4">
-                                        <div className="flex flex-col space-y-1.5">
+                                        <img src={service.imageURL} className="w-full h-auto" />
+                                        <div className="flex flex-col space-y-1.5 ">
                                             <Label htmlFor={`service-${service.serviceId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Price per hour</Label>
                                             <span id={`service-${service.serviceId}`} style={{ fontSize: '0.875rem' }}>{service.price} CAD</span>
                                         </div>
@@ -60,7 +61,7 @@ const ViewServices = ({ authSession, predefinedServices, businessId, fetchedServ
                                         </div>
                                     </div>
                                 </CardContent>
-                                <CardFooter className="flex justify-between">
+                                <CardFooter className="flex justify-left">
                                     <div className="flex space-x-4">
                                         <Button type="button" onClick={() => { setRenderUpdateService(true); setFormDefaults(service) }}>Update</Button>
                                         <DeleteService authSession={authSession} service={service} services={services} setServices={setServices} />

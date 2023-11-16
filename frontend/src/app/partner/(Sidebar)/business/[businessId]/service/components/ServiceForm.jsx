@@ -94,19 +94,18 @@ const ServiceForm = ({ authSession, predefinedServices, cancelButton, services, 
         const formattedHours = hours.toString().padStart(2, '0');
         const formattedMinutes = remainingMinutes.toString().padStart(2, '0');
         if (formDefaults === undefined || formDefaults === null) {
-            setLoading(false);
-            console.log(data.serviceImage);
             const imageRef = ref(storage, `serviceImages/${authSession.user.email}-${new Date().getTime()}-${data.serviceImage.name}`);
 
             await uploadBytes(imageRef, data.serviceImage).then(async (snapshot) => {
                 await getDownloadURL(snapshot.ref).then(async (url) => {
-                    const addedService = await addService(authSession.apiToken, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price, data.serviceImage);     
+                    const addedService = await addService(authSession.apiToken, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price, url);
                     const newService = {
                         serviceId: addedService.service_id,
                         serviceName: data.serviceName,
                         price: data.price,
                         timeRequired: data.timeRequired,
                         description: data.description,
+                        imageURL: url
                     };
                     setServices((prevServices) => [...prevServices, newService]);
                     setRenderServiceForm(false);
@@ -114,23 +113,30 @@ const ServiceForm = ({ authSession, predefinedServices, cancelButton, services, 
             });
         }
         else {
-            const updatedService = await updateService(authSession.apiToken, formDefaults.serviceId, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price, data.serviceImage);
-            setServices((prevServices) =>
-                prevServices.map((service) => {
-                    if (service.serviceId === formDefaults.serviceId) {
-                        return {
-                            ...service,
-                            serviceName: data.serviceName,
-                            price: data.price,
-                            timeRequired: data.timeRequired,
-                            description: data.description,
-                        };
-                    }
-                    return service;
-                })
-            );
-            setFormDefaults(null);
-            setRenderServiceForm(false);
+            const imageRef = ref(storage, `serviceImages/${authSession.user.email}-${new Date().getTime()}-${data.serviceImage.name}`);
+
+            await uploadBytes(imageRef, data.serviceImage).then(async (snapshot) => {
+                await getDownloadURL(snapshot.ref).then(async (url) => {
+                    const updatedService = await updateService(authSession.apiToken, formDefaults.serviceId, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price, url);
+                    setServices((prevServices) =>
+                        prevServices.map((service) => {
+                            if (service.serviceId === formDefaults.serviceId) {
+                                return {
+                                    ...service,
+                                    serviceName: data.serviceName,
+                                    price: data.price,
+                                    timeRequired: data.timeRequired,
+                                    description: data.description,
+                                    imageURL: url
+                                };
+                            }
+                            return service;
+                        })
+                    );
+                    setFormDefaults(null);
+                    setRenderServiceForm(false);
+                });
+            });
         }
 
         setLoading(false);

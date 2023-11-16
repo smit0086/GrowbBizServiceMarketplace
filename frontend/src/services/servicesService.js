@@ -5,17 +5,16 @@ export const addService = async (token, serviceName, description, timeRequired, 
         price,
         timeRequired,
         businessID,
-        subCategoryID
+        subCategoryID,
+        image: serviceImage
     };
-    const formData = new FormData();
-    formData.append("image", serviceImage);
-    formData.append("service", JSON.stringify(body));
     const resp = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/services/addService`,
         {
             method: "post",
-            body: formData,
+            body: JSON.stringify(body),
             headers: {
+                "Content-type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
         }
@@ -57,17 +56,16 @@ export const updateService = async (token, serviceId, serviceName, description, 
         price,
         timeRequired,
         businessID,
-        subCategoryID
+        subCategoryID,
+        image: serviceImage
     };
-    const formData = new FormData();
-    formData.append("image", serviceImage);
-    formData.append("service", JSON.stringify(body));
     const resp = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/services/updateService`,
         {
-            method: "post",
-            body: formData,
+            method: "put",
+            body: JSON.stringify(body),
             headers: {
+                "Content-type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
         }
