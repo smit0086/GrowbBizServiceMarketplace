@@ -9,6 +9,9 @@ import com.growbiz.backend.Payment.model.PaymentStatus;
 import com.growbiz.backend.Payment.repository.IPaymentRepository;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
+import com.growbiz.backend.User.models.Role;
+import com.growbiz.backend.User.models.User;
+import com.growbiz.backend.User.service.IUserService;
 import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
@@ -21,6 +24,7 @@ import com.stripe.param.PaymentIntentCreateParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +41,8 @@ public class PaymentService implements IPaymentService {
     IServicesService servicesService;
     @Autowired
     IBookingService bookingService;
+    @Autowired
+    IUserService userService;
     @Value("${keys.stripeAPIKey}")
     private String stripeAPIKey;
     @Value("${keys.stripeWebhookSecret}")
@@ -109,23 +115,27 @@ public class PaymentService implements IPaymentService {
     }
 
     private void saveToBooking(Payment payment, Long amount) {
+        User user = userService.getUserByEmailAndRole(payment.getUserEmail(), Role.CUSTOMER.name());
         Booking booking = Booking.builder()
                 .amount((double) amount)
                 .date(payment.getDate())
                 .endTime(payment.getEndTime())
                 .startTime(payment.getStartTime())
                 .note(payment.getNote())
+                .user(user)
                 .build();
         bookingService.save(booking);
     }
 
     private Payment createPayment(PaymentRequest paymentRequest) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return Payment.builder()
                 .serviceId(paymentRequest.getServiceId())
                 .date(paymentRequest.getDate())
                 .startTime(paymentRequest.getStartTime())
                 .endTime(paymentRequest.getEndTime())
                 .note(paymentRequest.getNote())
+                .userEmail(user.getUsername())
                 .build();
     }
 
