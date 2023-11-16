@@ -36,6 +36,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { addService } from "@/services/servicesService";
 import { updateService } from "@/services/servicesService";
 import { Icons } from "@/components/icons";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../../../../../../../growbiz-firebase-config";
 
 const formSchema = z.object({
     serviceName: z
@@ -92,16 +94,24 @@ const ServiceForm = ({ authSession, predefinedServices, cancelButton, services, 
         const formattedHours = hours.toString().padStart(2, '0');
         const formattedMinutes = remainingMinutes.toString().padStart(2, '0');
         if (formDefaults === undefined || formDefaults === null) {
-            const addedService = await addService(authSession.apiToken, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price, data.serviceImage);
-            const newService = {
-                serviceId: addedService.service_id,
-                serviceName: data.serviceName,
-                price: data.price,
-                timeRequired: data.timeRequired,
-                description: data.description,
-            };
-            setServices((prevServices) => [...prevServices, newService]);
-            setRenderServiceForm(false);
+            setLoading(false);
+            console.log(data.serviceImage);
+            const imageRef = ref(storage, `serviceImages/${authSession.user.email}-${new Date().getTime()}-${data.serviceImage.name}`);
+
+            await uploadBytes(imageRef, data.serviceImage).then(async (snapshot) => {
+                await getDownloadURL(snapshot.ref).then(async (url) => {
+                    const addedService = await addService(authSession.apiToken, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price, data.serviceImage);     
+                    const newService = {
+                        serviceId: addedService.service_id,
+                        serviceName: data.serviceName,
+                        price: data.price,
+                        timeRequired: data.timeRequired,
+                        description: data.description,
+                    };
+                    setServices((prevServices) => [...prevServices, newService]);
+                    setRenderServiceForm(false);
+                });
+            });
         }
         else {
             const updatedService = await updateService(authSession.apiToken, formDefaults.serviceId, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price, data.serviceImage);
