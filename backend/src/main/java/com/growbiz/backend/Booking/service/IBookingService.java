@@ -2,6 +2,7 @@ package com.growbiz.backend.Booking.service;
 
 import com.growbiz.backend.Booking.models.Booking;
 import com.growbiz.backend.Booking.models.BookingRequest;
+import com.growbiz.backend.Booking.models.BookingStatus;
 import com.growbiz.backend.Booking.models.SlotRange;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +29,5 @@ public interface IBookingService {
 
     List<Booking> getAllBookingsByUserIdAndStatus(Long userId, String status);
 
-    List<Booking> getAllBookingsByBusinessIdAndStatus(Long businessId, String status);
+    List<Booking> getAllBookingsByBusinessIdAndStatus(Long businessId, BookingStatus status);
 }
