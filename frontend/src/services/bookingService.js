@@ -48,3 +48,68 @@ export const bookService = async (token, serviceId, date, startTime, endTime, am
         console.log("err", err);
     }
 };
+
+export const getUpcomingBookingsForBusiness = async (token, businessId) => {
+    try {
+        const re = await (
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/booking/business/upcoming/${businessId}`,
+                {
+                    method: "get",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+        ).json();
+        return re.bookings;
+    } catch (err) {
+        console.error({ err });
+        return [];
+    }
+};
+
+export const updateBookingStatus = async (token, bookingId, status) => {
+    const body = {
+        status
+    };
+    const resp = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/booking/${bookingId}/status/`,
+        {
+            method: "put",
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+    try {
+        const data = await resp.json();
+        return data;
+    } catch (err) {
+        console.log("err", err);
+    }
+};
+
+export const getOngoingBookingsForBusiness = async (token, businessId) => {
+    try {
+        const re = await (
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/booking/business/ongoing/${businessId}`,
+                {
+                    method: "get",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+        ).json();
+        return re.bookings;
+    } catch (err) {
+        console.error({ err });
+        return [];
+    }
+};

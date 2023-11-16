@@ -21,69 +21,78 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
+import { Icons } from "@/components/icons";
 
-const ViewUpcomingBookings = ({ upcomingBookings }) => {
-    const [isOngoingConfirmationDialoagOpen, setOngoingConfirmationDialoagOpen] = useState(false);
+const ViewOngoingBookings = ({ongoingBookings }) => {
+    const [isCompletedConfirmationDialogOpen, setCompletedConfirmationDialogOpen] = useState(false);
     const { handleSubmit, control, formState: { errors } } = useForm();
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleOngoingStatus = (data) => {
+    const handleCompletedStatus = (data) => {
         setIsLoading(true);
         setIsLoading(false);
-        setOngoingConfirmationDialoagOpen(false);
+        setCompletedConfirmationDialogOpen(false);
     }
 
     return (
         <div>
-            {upcomingBookings.length === 0 ?
+            {ongoingBookings.length === 0 ?
                 <div className="p-8 pl-16">
-                    No Upcoming Bookings.
+                    No Ongoing Bookings.
                 </div>
                 :
                 <div>
-                    <div className="flex flex-wrap gap-4" style={{ marginLeft: '3%' }}>
-                        {upcomingBookings.map((upcomingBooking) => (
-                            <Card key={upcomingBooking.bookingId} className="w-[350px] ml-5">
+                    <div className="flex flex-wrap gap-4" style={{marginLeft: '3%'}}>
+                        {ongoingBookings.map((ongoingBooking) => (
+                            <Card key={ongoingBooking.bookingId} className="w-[350px] ml-5">
                                 <CardHeader>
-                                    <CardTitle>{upcomingBooking.serviceName}</CardTitle>
+                                    <CardTitle>{ongoingBooking.serviceName}</CardTitle>
                                     <CardDescription>Booking Details</CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="grid w-full items-center gap-4">
                                         <div className="flex flex-col space-y-1.5">
-                                            <Label htmlFor={`service-${upcomingBooking.bookingId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Time Required</Label>
-                                            <span id={`service-${upcomingBooking.bookingId}`} style={{ fontSize: '0.875rem' }}>{upcomingBooking.timeRequired} minutes</span>
+                                            <Label htmlFor={`service-${ongoingBooking.id}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Time Required</Label>
+                                            <span id={`service-${ongoingBooking.id}`} style={{ fontSize: '0.875rem' }}>{ongoingBooking.timeRequired} minutes</span>
                                         </div>
                                         <div className="flex flex-col space-y-1.5">
-                                            <Label htmlFor={`service-${upcomingBooking.bookingId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Date</Label>
-                                            <span id={`service-${upcomingBooking.bookingId}`} style={{ fontSize: '0.875rem' }}>{upcomingBooking.bookingDate}</span>
+                                            <Label htmlFor={`service-${ongoingBooking.id}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Date</Label>
+                                            <span id={`service-${ongoingBooking.id}`} style={{ fontSize: '0.875rem' }}>{ongoingBooking.date}</span>
                                         </div>
                                         <div className="flex flex-col space-y-1.5">
-                                            <Label htmlFor={`service-${upcomingBooking.bookingId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Start Time</Label>
-                                            <span id={`service-${upcomingBooking.bookingId}`} style={{ fontSize: '0.875rem' }}>{upcomingBooking.bookingStartTime}</span>
+                                            <Label htmlFor={`service-${ongoingBooking.id}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Start Time</Label>
+                                            <span id={`service-${ongoingBooking.id}`} style={{ fontSize: '0.875rem' }}>{ongoingBooking.startTime}</span>
                                         </div>
                                         <div className="flex flex-col space-y-1.5">
-                                            <Label htmlFor={`service-${upcomingBooking.bookingId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>End Time</Label>
-                                            <span id={`service-${upcomingBooking.bookingId}`} style={{ fontSize: '0.875rem' }}>{upcomingBooking.bookingEndTime}</span>
+                                            <Label htmlFor={`service-${ongoingBooking.id}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>End Time</Label>
+                                            <span id={`service-${ongoingBooking.id}`} style={{ fontSize: '0.875rem' }}>{ongoingBooking.endTime}</span>
                                         </div>
                                         <div className="flex flex-col space-y-1.5">
-                                            <Label htmlFor={`service-${upcomingBooking.bookingId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Customer Email</Label>
-                                            <span id={`service-${upcomingBooking.bookingId}`} style={{ fontSize: '0.875rem' }}>{upcomingBooking.customerEmail}</span>
+                                            <Label htmlFor={`service-${ongoingBooking.id}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Customer Email</Label>
+                                            <span id={`service-${ongoingBooking.id}`} style={{ fontSize: '0.875rem' }}>{ongoingBooking.userEmail}</span>
                                         </div>
                                         <div className="flex flex-col space-y-1.5">
-                                            <Label htmlFor={`service-${upcomingBooking.bookingId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Note</Label>
-                                            <span id={`service-${upcomingBooking.bookingId}`} style={{ fontSize: '0.875rem' }}>{upcomingBooking.note}</span>
+                                            <Label htmlFor={`service-${ongoingBooking.id}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Amount</Label>
+                                            <span id={`service-${ongoingBooking.id}`} style={{ fontSize: '0.875rem' }}>{ongoingBooking.amount} CAD</span>
+                                        </div>
+                                        <div className="flex flex-col space-y-1.5">
+                                            <Label htmlFor={`service-${ongoingBooking.id}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Note</Label>
+                                            {(ongoingBooking.note === null || ongoingBooking.note === "") ?  
+                                                <span id={`service-${ongoingBooking.id}`} style={{ fontSize: '0.875rem' }}>Customer doesn't require extra attention.</span>
+                                                :
+                                                <span id={`service-${ongoingBooking.id}`} style={{ fontSize: '0.875rem' }}>{ongoingBooking.note}</span>
+                                            }
                                         </div>
                                     </div>
                                 </CardContent>
                                 <CardFooter>
                                     <div className="flex items-center space-x-4">
                                         <Dialog
-                                            open={isOngoingConfirmationDialoagOpen}
-                                            onOpenChange={setOngoingConfirmationDialoagOpen}
+                                            open={isCompletedConfirmationDialogOpen}
+                                            onOpenChange={setCompletedConfirmationDialogOpen}
                                         >
                                             <DialogTrigger asChild>
-                                                <Button>Set Ongoing</Button>
+                                                <Button type="button">Set Completed</Button>
                                             </DialogTrigger>
                                             <DialogContent className="sm:max-w-[425px]">
                                                 <DialogHeader>
@@ -91,8 +100,8 @@ const ViewUpcomingBookings = ({ upcomingBookings }) => {
                                                 </DialogHeader>
                                                 <form
                                                     onSubmit={handleSubmit((formData) =>
-                                                        handleOngoingStatus({
-                                                            upcomingBooking,
+                                                        handleCompletedStatus({
+                                                            ongoingBooking,
                                                             formData
                                                         })
                                                     )}
@@ -103,7 +112,7 @@ const ViewUpcomingBookings = ({ upcomingBookings }) => {
                                                                 htmlFor="name"
                                                                 className="text-right"
                                                             >
-                                                                Are you sure you want to change the status to "Ongoing"?
+                                                                Are you sure you want to change the status to Completed?
                                                             </Label>
                                                         </div>
                                                     </div>
@@ -132,4 +141,4 @@ const ViewUpcomingBookings = ({ upcomingBookings }) => {
     )
 }
 
-export default ViewUpcomingBookings;
+export default ViewOngoingBookings;

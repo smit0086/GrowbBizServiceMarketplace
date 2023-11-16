@@ -42,3 +42,9 @@ export const DAY_OF_WEEK = [
     "Friday",
     "Saturday",
 ];
+
+export const BOOKING_STATUS = {
+    UPCOMING: "UPCOMING",
+    ONGOING: "ONGOING",
+    COMPLETED: "COMPLETED"
+}
