@@ -45,25 +45,24 @@ public class ServiceController {
         return serviceHelper.createServiceResponse(servicesService.getServiceBySubCategoryId(subCategoryID), false);
     }
 
-    @RequestMapping(path = "/addService",
-            method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ServiceResponse> addService(@RequestPart("service") String serviceRequestJSON, @RequestPart("image") MultipartFile image) {
-        ServiceRequest newService = serviceHelper.getServiceRequestFromJSON(serviceRequestJSON, image);
-        Services service = servicesService.addService(newService);
+    @GetMapping(path = "allServicesByCategoryId")
+    public ResponseEntity<ServiceResponse> getAllServicesByCategoryId(@RequestParam Long categoryID) {
+        return serviceHelper.createServiceResponse(servicesService.getServicesByCategoryId(categoryID), false);
+    }
 
+    @RequestMapping(path = "/addService")
+    public ResponseEntity<ServiceResponse> addService(@RequestBody ServiceRequest serviceRequest) {
+        Services service = servicesService.addService(serviceRequest);
         if (service != null) {
             return serviceHelper.createServiceResponse(List.of(service), false);
         } else {
-             throw new ServiceAlreadyExistsException("The requested new service to add, already exists!");
+            throw new ServiceAlreadyExistsException("The requested new service to add, already exists!");
         }
     }
 
-    @RequestMapping(path = "/updateService",
-            method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ServiceResponse> updateService(@RequestPart("service") String serviceRequestJSON, @RequestPart("image") MultipartFile image) {
-        ServiceRequest newService = serviceHelper.getServiceRequestFromJSON(serviceRequestJSON, image);
-        Services updateService = servicesService.updateService(newService);
-
+    @RequestMapping(path = "/updateService")
+    public ResponseEntity<ServiceResponse> updateService(@RequestBody ServiceRequest serviceRequest) {
+        Services updateService = servicesService.updateService(serviceRequest);
         if (updateService != null) {
             return serviceHelper.createServiceResponse(List.of(updateService), true);
         } else {
