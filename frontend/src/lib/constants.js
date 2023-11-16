@@ -45,6 +45,11 @@ export const DAY_OF_WEEK = [
     "Saturday",
 ];
 
+export const BOOKING_STATUS = {
+    UPCOMING: "UPCOMING",
+    ONGOING: "ONGOING",
+    COMPLETED: "COMPLETED"
+}
 export const ALLOWED_IMAGE_TYPES = [
     'image/jpeg',
     'image/png',
