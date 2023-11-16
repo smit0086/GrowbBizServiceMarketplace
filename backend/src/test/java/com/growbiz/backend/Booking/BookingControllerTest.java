@@ -248,7 +248,7 @@ public class BookingControllerTest {
                         .build()
         );
 
-        when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, "UPCOMING")).thenReturn(List.of(mockBooking));
+        when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, BookingStatus.UPCOMING)).thenReturn(List.of(mockBooking));
         when(bookingHelper.convertToBookingBusinessList(List.of(mockBooking))).thenReturn(List.of(mockBookingBusiness));
         when(bookingHelper.createBookingBusinessResponse(List.of(mockBookingBusiness))).thenReturn(expectedResponse);
 
@@ -280,7 +280,7 @@ public class BookingControllerTest {
         );
 
 
-        when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, "COMPLETED")).thenReturn(List.of(mockCompletedBooking));
+        when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, BookingStatus.COMPLETED)).thenReturn(List.of(mockCompletedBooking));
         when(bookingHelper.convertToBookingBusinessList(List.of(mockCompletedBooking))).thenReturn(List.of(mockBookingBusiness));
         when(bookingHelper.createBookingBusinessResponse(List.of(mockBookingBusiness))).thenReturn(expectedResponse);
 
@@ -312,7 +312,7 @@ public class BookingControllerTest {
         );
 
 
-        when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, "ONGOING")).thenReturn(List.of(mockOngoingBooking));
+        when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, BookingStatus.ONGOING)).thenReturn(List.of(mockOngoingBooking));
         when(bookingHelper.convertToBookingBusinessList(List.of(mockOngoingBooking))).thenReturn(List.of(mockBookingBusiness));
         when(bookingHelper.createBookingBusinessResponse(List.of(mockBookingBusiness))).thenReturn(expectedResponse);
 

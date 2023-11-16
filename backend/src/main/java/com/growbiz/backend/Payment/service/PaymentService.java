@@ -1,6 +1,7 @@
 package com.growbiz.backend.Payment.service;
 
 import com.growbiz.backend.Booking.models.Booking;
+import com.growbiz.backend.Booking.models.BookingStatus;
 import com.growbiz.backend.Booking.service.IBookingService;
 import com.growbiz.backend.Payment.model.Payment;
 import com.growbiz.backend.Payment.model.PaymentRequest;
@@ -65,6 +66,11 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
+    public List<Payment> findByPaymentStatus(PaymentStatus paymentStatus) {
+        return paymentRepository.findByPaymentStatusEquals(paymentStatus);
+    }
+
+    @Override
     public ResponseEntity<String> handleWebhook(String requestBody, String sigHeader) {
         Stripe.apiKey = stripeAPIKey;
         Event event = null;
@@ -114,6 +120,11 @@ public class PaymentService implements IPaymentService {
         }
     }
 
+    @Override
+    public List<Payment> findByServiceId(Long serviceId) {
+        return paymentRepository.findByServiceId(serviceId);
+    }
+
     private void saveToBooking(Payment payment, Long amount) {
         User user = userService.getUserByEmailAndRole(payment.getUserEmail(), Role.CUSTOMER.name());
         Booking booking = Booking.builder()
@@ -123,6 +134,7 @@ public class PaymentService implements IPaymentService {
                 .startTime(payment.getStartTime())
                 .note(payment.getNote())
                 .user(user)
+                .status(BookingStatus.UPCOMING)
                 .build();
         bookingService.save(booking);
     }
@@ -157,5 +169,4 @@ public class PaymentService implements IPaymentService {
         updatePayment(payment);
         return payment;
     }
-
 }
