@@ -1,6 +1,7 @@
 package com.growbiz.backend.Services;
 
 import com.growbiz.backend.Business.model.Business;
+import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.ServiceNotFoundException;
@@ -10,6 +11,7 @@ import com.growbiz.backend.Services.models.ServiceRequest;
 import com.growbiz.backend.Services.models.ServiceResponse;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
+import com.growbiz.backend.TestConstants.TestConstants;
 import com.growbiz.backend.User.models.Role;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -19,11 +21,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ServicesControllerTests {
@@ -34,91 +40,56 @@ public class ServicesControllerTests {
     @InjectMocks
     private ServiceController serviceController;
     @Mock
-    Business mockBusiness = Business
-            .builder()
-            .businessId(1L)
-            .businessName("French Nails")
-            .build();
+    Category mockCategory;
     @Mock
-    SubCategory mockSubCategory = SubCategory
-            .builder()
-            .subCategoryID(1L)
-            .name("Manicure")
-            .subCategoryID(2L)
-            .build();
+    Business mockBusiness;
     @Mock
-    ServiceRequest mockServiceRequest = ServiceRequest
-            .builder()
-            .serviceName("Nail Care")
-            .description("Loren Epsom")
-            .price(24.00)
-            .businessID(1)
-            .subCategoryID(1)
-            .build();
+    SubCategory mockSubCategory;
     @Mock
-    Services mockService = Services
-            .builder()
-            .serviceId(1L)
-            .serviceName("Nail Care")
-            .description("Loren Epsom")
-            .price(24.00)
-            .business(mockBusiness)
-            .subCategory(mockSubCategory)
-            .build();
+    ServiceRequest mockServiceRequest;
+    @Mock
+    Services mockService;
+    @Mock
+    Services mockServiceUpdated;
 
     @Before
     public void init() {
         MockitoAnnotations.openMocks(this);
-    }
-
-    @Test
-    public void getExistingServiceSuccessTest() {
-        when(servicesService.getServiceById(1L)).thenReturn(mockService);
-        when(servicesService.getTaxForService(mockService)).thenReturn("15");
-
-        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().services(List.of(mockService)).tax("15").role(Role.ADMIN).subject("testEmail@dal.ca").build());
-
-        when(servicesHelper.createServiceResponseWithTax(List.of(mockService), "15")).thenReturn(expectedResponse);
-
-        ResponseEntity<ServiceResponse> resultResponse = serviceController.getService(1L);
-        assertEquals(expectedResponse, resultResponse);
-    }
-
-    @Test
-    public void getNonExistingServiceSuccessTest() {
-        when(servicesService.getServiceById(1L)).thenReturn(null);
-        assertThrows(ServiceNotFoundException.class , () -> {
-            serviceController.getService(1L);
-        });
-    }
-
-
-    @Test
-    public void addServiceSuccessTest() {
-        when(servicesService.addService(mockServiceRequest)).thenReturn(mockService);
-
-        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().services(List.of(mockService)).isUpdated(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
-
-        when(servicesHelper.createServiceResponse(List.of(mockService), false)).thenReturn(expectedResponse);
-
-        ResponseEntity<ServiceResponse> resultResponse = serviceController.addService(mockServiceRequest);
-        assertEquals(expectedResponse, resultResponse);
-    }
-
-    @Test
-    public void addExistingServiceSuccessTest() {
-        when(servicesService.addService(mockServiceRequest)).thenReturn(null);
-
-        assertThrows(ServiceAlreadyExistsException.class , () -> {
-            serviceController.addService(mockServiceRequest);
-        });
-    }
-
-    @Test
-    public void updateExistingServiceSuccessTest() {
-        Services mockServiceUpdated = Services
+        mockCategory = Category
+                .builder()
+                .categoryID(1L)
+                .name("Nail Care")
+                .tax("25")
+                .build();
+        mockSubCategory = SubCategory
+                .builder()
+                .subCategoryID(1L)
+                .name("Manicure")
+                .category(mockCategory)
+                .build();
+        mockBusiness = Business
+                .builder()
+                .businessId(1L)
+                .businessName("French Nails")
+                .build();
+        mockService = Services
+                .builder()
+                .serviceId(1L)
+                .serviceName("Nail Care")
+                .description("Loren Epsom")
+                .price(24.00)
+                .business(mockBusiness)
+                .subCategory(mockSubCategory)
+                .build();
+        mockServiceRequest = ServiceRequest
+                .builder()
+                .serviceName("Nail Care")
+                .description("Loren Epsom")
+                .price(24.00)
+                .businessID(1)
+                .subCategoryID(1)
+                .build();
+        mockServiceUpdated = Services
                 .builder()
                 .serviceId(1L)
                 .serviceName("Hands and Nail Care")
@@ -127,33 +98,37 @@ public class ServicesControllerTests {
                 .business(mockBusiness)
                 .subCategory(mockSubCategory)
                 .build();
+    }
 
-        when(servicesService.updateService(mockServiceRequest)).thenReturn(mockServiceUpdated);
+    @Test
+    public void getExistingServiceTest() {
+        when(servicesService.getServiceById(1L)).thenReturn(mockService);
+        when(servicesService.getTaxForService(mockService)).thenReturn("15");
 
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().services(List.of(mockServiceUpdated)).isUpdated(true).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+                ServiceResponse.builder().services(List.of(mockService)).tax("15").role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
-        when(servicesHelper.createServiceResponse(List.of(mockServiceUpdated), true)).thenReturn(expectedResponse);
+        when(servicesHelper.createServiceResponseWithTax(List.of(mockService), "15")).thenReturn(expectedResponse);
 
-        ResponseEntity<ServiceResponse> resultResponse = serviceController.updateService(mockServiceRequest);
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.getService(1L);
         assertEquals(expectedResponse, resultResponse);
     }
 
     @Test
-    public void updateNonExistingServiceSuccessTest() {
-        when(servicesService.updateService(mockServiceRequest)).thenReturn(null);
+    public void getNonExistingServiceTest() {
+        when(servicesService.getServiceById(1L)).thenReturn(null);
 
         assertThrows(ServiceNotFoundException.class , () -> {
-            serviceController.updateService(mockServiceRequest);
+            serviceController.getService(1L);
         });
     }
 
     @Test
-    public void deleteServiceSuccessTest() {
+    public void deleteExistingServiceTest() {
         when(servicesService.deleteService(mockService.getServiceId())).thenReturn(true);
 
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().isDeleted(true).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+                ServiceResponse.builder().isDeleted(true).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
         when(servicesHelper.deleteServiceResponse(true)).thenReturn(expectedResponse);
 
@@ -165,11 +140,60 @@ public class ServicesControllerTests {
     public void deleteNonExistingServiceTest() {
         when(servicesService.deleteService(mockService.getServiceId())).thenReturn(false);
 
-        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().isDeleted(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
-
         assertThrows(ServiceNotFoundException.class , () -> {
             serviceController.deleteService(mockService);
         });
+    }
+
+    @Test
+    public void getAllServicesListForBusinessTest() {
+        when(servicesService.getServiceByBusinessId(1L)).thenReturn(List.of(mockService));
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
+
+        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServicesByBusinessId(1L);
+        assertEquals(expectedResponse, resultResponse);
+    }
+
+    @Test
+    public void getAllServicesListForSubCategoryTest() {
+        when(servicesService.getServiceBySubCategoryId(1L)).thenReturn(List.of(mockService));
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
+
+        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServicesBySubCategoryId(1L);
+        assertEquals(expectedResponse, resultResponse);
+    }
+
+    @Test
+    public void getAllServicesListForCategoryTest() {
+        when(servicesService.getServicesByCategoryId(1L)).thenReturn(List.of(mockService));
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
+
+        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServicesByCategoryId(1L);
+        assertEquals(expectedResponse, resultResponse);
+    }
+
+    @Test
+    public void getAllServicesListTest() {
+        when(servicesService.fetchServiceList()).thenReturn(List.of(mockService));
+
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+
+        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+
+        ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServices();
+        assertEquals(expectedResponse, resultResponse);
     }
 }

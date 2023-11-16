@@ -73,7 +73,7 @@ const UpcomingBookingCard = ({ authSession, upcomingBooking }) => {
                     <div className="flex flex-col space-y-1.5">
                         <Label htmlFor={`service-${upcomingBooking.id}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Note</Label>
                         {(upcomingBooking.note === null || upcomingBooking.note === "") ?
-                            <span id={`service-${upcomingBooking.id}`} style={{ fontSize: '0.875rem' }}>Customer doesn't require extra attention.</span>
+                            <span id={`service-${upcomingBooking.id}`} style={{ fontSize: '0.875rem' }}>Customer does not require extra attention.</span>
                             :
                             <span id={`service-${upcomingBooking.id}`} style={{ fontSize: '0.875rem' }}>{upcomingBooking.note}</span>
                         }

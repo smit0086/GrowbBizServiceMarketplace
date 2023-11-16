@@ -14,7 +14,7 @@ const ViewOngoingBookings = ({ authSession, ongoingBookings }) => {
                 <div>
                     <div className="flex flex-wrap gap-4" style={{marginLeft: '3%'}}>
                         {ongoingBookings.map((ongoingBooking) => (
-                            <OngoingBookingCard authSession={authSession} ongoingBooking={ongoingBooking} />
+                            <OngoingBookingCard key={ongoingBooking.id} authSession={authSession} ongoingBooking={ongoingBooking} />
                         ))}
                     </div>
                 </div>
