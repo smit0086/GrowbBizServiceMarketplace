@@ -31,7 +31,7 @@ public class PaymentServiceTest {
                 .startTime(LocalTime.of(9, 0))
                 .endTime(LocalTime.of(9, 30))
                 .note("testNote")
-                .paymentStatus(PaymentStatus.INITIATED)
+                .paymentStatus(PaymentStatus.CREATED)
                 .build();
     }
 

@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -71,15 +72,17 @@ public class PaymentService implements IPaymentService {
         if (dataObjectDeserializer.getObject().isPresent()) {
             stripeObject = dataObjectDeserializer.getObject().get();
         }
-        switch (event.getType()) {
-            case "payment_intent.succeeded" -> {
-                PaymentIntent paymentIntent = (PaymentIntent) stripeObject;
-                assert paymentIntent != null;
-                Long paymentId = Long.parseLong(paymentIntent.getMetadata().get("payment_id"));
-                Payment payment = findPaymentById(paymentId);
-                payment.setPaymentStatus(PaymentStatus.SUCCESS);
-                updatePayment(payment);
+        PaymentIntent paymentIntent = (PaymentIntent) stripeObject;
+        if (Objects.isNull(paymentIntent)) {
+            return ResponseEntity.internalServerError().build();
+        }
+        switch (PaymentStatus.valueOf(event.getType())) {
+            case SUCCESS -> {
+                Payment payment = fetchAndUpdatePayment(paymentIntent, PaymentStatus.SUCCESS);
                 saveToBooking(payment, paymentIntent.getAmount());
+            }
+            case CREATED -> {
+                fetchAndUpdatePayment(paymentIntent, PaymentStatus.CREATED);
             }
             default -> System.out.println("Unhandled event type: " + event.getType());
         }
@@ -123,7 +126,6 @@ public class PaymentService implements IPaymentService {
                 .startTime(paymentRequest.getStartTime())
                 .endTime(paymentRequest.getEndTime())
                 .note(paymentRequest.getNote())
-                .paymentStatus(PaymentStatus.INITIATED)
                 .build();
     }
 
@@ -135,6 +137,15 @@ public class PaymentService implements IPaymentService {
         Services service = servicesService.getServiceById(serviceId);
         double servicePrice = service.getPrice();
         double taxApplied = Double.parseDouble(service.getSubCategory().getCategory().getTax());
-        return (long) (servicePrice + (taxApplied / 100 * servicePrice) * 100);
+        return (long) ((servicePrice + ((taxApplied / 100) * servicePrice)) * 100);
     }
+
+    private Payment fetchAndUpdatePayment(PaymentIntent paymentIntent, PaymentStatus paymentStatus) {
+        Long paymentId = Long.parseLong(paymentIntent.getMetadata().get("payment_id"));
+        Payment payment = findPaymentById(paymentId);
+        payment.setPaymentStatus(paymentStatus);
+        updatePayment(payment);
+        return payment;
+    }
+
 }
