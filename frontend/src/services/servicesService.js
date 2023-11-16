@@ -1,4 +1,4 @@
-export const addService = async (token, serviceName, description, timeRequired, businessID, subCategoryID, price) => {
+export const addService = async (token, serviceName, description, timeRequired, businessID, subCategoryID, price, serviceImage) => {
     const body = {
         serviceName,
         description,
@@ -7,13 +7,15 @@ export const addService = async (token, serviceName, description, timeRequired, 
         businessID,
         subCategoryID
     };
+    const formData = new FormData();
+    formData.append("image", serviceImage);
+    formData.append("service", JSON.stringify(body));
     const resp = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/services/addService`,
         {
             method: "post",
-            body: JSON.stringify(body),
+            body: formData,
             headers: {
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
         }
@@ -47,7 +49,7 @@ export const getServicesByBusinessId = async (token, businessID) => {
     }
 };
 
-export const updateService = async (token, serviceId, serviceName, description, timeRequired, businessID, subCategoryID, price) => {
+export const updateService = async (token, serviceId, serviceName, description, timeRequired, businessID, subCategoryID, price, serviceImage) => {
     const body = {
         serviceID: serviceId,
         serviceName,
@@ -57,13 +59,15 @@ export const updateService = async (token, serviceId, serviceName, description, 
         businessID,
         subCategoryID
     };
+    const formData = new FormData();
+    formData.append("image", serviceImage);
+    formData.append("service", JSON.stringify(body));
     const resp = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/services/updateService`,
         {
-            method: "put",
-            body: JSON.stringify(body),
+            method: "post",
+            body: formData,
             headers: {
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
         }

@@ -22,6 +22,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { ERROR_MESSAGE } from "@/lib/constants";
+import { ALLOWED_IMAGE_TYPES } from "@/lib/constants";
 import {
     Card,
     CardContent,
@@ -51,12 +52,24 @@ const formSchema = z.object({
         .number({
             required_error: ERROR_MESSAGE.REQUIRED,
         })
-        .min(0),
+        .min(0)
+        .refine((val) => val % 30 === 0, { message: ERROR_MESSAGE.INVALID_SERVICE_REQUIRED_TIME }),
     description: z
         .string({
             required_error: ERROR_MESSAGE.REQUIRED,
         })
         .min(1),
+    serviceImage: z
+        .any()
+        .refine((val) => !!val, { message: ERROR_MESSAGE.REQUIRED })
+        .refine((val) => {
+            if (!val) {
+                return false;
+            }
+            const fileType = val.type;
+            return ALLOWED_IMAGE_TYPES.includes(fileType);
+        }, { message: ERROR_MESSAGE.INVALID_IMAGE_FORMAT })
+
 });
 
 const ServiceForm = ({ authSession, predefinedServices, cancelButton, services, setServices, setRenderServiceForm, formDefaults, setFormDefaults, title, subtitle, buttonText, businessId }) => {
@@ -79,7 +92,7 @@ const ServiceForm = ({ authSession, predefinedServices, cancelButton, services, 
         const formattedHours = hours.toString().padStart(2, '0');
         const formattedMinutes = remainingMinutes.toString().padStart(2, '0');
         if (formDefaults === undefined || formDefaults === null) {
-            const addedService = await addService(authSession.apiToken, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price);
+            const addedService = await addService(authSession.apiToken, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price, data.serviceImage);
             const newService = {
                 serviceId: addedService.service_id,
                 serviceName: data.serviceName,
@@ -91,7 +104,7 @@ const ServiceForm = ({ authSession, predefinedServices, cancelButton, services, 
             setRenderServiceForm(false);
         }
         else {
-            const updatedService = await updateService(authSession.apiToken, formDefaults.serviceId, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price);
+            const updatedService = await updateService(authSession.apiToken, formDefaults.serviceId, data.serviceName, data.description, `${formattedHours}:${formattedMinutes}`, businessId, subCategoryId, data.price, data.serviceImage);
             setServices((prevServices) =>
                 prevServices.map((service) => {
                     if (service.serviceId === formDefaults.serviceId) {
@@ -230,6 +243,36 @@ const ServiceForm = ({ authSession, predefinedServices, cancelButton, services, 
                                                             )
                                                         );
                                                     }}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="grid gap-2">
+                                <FormField
+                                    control={form.control}
+                                    name="serviceImage"
+                                    render={({
+                                        field: { onChange },
+                                        ...field
+                                    }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                Service Image
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    type="file"
+                                                    placeholder="Service Image"
+                                                    {...field}
+                                                    onChange={(event) =>
+                                                        onChange(
+                                                            event.target
+                                                                .files[0]
+                                                        )
+                                                    }
                                                 />
                                             </FormControl>
                                             <FormMessage />

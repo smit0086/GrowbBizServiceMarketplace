@@ -29,9 +29,15 @@ const ViewServices = ({ authSession, predefinedServices, businessId, fetchedServ
             {services.length === 0 ?
                 <AddService authSession={authSession} predefinedServices={predefinedServices} cancelButton={false} services={services} setServices={setServices} setRenderAddService={setRenderAddService} formDefaults={formDefaults} setFormDefaults={setFormDefaults} businessId={businessId} />
                 :
+                <></>
+            }
+            {!renderAddService && !renderUpdateService ?
                 <div>
-                    <Button type="button" onClick={() => setRenderAddService(true)} style={{marginTop: '1%', marginLeft: '1%'}}>Add</Button>
-                    <div className="flex flex-wrap gap-4" style={{ marginTop: '1%', marginLeft: '1%' }}>
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-3xl p-8 pl-16">Services</h2>
+                        <Button type="button" onClick={() => setRenderAddService(true)} style={{ marginTop: '1%', marginRight: '1%' }}>Add</Button>
+                    </div>
+                    <div className="flex flex-wrap gap-4 p-8 pl-16">
                         {services.map((service) => (
                             <Card key={service.serviceId} className="w-[350px]">
                                 <CardHeader>
@@ -64,6 +70,8 @@ const ViewServices = ({ authSession, predefinedServices, businessId, fetchedServ
                         ))}
                     </div>
                 </div>
+                :
+                <></>
             }
         </div>
     )
