@@ -1,6 +1,8 @@
 package com.growbiz.backend.Payment.service;
 
-import com.growbiz.backend.Payment.helper.PaymentServiceHelper;
+import com.growbiz.backend.Booking.models.Booking;
+import com.growbiz.backend.Booking.models.BookingStatus;
+import com.growbiz.backend.Booking.service.IBookingService;
 import com.growbiz.backend.Payment.model.Payment;
 import com.growbiz.backend.Payment.model.PaymentRequest;
 import com.growbiz.backend.Payment.model.PaymentResponse;
@@ -8,7 +10,9 @@ import com.growbiz.backend.Payment.model.PaymentStatus;
 import com.growbiz.backend.Payment.repository.IPaymentRepository;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
+import com.growbiz.backend.User.models.Role;
 import com.growbiz.backend.User.models.User;
+import com.growbiz.backend.User.service.IUserService;
 import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
@@ -36,9 +40,11 @@ public class PaymentService implements IPaymentService {
     IPaymentRepository paymentRepository;
     @Autowired
     IServicesService servicesService;
+    @Autowired
+    IBookingService bookingService;
+    @Autowired
+    IUserService userService;
 
-    PaymentServiceHelper helper = new PaymentServiceHelper();
-    
     @Value("${keys.stripeAPIKey}")
     private String stripeAPIKey;
     @Value("${keys.stripeWebhookSecret}")
@@ -83,10 +89,10 @@ public class PaymentService implements IPaymentService {
         if (Objects.isNull(paymentIntent)) {
             return ResponseEntity.internalServerError().build();
         }
-        switch (PaymentStatus.valueOf(event.getType())) {
+        switch (PaymentStatus.getStatusFromValue(event.getType())) {
             case SUCCESS -> {
                 Payment payment = fetchAndUpdatePayment(paymentIntent, PaymentStatus.SUCCESS);
-                helper.saveToBooking(payment, paymentIntent.getAmount());
+                saveToBooking(payment, paymentIntent.getAmount());
             }
             case CREATED -> {
                 fetchAndUpdatePayment(paymentIntent, PaymentStatus.CREATED);
@@ -149,5 +155,19 @@ public class PaymentService implements IPaymentService {
         payment.setPaymentStatus(paymentStatus);
         updatePayment(payment);
         return payment;
+    }
+
+    private void saveToBooking(Payment payment, Long amount) {
+        User user = userService.getUserByEmailAndRole(payment.getUserEmail(), Role.CUSTOMER.name());
+        Booking booking = Booking.builder()
+                .amount((double) amount)
+                .date(payment.getDate())
+                .endTime(payment.getEndTime())
+                .startTime(payment.getStartTime())
+                .note(payment.getNote())
+                .user(user)
+                .status(BookingStatus.UPCOMING)
+                .build();
+        bookingService.save(booking);
     }
 }

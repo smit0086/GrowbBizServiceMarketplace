@@ -20,7 +20,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class BookingServiceHelper {
+public class FreeSlotServiceHelper {
 
     @Autowired
     private final IServicesService servicesService;
