@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +27,11 @@ public class SubCategoryService implements ISubCategoryService {
 
     @Override
     public SubCategory getSubCategoryByID(Long subCategoryID) {
-        try {
-            SubCategory subCategory = iSubCategoryRepository.findById(subCategoryID).get();
-            return subCategory;
-        } catch (Exception e) {
+        Optional<SubCategory> subCategory = iSubCategoryRepository.findById(subCategoryID);
+
+        if(subCategory.isPresent()) {
+            return subCategory.get();
+        } else {
             return null;
         }
     }
@@ -54,40 +56,32 @@ public class SubCategoryService implements ISubCategoryService {
 
     @Override
     public SubCategory addSubCategory(SubCategoryRequest newSubCategory) {
-//        try {
-            List<SubCategory> subCategory = iSubCategoryRepository.findByName(newSubCategory.getName());
-            if (subCategory.isEmpty()) {
-                Category category = iCategoryRepository.findById(newSubCategory.getCategoryID()).get();
-                SubCategory subCategoryToAdd = SubCategory.builder()
-                        .name(newSubCategory.getName())
-                        .category(category)
-                        .build();
-                return iSubCategoryRepository.save(subCategoryToAdd);
-            } else {
-                throw new SubCategoryAlreadyExistsException("SubCategory already Exists");
-            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
+        List<SubCategory> subCategory = iSubCategoryRepository.findByName(newSubCategory.getName());
+        if (subCategory.isEmpty()) {
+            Category category = iCategoryRepository.findById(newSubCategory.getCategoryID()).get();
+            SubCategory subCategoryToAdd = SubCategory.builder()
+                    .name(newSubCategory.getName())
+                    .category(category)
+                    .build();
+            return iSubCategoryRepository.save(subCategoryToAdd);
+        }
+        return null;
     }
 
     @Override
-    public SubCategory updateSubCategory(SubCategoryRequest subCategory, Long categoryID) {
-        try {
-            SubCategory updatedSubCategory = iSubCategoryRepository.findById(subCategory.getSubCategoryID()).get();
+    public SubCategory updateSubCategory(SubCategoryRequest subCategoryRequest, Long categoryID) {
+        Optional<SubCategory> subCategoryToUpdate = iSubCategoryRepository.findById(subCategoryRequest.getSubCategoryID());
 
-            if (Objects.nonNull(subCategory.getName()) && !"".equalsIgnoreCase(subCategory.getName())) {
-                updatedSubCategory.setName(subCategory.getName());
-            }
-
-            if (Objects.nonNull(subCategory.getCategoryID())) {
-                Category category = iCategoryRepository.findById(categoryID).get();
-                updatedSubCategory.setCategory(category);
-            }
-            return iSubCategoryRepository.save(updatedSubCategory);
-        } catch (Exception e) {
+        if (subCategoryToUpdate.isEmpty()) {
             return null;
+        } else {
+            Category category = iCategoryRepository.findById(categoryID).get();
+            SubCategory subCategoryUpdated = SubCategory.builder()
+                    .subCategoryID(subCategoryToUpdate.get().getSubCategoryID())
+                    .name(subCategoryRequest.getName())
+                    .category(category)
+                    .build();
+            return iSubCategoryRepository.save(subCategoryUpdated);
         }
     }
 
