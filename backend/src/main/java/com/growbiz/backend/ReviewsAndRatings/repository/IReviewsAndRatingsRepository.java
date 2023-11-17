@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface IReviewsAndRatingsRepository extends CrudRepository<ReviewsAndRatings, Long> {
 
+    ReviewsAndRatings findByServiceIdAndUserId(Long serviceId, Long userId);
+
     List<ReviewsAndRatings> findByUserId(Long userId);
 
     List<ReviewsAndRatings> findByServiceServiceId(Long serviceId);
