@@ -87,10 +87,8 @@ public class SubCategoryServiceTests {
 
     @Test
     public void getNullSubCategoryIDTest() throws Exception {
-        when(subCategoryRepository.findById(1L)).thenReturn(null);
-
+        when(subCategoryRepository.findById(1L)).thenReturn(Optional.empty());
         SubCategory results = subCategoryService.getSubCategoryByID(1L);
-
         assertNull(results);
     }
 
@@ -147,11 +145,8 @@ public class SubCategoryServiceTests {
     @Test
     public void addExistingSubCategorySuccessTest() {
         when(subCategoryRepository.findByName(mockSubCategoryRequest.getName())).thenReturn(List.of(mockSubCategory));
-
-        assertThrows(SubCategoryAlreadyExistsException.class, () -> {
-            SubCategory results = subCategoryService.addSubCategory(mockSubCategoryRequest);
-            assertEquals(null, results);
-        });
+        SubCategory results = subCategoryService.addSubCategory(mockSubCategoryRequest);
+        assertNull(results);
     }
 
     @Test
