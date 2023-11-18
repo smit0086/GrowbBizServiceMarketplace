@@ -17,6 +17,8 @@ public interface IPaymentService {
 
     List<Payment> findAllPayments();
 
+    List<Payment> findAllPaymentsByUserEmail(String userEmail);
+
     List<Payment> findByPaymentStatus(PaymentStatus paymentStatus);
 
     ResponseEntity<String> handleWebhook(String requestBody, String sigHeader);

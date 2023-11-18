@@ -7,6 +7,7 @@ import com.growbiz.backend.Payment.service.IPaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,11 @@ public class PaymentController {
     @GetMapping
     public ResponseEntity<Payment> getPayment(@RequestParam Long paymentId) {
         return ResponseEntity.ok(paymentService.findPaymentById(paymentId));
+    }
+
+    @GetMapping(path = "/all")
+    public ResponseEntity<List<Payment>> getAllPayments() {
+        return ResponseEntity.ok(paymentService.findAllPaymentsByUserEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
     }
 
     @GetMapping(path = "/status")

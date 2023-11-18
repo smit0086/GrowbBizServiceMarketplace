@@ -12,4 +12,6 @@ public interface IPaymentRepository extends CrudRepository<Payment, Long> {
     List<Payment> findByPaymentStatusEquals(PaymentStatus paymentStatus);
 
     List<Payment> findByServiceId(Long serviceId);
+
+    List<Payment> findByUserEmail(String userEmail);
 }

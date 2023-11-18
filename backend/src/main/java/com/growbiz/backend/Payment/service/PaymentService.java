@@ -67,6 +67,11 @@ public class PaymentService implements IPaymentService {
     }
 
     @Override
+    public  List<Payment> findAllPaymentsByUserEmail(String userEmail) {
+        return paymentRepository.findByUserEmail(userEmail);
+    }
+
+    @Override
     public List<Payment> findByPaymentStatus(PaymentStatus paymentStatus) {
         return paymentRepository.findByPaymentStatusEquals(paymentStatus);
     }
