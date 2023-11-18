@@ -32,7 +32,7 @@ public class BookingService implements IBookingService {
     private final IServicesService servicesService;
 
     @Override
-    public Booking getBookingById(Long id) {
+    public Booking findById(Long id) {
         Optional<Booking> bookingOptional = bookingRepository.findById(id);
 
         if (bookingOptional.isPresent()) {
