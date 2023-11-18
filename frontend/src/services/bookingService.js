@@ -19,7 +19,16 @@ export const getFreeTimeSlots = async (token, businessID, serviceID, date) => {
     }
 };
 
-export const bookService = async (token, serviceId, date, startTime, endTime, amount, note, email) => {
+export const bookService = async (
+    token,
+    serviceId,
+    date,
+    startTime,
+    endTime,
+    amount,
+    note,
+    email
+) => {
     const body = {
         serviceId,
         date,
@@ -28,7 +37,7 @@ export const bookService = async (token, serviceId, date, startTime, endTime, am
         amount,
         note,
         email,
-        role: "CUSTOMER"
+        role: "CUSTOMER",
     };
     const resp = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/booking/add`,

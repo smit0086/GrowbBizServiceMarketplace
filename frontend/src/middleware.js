@@ -5,12 +5,15 @@ import { getBusiness } from "./services/businessService";
 
 // middleware is applied to all routes, use conditionals to select
 const protected_routes = {
-    CUSTOMER: ["/dashboard","/service"],
-    PARTNER: [
-        "/partner/dashboard",
-        "/partner/business"
+    CUSTOMER: ["/dashboard", "/service", "/payment"],
+    PARTNER: ["/partner/dashboard", "/partner/business"],
+    ADMIN: [
+        "/admin/dashboard",
+        "/admin/business/verify",
+        "/admin/category",
+        "/admin/category/update",
+        "/admin/category/create",
     ],
-    ADMIN: ["/admin/dashboard", "/admin/business/verify", "/admin/category", "/admin/category/update", "/admin/category/create"],
 };
 
 const flattened_protected_routes = [
