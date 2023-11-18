@@ -1,5 +1,6 @@
 package com.growbiz.backend.Payment.model;
 
+import com.growbiz.backend.Booking.models.Booking;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,4 +35,8 @@ public class Payment {
     private String note;
 
     private PaymentStatus paymentStatus;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "booking", referencedColumnName = "booking_id")
+    private Booking booking;
 }

@@ -91,11 +91,16 @@ public class PaymentService implements IPaymentService {
         }
         switch (PaymentStatus.getStatusFromValue(event.getType())) {
             case SUCCESS -> {
-                Payment payment = fetchAndUpdatePayment(paymentIntent, PaymentStatus.SUCCESS);
-                saveToBooking(payment, paymentIntent.getAmount());
+                Payment payment = fetchPayment(paymentIntent);
+                Booking booking = saveToBooking(payment, paymentIntent.getAmount());
+                payment.setPaymentStatus(PaymentStatus.SUCCESS);
+                payment.setBooking(booking);
+                updatePayment(payment);
             }
             case CREATED -> {
-                fetchAndUpdatePayment(paymentIntent, PaymentStatus.CREATED);
+                Payment payment = fetchPayment(paymentIntent);
+                payment.setPaymentStatus(PaymentStatus.CREATED);
+                updatePayment(payment);
             }
             default -> System.out.println("Unhandled event type: " + event.getType());
         }
@@ -149,15 +154,12 @@ public class PaymentService implements IPaymentService {
         return (long) ((servicePrice + ((taxApplied / 100) * servicePrice)) * 100);
     }
 
-    private Payment fetchAndUpdatePayment(PaymentIntent paymentIntent, PaymentStatus paymentStatus) {
+    private Payment fetchPayment(PaymentIntent paymentIntent) {
         Long paymentId = Long.parseLong(paymentIntent.getMetadata().get("payment_id"));
-        Payment payment = findPaymentById(paymentId);
-        payment.setPaymentStatus(paymentStatus);
-        updatePayment(payment);
-        return payment;
+        return findPaymentById(paymentId);
     }
 
-    private void saveToBooking(Payment payment, Long amount) {
+    private Booking saveToBooking(Payment payment, Long amount) {
         User user = userService.getUserByEmailAndRole(payment.getUserEmail(), Role.CUSTOMER.name());
         Booking booking = Booking.builder()
                 .amount((double) amount)
@@ -168,6 +170,6 @@ public class PaymentService implements IPaymentService {
                 .user(user)
                 .status(BookingStatus.UPCOMING)
                 .build();
-        bookingService.save(booking);
+        return bookingService.save(booking);
     }
 }

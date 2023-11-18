@@ -158,6 +158,9 @@ public class FreeSlotServiceHelper {
                     freeSlots.add(new SlotRange(end, end.plusMinutes(duration)));
                 }
             }
+            if (end.equals(start)) {
+                break;
+            }
             end = end.minusMinutes(timeSlotGap);
         }
         freeSlots.sort(Comparator.comparing(SlotRange::getStartTime));
