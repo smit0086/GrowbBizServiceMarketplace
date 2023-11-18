@@ -51,8 +51,8 @@ public class PaymentService implements IPaymentService {
     private String stripeWebhookSecret;
 
     @Override
-    public Payment addPayment(PaymentRequest paymentRequest) {
-        return paymentRepository.save(createPayment(paymentRequest));
+    public Payment addPayment(PaymentRequest paymentRequest, long amount) {
+        return paymentRepository.save(createPayment(paymentRequest, amount));
     }
 
     @Override
@@ -94,7 +94,7 @@ public class PaymentService implements IPaymentService {
                 Payment payment = fetchPayment(paymentIntent);
                 Booking booking = saveToBooking(payment, paymentIntent.getAmount());
                 payment.setPaymentStatus(PaymentStatus.SUCCESS);
-                payment.setBooking(booking);
+                payment.setBookingId(booking.getId());
                 updatePayment(payment);
             }
             case CREATED -> {
@@ -111,8 +111,8 @@ public class PaymentService implements IPaymentService {
     public ResponseEntity<PaymentResponse> createPaymentIntent(PaymentRequest paymentRequest) {
         Stripe.apiKey = stripeAPIKey;
         try {
-            Payment payment = addPayment(paymentRequest);
             long totalAmount = calculatePaymentAmount(paymentRequest.getServiceId());
+            Payment payment = addPayment(paymentRequest, totalAmount);
             PaymentIntentCreateParams params =
                     PaymentIntentCreateParams.builder()
                             .putMetadata("payment_id", payment.getPaymentId().toString())
@@ -120,6 +120,8 @@ public class PaymentService implements IPaymentService {
                             .setCurrency("cad")
                             .build();
             PaymentIntent paymentIntent = PaymentIntent.create(params);
+            payment.setClientSecret(paymentIntent.getClientSecret());
+            updatePayment(payment);
             return ResponseEntity.ok().body(PaymentResponse.builder().clientSecret(paymentIntent.getClientSecret()).paymentId(payment.getPaymentId()).build());
         } catch (StripeException e) {
             return ResponseEntity.internalServerError().build();
@@ -131,7 +133,7 @@ public class PaymentService implements IPaymentService {
         return paymentRepository.findByServiceId(serviceId);
     }
 
-    private Payment createPayment(PaymentRequest paymentRequest) {
+    private Payment createPayment(PaymentRequest paymentRequest, long amount) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return Payment.builder()
                 .serviceId(paymentRequest.getServiceId())
@@ -140,6 +142,7 @@ public class PaymentService implements IPaymentService {
                 .endTime(paymentRequest.getEndTime())
                 .note(paymentRequest.getNote())
                 .userEmail(user.getUsername())
+                .amount((double) amount / 100)
                 .build();
     }
 

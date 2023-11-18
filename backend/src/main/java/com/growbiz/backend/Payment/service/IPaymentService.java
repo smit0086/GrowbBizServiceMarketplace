@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public interface IPaymentService {
-    Payment addPayment(PaymentRequest paymentRequest);
+    Payment addPayment(PaymentRequest paymentRequest, long amount);
 
     Payment findPaymentById(Long paymentId);
 
