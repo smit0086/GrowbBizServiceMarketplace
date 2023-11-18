@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public interface IBookingService {
 
-    Booking getBookingById(Long id);
+    Booking findById(Long id);
 
     List<Booking> findByServiceId(Long serviceId);
 
