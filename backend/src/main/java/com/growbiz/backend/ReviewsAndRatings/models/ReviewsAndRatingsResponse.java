@@ -12,7 +12,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class ReviewsAndRatingsResponse extends BasicResponse {
     private List<ReviewsAndRatings> reviewsAndRatings;
-    private Long businessId;
     private Boolean isUpdated;
     private Boolean isDeleted;
 }

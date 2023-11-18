@@ -21,10 +21,10 @@ public class ReviewsAndRatings {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewAndRatingID;
 
-    @NotBlank
+//    @NotBlank
     private String review;
 
-    @NotBlank
+//    @NotBlank
     private double rating;
 
     @ManyToOne(fetch = FetchType.LAZY)

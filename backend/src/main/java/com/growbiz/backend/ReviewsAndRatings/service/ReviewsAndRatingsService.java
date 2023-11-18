@@ -60,7 +60,7 @@ public class ReviewsAndRatingsService implements IReviewsAndRatingsService {
 
     @Override
     public ReviewsAndRatings addReviewAndRating(ReviewsAndRatingsRequest newReviewsAndRatingsRequest) {
-        ReviewsAndRatings existingReviewAndRating = iReviewsAndRatingsRepository.findByServiceIdAndUserId(newReviewsAndRatingsRequest.getServiceId(), newReviewsAndRatingsRequest.getUserId());
+        ReviewsAndRatings existingReviewAndRating = iReviewsAndRatingsRepository.findByServiceServiceIdAndUserId(newReviewsAndRatingsRequest.getServiceId(), newReviewsAndRatingsRequest.getUserId());
 
         if (Objects.isNull(existingReviewAndRating)) {
             User user = iUserRepository.findById(newReviewsAndRatingsRequest.getUserId()).get();

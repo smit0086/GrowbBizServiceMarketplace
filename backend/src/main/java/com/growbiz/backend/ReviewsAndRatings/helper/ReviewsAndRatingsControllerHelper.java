@@ -11,9 +11,11 @@ import java.util.List;
 
 @Component
 public class ReviewsAndRatingsControllerHelper {
-    public ResponseEntity<ReviewsAndRatingsResponse> createReviewsAndRatingsResponse(List<ReviewsAndRatings> ReviewsAndRatingsList, Boolean isUpdated) {
+    public ResponseEntity<ReviewsAndRatingsResponse> createReviewsAndRatingsResponse(List<ReviewsAndRatings> reviewsAndRatingsList, Boolean isUpdated) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseEntity.ok(ReviewsAndRatingsResponse.builder()
+        return ResponseEntity.ok(ReviewsAndRatingsResponse.builder().reviewsAndRatings(reviewsAndRatingsList)
+                .isUpdated(isUpdated)
+                .isDeleted(false)
                 .build());
     }
 
