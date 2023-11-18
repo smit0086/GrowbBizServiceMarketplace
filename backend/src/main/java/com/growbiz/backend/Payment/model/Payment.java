@@ -34,4 +34,10 @@ public class Payment {
     private String note;
 
     private PaymentStatus paymentStatus;
+
+    private double amount;
+
+    private Long bookingId;
+
+    private String clientSecret;
 }
