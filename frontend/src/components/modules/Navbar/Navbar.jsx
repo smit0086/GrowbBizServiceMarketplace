@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
@@ -68,7 +69,14 @@ const Navbar = async ({ navItems }) => {
                         </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuSeparator />
+                    {businessName === ROLES.CUSTOMER && (
+                        <>
+                            <DropdownMenuItem>
+                                <a href="/payment">Payments</a>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                        </>
+                    )}
                     <ProfileMenuLogout />
                 </DropdownMenuContent>
             </DropdownMenu>

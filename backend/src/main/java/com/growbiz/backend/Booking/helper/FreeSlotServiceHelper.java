@@ -20,7 +20,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class BookingServiceHelper {
+public class FreeSlotServiceHelper {
 
     @Autowired
     private final IServicesService servicesService;
@@ -157,6 +157,9 @@ public class BookingServiceHelper {
                 if (availableTime >= duration) {
                     freeSlots.add(new SlotRange(end, end.plusMinutes(duration)));
                 }
+            }
+            if (end.equals(start)) {
+                break;
             }
             end = end.minusMinutes(timeSlotGap);
         }

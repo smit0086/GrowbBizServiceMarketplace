@@ -37,7 +37,8 @@ public class BusinessController {
 
     @GetMapping(path = "/all")
     public ResponseEntity<BusinessResponse> getAllBusinesses(@RequestParam(required = false) String status) {
-        return helper.createBusinessResponse(businessService.fetchBusinesses(status));
+        List<Business> businessList = businessService.fetchBusinesses(status);
+        return helper.createBusinessResponse(businessList);
     }
 
     @GetMapping(path = "/")

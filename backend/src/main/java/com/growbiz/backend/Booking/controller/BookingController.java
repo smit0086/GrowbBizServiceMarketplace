@@ -3,6 +3,7 @@ package com.growbiz.backend.Booking.controller;
 import com.growbiz.backend.Booking.helper.BookingControllerHelper;
 import com.growbiz.backend.Booking.models.*;
 import com.growbiz.backend.Booking.service.IBookingService;
+import com.growbiz.backend.Booking.service.IFreeSlotService;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,9 @@ public class BookingController {
 
     @Autowired
     private BookingControllerHelper helper;
+
+    @Autowired
+    private IFreeSlotService freeSlotService;
 
     @PostMapping(path = "/add")
     public ResponseEntity<BookingResponse> addBooking(@RequestBody BookingRequest bookingRequest) {
@@ -114,6 +118,6 @@ public class BookingController {
     public ResponseEntity<FreeSlotsResponse> getFreeTimeSlots(@PathVariable Long businessId, @PathVariable Long serviceId, @RequestParam("date") String dateString) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = formatter.parse(dateString);
-        return helper.createFreeSlotsResponse(bookingService.getFreeSlotsForWeek(businessId, date, serviceId));
+        return helper.createFreeSlotsResponse(freeSlotService.getFreeSlotsForWeek(businessId, date, serviceId));
     }
 }
