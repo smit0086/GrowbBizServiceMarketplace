@@ -72,9 +72,10 @@ public class ServicesService implements IServicesService {
     public List<Services> getServicesByCategoryId(Long categoryId) {
         List<Services> services = new ArrayList<>();
         List<SubCategory> subCategoryList = subCategoryService.fetchSubCategoryListForCategoryID(categoryId);
-        if (!subCategoryList.isEmpty()) {
+        if (Objects.nonNull(subCategoryList)) {
             for (SubCategory subcategory : subCategoryList) {
-                services.add(getServiceBySubCategoryId(subcategory.getSubCategoryID()).get(0));
+                List<Services> s = iServiceRepository.findBySubCategorySubCategoryID(subcategory.getSubCategoryID());
+                services.add(s.get(0));
             }
         }
         return services;
