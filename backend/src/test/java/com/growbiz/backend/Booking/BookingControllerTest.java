@@ -13,11 +13,9 @@ import com.growbiz.backend.User.service.IUserService;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
@@ -306,7 +304,7 @@ public class BookingControllerTest {
                         .build()
         );
 
-        when(bookingService.getBookingById(2L)).thenReturn(mockOngoingBooking);
+        when(bookingService.findById(2L)).thenReturn(mockOngoingBooking);
         when(bookingHelper.createBookingResponse(List.of(mockOngoingBooking))).thenReturn(expectedResponse);
 
         actualResponse = bookingController.modifyBookingStatus(2L, "COMPLETED");
