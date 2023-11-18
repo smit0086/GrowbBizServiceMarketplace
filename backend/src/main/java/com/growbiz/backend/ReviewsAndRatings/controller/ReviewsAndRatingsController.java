@@ -32,7 +32,7 @@ public class ReviewsAndRatingsController {
         return reviewsAndRatingsHelper.createReviewsAndRatingsResponse(reviewsAndRatingsService.fetchReviewsAndRatingsList(), false);
     }
 
-    @RequestMapping(path = "/addReviewAndRating")
+    @PostMapping(path = "/addReviewAndRating")
     public ResponseEntity<ReviewsAndRatingsResponse> addReviewAndRating(@RequestBody ReviewsAndRatingsRequest addRequest) {
         ReviewsAndRatings reviewAndRating = reviewsAndRatingsService.addReviewAndRating(addRequest);
         if (reviewAndRating != null) {
@@ -42,7 +42,7 @@ public class ReviewsAndRatingsController {
         }
     }
 
-    @RequestMapping(path = "/updateReviewAndRating")
+    @PostMapping(path = "/updateReviewAndRating")
     public ResponseEntity<ReviewsAndRatingsResponse> updateReviewAndRating(@RequestBody ReviewsAndRatingsRequest updateRequest) {
         ReviewsAndRatings reviewAndRating = reviewsAndRatingsService.updateReviewAndRating(updateRequest);
         if (reviewAndRating != null) {
