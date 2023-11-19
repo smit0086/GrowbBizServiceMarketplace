@@ -19,5 +19,6 @@ public class ReviewsAndRatingsRequest extends BasicRequest {
     private double rating;
     private long userId;
     private long serviceId;
+    private String userEmail;
 }
 

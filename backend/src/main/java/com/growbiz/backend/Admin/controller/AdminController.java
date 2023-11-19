@@ -13,10 +13,7 @@ import com.growbiz.backend.Exception.exceptions.SubCategoryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -54,10 +51,9 @@ public class AdminController {
         }
     }
 
-    @PostMapping(path = "/deleteCategory")
+    @DeleteMapping(path = "/deleteCategory")
     public ResponseEntity<CategoryResponse> deleteCategory(@RequestBody Category oldCategory) throws Exception {
         Boolean isDeleted = adminService.deleteCategory(oldCategory);
-
         if (isDeleted) {
             return helper.deleteCategoryResponse(false, true);
         } else {
@@ -87,7 +83,7 @@ public class AdminController {
         }
     }
 
-    @PostMapping(path = "/deleteSubCategory")
+    @DeleteMapping(path = "/deleteSubCategory")
     public ResponseEntity<CategoryResponse> deleteSubCategory(@RequestBody SubCategory oldSubCategory) throws Exception {
         Boolean isDeleted = adminService.deleteSubCategory(oldSubCategory);
 

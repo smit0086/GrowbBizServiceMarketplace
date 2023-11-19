@@ -1,10 +1,10 @@
-export const addSubCategory = async (token, category_name, tax) => {
+export const addSubCategory = async (token, subcategory_name, category_id) => {
     const body = {
-        name: category_name,
-        tax,
+        name: subcategory_name,
+        categoryID: parseInt(category_id),
     };
     const resp = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/addCategory`,
+        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/addSubCategory`,
         {
             method: "post",
             body: JSON.stringify(body),
@@ -22,19 +22,14 @@ export const addSubCategory = async (token, category_name, tax) => {
     }
 };
 
-export const updateCategory = async (
-    token,
-    category_id,
-    category_name,
-    tax
-) => {
+export const updateSubCategory = async (token, subcategory_id, subcategory_name, category_id) => {
     const body = {
-        categoryID: category_id,
-        name: category_name,
-        tax,
+        subCategoryID: subcategory_id,
+        name: subcategory_name,
+        categoryID: parseInt(category_id),
     };
     const resp = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/updateCategory`,
+        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/updateSubCategory`,
         {
             method: "post",
             body: JSON.stringify(body),
@@ -52,19 +47,14 @@ export const updateCategory = async (
     }
 };
 
-export const deleteCategory = async (
-    token,
-    category_id,
-    category_name,
-    tax
-) => {
+export const deleteSubCategory = async (token, subcategory_id, subcategory_name, category_id) => {
     const body = {
-        categoryID: category_id,
-        name: category_name,
-        tax,
+        subCategoryID: parseInt(subcategory_id),
+        name: subcategory_name,
+        categoryID: parseInt(category_id),
     };
     const resp = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/deleteCategory`,
+        `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/admin/deleteSubCategory`,
         {
             method: "post",
             body: JSON.stringify(body),
@@ -79,68 +69,24 @@ export const deleteCategory = async (
         return data;
     } catch (err) {
         console.log("err", err);
-    }
-};
-
-export const getAllCategories = async (token) => {
-    try {
-        const re = await (
-            await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/category/allCategories`,
-                {
-                    method: "get",
-                    headers: {
-                        "Content-type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
-        ).json();
-        return re.categories;
-    } catch (err) {
-        console.error({ err });
-        return [];
-    }
-};
-
-export const getAllSubCategories = async (token) => {
-    try {
-        const re = await (
-            await fetch(
-                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/category/allSubCategories`,
-                {
-                    method: "get",
-                    headers: {
-                        "Content-type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
-        ).json();
-        return re.subCategories;
-    } catch (err) {
-        console.error({ err });
-        return [];
     }
 };
 
 export const getAllSubCategoriesForCategoryId = async (token, categoryId) => {
     try {
-        const re = await fetch(
-            `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/category/getAllSubCategoriesForCategoryId?categoryId=${categoryId}`,
-            {
-                method: "get",
-                headers: {
-                    "Content-type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
-        if (re.ok) {
-            const resp = await re.json();
-            return resp.subCategories;
-        }
-        throw re;
+        const re = await (
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/category/getAllSubCategoriesForCategoryId?categoryId=${categoryId}`,
+                {
+                    method: "get",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+        ).json();
+        return re;
     } catch (err) {
         console.error({ err });
         return [];

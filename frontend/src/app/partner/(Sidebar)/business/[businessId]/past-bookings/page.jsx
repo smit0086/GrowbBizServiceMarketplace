@@ -2,34 +2,13 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import ViewPastBookings from "./components/ViewPastBookings";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { getPastBookingsForBusiness } from "@/services/bookingService";
 
 export default async function PastBookingsManagement(context) {
     const authSession = await getServerSession(authOptions);
     const businessId = Number(context.params.businessId);
 
-    let pastBookings = [
-        {
-            bookingId: 1,
-            serviceName: 'hair cutting',
-            timeRequired: [1,0],
-            date: '2023-11-15',
-            startTime: [9,0],
-            endTime: [10,0],
-            userEmail: 'customer@example.com',
-            note: 'Please ensure extra care for the delicate items.'
-        },
-        {
-            bookingId: 2,
-            serviceName: 'hair cutting',
-            timeRequired: [1,0],
-            date: '2023-11-15',
-            startTime: [9,0],
-            endTime: [10,0],
-            userEmail: 'customer@example.com',
-            note: 'Please ensure extra care for the delicate items.'
-        }
-    ];
-
+    let pastBookings = await getPastBookingsForBusiness(authSession.apiToken, businessId);
     pastBookings = pastBookings.map(pastBooking => {
         return {
             ...pastBooking,

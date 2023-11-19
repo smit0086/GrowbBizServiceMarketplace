@@ -27,6 +27,8 @@ public class ReviewsAndRatings {
 //    @NotBlank
     private double rating;
 
+    private String userEmail;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore

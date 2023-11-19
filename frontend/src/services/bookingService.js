@@ -118,3 +118,24 @@ export const getOngoingBookingsForBusiness = async (token, businessId) => {
         return [];
     }
 };
+
+export const getPastBookingsForBusiness = async (token, businessId) => {
+    try {
+        const re = await (
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/booking/business/completed/${businessId}`,
+                {
+                    method: "get",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+        ).json();
+        return re.bookings;
+    } catch (err) {
+        console.error({ err });
+        return [];
+    }
+};

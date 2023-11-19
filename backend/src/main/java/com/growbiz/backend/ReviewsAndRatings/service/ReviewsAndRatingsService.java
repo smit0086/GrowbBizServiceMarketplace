@@ -69,6 +69,7 @@ public class ReviewsAndRatingsService implements IReviewsAndRatingsService {
                     .review(newReviewsAndRatingsRequest.getReview())
                     .rating(newReviewsAndRatingsRequest.getRating())
                     .user(user)
+                    .userEmail(user.getEmail())
                     .service(service)
                     .build();
             return iReviewsAndRatingsRepository.save(reviewAndRatingUpdated);
@@ -90,6 +91,7 @@ public class ReviewsAndRatingsService implements IReviewsAndRatingsService {
                     .review(reviewsAndRatingsRequest.getReview())
                     .rating(reviewsAndRatingsRequest.getRating())
                     .user(user)
+                    .userEmail(user.getEmail())
                     .service(service)
                     .build();
             return iReviewsAndRatingsRepository.save(reviewAndRatingUpdated);
