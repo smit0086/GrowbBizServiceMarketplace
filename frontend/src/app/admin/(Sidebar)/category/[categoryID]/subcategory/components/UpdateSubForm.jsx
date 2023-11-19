@@ -57,9 +57,6 @@ export function UpdateSubForm({className, subcategoryID, categories, categoryID,
 
     const form = useForm({
         resolver: zodResolver(formSchema),
-    //     defaultValues: {
-    //         name: formDefaults?.name || "",
-    //     },
     });
 
     async function onSubmit(data) {

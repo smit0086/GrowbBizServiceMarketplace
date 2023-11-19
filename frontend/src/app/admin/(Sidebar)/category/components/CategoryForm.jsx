@@ -51,15 +51,11 @@ export function CategoryForm({ className, ...props }) {
 
     const form = useForm({
         resolver: zodResolver(formSchema),
-    //     defaultValues: {
-    //         name: formDefaults?.name || "",
-    //     },
     });
 
     async function onSubmit(data) {
         setIsLoading(true);
         await addCategory(session.data.apiToken, data.name, data.tax);
-        // router.push("/admin/category");
         window.location.href = `/admin/category`;
     }
 

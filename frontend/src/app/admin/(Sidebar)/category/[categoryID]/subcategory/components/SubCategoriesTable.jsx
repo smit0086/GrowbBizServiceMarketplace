@@ -24,7 +24,7 @@ export async function SubCategoriesTable({ className, category_id, ...props }) {
     console.log(categoryName)
     return (
         <div className="py-8 px-16">
-        <h2 className="text-3xl">{categoryName}&apos; Sub Categories</h2>
+        <h2 className="text-3xl">{categoryName}&apos;s Sub Categories</h2>
         <Table className="my-8">
             <TableCaption>A list of all the business Subcategories present for {categoryName}.</TableCaption>
             <TableHeader>
@@ -53,11 +53,7 @@ export async function SubCategoriesTable({ className, category_id, ...props }) {
                             </Button>
                         </TableCell>   
                             <td>
-                                
                             </td>
-                            {/* <td>
-                                <DeleteSubCategory subcategory={item} />
-                            </td> */}
                         </TableRow>
                     ))}
             </TableBody>

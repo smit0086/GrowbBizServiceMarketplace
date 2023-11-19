@@ -49,15 +49,11 @@ export function SubCategoryForm({ className, categoryID, ...props }) {
 
     const form = useForm({
         resolver: zodResolver(formSchema),
-    //     defaultValues: {
-    //         name: formDefaults?.name || "",
-    //     },
     });
 
     async function onSubmit(data) {
         setIsLoading(true);
         await addSubCategory(session.data.apiToken, data.name, categoryID);
-        // router.push("/admin/category");
         window.location.href = `/admin/category/${categoryID}/subcategory`;
     }
 
@@ -89,46 +85,6 @@ export function SubCategoryForm({ className, categoryID, ...props }) {
                                 )}
                             />
                         </div>
-                        {/* <div className="grid gap-2">
-                            <FormField
-                                control={control}
-                                name="categoryID"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Category</FormLabel>
-                                        <Select
-                                            onValueChange={(e) => {
-                                                field.onChange(e);
-                                            }}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue placeholder="Select" />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent position="popper">
-                                                {categories.map(
-                                                        (category) => (
-                                                            <SelectItem
-                                                                value={`${category.categoryID}`}
-                                                                key={
-                                                                    category.categoryID
-                                                                }
-                                                            >
-                                                                {
-                                                                    category.name
-                                                                }
-                                                            </SelectItem>
-                                                        )
-                                                    )}
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div> */}
                     </CardContent>
 
                     <CardFooter>

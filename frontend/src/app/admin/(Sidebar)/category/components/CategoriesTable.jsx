@@ -16,7 +16,6 @@ import {
 
 export async function CategoriesTable({ className, ...props }) {
     const session = await getServerSession(authOptions);
-    // console.log("Test");
     const categories = await getAllCategories(session.apiToken);
     return (
         <div className="py-8 px-16">
@@ -49,46 +48,11 @@ export async function CategoriesTable({ className, ...props }) {
                             <td>
                                 
                             </td>
-                            {/* <td>
-                                <DeleteSubCategory subcategory={item} />
-                            </td> */}
                         </TableRow>
                     ))}
             </TableBody>
         </Table>
     </div>
-        // <div>
-        //     <table>
-        //         <thead>
-        //             <tr>
-        //                 <th>Category Name</th>
-        //                 <th>Tax %</th>
-        //                 <th>Edit</th>
-        //                 {/* <th>delete</th> */}
-        //             </tr>
-        //         </thead>
-        //         <tbody>
-        //             {categories.map((item) => (
-        //                 <tr key={item.categoryID}>  
-        //                     <td><a href={`/admin/category/${item.categoryID}/subcategory`}>{item.name}</a></td>
-        //                     <td>{item.tax}</td>
-        //                     <td>
-        //                         <Button asChild>
-        //                             <Link
-        //                                 href={`/admin/category/update/${item.categoryID}`}
-        //                             >
-        //                                 Edit
-        //                             </Link>
-        //                         </Button>
-        //                     </td>
-        //                     {/* <td>
-        //                         <DeleteCategory category={item} />
-        //                     </td> */}
-        //                 </tr>
-        //             ))}
-        //         </tbody>
-        //     </table>
-        // </div>
     );
 }
 
