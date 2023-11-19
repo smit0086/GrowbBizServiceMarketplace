@@ -10,7 +10,6 @@ const minutesFromTuple = (tuple) => {
 };
 
 const generateStateFromServerResponse = (businessHours) => {
-    console.log({ r: businessHours });
     const respone = {};
     DAY_OF_WEEK.forEach((day, index) => {
         const start_key = `${day.toLowerCase()}_start`;
@@ -38,7 +37,6 @@ const OperatingHours = async () => {
     const businessHours = generateStateFromServerResponse(
         businessHoursResponse.businessHour
     );
-    console.log({ businessHours });
 
     return (
         <div>

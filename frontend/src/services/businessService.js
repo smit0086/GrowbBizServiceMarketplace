@@ -214,3 +214,23 @@ export const saveBusinessHours = async (token, businessId, businessHours) => {
         return false;
     }
 };
+
+export const getAllBusinesses = async (token) => {
+    try {
+        const endpoint = `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/business/all`;
+        const resp = await fetch(endpoint, {
+            method: "get",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (resp.ok) {
+            return (await resp.json()).businesses;
+        }
+        throw resp;
+    } catch (err) {
+        console.error("err", err);
+        return [];
+    }
+};

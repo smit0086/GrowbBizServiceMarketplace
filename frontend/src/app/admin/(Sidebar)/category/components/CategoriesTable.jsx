@@ -9,7 +9,6 @@ import category from "../page";
 
 export async function CategoriesTable({ className, ...props }) {
     const session = await getServerSession(authOptions);
-    console.log("Test");
     const categories = await getAllCategories(session.apiToken);
     return (
         <div>

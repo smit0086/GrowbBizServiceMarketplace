@@ -12,20 +12,23 @@ export default async function ServiceManagement(context) {
 
     function convertHHMMToMinutes(formattedTime) {
         const [hours, minutes] = formattedTime;
-        const totalMinutes = (hours * 60) + minutes;
+        const totalMinutes = hours * 60 + minutes;
         return totalMinutes;
     }
 
-    let fetchedServices = await getServicesByBusinessId(authSession.apiToken, businessId);
-    fetchedServices = fetchedServices.map(service => ({
+    let fetchedServices = await getServicesByBusinessId(
+        authSession.apiToken,
+        businessId
+    );
+    fetchedServices = fetchedServices.map((service) => ({
         ...service,
         timeRequired: convertHHMMToMinutes(service.timeRequired),
     }));
 
-    const predefinedServices = subCategories.map(subcategory => {
+    const predefinedServices = subCategories.map((subcategory) => {
         return {
             predefinedServiceId: subcategory.subCategoryID,
-            predefinedServiceName: subcategory.name
+            predefinedServiceName: subcategory.name,
         };
     });
 
@@ -33,7 +36,12 @@ export default async function ServiceManagement(context) {
         <>
             <ScrollArea className="h-[100vh] w-[95vw] rounded-md p-4">
                 <div>
-                    <ViewServices authSession={authSession} predefinedServices={predefinedServices} businessId={businessId} fetchedServices={fetchedServices} />
+                    <ViewServices
+                        authSession={authSession}
+                        predefinedServices={predefinedServices}
+                        businessId={businessId}
+                        fetchedServices={fetchedServices}
+                    />
                 </div>
             </ScrollArea>
         </>
