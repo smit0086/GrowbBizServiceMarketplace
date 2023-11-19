@@ -1,6 +1,8 @@
 package com.growbiz.backend.Booking;
 
 import com.growbiz.backend.Booking.models.Booking;
+import com.growbiz.backend.Booking.models.BookingRequest;
+import com.growbiz.backend.Booking.models.BookingResponse;
 import com.growbiz.backend.Booking.models.BookingStatus;
 import com.growbiz.backend.Booking.repository.IBookingRepository;
 import com.growbiz.backend.Booking.service.BookingService;
@@ -8,8 +10,10 @@ import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Exception.exceptions.BookingNotFoundException;
 import com.growbiz.backend.Services.models.Services;
+import com.growbiz.backend.Services.service.IServicesService;
 import com.growbiz.backend.User.models.Role;
 import com.growbiz.backend.User.models.User;
+import com.growbiz.backend.User.service.IUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +44,12 @@ public class BookingServiceTest {
     IBookingRepository bookingRepository;
 
     @Mock
+    IUserService userService;
+
+    @Mock
+    IServicesService servicesService;
+
+    @Mock
     User mockUser;
 
     @Mock
@@ -52,8 +62,23 @@ public class BookingServiceTest {
 
     Booking mockBooking;
 
+    BookingRequest mockBookingRequest;
+
     @BeforeEach
     public void init() {
+        mockBookingRequest = BookingRequest
+                .builder()
+                .serviceId(1L)
+                .date(TEST_BOOKING_DATE)
+                .startTime(TEST_BOOKING_START_TIME)
+                .endTime(TEST_BOOKING_END_TIME)
+                .amount(120.50)
+                .note("Test")
+                .status(BookingStatus.UPCOMING)
+                .email("test@dal.ca")
+                .role(Role.CUSTOMER)
+                .build();
+
         mockUser = User
                 .builder()
                 .id(1L)
@@ -151,5 +176,25 @@ public class BookingServiceTest {
     @Test
     public void saveBookingTest() {
         bookingServiceMock.save(mockBooking);
+    }
+
+    @Test
+    public void saveBookingRequestTest() {
+        Booking actualBooking;
+        Booking expectedBooking = Booking.builder()
+                .user(mockUser)
+                .service(mockService)
+                .date(TEST_BOOKING_DATE)
+                .startTime(TEST_BOOKING_START_TIME)
+                .endTime(TEST_BOOKING_END_TIME)
+                .amount(120.50)
+                .note("Test")
+                .status(BookingStatus.UPCOMING)
+                .build();
+        when(userService.getUserByEmailAndRole(mockBookingRequest.getEmail(), mockBookingRequest.getRole().name())).thenReturn(mockUser);
+        when(servicesService.getServiceById(mockBookingRequest.getServiceId())).thenReturn(mockService);
+
+        actualBooking = bookingServiceMock.save(mockBookingRequest);
+        assertEquals(expectedBooking, actualBooking);
     }
 }
