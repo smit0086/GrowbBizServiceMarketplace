@@ -4,7 +4,7 @@ import { BadgeInfo, MoveLeft } from "lucide-react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getCategoryByID } from "@/services/categoriesServices";
 import ServiceList from "./components/ServiceList";
-import { getAllSubCategoriesForCategoryId } from "@/services/subCategoriesServices";
+import { getAllSubCategoriesForCategory } from "@/services/subCategoriesServices";
 import { getAllServiceByCategoryId } from "@/services/servicesService";
 import { getAllBusinesses } from "@/services/businessService";
 import { NO_IMAGE_PATH } from "@/lib/constants";
@@ -22,7 +22,7 @@ const formatServices = (services, businessMap) => {
 const CategoryList = async (props) => {
     const categoryId = parseInt(props.params.categoryId);
     const session = await getServerSession(authOptions);
-    const subcategories = await getAllSubCategoriesForCategoryId(
+    const subcategories = await getAllSubCategoriesForCategory(
         session.apiToken,
         categoryId
     );
