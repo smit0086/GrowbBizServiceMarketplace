@@ -7,6 +7,7 @@ import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.ServiceNotFoundException;
 import com.growbiz.backend.Services.controller.ServiceController;
 import com.growbiz.backend.Services.helper.ServicesControllerHelper;
+import com.growbiz.backend.Services.models.ServiceDTO;
 import com.growbiz.backend.Services.models.ServiceRequest;
 import com.growbiz.backend.Services.models.ServiceResponse;
 import com.growbiz.backend.Services.models.Services;
@@ -49,6 +50,9 @@ public class ServicesControllerTests {
     ServiceRequest mockServiceRequest;
     @Mock
     Services mockService;
+
+    @Mock
+    ServiceDTO mockServiceDTO;
     @Mock
     Services mockServiceUpdated;
 
@@ -80,6 +84,15 @@ public class ServicesControllerTests {
                 .price(24.00)
                 .business(mockBusiness)
                 .subCategory(mockSubCategory)
+                .build();
+        mockServiceDTO = ServiceDTO
+                .builder()
+                .serviceId(1L)
+                .serviceName("Nail Care")
+                .description("Loren Epsom")
+                .price(24.00)
+                .businessId(1L)
+                .subCategoryId(1L)
                 .build();
         mockServiceRequest = ServiceRequest
                 .builder()
@@ -164,12 +177,12 @@ public class ServicesControllerTests {
 
     @Test
     public void getAllServicesListForCategoryTest() {
-        when(servicesService.getServicesByCategoryId(1L)).thenReturn(List.of(mockService));
+        when(servicesService.getServicesByCategoryId(1L)).thenReturn(List.of(mockServiceDTO));
 
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
+                ServiceResponse.builder().serviceDTOS(List.of(mockServiceDTO)).isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
-        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+        when(servicesHelper.createServiceDTOResponse(List.of(mockServiceDTO),false)).thenReturn(expectedResponse);
 
         ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServicesByCategoryId(1L);
         assertEquals(expectedResponse, resultResponse);

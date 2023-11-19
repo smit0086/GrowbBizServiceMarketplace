@@ -47,7 +47,7 @@ public class ServiceController {
 
     @GetMapping(path = "allServicesByCategoryId")
     public ResponseEntity<ServiceResponse> getAllServicesByCategoryId(@RequestParam Long categoryID) {
-        return serviceHelper.createServiceResponse(servicesService.getServicesByCategoryId(categoryID), false);
+        return serviceHelper.createServiceDTOResponse(servicesService.getServicesByCategoryId(categoryID), false);
     }
 
     @RequestMapping(path = "/addService")

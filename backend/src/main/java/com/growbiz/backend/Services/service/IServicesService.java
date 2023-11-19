@@ -1,6 +1,7 @@
 package com.growbiz.backend.Services.service;
 
 import com.growbiz.backend.Categories.models.Category;
+import com.growbiz.backend.Services.models.ServiceDTO;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.models.ServiceRequest;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public interface IServicesService {
 
     List<Services> getServiceBySubCategoryId(Long subCategoryId);
 
-    List<Services> getServicesByCategoryId(Long categoryId);
+    List<ServiceDTO> getServicesByCategoryId(Long categoryId);
 
     String getTaxForService(Services service);
 
