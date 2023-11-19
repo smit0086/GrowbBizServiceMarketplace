@@ -53,7 +53,6 @@ public class BookingServiceTest {
 
     @BeforeEach
     public void init() {
-        MockitoAnnotations.openMocks(this);
         mockUser = User
                 .builder()
                 .id(1L)
