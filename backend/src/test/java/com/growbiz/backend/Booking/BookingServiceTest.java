@@ -19,6 +19,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -110,5 +111,45 @@ public class BookingServiceTest {
     @Test
     public void getBookingByBookingIdFailureTest() {
         assertThrows(BookingNotFoundException.class, () -> bookingServiceMock.findById(2L));
+    }
+
+    @Test
+    public void getBookingByServiceIdTest() {
+        when(bookingRepository.findByServiceServiceId(1L)).thenReturn(List.of(mockBooking));
+        List<Booking> actualBooking = bookingServiceMock.findByServiceId(1L);
+        assertEquals(List.of(mockBooking), actualBooking);
+    }
+
+    @Test
+    public void getBookingByUserIdTest() {
+        when(bookingRepository.findByUserId(1L)).thenReturn(List.of(mockBooking));
+        List<Booking> actualBooking = bookingServiceMock.findByUserId(1L);
+        assertEquals(List.of(mockBooking), actualBooking);
+    }
+
+    @Test
+    public void getBookingByUserIdAndStatusTest() {
+        when(bookingRepository.findByUserIdAndStatus(1L, BookingStatus.UPCOMING)).thenReturn(List.of(mockBooking));
+        List<Booking> actualBooking = bookingServiceMock.getAllBookingsByUserIdAndStatus(1L, "UPCOMING");
+        assertEquals(List.of(mockBooking), actualBooking);
+    }
+
+    @Test
+    public void getBookingByBusinessIdTest() {
+        when(bookingRepository.findByServiceBusinessBusinessId(1L)).thenReturn(List.of(mockBooking));
+        List<Booking> actualBooking = bookingServiceMock.findByBusinessId(1L);
+        assertEquals(List.of(mockBooking), actualBooking);
+    }
+
+    @Test
+    public void getBookingByBusinessIdAndStatusTest() {
+        when(bookingRepository.findByServiceBusinessBusinessIdAndStatus(1L, BookingStatus.UPCOMING)).thenReturn(List.of(mockBooking));
+        List<Booking> actualBooking = bookingServiceMock.getAllBookingsByBusinessIdAndStatus(1L, BookingStatus.UPCOMING);
+        assertEquals(List.of(mockBooking), actualBooking);
+    }
+
+    @Test
+    public void saveBookingTest() {
+        bookingServiceMock.save(mockBooking);
     }
 }
