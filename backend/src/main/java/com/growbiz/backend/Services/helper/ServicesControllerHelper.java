@@ -1,6 +1,15 @@
 package com.growbiz.backend.Services.helper;
 
-
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.growbiz.backend.Business.model.BusinessRequest;
+import com.growbiz.backend.Categories.models.Category;
+import com.growbiz.backend.Categories.models.CategoryResponse;
+import com.growbiz.backend.Responses.model.BasicResponse;
+import com.growbiz.backend.Security.service.JWTService;
+import com.growbiz.backend.Services.models.ServiceDTO;
+import com.growbiz.backend.Services.models.ServiceRequest;
 import com.growbiz.backend.Services.models.ServiceResponse;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.User.models.User;
@@ -17,6 +26,16 @@ public class ServicesControllerHelper {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.ok(ServiceResponse.builder()
                 .services(servicesList)
+                .isUpdated(isUpdated)
+                .subject(user.getEmail())
+                .role(user.getRole())
+                .build());
+    }
+
+    public ResponseEntity<ServiceResponse> createServiceDTOResponse(List<ServiceDTO> servicesList, Boolean isUpdated) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(ServiceResponse.builder()
+                .serviceDTOS(servicesList)
                 .isUpdated(isUpdated)
                 .subject(user.getEmail())
                 .role(user.getRole())

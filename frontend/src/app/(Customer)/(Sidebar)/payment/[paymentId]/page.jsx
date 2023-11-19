@@ -20,7 +20,7 @@ const page = async (props) => {
     );
     return (
         <div className="py-8 px-16">
-            <h4 className="text-sm mb-1">
+            <h4 className="text-xs mb-1">
                 <a href="/payment">
                     <div className="flex items-center">
                         <MoveLeft size={20} />

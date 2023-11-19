@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 export function CategoryForm({ className, ...props }) {
     const session = useSession();
     const router = useRouter();
-    console.log(router);
     const [isLoading, setIsLoading] = React.useState(false);
     const {
         handleSubmit,

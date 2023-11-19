@@ -7,6 +7,7 @@ import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
 import com.growbiz.backend.File.service.IFileStorageService;
+import com.growbiz.backend.Services.models.ServiceDTO;
 import com.growbiz.backend.Services.models.ServiceRequest;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.repository.IServiceRepository;
@@ -69,13 +70,25 @@ public class ServicesService implements IServicesService {
     }
 
     @Override
-    public List<Services> getServicesByCategoryId(Long categoryId) {
-        List<Services> services = new ArrayList<>();
+    public List<ServiceDTO> getServicesByCategoryId(Long categoryId) {
+        List<ServiceDTO> services = new ArrayList<>();
         List<SubCategory> subCategoryList = subCategoryService.fetchSubCategoryListForCategoryID(categoryId);
         if (Objects.nonNull(subCategoryList)) {
             for (SubCategory subcategory : subCategoryList) {
                 List<Services> s = iServiceRepository.findBySubCategorySubCategoryID(subcategory.getSubCategoryID());
-                services.add(s.get(0));
+                for(Services service : s) {
+                    ServiceDTO serviceDTO = ServiceDTO.builder()
+                            .serviceId(service.getServiceId())
+                            .serviceName(service.getServiceName())
+                            .description(service.getDescription())
+                            .price(service.getPrice())
+                            .timeRequired(service.getTimeRequired())
+                            .imageURL(service.getImageURL())
+                            .subCategoryId(subcategory.getSubCategoryID())
+                            .businessId(service.getBusiness().getBusinessId())
+                            .build();
+                    services.add(serviceDTO);
+                }
             }
         }
         return services;

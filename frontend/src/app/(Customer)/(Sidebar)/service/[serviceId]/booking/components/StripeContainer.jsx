@@ -19,7 +19,6 @@ export const StripeContainer = ({ formData, closeDialog }) => {
     const session = useSession();
     useEffect(() => {
         requestSignalRef.current = new AbortController();
-        console.log("signal", requestSignalRef.current.signal);
         const fetchClientSecret = async () => {
             if (!formData) return;
             const response = await createPaymentIntent(
@@ -35,7 +34,6 @@ export const StripeContainer = ({ formData, closeDialog }) => {
         fetchClientSecret();
         return () => {
             if (requestSignalRef.current) {
-                console.log("aborting");
                 requestSignalRef.current.abort();
                 requestSignalRef.current = null;
             }
