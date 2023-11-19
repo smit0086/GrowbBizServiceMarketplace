@@ -1,6 +1,8 @@
 package com.growbiz.backend.Payment.service;
 
-import com.growbiz.backend.Payment.helper.PaymentServiceHelper;
+import com.growbiz.backend.Booking.models.Booking;
+import com.growbiz.backend.Booking.models.BookingStatus;
+import com.growbiz.backend.Booking.service.IBookingService;
 import com.growbiz.backend.Payment.model.Payment;
 import com.growbiz.backend.Payment.model.PaymentRequest;
 import com.growbiz.backend.Payment.model.PaymentResponse;
@@ -8,7 +10,9 @@ import com.growbiz.backend.Payment.model.PaymentStatus;
 import com.growbiz.backend.Payment.repository.IPaymentRepository;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
+import com.growbiz.backend.User.models.Role;
 import com.growbiz.backend.User.models.User;
+import com.growbiz.backend.User.service.IUserService;
 import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
@@ -36,17 +40,19 @@ public class PaymentService implements IPaymentService {
     IPaymentRepository paymentRepository;
     @Autowired
     IServicesService servicesService;
+    @Autowired
+    IBookingService bookingService;
+    @Autowired
+    IUserService userService;
 
-    PaymentServiceHelper helper = new PaymentServiceHelper();
-    
     @Value("${keys.stripeAPIKey}")
     private String stripeAPIKey;
     @Value("${keys.stripeWebhookSecret}")
     private String stripeWebhookSecret;
 
     @Override
-    public Payment addPayment(PaymentRequest paymentRequest) {
-        return paymentRepository.save(createPayment(paymentRequest));
+    public Payment addPayment(PaymentRequest paymentRequest, long amount) {
+        return paymentRepository.save(createPayment(paymentRequest, amount));
     }
 
     @Override
@@ -58,6 +64,11 @@ public class PaymentService implements IPaymentService {
     public List<Payment> findAllPayments() {
         return StreamSupport.stream(paymentRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public  List<Payment> findAllPaymentsByUserEmail(String userEmail) {
+        return paymentRepository.findByUserEmail(userEmail);
     }
 
     @Override
@@ -83,13 +94,18 @@ public class PaymentService implements IPaymentService {
         if (Objects.isNull(paymentIntent)) {
             return ResponseEntity.internalServerError().build();
         }
-        switch (PaymentStatus.valueOf(event.getType())) {
+        switch (PaymentStatus.getStatusFromValue(event.getType())) {
             case SUCCESS -> {
-                Payment payment = fetchAndUpdatePayment(paymentIntent, PaymentStatus.SUCCESS);
-                helper.saveToBooking(payment, paymentIntent.getAmount());
+                Payment payment = fetchPayment(paymentIntent);
+                Booking booking = saveToBooking(payment, paymentIntent.getAmount());
+                payment.setPaymentStatus(PaymentStatus.SUCCESS);
+                payment.setBookingId(booking.getId());
+                updatePayment(payment);
             }
             case CREATED -> {
-                fetchAndUpdatePayment(paymentIntent, PaymentStatus.CREATED);
+                Payment payment = fetchPayment(paymentIntent);
+                payment.setPaymentStatus(PaymentStatus.CREATED);
+                updatePayment(payment);
             }
             default -> System.out.println("Unhandled event type: " + event.getType());
         }
@@ -100,8 +116,8 @@ public class PaymentService implements IPaymentService {
     public ResponseEntity<PaymentResponse> createPaymentIntent(PaymentRequest paymentRequest) {
         Stripe.apiKey = stripeAPIKey;
         try {
-            Payment payment = addPayment(paymentRequest);
             long totalAmount = calculatePaymentAmount(paymentRequest.getServiceId());
+            Payment payment = addPayment(paymentRequest, totalAmount);
             PaymentIntentCreateParams params =
                     PaymentIntentCreateParams.builder()
                             .putMetadata("payment_id", payment.getPaymentId().toString())
@@ -109,6 +125,8 @@ public class PaymentService implements IPaymentService {
                             .setCurrency("cad")
                             .build();
             PaymentIntent paymentIntent = PaymentIntent.create(params);
+            payment.setClientSecret(paymentIntent.getClientSecret());
+            updatePayment(payment);
             return ResponseEntity.ok().body(PaymentResponse.builder().clientSecret(paymentIntent.getClientSecret()).paymentId(payment.getPaymentId()).build());
         } catch (StripeException e) {
             return ResponseEntity.internalServerError().build();
@@ -120,7 +138,7 @@ public class PaymentService implements IPaymentService {
         return paymentRepository.findByServiceId(serviceId);
     }
 
-    private Payment createPayment(PaymentRequest paymentRequest) {
+    private Payment createPayment(PaymentRequest paymentRequest, long amount) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return Payment.builder()
                 .serviceId(paymentRequest.getServiceId())
@@ -129,6 +147,7 @@ public class PaymentService implements IPaymentService {
                 .endTime(paymentRequest.getEndTime())
                 .note(paymentRequest.getNote())
                 .userEmail(user.getUsername())
+                .amount((double) amount / 100)
                 .build();
     }
 
@@ -143,11 +162,22 @@ public class PaymentService implements IPaymentService {
         return (long) ((servicePrice + ((taxApplied / 100) * servicePrice)) * 100);
     }
 
-    private Payment fetchAndUpdatePayment(PaymentIntent paymentIntent, PaymentStatus paymentStatus) {
+    private Payment fetchPayment(PaymentIntent paymentIntent) {
         Long paymentId = Long.parseLong(paymentIntent.getMetadata().get("payment_id"));
-        Payment payment = findPaymentById(paymentId);
-        payment.setPaymentStatus(paymentStatus);
-        updatePayment(payment);
-        return payment;
+        return findPaymentById(paymentId);
+    }
+
+    private Booking saveToBooking(Payment payment, Long amount) {
+        User user = userService.getUserByEmailAndRole(payment.getUserEmail(), Role.CUSTOMER.name());
+        Booking booking = Booking.builder()
+                .amount((double) amount)
+                .date(payment.getDate())
+                .endTime(payment.getEndTime())
+                .startTime(payment.getStartTime())
+                .note(payment.getNote())
+                .user(user)
+                .status(BookingStatus.UPCOMING)
+                .build();
+        return bookingService.save(booking);
     }
 }

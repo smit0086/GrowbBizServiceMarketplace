@@ -15,6 +15,7 @@ import AddService from "./AddService";
 import UpdateService from "./UpdateService";
 import DeleteService from "./DeleteService";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const ViewServices = ({ authSession, predefinedServices, businessId, fetchedServices }) => {
     const [services, setServices] = useState(fetchedServices);
@@ -31,7 +32,7 @@ const ViewServices = ({ authSession, predefinedServices, businessId, fetchedServ
                 :
                 <></>
             }
-            {!renderAddService && !renderUpdateService ?
+            {services.length != 0 && !renderAddService && !renderUpdateService ?
                 <div>
                     <div className="flex justify-between items-center">
                         <h2 className="text-3xl p-8 pl-16">Services</h2>
@@ -58,6 +59,17 @@ const ViewServices = ({ authSession, predefinedServices, businessId, fetchedServ
                                         <div className="flex flex-col space-y-1.5">
                                             <Label htmlFor={`service-${service.serviceId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Description</Label>
                                             <span id={`service-${service.serviceId}`} style={{ fontSize: '0.875rem' }}>{service.description}</span>
+                                        </div>
+                                        <div className="flex flex-col space-y-1.5">
+                                            <Label htmlFor={`service-${service.serviceId}`} style={{ fontSize: '1rem', fontWeight: 'bold' }}>Reviews</Label>
+                                            <span id={`service-${service.serviceId}`} style={{ fontSize: '0.875rem' }}>
+                                                <Link
+                                                    href={`/partner/business/${businessId}/service/${service.serviceId}/reviews`}
+                                                    className="underline underline-offset-4 hover:text-primary"
+                                                >
+                                                    reviews
+                                                </Link>
+                                            </span>
                                         </div>
                                     </div>
                                 </CardContent>

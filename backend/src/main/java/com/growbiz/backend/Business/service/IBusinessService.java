@@ -6,7 +6,7 @@ import com.growbiz.backend.Business.model.BusinessRequest;
 import java.util.List;
 
 public interface IBusinessService {
-    List<Business> fetchBusinesses(String role);
+    List<Business> fetchBusinesses(String status);
 
     public List<Business> fetchAllBusinesses();
 

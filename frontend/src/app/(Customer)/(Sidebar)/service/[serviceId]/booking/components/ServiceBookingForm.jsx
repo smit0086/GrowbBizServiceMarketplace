@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRef, useState } from "react";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -29,7 +30,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -42,6 +42,14 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Icons } from "@/components/icons";
 import { bookService } from "@/services/bookingService";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { StripeContainer } from "./StripeContainer";
+import moment from "moment";
 
 const formSchema = z.object({
     slotDate: z.date({
@@ -63,26 +71,49 @@ const ServiceBookingForm = ({
     const form = useForm({
         resolver: zodResolver(formSchema),
     });
-    const { reset } = useForm();
+    const { reset, getValues } = useForm();
     const [selectedDate, setSelectedDate] = useState();
     const [isLoading, setLoading] = useState(false);
+    const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
+    const formDataRef = useRef(null);
+
+    const closeDialog = () => {
+        setPaymentDialogOpen(false);
+    };
 
     const onSubmit = async (data) => {
         setLoading(true);
+        setPaymentDialogOpen(true);
 
-        const formattedDate = format(data.slotDate, 'yyyy-MM-dd');
+        const formattedDate = format(data.slotDate, "yyyy-MM-dd");
         const [startTimeStr, endTimeStr] = data.slotTime.split(" - ");
         const startTime = startTimeStr.replace(" AM", "");
         const endTime = endTimeStr.replace(" AM", "");
         const totalAmount = parseFloat(service.price) + parseFloat(tax);
-
-        const bookedService = await bookService(authSession.apiToken, service.serviceId, formattedDate, startTime, endTime, totalAmount, data.note, authSession.user.email);
+        formDataRef.current = {
+            serviceId: service.serviceId,
+            date: formattedDate,
+            note: data.note,
+            startTime,
+            endTime,
+        };
 
         setLoading(false);
     };
 
     const handleDateChange = (date) => {
-        setSelectedDate(format(date, 'yyyy-MM-dd'));
+        setSelectedDate(moment(date).format("YYYY-MM-DD"));
+    };
+
+    const isDateDisabled = (date) => {
+        const momentDateObj = moment(date);
+        const formattedDate = momentDateObj.format("YYYY-MM-DD");
+        const todayMomentDateObj = moment();
+
+        return (
+            !availableDates.includes(formattedDate) ||
+            momentDateObj.isBefore(todayMomentDateObj, "date")
+        );
     };
 
     return (
@@ -108,8 +139,7 @@ const ServiceBookingForm = ({
                             <div className="grid gap-2">
                                 <FormLabel>Service Price</FormLabel>
                                 <div className="text-gray-600">
-                                    {service.price} (Base Price) +{" "}
-                                    {tax}% (Tax)
+                                    {service.price} (Base Price) + {tax}% (Tax)
                                 </div>
                             </div>
                             <div className="grip gap-2">
@@ -128,7 +158,7 @@ const ServiceBookingForm = ({
                                                             className={cn(
                                                                 "w-[240px] pl-3 text-left font-normal",
                                                                 !field.value &&
-                                                                "text-muted-foreground"
+                                                                    "text-muted-foreground"
                                                             )}
                                                         >
                                                             {field.value ? (
@@ -160,18 +190,8 @@ const ServiceBookingForm = ({
                                                                 date
                                                             );
                                                         }}
-                                                        disabled={(date) =>
-                                                            date <
-                                                            new Date(
-                                                                "1900-01-01"
-                                                            ) ||
-                                                            !availableDates.includes(
-                                                                date
-                                                                    .toISOString()
-                                                                    .split(
-                                                                        "T"
-                                                                    )[0]
-                                                            )
+                                                        disabled={
+                                                            isDateDisabled
                                                         }
                                                         initialFocus
                                                     />
@@ -203,8 +223,12 @@ const ServiceBookingForm = ({
                                                     </FormControl>
                                                     <SelectContent position="popper">
                                                         {availableTimeSlots &&
-                                                            availableTimeSlots[selectedDate] &&
-                                                            availableTimeSlots[selectedDate].map(
+                                                            availableTimeSlots[
+                                                                selectedDate
+                                                            ] &&
+                                                            availableTimeSlots[
+                                                                selectedDate
+                                                            ].map(
                                                                 (timeSlot) => (
                                                                     <SelectItem
                                                                         value={`${timeSlot}`}
@@ -245,16 +269,27 @@ const ServiceBookingForm = ({
                                 />
                             </div>
                         </CardContent>
-                        <CardFooter className="flex justify-between">
-                            <Button variant="destructive" type="button">
-                                Cancel
-                            </Button>
-                            <Button type="submit" disabled={isLoading}>
-                                {isLoading && (
-                                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                                )}
-                                Submit
-                            </Button>
+                        <CardFooter className="flex justify-end">
+                            <Dialog
+                                open={paymentDialogOpen}
+                                onOpenChange={setPaymentDialogOpen}
+                            >
+                                <Button type="submit">
+                                    {isLoading && (
+                                        <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                                    )}
+                                    Book
+                                </Button>
+                                <DialogContent className="sm:max-w-[425px] min-h-[433px]">
+                                    <DialogHeader>
+                                        <DialogTitle>Payment</DialogTitle>
+                                    </DialogHeader>
+                                    <StripeContainer
+                                        formData={formDataRef.current}
+                                        closeDialog={closeDialog}
+                                    />
+                                </DialogContent>
+                            </Dialog>
                         </CardFooter>
                     </form>
                 </Form>
