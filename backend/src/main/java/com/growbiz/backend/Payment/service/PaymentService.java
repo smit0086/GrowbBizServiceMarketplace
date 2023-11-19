@@ -164,14 +164,16 @@ public class PaymentService implements IPaymentService {
 
     private Booking saveToBooking(Payment payment, Long amount) {
         User user = userService.getUserByEmailAndRole(payment.getUserEmail(), Role.CUSTOMER.name());
+        Services service = servicesService.getServiceById(payment.getServiceId());
         Booking booking = Booking.builder()
-                .amount((double) amount)
+                .amount(amount)
                 .date(payment.getDate())
                 .endTime(payment.getEndTime())
                 .startTime(payment.getStartTime())
                 .note(payment.getNote())
                 .user(user)
                 .status(BookingStatus.UPCOMING)
+                .service(service)
                 .build();
         return bookingService.save(booking);
     }
