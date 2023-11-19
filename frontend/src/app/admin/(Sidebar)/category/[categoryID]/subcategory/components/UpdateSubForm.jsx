@@ -30,7 +30,7 @@ import {
     SelectValue,
   } from "@/components/ui/select"
 import { useForm, Controller } from "react-hook-form";
-import { updateCategory } from "@/services/categoriesServices";
+import { updateSubCategory } from "@/services/subCategoriesServices";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import * as z from "zod";
@@ -45,10 +45,9 @@ const formSchema = z.object({
     .min(1)
 });
 
-export function UpdateForm({className, category_id , ...props}) {
+export function UpdateSubForm({className, subcategoryID, categories, categoryID, ...props}) {
     const session = useSession();
     const router = useRouter();
-    console.log(category_id);
     const [isLoading, setIsLoading] = React.useState(false);
     const {
         handleSubmit,
@@ -65,18 +64,18 @@ export function UpdateForm({className, category_id , ...props}) {
 
     async function onSubmit(data) {
         setIsLoading(true);
-        await updateCategory(session.data.apiToken, category_id, data.name, data.tax)
-        window.location.href =  "/admin/category";
+        await updateSubCategory(session.data.apiToken, subcategoryID, data.name, data.categoryID)
+        window.location.href = `/admin/category/${categoryID}/subcategory`;
     }
 
     return (
-        <div className="grid h-screen">
+            <div className="grid h-screen">
             <Card className="w-[500px] place-self-center">
                 <Form {...form}>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <CardHeader className="space-y-1">
-                            <CardTitle className="text-2xl">Update Category Form</CardTitle>
-                            <CardDescription>This form allows a updating a category information</CardDescription>
+                            <CardTitle className="text-2xl">Add Subcategory Form</CardTitle>
+                            <CardDescription>This form allows a creation of a subcategory</CardDescription>
                         </CardHeader>
                         <CardContent className="grid gap-4">        
                             <div className="grid gap-2">
@@ -85,10 +84,10 @@ export function UpdateForm({className, category_id , ...props}) {
                                     name="name"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Category Name</FormLabel>
+                                            <FormLabel>SubCategory name</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    placeholder="E.g: House Management Services..."
+                                                    placeholder="subcategory name"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -100,16 +99,38 @@ export function UpdateForm({className, category_id , ...props}) {
                             <div className="grid gap-2">
                                 <FormField
                                     control={control}
-                                    name="tax"
+                                    name="categoryID"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Tax in %</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="E.g: 12"
-                                                    {...field}
-                                                />
-                                            </FormControl>
+                                            <FormLabel>Category</FormLabel>
+                                            <Select
+                                                onValueChange={(e) => {
+                                                    field.onChange(e);
+                                                }}
+                                                defaultValue={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Select" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent position="popper">
+                                                    {categories.map(
+                                                            (category) => (
+                                                                <SelectItem
+                                                                    value={`${category.categoryID}`}
+                                                                    key={
+                                                                        category.categoryID
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        category.name
+                                                                    }
+                                                                </SelectItem>
+                                                            )
+                                                        )}
+                                                </SelectContent>
+                                            </Select>
                                             <FormMessage />
                                         </FormItem>
                                     )}
@@ -126,12 +147,12 @@ export function UpdateForm({className, category_id , ...props}) {
                                 {isLoading && (
                                     <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                                 )}
-                                Edit Category
+                                Edit Subcategory
                             </Button>
                         </CardFooter>
                     </form>
                 </Form>
             </Card>
-        </div>  
+        </div>    
     );
 }
