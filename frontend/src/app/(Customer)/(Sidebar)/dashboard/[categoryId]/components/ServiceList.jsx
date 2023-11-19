@@ -23,7 +23,6 @@ const getServicesBySubcategory = (services, subcategoryId) => {
 
 const ServiceCard = (props) => {
     const service = props.service;
-    console.log({ service });
     return (
         <a href={`/service/${service.serviceId}/booking`}>
             <Card className="w-[300px] mr-4 mb-4 cursor-pointer hover:bg-accent hover:text-accent-foreground">
@@ -193,7 +192,7 @@ const ServiceList = ({ subcategories, services }) => {
                             </label>
                             {subcategories.map((subcategory) => {
                                 return (
-                                    <div>
+                                    <div key={subcategory.subCategoryID}>
                                         <Checkbox
                                             checked={
                                                 categorySelectionMap[
@@ -267,6 +266,7 @@ const ServiceList = ({ subcategories, services }) => {
                                             <ServiceCard
                                                 service={service}
                                                 subCategory={subcategory}
+                                                key={service.serviceId}
                                             />
                                         ))}
                                     </div>

@@ -14,7 +14,7 @@ const ViewPastBookings = ({pastBookings }) => {
                 <div>
                     <div className="flex flex-wrap gap-4" style={{marginLeft: '3%'}}>
                         {pastBookings.map((pastBooking) => (
-                            <PastBookingCard pastBooking={pastBooking} />
+                            <PastBookingCard pastBooking={pastBooking} key={pastBooking.bookingId}/>
                         ))}
                     </div>
                 </div>
