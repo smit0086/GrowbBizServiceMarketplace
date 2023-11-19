@@ -11,6 +11,7 @@ import com.growbiz.backend.ReviewsAndRatings.models.ReviewsAndRatingsResponse;
 import com.growbiz.backend.ReviewsAndRatings.service.ReviewsAndRatingsService;
 import com.growbiz.backend.Services.models.ServiceResponse;
 import com.growbiz.backend.Services.models.Services;
+import com.growbiz.backend.User.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,9 @@ public class ReviewsAndRatingsController {
     @Autowired
     private ReviewsAndRatingsService reviewsAndRatingsService;
 
+    @Autowired
+    private IUserRepository userRepository;
+
     @GetMapping(path = "/allReviewsAndRatings")
     public ResponseEntity<ReviewsAndRatingsResponse> getAllReviewsAndRatings() {
         return reviewsAndRatingsHelper.createReviewsAndRatingsResponse(reviewsAndRatingsService.fetchReviewsAndRatingsList(), false);
@@ -42,6 +46,7 @@ public class ReviewsAndRatingsController {
     @PostMapping(path = "/addReviewAndRating")
     public ResponseEntity<ReviewsAndRatingsResponse> addReviewAndRating(@RequestBody ReviewsAndRatingsRequest addRequest) {
         ReviewsAndRatings reviewAndRating = reviewsAndRatingsService.addReviewAndRating(addRequest);
+        addRequest.setUserEmail(userRepository.findById(addRequest.getUserId()).get().getEmail());
         if (reviewAndRating != null) {
             return reviewsAndRatingsHelper.createReviewsAndRatingsResponse(List.of(reviewAndRating), false);
         } else {
@@ -52,6 +57,7 @@ public class ReviewsAndRatingsController {
     @PostMapping(path = "/updateReviewAndRating")
     public ResponseEntity<ReviewsAndRatingsResponse> updateReviewAndRating(@RequestBody ReviewsAndRatingsRequest updateRequest) {
         ReviewsAndRatings reviewAndRating = reviewsAndRatingsService.updateReviewAndRating(updateRequest);
+        updateRequest.setUserEmail(userRepository.findById(updateRequest.getUserId()).get().getEmail());
         if (reviewAndRating != null) {
             return reviewsAndRatingsHelper.createReviewsAndRatingsResponse(List.of(reviewAndRating), true);
         } else {
