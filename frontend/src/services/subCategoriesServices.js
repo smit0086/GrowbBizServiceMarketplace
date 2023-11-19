@@ -1,4 +1,4 @@
-export const addCategory = async (token, category_name, tax) => {
+export const addSubCategory = async (token, category_name, tax) => {
     const body = {
         name: category_name,
         tax,
@@ -124,7 +124,7 @@ export const getAllSubCategories = async (token) => {
     }
 };
 
-export const getAllSubCategoriesForCategory = async (token, categoryId) => {
+export const getAllSubCategoriesForCategoryId = async (token, categoryId) => {
     try {
         const re = await fetch(
             `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/category/getAllSubCategoriesForCategoryId?categoryId=${categoryId}`,

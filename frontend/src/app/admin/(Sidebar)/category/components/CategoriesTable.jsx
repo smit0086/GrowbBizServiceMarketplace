@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import DeleteCategory from "./DeleteCategory";
 import category from "../page";
+import { getAllSubCategoriesForCategoryId } from "@/services/subCategoriesServices";
 
 export async function CategoriesTable({ className, ...props }) {
     const session = await getServerSession(authOptions);
@@ -24,8 +25,10 @@ export async function CategoriesTable({ className, ...props }) {
                 </thead>
                 <tbody>
                     {categories.map((item) => (
-                        <tr key={item.categoryID}>
-                            <td>{item.categoryID}</td>
+                        <tr key={item.categoryID}>                            
+                            {/* <Button  onClick={() => getAllSubCategoriesForCategoryId(session.apiToken, item.categoryID)}>
+                                {item.categoryID}
+                            </Button> */}
                             <td>{item.name}</td>
                             <td>{item.tax}</td>
                             <td>

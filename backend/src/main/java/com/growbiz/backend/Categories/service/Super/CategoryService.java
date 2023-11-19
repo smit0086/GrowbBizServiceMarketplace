@@ -1,6 +1,7 @@
 package com.growbiz.backend.Categories.service.Super;
 
 import com.growbiz.backend.Categories.models.Category;
+import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.repository.ICategoryRepository;
 import com.growbiz.backend.Exception.exceptions.CategoryAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +23,11 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category getCategoryByID(Long categoryID) {
-        try {
-            Category category = iCategoryRepository.findById(categoryID).get();
-            return category;
-        } catch (Exception e) {
+        Optional<Category> category = iCategoryRepository.findById(categoryID);
+
+        if(category.isPresent()) {
+            return category.get();
+        } else {
             return null;
         }
     }
@@ -40,33 +43,25 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Category addCategory(Category newCategory) {
-        try {
-            if (iCategoryRepository.findByName(newCategory.getName()).isEmpty()) {
-                return iCategoryRepository.save(newCategory);
-            } else {
-                throw new CategoryAlreadyExistsException("Category already Exists");
-            }
-        } catch (Exception e) {
-            throw e;
+        List<Category> category = iCategoryRepository.findByName(newCategory.getName());
+        if (category.isEmpty()) {
+            return iCategoryRepository.save(newCategory);
         }
+        return null;
     }
 
     @Override
     public Category updateCategory(Category category) {
-        try {
-            Category categoryUpdated = iCategoryRepository.findById(category.getCategoryID()).get();
+        Optional<Category> categoryToUpdate = iCategoryRepository.findById(category.getCategoryID());
 
+        if (categoryToUpdate.isPresent()) {
             if (Objects.nonNull(category.getName()) && !"".equalsIgnoreCase(category.getName())) {
-                categoryUpdated.setName(category.getName());
+                if (Objects.nonNull(category.getTax()) && !"".equalsIgnoreCase(category.getTax())) {
+                    return iCategoryRepository.save(category);
+                }
             }
-
-            if (Objects.nonNull(category.getTax()) && !"".equalsIgnoreCase(category.getTax())) {
-                categoryUpdated.setTax(category.getTax());
-            }
-            return iCategoryRepository.save(categoryUpdated);
-        } catch (Exception e) {
-            return null;
         }
+        return null;
     }
 
     @Override
