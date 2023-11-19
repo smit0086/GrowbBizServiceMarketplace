@@ -1,17 +1,19 @@
 import React from "react";
 import { getServerSession } from "next-auth";
-import { BadgeInfo } from "lucide-react";
+import { BadgeInfo, MoveLeft } from "lucide-react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getCategoryByID } from "@/services/categoriesServices";
 import ServiceList from "./components/ServiceList";
 import { getAllSubCategoriesForCategory } from "@/services/subCategoriesServices";
 import { getAllServiceByCategoryId } from "@/services/servicesService";
 import { getAllBusinesses } from "@/services/businessService";
+import { NO_IMAGE_PATH } from "@/lib/constants";
 
 const formatServices = (services, businessMap) => {
     return services.map((service) => {
         return {
             ...service,
+            imageURL: service.imageURL ?? NO_IMAGE_PATH,
             businessName: businessMap[service.businessId],
         };
     });
@@ -37,7 +39,12 @@ const CategoryList = async (props) => {
     return (
         <div className="p-8 pl-16">
             <a className="text-xs" href="/dashboard">
-                Back to categories
+                <div className="flex items-center">
+                    <MoveLeft size={20} />
+                    <span className="ml-1 hover:underline">
+                        Back to categories
+                    </span>
+                </div>
             </a>
             <h1 className="text-4xl font-semibold tracking-tight mb-8">
                 {category.name}

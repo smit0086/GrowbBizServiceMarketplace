@@ -26,7 +26,7 @@ const ServiceCard = (props) => {
     console.log({ service });
     return (
         <a href={`/service/${service.serviceId}/booking`}>
-            <Card className="w-[300px] mr-4 cursor-pointer hover:bg-accent hover:text-accent-foreground">
+            <Card className="w-[300px] mr-4 mb-4 cursor-pointer hover:bg-accent hover:text-accent-foreground">
                 <CardHeader className="space-y-1">
                     <AspectRatio
                         ratio={1 / 1}
@@ -35,7 +35,7 @@ const ServiceCard = (props) => {
                         {service.imageURL && (
                             <Image
                                 src={service.imageURL}
-                                className="object-cover"
+                                className="object-cover max-w-[250px] max-h-[250px]"
                                 width={250}
                                 height={250}
                             />
@@ -259,7 +259,7 @@ const ServiceList = ({ subcategories, services }) => {
                                     <h2 className="text-2xl tracking-tight mb-4">
                                         {subcategory.name}
                                     </h2>
-                                    <div className="flex">
+                                    <div className="flex flex-wrap">
                                         {getServicesBySubcategory(
                                             filteredServices,
                                             subcategory.subCategoryID

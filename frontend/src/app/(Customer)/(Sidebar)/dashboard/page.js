@@ -1,9 +1,39 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { Card, CardHeader } from "@/components/ui/card";
+import { Icons } from "@/components/icons";
+import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { getAllCategories } from "@/services/categoryService";
 import { getServerSession } from "next-auth";
 import React from "react";
+
+const IconManager = ({ name }) => {
+    if (name.trim().toLowerCase() === "beauty & aesthetics") {
+        return <Icons.beauty width="100%" height="100%" />;
+    } else if (name.trim().toLowerCase() === "house services") {
+        return <Icons.housing width="100%" height="100%" />;
+    } else if (name.trim().toLowerCase() === "care taker") {
+        return <Icons.caretaker width="100%" height="100%" />;
+    } else if (name.trim().toLowerCase() === "tutoring") {
+        return <Icons.tutoring width="100%" height="100%" />;
+    }
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            className="mb-3 h-8 w-8"
+            width="100%"
+            height="100%"
+        >
+            <rect width="20" height="14" x="2" y="5" rx="2" />
+            <path d="M2 10h20" />
+        </svg>
+    );
+};
 
 const CategoryCard = ({ category }) => {
     return (
@@ -13,19 +43,9 @@ const CategoryCard = ({ category }) => {
                     htmlFor="card"
                     className="cursor-pointer flex flex-col items-center justify-between rounded-md border-2 border-muted bg-transparent p-16 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        className="mb-3 h-8 w-8"
-                    >
-                        <rect width="20" height="14" x="2" y="5" rx="2" />
-                        <path d="M2 10h20" />
-                    </svg>
+                    <div className="w-[50px] h-[50px]">
+                        <IconManager name={category.name} />
+                    </div>
                     {category.name}
                 </Label>
             </Card>
