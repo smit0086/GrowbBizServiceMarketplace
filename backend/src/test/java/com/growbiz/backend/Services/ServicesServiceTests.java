@@ -6,6 +6,7 @@ import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
+import com.growbiz.backend.Services.models.ServiceDTO;
 import com.growbiz.backend.Services.models.ServiceRequest;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.repository.IServiceRepository;
@@ -48,6 +49,8 @@ public class ServicesServiceTests {
 
     Services mockService;
 
+    ServiceDTO mockServiceDTO;
+
     Services mockServiceUpdated;
 
     Services nullService = new Services();
@@ -81,6 +84,16 @@ public class ServicesServiceTests {
                 .businessID(1)
                 .subCategoryID(1)
                 .image(TestConstants.TEST_SERVICE_IMAGE_URL)
+                .build();
+        mockServiceDTO = ServiceDTO
+                .builder()
+                .serviceId(1L)
+                .serviceName(TestConstants.TEST_SERVICE_NAME)
+                .description(TestConstants.TEST_SERVICE_DESCRIPTION)
+                .price(TestConstants.TEST_SERVICE_PRICE)
+                .businessId(1L)
+                .subCategoryId(1L)
+                .imageURL(TestConstants.TEST_SERVICE_IMAGE_URL)
                 .build();
         mockServiceUpdated = Services
                 .builder()
@@ -145,15 +158,15 @@ public class ServicesServiceTests {
         when(subCategoryService.fetchSubCategoryListForCategoryID(anyLong())).thenReturn(List.of(mockSubCategory,mockSubCategory));
         when(serviceRepository.findBySubCategorySubCategoryID(anyLong())).thenReturn(List.of(mockService));
 
-        List<Services> results = servicesService.getServicesByCategoryId(1L);
+        List<ServiceDTO> results = servicesService.getServicesByCategoryId(1L);
 
-        assertEquals(List.of(mockService,mockService), results);
+        assertEquals(List.of(mockServiceDTO,mockServiceDTO), results);
     }
 
     @Test
     public void getEmptyListOfServicesByCategoryIdTest() {
         when(subCategoryService.fetchSubCategoryListForCategoryID(mockCategory.getCategoryID())).thenReturn(null);
-        List<Services> results = servicesService.getServicesByCategoryId(1L);
+        List<ServiceDTO> results = servicesService.getServicesByCategoryId(1L);
         assertEquals(true,results.isEmpty());
     }
 

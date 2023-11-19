@@ -22,7 +22,12 @@ export const addCategory = async (token, category_name, tax) => {
     }
 };
 
-export const updateCategory = async (token, category_id, category_name, tax) => {
+export const updateCategory = async (
+    token,
+    category_id,
+    category_name,
+    tax
+) => {
     const body = {
         categoryID: category_id,
         name: category_name,
@@ -47,7 +52,12 @@ export const updateCategory = async (token, category_id, category_name, tax) => 
     }
 };
 
-export const deleteCategory = async (token, category_id, category_name, tax) => {
+export const deleteCategory = async (
+    token,
+    category_id,
+    category_name,
+    tax
+) => {
     const body = {
         categoryID: category_id,
         name: category_name,
@@ -90,5 +100,49 @@ export const getAllCategories = async (token) => {
     } catch (err) {
         console.error({ err });
         return [];
+    }
+};
+
+export const getAllSubcategories = async (token) => {
+    try {
+        const re = await (
+            await fetch(
+                `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/category/allSubCategories`,
+                {
+                    method: "get",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+        ).json();
+        return re.subCategories;
+    } catch (err) {
+        console.error({ err });
+        return [];
+    }
+};
+
+export const getCategoryByID = async (token, categoryID) => {
+    try {
+        const resp = await fetch(
+            `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/category/getCategory?categoryId=${categoryID}`,
+            {
+                method: "get",
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        if (resp.ok) {
+            const response = await resp.json();
+            return response.categories[0];
+        }
+        throw resp;
+    } catch (err) {
+        console.error({ err });
+        return null;
     }
 };

@@ -19,7 +19,6 @@ import { ROLES } from "@/lib/constants";
 
 const Navbar = async ({ navItems }) => {
     const session = await getServerSession(authOptions);
-    console.log({ session });
     let businessName = session.user.role;
     if (businessName === ROLES.PARTNER) {
         const business = (
@@ -29,7 +28,7 @@ const Navbar = async ({ navItems }) => {
     }
 
     return (
-        <div className="absolute p-3 z-50 bg-secondary flex flex-col w-16 h-screen justify-between items-center">
+        <div className="fixed p-3 z-50 bg-secondary flex flex-col w-16 h-screen justify-between items-center">
             <a href={`/${session.user.role.toLowerCase()}/dashboard`}>
                 <Icons.logo className="w-full p-1" />
             </a>

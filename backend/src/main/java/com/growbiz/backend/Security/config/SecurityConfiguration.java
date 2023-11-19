@@ -40,7 +40,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/business/save").hasAuthority(Role.PARTNER.name())
                         .requestMatchers(HttpMethod.PUT, "/{businessId}").hasAuthority(Role.PARTNER.name())
                         .requestMatchers(HttpMethod.PUT, "/{businessId}/verify").hasAuthority(Role.ADMIN.name())
-                        .requestMatchers(HttpMethod.GET, "/business/all").hasAuthority(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.GET, "/business/all").hasAnyAuthority(Role.ADMIN.name(), Role.PARTNER.name(), Role.CUSTOMER.name())
                         .requestMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.GET, "/category/**").hasAnyAuthority(Role.ADMIN.name(), Role.PARTNER.name(), Role.CUSTOMER.name())
                         .requestMatchers("/booking/**").hasAnyAuthority(Role.ADMIN.name(), Role.PARTNER.name(), Role.CUSTOMER.name())

@@ -19,8 +19,10 @@ export const ERROR_MESSAGE = {
     INVALID_PASSWORD:
         "Password should be 8 characters and include at least 1 letter, 1 number and 1 special character!",
     PASSWORD_NOT_MATCH: "Password do not match!",
-    INVALID_IMAGE_FORMAT: "Please upload a image having type (png, jpeg or jpg).",
-    INVALID_SERVICE_REQUIRED_TIME: "Time required should be a multiple of 30 minutes."
+    INVALID_IMAGE_FORMAT:
+        "Please upload a image having type (png, jpeg or jpg).",
+    INVALID_SERVICE_REQUIRED_TIME:
+        "Time required should be a multiple of 30 minutes.",
 };
 
 export const ROLES = {
@@ -48,10 +50,9 @@ export const DAY_OF_WEEK = [
 export const BOOKING_STATUS = {
     UPCOMING: "UPCOMING",
     ONGOING: "ONGOING",
-    COMPLETED: "COMPLETED"
-}
-export const ALLOWED_IMAGE_TYPES = [
-    'image/jpeg',
-    'image/png',
-    'image/jpg'
-];
+    COMPLETED: "COMPLETED",
+};
+export const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
+
+export const NO_IMAGE_PATH =
+    "https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2FnoImageAvailable.png?alt=media&token=53bc209a-c108-4495-b00c-b3d9df100c4a";

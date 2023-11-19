@@ -28,7 +28,6 @@ const CheckoutForm = (props) => {
             elements,
             redirect: "if_required",
         });
-        console.log({ paymentIntent, error });
         if (paymentIntent?.status === "succeeded") {
             const URL = `${window.location.origin}/payment/${props.paymentId}`;
             setTimeout(() => {
