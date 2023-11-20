@@ -1,6 +1,6 @@
 package com.growbiz.backend.Business.helper;
 
-import com.growbiz.backend.Responses.Business.BusinessRequest;
+import com.growbiz.backend.RequestResponse.Business.BusinessRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;

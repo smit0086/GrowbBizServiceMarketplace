@@ -1,7 +1,7 @@
 package com.growbiz.backend.ReviewsAndRatings.service;
 
+import com.growbiz.backend.RequestResponse.ReviewsAndRatings.ReviewsAndRatingsRequest;
 import com.growbiz.backend.ReviewsAndRatings.models.ReviewsAndRatings;
-import com.growbiz.backend.ReviewsAndRatings.models.ReviewsAndRatingsRequest;
 
 import java.util.List;
 

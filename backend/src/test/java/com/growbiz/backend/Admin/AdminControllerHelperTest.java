@@ -2,9 +2,9 @@ package com.growbiz.backend.Admin;
 
 import com.growbiz.backend.Admin.helper.AdminControllerHelper;
 import com.growbiz.backend.Categories.models.Category;
-import com.growbiz.backend.Categories.models.CategoryResponse;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Enums.Role;
+import com.growbiz.backend.RequestResponse.Category.CategoryResponse;
 import com.growbiz.backend.User.models.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,7 +1,7 @@
 package com.growbiz.backend.Services.helper;
 
+import com.growbiz.backend.RequestResponse.Services.ServiceResponse;
 import com.growbiz.backend.Services.models.ServiceDTO;
-import com.growbiz.backend.Services.models.ServiceResponse;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.User.models.User;
 import org.springframework.http.ResponseEntity;

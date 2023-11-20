@@ -8,7 +8,7 @@ import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Enums.BookingStatus;
 import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.Exception.exceptions.Booking.BookingNotFoundException;
-import com.growbiz.backend.Responses.Booking.BookingRequest;
+import com.growbiz.backend.RequestResponse.Booking.BookingRequest;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
 import com.growbiz.backend.User.models.User;

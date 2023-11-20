@@ -3,7 +3,7 @@ package com.growbiz.backend.Exception.handlers.ReviewAndRating;
 import com.growbiz.backend.Enums.ErrorMessages;
 import com.growbiz.backend.Exception.exceptions.ReviewAndRating.ReviewAndRatingAlreadyExists;
 import com.growbiz.backend.Exception.exceptions.ReviewAndRating.ReviewAndRatingNotFoundException;
-import com.growbiz.backend.Exception.models.BasicErrorResponse;
+import com.growbiz.backend.RequestResponse.Exception.BasicErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

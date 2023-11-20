@@ -2,9 +2,9 @@ package com.growbiz.backend.Categories.service.Sub;
 
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
-import com.growbiz.backend.Categories.models.SubCategoryRequest;
 import com.growbiz.backend.Categories.repository.ICategoryRepository;
 import com.growbiz.backend.Categories.repository.ISubCategoryRepository;
+import com.growbiz.backend.RequestResponse.SubCategory.SubCategoryRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

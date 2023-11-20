@@ -2,7 +2,7 @@ package com.growbiz.backend.BusinessHour.service;
 
 import com.growbiz.backend.BusinessHour.model.BusinessHour;
 import com.growbiz.backend.BusinessHour.repository.IBusinessHourRepository;
-import com.growbiz.backend.Responses.BusinessHour.BusinessHourRequest;
+import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

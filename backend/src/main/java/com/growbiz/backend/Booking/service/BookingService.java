@@ -4,7 +4,7 @@ import com.growbiz.backend.Booking.models.Booking;
 import com.growbiz.backend.Booking.repository.IBookingRepository;
 import com.growbiz.backend.Enums.BookingStatus;
 import com.growbiz.backend.Exception.exceptions.Booking.BookingNotFoundException;
-import com.growbiz.backend.Responses.Booking.BookingRequest;
+import com.growbiz.backend.RequestResponse.Booking.BookingRequest;
 import com.growbiz.backend.Services.service.IServicesService;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.service.IUserService;

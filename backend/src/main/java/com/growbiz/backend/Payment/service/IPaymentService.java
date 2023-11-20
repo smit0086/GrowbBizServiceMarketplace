@@ -2,8 +2,8 @@ package com.growbiz.backend.Payment.service;
 
 import com.growbiz.backend.Enums.PaymentStatus;
 import com.growbiz.backend.Payment.model.Payment;
-import com.growbiz.backend.Payment.model.PaymentRequest;
-import com.growbiz.backend.Payment.model.PaymentResponse;
+import com.growbiz.backend.RequestResponse.Payment.PaymentRequest;
+import com.growbiz.backend.RequestResponse.Payment.PaymentResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

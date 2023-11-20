@@ -2,10 +2,10 @@ package com.growbiz.backend.Categories.Sub;
 
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
-import com.growbiz.backend.Categories.models.SubCategoryRequest;
 import com.growbiz.backend.Categories.repository.ICategoryRepository;
 import com.growbiz.backend.Categories.repository.ISubCategoryRepository;
 import com.growbiz.backend.Categories.service.Sub.SubCategoryService;
+import com.growbiz.backend.RequestResponse.SubCategory.SubCategoryRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

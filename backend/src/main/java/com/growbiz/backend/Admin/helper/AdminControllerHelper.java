@@ -1,8 +1,8 @@
 package com.growbiz.backend.Admin.helper;
 
 import com.growbiz.backend.Categories.models.Category;
-import com.growbiz.backend.Categories.models.CategoryResponse;
 import com.growbiz.backend.Categories.models.SubCategory;
+import com.growbiz.backend.RequestResponse.Category.CategoryResponse;
 import com.growbiz.backend.User.models.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;

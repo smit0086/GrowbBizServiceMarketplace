@@ -10,7 +10,7 @@ import com.growbiz.backend.Enums.BusinessStatus;
 import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.Exception.exceptions.Business.BusinessAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.Business.BusinessNotFoundException;
-import com.growbiz.backend.Responses.Business.BusinessRequest;
+import com.growbiz.backend.RequestResponse.Business.BusinessRequest;
 import com.growbiz.backend.TestConstants.TestConstants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

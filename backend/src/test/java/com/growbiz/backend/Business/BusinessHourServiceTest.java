@@ -3,7 +3,7 @@ package com.growbiz.backend.Business;
 import com.growbiz.backend.BusinessHour.model.BusinessHour;
 import com.growbiz.backend.BusinessHour.repository.IBusinessHourRepository;
 import com.growbiz.backend.BusinessHour.service.BusinessHourService;
-import com.growbiz.backend.Responses.BusinessHour.BusinessHourRequest;
+import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;

@@ -8,7 +8,7 @@ import com.growbiz.backend.Categories.service.Super.ICategoryService;
 import com.growbiz.backend.Enums.BusinessStatus;
 import com.growbiz.backend.Exception.exceptions.Business.BusinessAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.Business.BusinessNotFoundException;
-import com.growbiz.backend.Responses.Business.BusinessRequest;
+import com.growbiz.backend.RequestResponse.Business.BusinessRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

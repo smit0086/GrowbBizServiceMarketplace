@@ -2,7 +2,7 @@ package com.growbiz.backend.Exception.handlers.User;
 
 import com.growbiz.backend.Enums.ErrorMessages;
 import com.growbiz.backend.Exception.exceptions.User.UserAlreadyExistsException;
-import com.growbiz.backend.Exception.models.BasicErrorResponse;
+import com.growbiz.backend.RequestResponse.Exception.BasicErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;

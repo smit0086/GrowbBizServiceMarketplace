@@ -1,7 +1,7 @@
 package com.growbiz.backend.BusinessHour.service;
 
 import com.growbiz.backend.BusinessHour.model.BusinessHour;
-import com.growbiz.backend.Responses.BusinessHour.BusinessHourRequest;
+import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourRequest;
 
 public interface IBusinessHourService {
 

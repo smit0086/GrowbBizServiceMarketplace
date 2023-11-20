@@ -1,7 +1,7 @@
 package com.growbiz.backend.Business.service;
 
 import com.growbiz.backend.Business.models.Business;
-import com.growbiz.backend.Responses.Business.BusinessRequest;
+import com.growbiz.backend.RequestResponse.Business.BusinessRequest;
 
 import java.util.List;
 
