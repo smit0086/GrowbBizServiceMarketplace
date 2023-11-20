@@ -16,8 +16,10 @@ import java.util.function.Function;
 
 @Service
 public class JWTService {
-
     private static String SECRET_KEY = "shdylvh2wNW6JpSW8EjdHhzzXabkFymh39mK4rznScgqXnN9BH2DgkaJfWj5Ko9";
+    private static final long THOUSAND = 1000L;
+    private static final long SIXTY = 60L;
+    private static final long TWENTY_FOUR = 24L;
 
     /**
      * Here we extract email i.e. the subject of the JWT
@@ -90,17 +92,17 @@ public class JWTService {
         return Jwts.builder().setClaims(extraClaims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + THOUSAND * SIXTY * TWENTY_FOUR * TWENTY_FOUR))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public Boolean isTokenValid(String token, UserDetails userLogin) {
+    public boolean isTokenValid(String token, UserDetails userLogin) {
         final String username = extractUserEmail(token);
         return (username.equals(userLogin.getUsername())) && !isTokenExpired(token);
     }
 
-    private Boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date(System.currentTimeMillis()));
     }
 

@@ -15,18 +15,18 @@ import java.util.Date;
 public class CategoriesExceptionHandler {
 
     @ExceptionHandler(CategoryAlreadyExistsException.class)
-    public ResponseEntity<BasicErrorResponse> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException categoryAlreadyExistsException) {
+    public ResponseEntity<BasicErrorResponse> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException exception) {
 
         return new ResponseEntity<>(new BasicErrorResponse(ErrorMessages.CATEGORY_ALREADY_EXIST.getValue(),
-                categoryAlreadyExistsException.getMessage(),
+                exception.getMessage(),
                 new Date()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<BasicErrorResponse> handleCategoryNotFoundException(CategoryNotFoundException categoryNotFoundException) {
+    public ResponseEntity<BasicErrorResponse> handleCategoryNotFoundException(CategoryNotFoundException exception) {
 
         return new ResponseEntity<>(new BasicErrorResponse(ErrorMessages.CATEGORY_NOT_FOUND.getValue(),
-                categoryNotFoundException.getMessage(),
+                exception.getMessage(),
                 new Date()), HttpStatus.BAD_REQUEST);
     }
 }

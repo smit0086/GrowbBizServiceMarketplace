@@ -12,18 +12,18 @@ import java.util.Date;
 
 public class ReviewAndRatingExceptionHandler {
     @ExceptionHandler(ReviewAndRatingAlreadyExists.class)
-    public ResponseEntity<BasicErrorResponse> handleReviewAndRatingAlreadyExists(ReviewAndRatingAlreadyExists reviewAndRatingAlreadyExists) {
+    public ResponseEntity<BasicErrorResponse> handleReviewAndRatingAlreadyExists(ReviewAndRatingAlreadyExists exception) {
 
         return new ResponseEntity<>(new BasicErrorResponse(ErrorMessages.REVIEW_RATING_ALREADY_EXISTS.getValue(),
-                reviewAndRatingAlreadyExists.getMessage(),
+                exception.getMessage(),
                 new Date()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ReviewAndRatingNotFoundException.class)
-    public ResponseEntity<BasicErrorResponse> handleReviewAndRatingNotFoundException(ReviewAndRatingNotFoundException reviewAndRatingNotFoundException) {
+    public ResponseEntity<BasicErrorResponse> handleReviewAndRatingNotFoundException(ReviewAndRatingNotFoundException exception) {
 
         return new ResponseEntity<>(new BasicErrorResponse(ErrorMessages.REVIEW_RATING_NOT_FOUND.getValue(),
-                reviewAndRatingNotFoundException.getMessage(),
+                exception.getMessage(),
                 new Date()), HttpStatus.BAD_REQUEST);
     }
 }

@@ -15,18 +15,18 @@ import java.util.Date;
 public class SubCategoriesExceptionHandler {
 
     @ExceptionHandler(SubCategoryAlreadyExistsException.class)
-    public ResponseEntity<BasicErrorResponse> handleSubCategoryAlreadyExistsException(SubCategoryAlreadyExistsException subCategoryAlreadyExistsException) {
+    public ResponseEntity<BasicErrorResponse> handleSubCategoryAlreadyExistsException(SubCategoryAlreadyExistsException exception) {
 
         return new ResponseEntity<>(new BasicErrorResponse(ErrorMessages.SUBCATEGORY_ALREADY_EXIST.getValue(),
-                subCategoryAlreadyExistsException.getMessage(),
+                exception.getMessage(),
                 new Date()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(SubCategoryNotFoundException.class)
-    public ResponseEntity<BasicErrorResponse> handleSubCategoryNotFoundException(SubCategoryNotFoundException subCategoryNotFoundException) {
+    public ResponseEntity<BasicErrorResponse> handleSubCategoryNotFoundException(SubCategoryNotFoundException exception) {
 
         return new ResponseEntity<>(new BasicErrorResponse(ErrorMessages.SUBCATEGORY_NOT_FOUND.getValue(),
-                subCategoryNotFoundException.getMessage(),
+                exception.getMessage(),
                 new Date()), HttpStatus.BAD_REQUEST);
     }
 }

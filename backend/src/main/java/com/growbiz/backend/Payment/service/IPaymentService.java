@@ -1,6 +1,5 @@
 package com.growbiz.backend.Payment.service;
 
-import com.growbiz.backend.Enums.PaymentStatus;
 import com.growbiz.backend.Payment.model.Payment;
 import com.growbiz.backend.RequestResponse.Payment.PaymentRequest;
 import com.growbiz.backend.RequestResponse.Payment.PaymentResponse;
@@ -18,8 +17,6 @@ public interface IPaymentService {
     List<Payment> findAllPayments();
 
     List<Payment> findAllPaymentsByUserEmail(String userEmail);
-
-    List<Payment> findByPaymentStatus(PaymentStatus paymentStatus);
 
     ResponseEntity<String> handleWebhook(String requestBody, String sigHeader);
 

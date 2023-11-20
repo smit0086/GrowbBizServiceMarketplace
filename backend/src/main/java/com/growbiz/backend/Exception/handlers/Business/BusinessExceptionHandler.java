@@ -15,18 +15,18 @@ import java.util.Date;
 public class BusinessExceptionHandler {
 
     @ExceptionHandler(BusinessNotFoundException.class)
-    public ResponseEntity<BasicErrorResponse> handleBusinessNotFoundException(BusinessNotFoundException businessNotFoundException) {
+    public ResponseEntity<BasicErrorResponse> handleBusinessNotFoundException(BusinessNotFoundException exception) {
 
         return new ResponseEntity<>(new BasicErrorResponse(ErrorMessages.BUSINESS_NOT_FOUND.getValue(),
-                businessNotFoundException.getMessage(),
+                exception.getMessage(),
                 new Date()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(BusinessAlreadyExistsException.class)
-    public ResponseEntity<BasicErrorResponse> handleBusinessNotFoundException(BusinessAlreadyExistsException businessAlreadyExistsException) {
+    public ResponseEntity<BasicErrorResponse> handleBusinessNotFoundException(BusinessAlreadyExistsException exception) {
 
         return new ResponseEntity<>(new BasicErrorResponse(ErrorMessages.BUSINESS_ALREADY_EXIST.getValue(),
-                businessAlreadyExistsException.getMessage(),
+                exception.getMessage(),
                 new Date()), HttpStatus.BAD_REQUEST);
     }
 }

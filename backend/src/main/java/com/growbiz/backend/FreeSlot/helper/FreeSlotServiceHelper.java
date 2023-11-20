@@ -24,8 +24,9 @@ public class FreeSlotServiceHelper {
 
     @Autowired
     private final IServicesService servicesService;
-
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private static final int SIX = 6;
+    private static final int THIRTY = 30;
 
     /**
      * This gets all the dates of the current week
@@ -41,7 +42,7 @@ public class FreeSlotServiceHelper {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         calendar.add(Calendar.DATE, Calendar.MONDAY - dayOfWeek);
         Date startOfWeek = calendar.getTime();
-        calendar.add(Calendar.DATE, 6);
+        calendar.add(Calendar.DATE, SIX);
         Date endOfWeek = calendar.getTime();
         calendar.setTime(startOfWeek);
         while (!calendar.getTime().after(endOfWeek)) {
@@ -60,7 +61,7 @@ public class FreeSlotServiceHelper {
      * @author - an370985@dal.ca
      */
     public List<SlotRange> getFreeSlots(Date date, BusinessHour businessHour, Long serviceId, List<Payment> paymentList) {
-        List<SlotRange> freeSlots = new ArrayList<>();
+
         LocalTime start = null;
         LocalTime end = null;
 
@@ -115,6 +116,11 @@ public class FreeSlotServiceHelper {
                 end = businessHour.getSunday_end();
             }
         }
+        return calculateFreeSlots(start, end, paymentList, date, serviceId);
+    }
+
+    private List<SlotRange> calculateFreeSlots(LocalTime start, LocalTime end, List<Payment> paymentList, Date date, Long serviceId) {
+        List<SlotRange> freeSlots = new ArrayList<>();
         if (Objects.nonNull(start) && Objects.nonNull(end)) {
             return populateAllFreeSlots(start, end,
                     Duration.between(LocalTime.of(0, 0), servicesService.getServiceById(serviceId).getTimeRequired()).toMinutes(),
@@ -140,7 +146,7 @@ public class FreeSlotServiceHelper {
      * @author - an370985@dal.ca
      */
     private List<SlotRange> populateAllFreeSlots(LocalTime start, LocalTime end, long duration, List<Payment> paymentList) {
-        int timeSlotGap = 30;
+        int timeSlotGap = THIRTY;
         List<SlotRange> freeSlots = new ArrayList<>();
         List<SlotRange> bookedSlots = new ArrayList<>();
         paymentList.forEach(payment -> bookedSlots.add(new SlotRange(payment.getStartTime(), payment.getEndTime())));
