@@ -4,7 +4,6 @@ import com.growbiz.backend.Booking.helper.BookingControllerHelper;
 import com.growbiz.backend.Booking.models.Booking;
 import com.growbiz.backend.Booking.models.BookingBusiness;
 import com.growbiz.backend.Booking.service.IBookingService;
-import com.growbiz.backend.BusinessHour.helper.BusinessHourControllerHelper;
 import com.growbiz.backend.BusinessHour.service.IBusinessHourService;
 import com.growbiz.backend.Enums.BookingStatus;
 import com.growbiz.backend.FreeSlot.models.FreeSlotsResponse;
@@ -44,9 +43,6 @@ public class BookingController {
     private IFreeSlotService freeSlotService;
     @Autowired
     private IBusinessHourService businessHourService;
-
-    @Autowired
-    private BusinessHourControllerHelper businessHourControllerHelper;
 
     @PostMapping(path = "/add")
     public ResponseEntity<BookingResponse> addBooking(@RequestBody BookingRequest bookingRequest) {
@@ -145,6 +141,6 @@ public class BookingController {
     @GetMapping(path = "/businessHours")
     public ResponseEntity<BusinessHourResponse> getBusinessHours(@RequestParam String businessId) {
         Long bId = Long.parseLong(businessId);
-        return businessHourControllerHelper.createBusinessHourResponse(businessHourService.getBusinessHour(bId));
+        return helper.createBusinessHourResponse(businessHourService.getBusinessHour(bId));
     }
 }
