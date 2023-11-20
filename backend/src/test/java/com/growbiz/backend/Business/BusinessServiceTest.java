@@ -1,5 +1,6 @@
 package com.growbiz.backend.Business;
 
+import com.growbiz.backend.Business.helper.BusinessServiceHelper;
 import com.growbiz.backend.Business.models.Business;
 import com.growbiz.backend.Business.repository.IBusinessRepository;
 import com.growbiz.backend.Business.service.BusinessService;
@@ -18,10 +19,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +44,8 @@ public class BusinessServiceTest {
     private ICategoryService categoryServiceMock;
     @Mock
     private IBusinessHourService businessHourServiceMock;
+    @Mock
+    private BusinessServiceHelper helperMock;
     Business mockedBusiness;
     Category mockedCategory;
 
@@ -86,8 +91,8 @@ public class BusinessServiceTest {
 
     @Test
     public void testSaveWithBusinessRequest() {
-//        when(businessServiceMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq("testEmail@dal.ca")))
-//                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
+        when(helperMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq(TestConstants.TEST_EMAIL)))
+                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
         doNothing().when(businessHourServiceMock).init(anyLong());
         when(categoryServiceMock.getCategoryByID(1L)).thenReturn(mockedCategory);
         when(businessRepositoryMock.findByEmail(TestConstants.TEST_EMAIL)).thenReturn(null);
@@ -125,8 +130,8 @@ public class BusinessServiceTest {
 
     @Test
     public void testUpdateBusiness() {
-//        when(fileStorageServiceMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq("testEmail@dal.ca")))
-//                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
+        when(helperMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq(TestConstants.TEST_EMAIL)))
+                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
         when(categoryServiceMock.getCategoryByID(1L)).thenReturn(mockedCategory);
         byte[] mockByteArr = new byte[2];
         BusinessRequest mockedBusinessRequest = BusinessRequest.builder()

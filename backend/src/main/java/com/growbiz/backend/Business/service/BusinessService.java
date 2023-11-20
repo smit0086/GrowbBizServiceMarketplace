@@ -78,7 +78,7 @@ public class BusinessService implements IBusinessService {
         if (Objects.nonNull(businessRepository.findByEmail(businessRequest.getEmail()))) {
             throw new BusinessAlreadyExistsException("Business already exists with the given email");
         }
-        String fileURL = helper.uploadAndGetFileURL(businessRequest);
+        String fileURL = helper.uploadFileToStorage(businessRequest.getFile(), businessRequest.getEmail());
         Business business = Business.builder()
                 .businessName(businessRequest.getBusinessName())
                 .email(businessRequest.getEmail())
@@ -94,7 +94,7 @@ public class BusinessService implements IBusinessService {
 
     @Override
     public Business updateBusiness(BusinessRequest businessRequest, Long businessId) {
-        String fileURL = helper.uploadAndGetFileURL(businessRequest);
+        String fileURL = helper.uploadFileToStorage(businessRequest.getFile(), businessRequest.getEmail());
         Business business = Business.builder()
                 .businessId(businessId)
                 .businessName(businessRequest.getBusinessName())
