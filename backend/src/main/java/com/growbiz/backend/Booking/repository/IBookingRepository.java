@@ -1,7 +1,7 @@
 package com.growbiz.backend.Booking.repository;
 
 import com.growbiz.backend.Booking.models.Booking;
-import com.growbiz.backend.Booking.models.BookingStatus;
+import com.growbiz.backend.Enums.BookingStatus;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

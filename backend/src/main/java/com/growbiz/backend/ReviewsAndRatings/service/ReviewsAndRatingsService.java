@@ -1,7 +1,7 @@
 package com.growbiz.backend.ReviewsAndRatings.service;
 
+import com.growbiz.backend.RequestResponse.ReviewsAndRatings.ReviewsAndRatingsRequest;
 import com.growbiz.backend.ReviewsAndRatings.models.ReviewsAndRatings;
-import com.growbiz.backend.ReviewsAndRatings.models.ReviewsAndRatingsRequest;
 import com.growbiz.backend.ReviewsAndRatings.repository.IReviewsAndRatingsRepository;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;

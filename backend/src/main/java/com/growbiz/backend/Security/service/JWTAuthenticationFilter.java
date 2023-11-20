@@ -30,6 +30,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private final UserDetailsService userDetailsService;
+    private static final int SEVEN = 7;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -42,7 +43,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        final String token = authenticationHeader.substring(7);
+        final String token = authenticationHeader.substring(SEVEN);
         // Extracted userEmail from JWT
         final String userEmail = jwtService.extractUserEmail(token);
         final String userRole = jwtService.extractRole(token);

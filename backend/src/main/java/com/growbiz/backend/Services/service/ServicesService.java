@@ -1,14 +1,13 @@
 package com.growbiz.backend.Services.service;
 
-import com.growbiz.backend.Business.model.Business;
+import com.growbiz.backend.Business.models.Business;
 import com.growbiz.backend.Business.service.IBusinessService;
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
-import com.growbiz.backend.File.service.IFileStorageService;
+import com.growbiz.backend.RequestResponse.Services.ServiceRequest;
 import com.growbiz.backend.Services.models.ServiceDTO;
-import com.growbiz.backend.Services.models.ServiceRequest;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.repository.IServiceRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +36,6 @@ public class ServicesService implements IServicesService {
 
     @Autowired
     private final IBusinessService businessService;
-
-    @Autowired
-    private final IFileStorageService fileStorageService;
 
     @Override
     public Services getServiceById(Long serviceId) {
@@ -76,7 +72,7 @@ public class ServicesService implements IServicesService {
         if (Objects.nonNull(subCategoryList)) {
             for (SubCategory subcategory : subCategoryList) {
                 List<Services> s = iServiceRepository.findBySubCategorySubCategoryID(subcategory.getSubCategoryID());
-                for(Services service : s) {
+                for (Services service : s) {
                     ServiceDTO serviceDTO = ServiceDTO.builder()
                             .serviceId(service.getServiceId())
                             .serviceName(service.getServiceName())

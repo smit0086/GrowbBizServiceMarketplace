@@ -3,9 +3,9 @@ package com.growbiz.backend.Admin;
 import com.growbiz.backend.Admin.service.AdminService;
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
-import com.growbiz.backend.Categories.models.SubCategoryRequest;
 import com.growbiz.backend.Categories.service.Sub.SubCategoryService;
 import com.growbiz.backend.Categories.service.Super.CategoryService;
+import com.growbiz.backend.RequestResponse.SubCategory.SubCategoryRequest;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +15,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -61,7 +60,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void addCategoryTest(){
+    public void addCategoryTest() {
         Category actualResponse;
         Category expectedResponse = mockCategory;
 
@@ -72,7 +71,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void addCategoryExceptionTest(){
+    public void addCategoryExceptionTest() {
         Category actualResponse;
         Category expectedResponse = null;
 
@@ -83,7 +82,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void updateCategoryTest(){
+    public void updateCategoryTest() {
         Category actualResponse;
         Category expectedResponse = mockCategory;
 
@@ -94,7 +93,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void updateCategoryExceptionTest(){
+    public void updateCategoryExceptionTest() {
         Category actualResponse;
         Category expectedResponse = null;
 
@@ -105,7 +104,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void deleteCategoryTest(){
+    public void deleteCategoryTest() {
         Boolean actualResponse;
         Boolean expectedResponse = true;
 
@@ -116,7 +115,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void deleteCategoryExceptionTest(){
+    public void deleteCategoryExceptionTest() {
         Boolean actualResponse;
         Boolean expectedResponse = false;
 
@@ -127,7 +126,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void addSubCategoryTest(){
+    public void addSubCategoryTest() {
         SubCategory actualResponse;
         SubCategory expectedResponse = mockSubCategory;
 
@@ -138,7 +137,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void addSubCategoryExceptionTest(){
+    public void addSubCategoryExceptionTest() {
         SubCategory actualResponse;
         SubCategory expectedResponse = null;
 
@@ -149,7 +148,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void updateSubCategoryTest(){
+    public void updateSubCategoryTest() {
         SubCategory actualResponse;
         SubCategory expectedResponse = mockSubCategory;
 
@@ -160,7 +159,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void updateSubCategoryExceptionTest(){
+    public void updateSubCategoryExceptionTest() {
         SubCategory actualResponse;
         SubCategory expectedResponse = null;
 
@@ -171,7 +170,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void deleteSubCategoryTest(){
+    public void deleteSubCategoryTest() {
         Boolean actualResponse;
         Boolean expectedResponse = true;
 
@@ -182,7 +181,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void deleteSubCategoryExceptionTest(){
+    public void deleteSubCategoryExceptionTest() {
         Boolean actualResponse;
         Boolean expectedResponse = false;
 

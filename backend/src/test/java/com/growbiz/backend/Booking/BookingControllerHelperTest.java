@@ -1,20 +1,20 @@
 package com.growbiz.backend.Booking;
 
 import com.growbiz.backend.Booking.helper.BookingControllerHelper;
-import com.growbiz.backend.Booking.models.*;
-import com.growbiz.backend.Business.model.Business;
+import com.growbiz.backend.Booking.models.Booking;
+import com.growbiz.backend.Booking.models.BookingBusiness;
+import com.growbiz.backend.Business.models.Business;
 import com.growbiz.backend.Categories.models.SubCategory;
+import com.growbiz.backend.Enums.BookingStatus;
+import com.growbiz.backend.Enums.Role;
+import com.growbiz.backend.RequestResponse.Booking.BookingBusinessResponse;
+import com.growbiz.backend.RequestResponse.Booking.BookingResponse;
 import com.growbiz.backend.Services.models.Services;
-import com.growbiz.backend.User.models.Role;
 import com.growbiz.backend.User.models.User;
-import org.apache.coyote.Response;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

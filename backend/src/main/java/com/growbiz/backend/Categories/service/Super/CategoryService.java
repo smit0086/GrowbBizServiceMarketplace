@@ -1,9 +1,7 @@
 package com.growbiz.backend.Categories.service.Super;
 
 import com.growbiz.backend.Categories.models.Category;
-import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.repository.ICategoryRepository;
-import com.growbiz.backend.Exception.exceptions.CategoryAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ public class CategoryService implements ICategoryService {
     public Category getCategoryByID(Long categoryID) {
         Optional<Category> category = iCategoryRepository.findById(categoryID);
 
-        if(category.isPresent()) {
+        if (category.isPresent()) {
             return category.get();
         } else {
             return null;

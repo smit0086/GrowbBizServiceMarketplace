@@ -1,6 +1,6 @@
 package com.growbiz.backend.User.repository;
 
-import com.growbiz.backend.User.models.Role;
+import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.User.models.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

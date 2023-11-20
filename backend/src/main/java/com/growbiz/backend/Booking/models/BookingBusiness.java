@@ -1,5 +1,6 @@
 package com.growbiz.backend.Booking.models;
 
+import com.growbiz.backend.Enums.BookingStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

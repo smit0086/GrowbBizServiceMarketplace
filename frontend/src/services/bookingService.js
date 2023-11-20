@@ -139,3 +139,23 @@ export const getPastBookingsForBusiness = async (token, businessId) => {
         return [];
     }
 };
+
+export const getAllUserBookings = async (token, email) => {
+    try {
+        const endpoint = `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/booking/user/?email=${email}&role=CUSTOMER`;
+        const resp = await fetch(endpoint, {
+            method: "get",
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (resp.ok) {
+            return (await resp.json()).bookings;
+        }
+        throw resp;
+    } catch (err) {
+        console.error({ err });
+        return [];
+    }
+};

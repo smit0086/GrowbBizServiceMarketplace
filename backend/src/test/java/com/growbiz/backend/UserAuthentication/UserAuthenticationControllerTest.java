@@ -1,10 +1,10 @@
 package com.growbiz.backend.UserAuthentication;
 
-import com.growbiz.backend.User.models.Role;
+import com.growbiz.backend.Enums.Role;
+import com.growbiz.backend.RequestResponse.Authentication.AuthenticationRequest;
+import com.growbiz.backend.RequestResponse.Authentication.AuthenticationResponse;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.UserAuthentication.controller.UserAuthenticationController;
-import com.growbiz.backend.UserAuthentication.model.AuthenticationRequest;
-import com.growbiz.backend.UserAuthentication.model.AuthenticationResponse;
 import com.growbiz.backend.UserAuthentication.service.IUserAuthenticationService;
 import org.junit.Before;
 import org.junit.Test;

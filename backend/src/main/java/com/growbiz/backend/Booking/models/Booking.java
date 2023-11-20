@@ -1,6 +1,7 @@
 package com.growbiz.backend.Booking.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.growbiz.backend.Enums.BookingStatus;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.User.models.User;
 import jakarta.persistence.*;
@@ -27,9 +28,8 @@ public class Booking {
     @JsonIgnore
     private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "service_id", referencedColumnName = "serviceId")
-    @JsonIgnore
     private Services service;
 
     private String date;

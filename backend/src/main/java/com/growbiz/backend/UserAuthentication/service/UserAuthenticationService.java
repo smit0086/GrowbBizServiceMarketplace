@@ -1,11 +1,11 @@
 package com.growbiz.backend.UserAuthentication.service;
 
-import com.growbiz.backend.Exception.exceptions.UserAlreadyExistsException;
+import com.growbiz.backend.Exception.exceptions.User.UserAlreadyExistsException;
+import com.growbiz.backend.RequestResponse.Authentication.AuthenticationRequest;
+import com.growbiz.backend.RequestResponse.Authentication.AuthenticationResponse;
 import com.growbiz.backend.Security.service.JWTService;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.service.IUserService;
-import com.growbiz.backend.UserAuthentication.model.AuthenticationRequest;
-import com.growbiz.backend.UserAuthentication.model.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

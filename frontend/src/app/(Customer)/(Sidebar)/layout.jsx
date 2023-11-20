@@ -7,6 +7,11 @@ const partnerNavItems = [
         route: "/dashboard",
         icon: "layoutGrid",
     },
+    {
+        title: "Bookings",
+        route: "/bookings",
+        icon: "invoice",
+    },
 ];
 
 const layout = ({ children }) => {

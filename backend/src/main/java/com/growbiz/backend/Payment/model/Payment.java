@@ -1,5 +1,6 @@
 package com.growbiz.backend.Payment.model;
 
+import com.growbiz.backend.Enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,7 +1,7 @@
 package com.growbiz.backend.Services.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.growbiz.backend.Business.model.Business;
+import com.growbiz.backend.Business.models.Business;
 import com.growbiz.backend.Categories.models.SubCategory;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
