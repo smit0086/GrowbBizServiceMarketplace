@@ -1,5 +1,7 @@
 package com.growbiz.backend.TestConstants;
 
+import java.time.LocalTime;
+
 public class TestConstants {
     // BUSINESS TEST CONSTANTS
     public static final String TEST_EMAIL = "testEmail@dal.ca";
@@ -17,5 +19,10 @@ public class TestConstants {
     public static final String TEST_CATEGORY_NAME = "TestCategoryName";
     public static final String TEST_SUBCATEGORY_NAME = "TestSubCategoryName";
     public static final String TEST_CATEGORY_TAX = "12.2";
-
+    public static final String TEST_DATE = "2023-02-02";
+    public static final String TEST_NOTE = "TestNote";
+    public static final LocalTime TEST_LOCAL_TIME = LocalTime.of(9, 0);
+    public static final String TEST_PASSWORD = "TestPassword";
+    public static final String TEST_NAME = "TestName";
+    public static final long TEST_AMOUNT = 1000;
 }

@@ -3,6 +3,7 @@ package com.growbiz.backend.Payment.service;
 import com.growbiz.backend.Booking.models.Booking;
 import com.growbiz.backend.Booking.models.BookingStatus;
 import com.growbiz.backend.Booking.service.IBookingService;
+import com.growbiz.backend.Constants.CommonConstants;
 import com.growbiz.backend.Payment.model.Payment;
 import com.growbiz.backend.Payment.model.PaymentRequest;
 import com.growbiz.backend.Payment.model.PaymentResponse;
@@ -30,7 +31,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -62,12 +62,11 @@ public class PaymentService implements IPaymentService {
 
     @Override
     public List<Payment> findAllPayments() {
-        return StreamSupport.stream(paymentRepository.findAll().spliterator(), false)
-                .collect(Collectors.toList());
+        return StreamSupport.stream(paymentRepository.findAll().spliterator(), false).toList();
     }
 
     @Override
-    public  List<Payment> findAllPaymentsByUserEmail(String userEmail) {
+    public List<Payment> findAllPaymentsByUserEmail(String userEmail) {
         return paymentRepository.findByUserEmail(userEmail);
     }
 
@@ -107,7 +106,7 @@ public class PaymentService implements IPaymentService {
                 payment.setPaymentStatus(PaymentStatus.CREATED);
                 updatePayment(payment);
             }
-            default -> System.out.println("Unhandled event type: " + event.getType());
+            default -> System.err.println("Unhandled event type: " + event.getType());
         }
         return ResponseEntity.ok().build();
     }
@@ -127,7 +126,8 @@ public class PaymentService implements IPaymentService {
             PaymentIntent paymentIntent = PaymentIntent.create(params);
             payment.setClientSecret(paymentIntent.getClientSecret());
             updatePayment(payment);
-            return ResponseEntity.ok().body(PaymentResponse.builder().clientSecret(paymentIntent.getClientSecret()).paymentId(payment.getPaymentId()).build());
+            PaymentResponse paymentResponse = PaymentResponse.builder().clientSecret(paymentIntent.getClientSecret()).paymentId(payment.getPaymentId()).build();
+            return ResponseEntity.ok().body(paymentResponse);
         } catch (StripeException e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -147,7 +147,7 @@ public class PaymentService implements IPaymentService {
                 .endTime(paymentRequest.getEndTime())
                 .note(paymentRequest.getNote())
                 .userEmail(user.getUsername())
-                .amount((double) amount / 100)
+                .amount((double) amount / CommonConstants.HUNDRED)
                 .build();
     }
 
@@ -159,7 +159,8 @@ public class PaymentService implements IPaymentService {
         Services service = servicesService.getServiceById(serviceId);
         double servicePrice = service.getPrice();
         double taxApplied = Double.parseDouble(service.getSubCategory().getCategory().getTax());
-        return (long) ((servicePrice + ((taxApplied / 100) * servicePrice)) * 100);
+        double finalAmount = (servicePrice + ((taxApplied / CommonConstants.HUNDRED) * servicePrice)) * CommonConstants.HUNDRED;
+        return (long) finalAmount;
     }
 
     private Payment fetchPayment(PaymentIntent paymentIntent) {
