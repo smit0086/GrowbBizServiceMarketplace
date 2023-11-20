@@ -5,7 +5,7 @@ import { getBusiness } from "./services/businessService";
 
 // middleware is applied to all routes, use conditionals to select
 const protected_routes = {
-    CUSTOMER: ["/dashboard", "/service", "/payment"],
+    CUSTOMER: ["/dashboard", "/service", "/payment", "/bookings"],
     PARTNER: ["/partner/dashboard", "/partner/business"],
     ADMIN: [
         "/admin/dashboard",
