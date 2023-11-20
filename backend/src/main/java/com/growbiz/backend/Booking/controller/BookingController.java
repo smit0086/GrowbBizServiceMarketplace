@@ -41,7 +41,7 @@ public class BookingController {
 
     @PutMapping(path = "/{bookingId}/status")
     public ResponseEntity<BookingResponse> modifyBookingStatus(@PathVariable("bookingId") Long bookingId, @RequestParam String status) {
-        Booking booking = bookingService.getBookingById(bookingId);
+        Booking booking = bookingService.findById(bookingId);
 
         booking.setStatus(BookingStatus.valueOf(status));
         bookingService.save(booking);
