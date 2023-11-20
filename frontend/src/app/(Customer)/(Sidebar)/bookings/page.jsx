@@ -7,6 +7,17 @@ import { BOOKING_STATUS } from "@/lib/constants";
 import { getAllUserBookings } from "@/services/bookingService";
 import BookingCard from "./components/BookingCard";
 
+const NO_ONGOING_BOOKING_HEADER = "No ongoing bookings";
+const NO_ONGOING_BOOKING_DESCRIPTION =
+    "You don't have any ongoing bookings at the moment.";
+
+const NO_UPCOMING_BOOKING_HEADER = "No upcoming bookings";
+const NO_UPCOMING_BOOKING_DESCRIPTION =
+    "You don't have any upcoming bookings at the moment.";
+
+const NO_PAST_BOOKING_HEADER = "No past bookings";
+const NO_PAST_BOOKING_DESCRIPTION = "We don't have any history on you.";
+
 const BookingsPage = async () => {
     const session = await getServerSession(authOptions);
     const bookings = await getAllUserBookings(
@@ -30,10 +41,9 @@ const BookingsPage = async () => {
                     <div className="py-8">
                         <Alert className="max-w-[500px]">
                             <AlertCircle className="h-4 w-4" />
-                            <AlertTitle>No ongoing bookings</AlertTitle>
+                            <AlertTitle>{NO_ONGOING_BOOKING_HEADER}</AlertTitle>
                             <AlertDescription>
-                                You don't have any ongoing bookings at the
-                                moment.
+                                {NO_ONGOING_BOOKING_DESCRIPTION}
                             </AlertDescription>
                         </Alert>
                     </div>
@@ -50,10 +60,11 @@ const BookingsPage = async () => {
                     <div className="py-8">
                         <Alert className="max-w-[500px]">
                             <AlertCircle className="h-4 w-4" />
-                            <AlertTitle>No upcoming bookings</AlertTitle>
+                            <AlertTitle>
+                                {NO_UPCOMING_BOOKING_HEADER}
+                            </AlertTitle>
                             <AlertDescription>
-                                You don't have any upcoming bookings at the
-                                moment.
+                                {NO_UPCOMING_BOOKING_DESCRIPTION}
                             </AlertDescription>
                         </Alert>
                     </div>
@@ -70,9 +81,9 @@ const BookingsPage = async () => {
                     <div className="py-8">
                         <Alert className="max-w-[500px]">
                             <AlertCircle className="h-4 w-4" />
-                            <AlertTitle>No past bookings</AlertTitle>
+                            <AlertTitle>{NO_PAST_BOOKING_HEADER}</AlertTitle>
                             <AlertDescription>
-                                We don't have any history on you.
+                                {NO_PAST_BOOKING_DESCRIPTION}
                             </AlertDescription>
                         </Alert>
                     </div>
