@@ -1,25 +1,23 @@
 package com.growbiz.backend.Payment;
 
 import com.growbiz.backend.Enums.Role;
+import com.growbiz.backend.Payment.helper.PaymentServiceHelper;
 import com.growbiz.backend.Payment.model.Payment;
 import com.growbiz.backend.Payment.repository.IPaymentRepository;
 import com.growbiz.backend.Payment.service.PaymentService;
 import com.growbiz.backend.RequestResponse.Payment.PaymentRequest;
 import com.growbiz.backend.TestConstants.TestConstants;
-import com.growbiz.backend.User.models.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,13 +25,13 @@ public class PaymentServiceTest {
     @InjectMocks
     private PaymentService paymentServiceMock;
     @Mock
-    private IPaymentRepository paymentRepositoryMock;
-    @Mock
     private PaymentRequest mockedPaymentRequest;
     @Mock
-    private User mockedUser;
+    private IPaymentRepository paymentRepositoryMock;
     @Mock
     Payment mockedPayment;
+    @Mock
+    PaymentServiceHelper helperMock;
 
     @BeforeEach
     public void init() {
@@ -50,19 +48,6 @@ public class PaymentServiceTest {
 
     @Test
     public void testAddPayment() {
-        mockedUser = User.builder()
-                .id(1L)
-                .email(TestConstants.TEST_EMAIL)
-                .password(TestConstants.TEST_PASSWORD)
-                .firstName(TestConstants.TEST_NAME)
-                .lastName(TestConstants.TEST_NAME)
-                .build();
-        Authentication mockedAuthentication = mock(Authentication.class);
-        SecurityContext mockedSecurityContext = mock(SecurityContext.class);
-        when(mockedSecurityContext.getAuthentication()).thenReturn(mockedAuthentication);
-        SecurityContextHolder.setContext(mockedSecurityContext);
-        when(mockedAuthentication.getPrincipal()).thenReturn(mockedUser);
-        when(paymentRepositoryMock.save(any(Payment.class))).thenAnswer(invocation -> invocation.getArgument(0));
         mockedPaymentRequest = PaymentRequest.builder()
                 .email(TestConstants.TEST_EMAIL)
                 .role(Role.CUSTOMER)
@@ -72,6 +57,8 @@ public class PaymentServiceTest {
                 .startTime(TestConstants.TEST_LOCAL_TIME)
                 .endTime(TestConstants.TEST_LOCAL_TIME)
                 .build();
+        when(helperMock.createPayment(Mockito.eq(mockedPaymentRequest), anyLong())).thenReturn(mockedPayment);
+        when(paymentRepositoryMock.save(any(Payment.class))).thenAnswer(invocation -> invocation.getArgument(0));
         Payment actualPayment = paymentServiceMock.addPayment(mockedPaymentRequest, TestConstants.TEST_AMOUNT);
         Assertions.assertEquals(mockedPayment, actualPayment);
     }
