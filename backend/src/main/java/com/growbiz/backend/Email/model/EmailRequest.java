@@ -14,8 +14,5 @@ import org.springframework.mail.SimpleMailMessage;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class EmailRequest extends BasicRequest {
-    private String to;
-    private String subject;
-    private String body;
     private long bookingId;
 }

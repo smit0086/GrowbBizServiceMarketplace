@@ -1,12 +1,10 @@
 package com.growbiz.backend.Email.controller;
 
 import com.growbiz.backend.Booking.models.Booking;
-import com.growbiz.backend.Booking.repository.IBookingRepository;
 import com.growbiz.backend.Booking.service.IBookingService;
 import com.growbiz.backend.Business.model.Business;
 import com.growbiz.backend.Business.service.IBusinessService;
 import com.growbiz.backend.Email.handler.EmailControllerHelper;
-import com.growbiz.backend.Email.model.EmailRequest;
 import com.growbiz.backend.Email.model.EmailResponse;
 import com.growbiz.backend.Email.service.ISendEmailService;
 import com.growbiz.backend.Services.models.Services;
@@ -15,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,14 +38,30 @@ public class EmailController {
     private final EmailControllerHelper emailControllerHelper;
 
     @PostMapping(path="/sendEmailReminder")
-    public ResponseEntity<EmailResponse> sendEmailReminder(EmailRequest emailRequest) {
-        try {
-            Booking booking = iBookingService.getBookingById(emailRequest.getBookingId());
-            Services service = iServicesService.getServiceById(booking.getService().getServiceId());
-            Business business = iBusinessService.findById(service.getBusiness().getBusinessId());
-            return emailControllerHelper.createSuccessEmailResponse();
-        } catch (Exception e) {
-            return emailControllerHelper.createFailedEmailResponse();
-        }
+    public ResponseEntity sendEmailReminder(@RequestBody long bookingId) {
+
+        Booking booking = iBookingService.getBookingById(bookingId);
+        Services service = iServicesService.getServiceById(booking.getService().getServiceId());
+        Business business = iBusinessService.findById(service.getBusiness().getBusinessId());
+
+        String subject = "Subject: Confirmation of Your Upcoming Service Appointment";
+
+        EmailResponse emailResponse = EmailResponse.builder()
+                .businessName(business.getBusinessName())
+                .serviceName(service.getServiceName())
+                .from("rabiaasif2k17@hotmail.com")
+                .user(booking.getUser().getFirstName() + " " + booking.getUser().getLastName())
+                .time(booking.getStartTime())
+                .date(booking.getDate()).build();
+
+        String opening = emailControllerHelper.generateHeadSection(emailResponse);
+        String body = emailControllerHelper.generateMessageBody(emailResponse);
+        String conclusion = emailControllerHelper.generateConcludingSection(emailResponse);
+
+        String mailContent = opening + body + conclusion;
+
+        sendEmailService.sendEmail(booking.getUser().getEmail(), subject, mailContent);
+
+        return ResponseEntity.ok("Email has been sent to the given email " + booking.getUser().getEmail());
     }
 }
