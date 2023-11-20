@@ -102,11 +102,9 @@ public class SubCategoryServiceTests {
     }
 
     @Test
-    public void fetchNullSubCategoryListTest() throws Exception {
-        when(subCategoryRepository.findAll()).thenReturn(null);
-
+    public void fetchNullSubCategoryListTest() {
+        when(subCategoryRepository.findAll()).thenThrow(new NullPointerException("Test Exception"));
         List<SubCategory> results = subCategoryService.fetchSubCategoryList();
-
         assertNull(results);
     }
 
@@ -121,10 +119,9 @@ public class SubCategoryServiceTests {
 
     @Test
     public void fetchNullSubCategoryListForCategoryIDTest() {
-        when(subCategoryRepository.findByCategoryCategoryID(1L)).thenReturn(null);
+        when(subCategoryRepository.findByCategoryCategoryID(1L)).thenThrow(new NullPointerException("Test Exception"));
 
         List<SubCategory> results = subCategoryService.fetchSubCategoryListForCategoryID(1L);
-
         assertNull(results);
     }
 
