@@ -1,9 +1,9 @@
 package com.growbiz.backend.Business;
 
-import com.growbiz.backend.Business.model.BusinessHour;
-import com.growbiz.backend.Business.model.BusinessHourRequest;
-import com.growbiz.backend.Business.repository.IBusinessHourRepository;
-import com.growbiz.backend.Business.service.BusinessHourService;
+import com.growbiz.backend.BusinessHour.model.BusinessHour;
+import com.growbiz.backend.BusinessHour.repository.IBusinessHourRepository;
+import com.growbiz.backend.BusinessHour.service.BusinessHourService;
+import com.growbiz.backend.Responses.BusinessHour.BusinessHourRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;

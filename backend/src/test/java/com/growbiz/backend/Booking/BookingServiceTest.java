@@ -1,17 +1,16 @@
 package com.growbiz.backend.Booking;
 
 import com.growbiz.backend.Booking.models.Booking;
-import com.growbiz.backend.Booking.models.BookingRequest;
-import com.growbiz.backend.Booking.models.BookingResponse;
-import com.growbiz.backend.Booking.models.BookingStatus;
 import com.growbiz.backend.Booking.repository.IBookingRepository;
 import com.growbiz.backend.Booking.service.BookingService;
-import com.growbiz.backend.Business.model.Business;
+import com.growbiz.backend.Business.models.Business;
 import com.growbiz.backend.Categories.models.SubCategory;
-import com.growbiz.backend.Exception.exceptions.BookingNotFoundException;
+import com.growbiz.backend.Enums.BookingStatus;
+import com.growbiz.backend.Enums.Role;
+import com.growbiz.backend.Exception.exceptions.Booking.BookingNotFoundException;
+import com.growbiz.backend.Responses.Booking.BookingRequest;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
-import com.growbiz.backend.User.models.Role;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.service.IUserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalTime;

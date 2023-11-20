@@ -5,14 +5,12 @@ import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.models.SubCategoryRequest;
 import com.growbiz.backend.Categories.repository.ICategoryRepository;
 import com.growbiz.backend.Categories.repository.ISubCategoryRepository;
-import com.growbiz.backend.Exception.exceptions.SubCategoryAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -29,7 +27,7 @@ public class SubCategoryService implements ISubCategoryService {
     public SubCategory getSubCategoryByID(Long subCategoryID) {
         Optional<SubCategory> subCategory = iSubCategoryRepository.findById(subCategoryID);
 
-        if(subCategory.isPresent()) {
+        if (subCategory.isPresent()) {
             return subCategory.get();
         } else {
             return null;

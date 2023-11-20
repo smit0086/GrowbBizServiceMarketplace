@@ -1,9 +1,9 @@
 package com.growbiz.backend.UserAuthentication;
 
 
-import com.growbiz.backend.Exception.exceptions.UserAlreadyExistsException;
+import com.growbiz.backend.Enums.Role;
+import com.growbiz.backend.Exception.exceptions.User.UserAlreadyExistsException;
 import com.growbiz.backend.Security.service.JWTService;
-import com.growbiz.backend.User.models.Role;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.service.IUserService;
 import com.growbiz.backend.UserAuthentication.model.AuthenticationRequest;

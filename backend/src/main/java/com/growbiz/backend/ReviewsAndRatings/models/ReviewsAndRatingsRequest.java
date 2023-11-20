@@ -1,6 +1,6 @@
 package com.growbiz.backend.ReviewsAndRatings.models;
 
-import com.growbiz.backend.Responses.model.BasicRequest;
+import com.growbiz.backend.Responses.Basic.BasicRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

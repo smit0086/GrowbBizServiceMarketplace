@@ -1,16 +1,12 @@
 package com.growbiz.backend.ReviewsAndRatings.controller;
 
-import com.growbiz.backend.Exception.exceptions.ReviewAndRatingAlreadyExists;
-import com.growbiz.backend.Exception.exceptions.ReviewAndRatingNotFoundException;
-import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
-import com.growbiz.backend.Exception.exceptions.ServiceNotFoundException;
+import com.growbiz.backend.Exception.exceptions.ReviewAndRating.ReviewAndRatingAlreadyExists;
+import com.growbiz.backend.Exception.exceptions.ReviewAndRating.ReviewAndRatingNotFoundException;
 import com.growbiz.backend.ReviewsAndRatings.helper.ReviewsAndRatingsControllerHelper;
 import com.growbiz.backend.ReviewsAndRatings.models.ReviewsAndRatings;
 import com.growbiz.backend.ReviewsAndRatings.models.ReviewsAndRatingsRequest;
 import com.growbiz.backend.ReviewsAndRatings.models.ReviewsAndRatingsResponse;
 import com.growbiz.backend.ReviewsAndRatings.service.ReviewsAndRatingsService;
-import com.growbiz.backend.Services.models.ServiceResponse;
-import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.User.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

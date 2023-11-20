@@ -1,9 +1,19 @@
 package com.growbiz.backend.Booking.controller;
 
 import com.growbiz.backend.Booking.helper.BookingControllerHelper;
-import com.growbiz.backend.Booking.models.*;
+import com.growbiz.backend.Booking.models.Booking;
+import com.growbiz.backend.Booking.models.BookingBusiness;
 import com.growbiz.backend.Booking.service.IBookingService;
-import com.growbiz.backend.Booking.service.IFreeSlotService;
+import com.growbiz.backend.BusinessHour.helper.BusinessHourControllerHelper;
+import com.growbiz.backend.BusinessHour.service.IBusinessHourService;
+import com.growbiz.backend.Enums.BookingStatus;
+import com.growbiz.backend.FreeSlot.models.FreeSlotsResponse;
+import com.growbiz.backend.FreeSlot.service.IFreeSlotService;
+import com.growbiz.backend.Responses.Booking.BookingBusinessResponse;
+import com.growbiz.backend.Responses.Booking.BookingRequest;
+import com.growbiz.backend.Responses.Booking.BookingResponse;
+import com.growbiz.backend.Responses.BusinessHour.BusinessHourRequest;
+import com.growbiz.backend.Responses.BusinessHour.BusinessHourResponse;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +42,11 @@ public class BookingController {
 
     @Autowired
     private IFreeSlotService freeSlotService;
+    @Autowired
+    private IBusinessHourService businessHourService;
+
+    @Autowired
+    private BusinessHourControllerHelper businessHourControllerHelper;
 
     @PostMapping(path = "/add")
     public ResponseEntity<BookingResponse> addBooking(@RequestBody BookingRequest bookingRequest) {
@@ -119,5 +134,17 @@ public class BookingController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = formatter.parse(dateString);
         return helper.createFreeSlotsResponse(freeSlotService.getFreeSlotsForWeek(businessId, date, serviceId));
+    }
+
+    @PutMapping(path = "/businessHours")
+    public ResponseEntity<String> updateBusinessHour(@RequestBody BusinessHourRequest businessHourRequest) {
+        businessHourService.saveBusinessHours(businessHourRequest);
+        return ResponseEntity.ok("Updated");
+    }
+
+    @GetMapping(path = "/businessHours")
+    public ResponseEntity<BusinessHourResponse> getBusinessHours(@RequestParam String businessId) {
+        Long bId = Long.parseLong(businessId);
+        return businessHourControllerHelper.createBusinessHourResponse(businessHourService.getBusinessHour(bId));
     }
 }

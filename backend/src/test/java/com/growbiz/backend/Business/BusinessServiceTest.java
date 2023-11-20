@@ -1,30 +1,27 @@
 package com.growbiz.backend.Business;
 
-import com.growbiz.backend.Business.model.Business;
-import com.growbiz.backend.Business.model.BusinessRequest;
-import com.growbiz.backend.Business.model.BusinessStatus;
+import com.growbiz.backend.Business.models.Business;
 import com.growbiz.backend.Business.repository.IBusinessRepository;
 import com.growbiz.backend.Business.service.BusinessService;
-import com.growbiz.backend.Business.service.IBusinessHourService;
+import com.growbiz.backend.BusinessHour.service.IBusinessHourService;
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
-import com.growbiz.backend.Exception.exceptions.BusinessAlreadyExistsException;
-import com.growbiz.backend.Exception.exceptions.BusinessNotFoundException;
-import com.growbiz.backend.File.service.IFileStorageService;
+import com.growbiz.backend.Enums.BusinessStatus;
+import com.growbiz.backend.Enums.Role;
+import com.growbiz.backend.Exception.exceptions.Business.BusinessAlreadyExistsException;
+import com.growbiz.backend.Exception.exceptions.Business.BusinessNotFoundException;
+import com.growbiz.backend.Responses.Business.BusinessRequest;
 import com.growbiz.backend.TestConstants.TestConstants;
-import com.growbiz.backend.User.models.Role;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,8 +37,6 @@ public class BusinessServiceTest {
     private BusinessService businessServiceMock;
     @Mock
     private IBusinessRepository businessRepositoryMock;
-    @Mock
-    private IFileStorageService fileStorageServiceMock;
     @Mock
     private ICategoryService categoryServiceMock;
     @Mock
@@ -91,8 +86,8 @@ public class BusinessServiceTest {
 
     @Test
     public void testSaveWithBusinessRequest() {
-        when(fileStorageServiceMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq("testEmail@dal.ca")))
-                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
+//        when(businessServiceMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq("testEmail@dal.ca")))
+//                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
         doNothing().when(businessHourServiceMock).init(anyLong());
         when(categoryServiceMock.getCategoryByID(1L)).thenReturn(mockedCategory);
         when(businessRepositoryMock.findByEmail(TestConstants.TEST_EMAIL)).thenReturn(null);
@@ -130,8 +125,8 @@ public class BusinessServiceTest {
 
     @Test
     public void testUpdateBusiness() {
-        when(fileStorageServiceMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq("testEmail@dal.ca")))
-                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
+//        when(fileStorageServiceMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq("testEmail@dal.ca")))
+//                .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
         when(categoryServiceMock.getCategoryByID(1L)).thenReturn(mockedCategory);
         byte[] mockByteArr = new byte[2];
         BusinessRequest mockedBusinessRequest = BusinessRequest.builder()

@@ -1,8 +1,8 @@
 package com.growbiz.backend.Services.controller;
 
 import com.growbiz.backend.Categories.helper.CategoryControllerHelper;
-import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
-import com.growbiz.backend.Exception.exceptions.ServiceNotFoundException;
+import com.growbiz.backend.Exception.exceptions.Service.ServiceAlreadyExistsException;
+import com.growbiz.backend.Exception.exceptions.Service.ServiceNotFoundException;
 import com.growbiz.backend.Services.helper.ServicesControllerHelper;
 import com.growbiz.backend.Services.models.ServiceRequest;
 import com.growbiz.backend.Services.models.ServiceResponse;

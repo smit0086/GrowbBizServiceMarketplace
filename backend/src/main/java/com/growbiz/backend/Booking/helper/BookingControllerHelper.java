@@ -1,6 +1,11 @@
 package com.growbiz.backend.Booking.helper;
 
-import com.growbiz.backend.Booking.models.*;
+import com.growbiz.backend.Booking.models.Booking;
+import com.growbiz.backend.Booking.models.BookingBusiness;
+import com.growbiz.backend.FreeSlot.models.FreeSlotsResponse;
+import com.growbiz.backend.FreeSlot.models.SlotRange;
+import com.growbiz.backend.Responses.Booking.BookingBusinessResponse;
+import com.growbiz.backend.Responses.Booking.BookingResponse;
 import com.growbiz.backend.User.models.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,7 +50,7 @@ public class BookingControllerHelper {
         BookingBusiness bookingBusiness;
         List<BookingBusiness> bookingBusinesses = new ArrayList<>();
 
-        for (Booking booking: bookings) {
+        for (Booking booking : bookings) {
             bookingBusiness = BookingBusiness.builder()
                     .id(booking.getId())
                     .date(booking.getDate())

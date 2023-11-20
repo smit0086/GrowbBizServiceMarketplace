@@ -1,17 +1,17 @@
 package com.growbiz.backend.Payment.service;
 
 import com.growbiz.backend.Booking.models.Booking;
-import com.growbiz.backend.Booking.models.BookingStatus;
 import com.growbiz.backend.Booking.service.IBookingService;
 import com.growbiz.backend.Constants.CommonConstants;
+import com.growbiz.backend.Enums.BookingStatus;
+import com.growbiz.backend.Enums.PaymentStatus;
+import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.Payment.model.Payment;
 import com.growbiz.backend.Payment.model.PaymentRequest;
 import com.growbiz.backend.Payment.model.PaymentResponse;
-import com.growbiz.backend.Payment.model.PaymentStatus;
 import com.growbiz.backend.Payment.repository.IPaymentRepository;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
-import com.growbiz.backend.User.models.Role;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.service.IUserService;
 import com.stripe.Stripe;

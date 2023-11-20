@@ -1,8 +1,8 @@
 package com.growbiz.backend.Booking.service;
 
 import com.growbiz.backend.Booking.models.Booking;
-import com.growbiz.backend.Booking.models.BookingRequest;
-import com.growbiz.backend.Booking.models.BookingStatus;
+import com.growbiz.backend.Enums.BookingStatus;
+import com.growbiz.backend.Responses.Booking.BookingRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

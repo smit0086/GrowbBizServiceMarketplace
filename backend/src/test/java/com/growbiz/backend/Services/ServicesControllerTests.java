@@ -1,10 +1,11 @@
 package com.growbiz.backend.Services;
 
-import com.growbiz.backend.Business.model.Business;
+import com.growbiz.backend.Business.models.Business;
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
-import com.growbiz.backend.Exception.exceptions.ServiceAlreadyExistsException;
-import com.growbiz.backend.Exception.exceptions.ServiceNotFoundException;
+import com.growbiz.backend.Enums.Role;
+import com.growbiz.backend.Exception.exceptions.Service.ServiceAlreadyExistsException;
+import com.growbiz.backend.Exception.exceptions.Service.ServiceNotFoundException;
 import com.growbiz.backend.Services.controller.ServiceController;
 import com.growbiz.backend.Services.helper.ServicesControllerHelper;
 import com.growbiz.backend.Services.models.ServiceDTO;
@@ -13,7 +14,6 @@ import com.growbiz.backend.Services.models.ServiceResponse;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
 import com.growbiz.backend.TestConstants.TestConstants;
-import com.growbiz.backend.User.models.Role;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,15 +22,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Calendar;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ServicesControllerTests {
@@ -120,7 +117,7 @@ public class ServicesControllerTests {
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
                 ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject("testEmail@dal.ca").build());
 
-        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+        when(servicesHelper.createServiceResponse(List.of(mockService), false)).thenReturn(expectedResponse);
 
         ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServices();
         assertEquals(expectedResponse, resultResponse);
@@ -144,7 +141,7 @@ public class ServicesControllerTests {
     public void getNonExistingServiceTest() {
         when(servicesService.getServiceById(1L)).thenReturn(null);
 
-        assertThrows(ServiceNotFoundException.class , () -> {
+        assertThrows(ServiceNotFoundException.class, () -> {
             serviceController.getService(1L);
         });
     }
@@ -156,7 +153,7 @@ public class ServicesControllerTests {
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
                 ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
-        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+        when(servicesHelper.createServiceResponse(List.of(mockService), false)).thenReturn(expectedResponse);
 
         ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServicesByBusinessId(1L);
         assertEquals(expectedResponse, resultResponse);
@@ -169,7 +166,7 @@ public class ServicesControllerTests {
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
                 ServiceResponse.builder().services(List.of(mockService)).isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
-        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+        when(servicesHelper.createServiceResponse(List.of(mockService), false)).thenReturn(expectedResponse);
 
         ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServicesBySubCategoryId(1L);
         assertEquals(expectedResponse, resultResponse);
@@ -182,7 +179,7 @@ public class ServicesControllerTests {
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
                 ServiceResponse.builder().serviceDTOS(List.of(mockServiceDTO)).isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
-        when(servicesHelper.createServiceDTOResponse(List.of(mockServiceDTO),false)).thenReturn(expectedResponse);
+        when(servicesHelper.createServiceDTOResponse(List.of(mockServiceDTO), false)).thenReturn(expectedResponse);
 
         ResponseEntity<ServiceResponse> resultResponse = serviceController.getAllServicesByCategoryId(1L);
         assertEquals(expectedResponse, resultResponse);
@@ -195,7 +192,7 @@ public class ServicesControllerTests {
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
                 ServiceResponse.builder().isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
-        when(servicesHelper.createServiceResponse(List.of(mockService),false)).thenReturn(expectedResponse);
+        when(servicesHelper.createServiceResponse(List.of(mockService), false)).thenReturn(expectedResponse);
 
         ResponseEntity<ServiceResponse> resultResponse = serviceController.addService(mockServiceRequest);
         assertEquals(expectedResponse, resultResponse);
@@ -218,7 +215,7 @@ public class ServicesControllerTests {
         ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
                 ServiceResponse.builder().isDeleted(false).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
 
-        when(servicesHelper.createServiceResponse(List.of(mockService),true)).thenReturn(expectedResponse);
+        when(servicesHelper.createServiceResponse(List.of(mockService), true)).thenReturn(expectedResponse);
 
         ResponseEntity<ServiceResponse> resultResponse = serviceController.updateService(mockServiceRequest);
         assertEquals(expectedResponse, resultResponse);
@@ -233,6 +230,7 @@ public class ServicesControllerTests {
             serviceController.updateService(mockServiceRequest);
         });
     }
+
     @Test
     public void deleteExistingServiceTest() {
         when(servicesService.deleteService(mockService.getServiceId())).thenReturn(true);
@@ -250,7 +248,7 @@ public class ServicesControllerTests {
     public void deleteNonExistingServiceTest() {
         when(servicesService.deleteService(mockService.getServiceId())).thenReturn(false);
 
-        assertThrows(ServiceNotFoundException.class , () -> {
+        assertThrows(ServiceNotFoundException.class, () -> {
             serviceController.deleteService(mockService);
         });
     }

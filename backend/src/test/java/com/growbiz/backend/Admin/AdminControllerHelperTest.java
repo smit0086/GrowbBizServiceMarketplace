@@ -4,7 +4,7 @@ import com.growbiz.backend.Admin.helper.AdminControllerHelper;
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.CategoryResponse;
 import com.growbiz.backend.Categories.models.SubCategory;
-import com.growbiz.backend.User.models.Role;
+import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.User.models.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,7 +55,7 @@ public class AdminControllerHelperTest {
             .build();
 
     @Test
-    public void createCategoryResponseTest(){
+    public void createCategoryResponseTest() {
         ResponseEntity<CategoryResponse> actualResponse;
         ResponseEntity<CategoryResponse> expectedResponse = ResponseEntity.ok(CategoryResponse.builder()
                 .categories(List.of(mockCategory))
@@ -75,7 +75,7 @@ public class AdminControllerHelperTest {
     }
 
     @Test
-    public void createSubCategoryResponseTest(){
+    public void createSubCategoryResponseTest() {
         ResponseEntity<CategoryResponse> actualResponse;
         ResponseEntity<CategoryResponse> expectedResponse = ResponseEntity.ok(CategoryResponse.builder()
                 .subCategories(List.of(mockSubCategory))
@@ -95,7 +95,7 @@ public class AdminControllerHelperTest {
     }
 
     @Test
-    public void deleteCategoryResponseTest(){
+    public void deleteCategoryResponseTest() {
         ResponseEntity<CategoryResponse> actualResponse;
         ResponseEntity<CategoryResponse> expectedResponse = ResponseEntity.ok(CategoryResponse.builder()
                 .isDeleted(true)

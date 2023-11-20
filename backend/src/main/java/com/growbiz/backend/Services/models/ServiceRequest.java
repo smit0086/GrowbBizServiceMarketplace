@@ -1,14 +1,12 @@
 package com.growbiz.backend.Services.models;
 
-import com.growbiz.backend.Responses.model.BasicRequest;
+import com.growbiz.backend.Responses.Basic.BasicRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.time.LocalTime;
 
 @Data

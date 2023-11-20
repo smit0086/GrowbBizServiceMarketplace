@@ -1,6 +1,6 @@
 package com.growbiz.backend.Payment.model;
 
-import com.growbiz.backend.Responses.model.BasicRequest;
+import com.growbiz.backend.Responses.Basic.BasicRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

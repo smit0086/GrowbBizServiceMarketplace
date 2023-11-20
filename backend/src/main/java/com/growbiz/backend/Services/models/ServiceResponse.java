@@ -1,6 +1,6 @@
 package com.growbiz.backend.Services.models;
-import com.growbiz.backend.Responses.model.BasicResponse;
 
+import com.growbiz.backend.Responses.Basic.BasicResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;

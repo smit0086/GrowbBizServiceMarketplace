@@ -1,7 +1,7 @@
 package com.growbiz.backend.Business.service;
 
-import com.growbiz.backend.Business.model.Business;
-import com.growbiz.backend.Business.model.BusinessRequest;
+import com.growbiz.backend.Business.models.Business;
+import com.growbiz.backend.Responses.Business.BusinessRequest;
 
 import java.util.List;
 
@@ -19,4 +19,6 @@ public interface IBusinessService {
     public void save(Business business);
 
     public Business updateBusiness(BusinessRequest businessRequest, Long businessId);
+
+    byte[] downloadFile(String email);
 }

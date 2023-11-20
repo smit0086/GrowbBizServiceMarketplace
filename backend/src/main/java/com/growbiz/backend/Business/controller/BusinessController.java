@@ -1,11 +1,11 @@
 package com.growbiz.backend.Business.controller;
 
 import com.growbiz.backend.Business.helper.BusinessControllerHelper;
-import com.growbiz.backend.Business.model.*;
-import com.growbiz.backend.Business.service.IBusinessHourService;
+import com.growbiz.backend.Business.models.Business;
 import com.growbiz.backend.Business.service.IBusinessService;
 import com.growbiz.backend.Email.service.ISendEmailService;
-import com.growbiz.backend.File.service.IFileStorageService;
+import com.growbiz.backend.Responses.Business.BusinessResponse;
+import com.growbiz.backend.Responses.Business.VerificationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,13 +24,7 @@ public class BusinessController {
     private IBusinessService businessService;
 
     @Autowired
-    private IFileStorageService fileStorageService;
-
-    @Autowired
     private ISendEmailService sendEmailService;
-
-    @Autowired
-    private IBusinessHourService businessHourService;
 
     @Autowired
     private BusinessControllerHelper helper;
@@ -72,21 +66,8 @@ public class BusinessController {
     public ResponseEntity<byte[]> downloadFile(@RequestParam String email) {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(fileStorageService.downloadFile(email));
+                .body(businessService.downloadFile(email));
     }
-
-    @PutMapping(path = "/businessHours")
-    public ResponseEntity<String> updateBusinessHour(@RequestBody BusinessHourRequest businessHourRequest) {
-        businessHourService.saveBusinessHours(businessHourRequest);
-        return ResponseEntity.ok("Updated");
-    }
-
-    @GetMapping(path = "/businessHours")
-    public ResponseEntity<BusinessHourResponse> getBusinessHours(@RequestParam String businessId) {
-        Long bId = Long.parseLong(businessId);
-        return helper.createBusinessHourResponse(businessHourService.getBusinessHour(bId));
-    }
-
 }
 
 

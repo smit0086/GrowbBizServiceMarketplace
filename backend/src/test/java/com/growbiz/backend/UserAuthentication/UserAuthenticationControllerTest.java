@@ -1,6 +1,6 @@
 package com.growbiz.backend.UserAuthentication;
 
-import com.growbiz.backend.User.models.Role;
+import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.UserAuthentication.controller.UserAuthenticationController;
 import com.growbiz.backend.UserAuthentication.model.AuthenticationRequest;

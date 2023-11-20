@@ -1,6 +1,6 @@
 package com.growbiz.backend.Services;
 
-import com.growbiz.backend.Business.model.Business;
+import com.growbiz.backend.Business.models.Business;
 import com.growbiz.backend.Business.service.IBusinessService;
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
@@ -11,7 +11,6 @@ import com.growbiz.backend.Services.models.ServiceRequest;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.repository.IServiceRepository;
 import com.growbiz.backend.Services.service.ServicesService;
-
 import com.growbiz.backend.TestConstants.TestConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -121,21 +121,21 @@ public class ServicesServiceTests {
     public void getServiceTest() {
         when(serviceRepository.findById(1L)).thenReturn(Optional.of(mockService));
         Services results = servicesService.getServiceById(1L);
-        assertEquals(mockService,results);
+        assertEquals(mockService, results);
     }
 
     @Test
     public void getNullServiceTest() {
         when((serviceRepository.findById(1L))).thenReturn(Optional.empty());
         Services results = servicesService.getServiceById(1L);
-        assertEquals(null,results);
+        assertEquals(null, results);
     }
 
     @Test
     public void getServiceByBusinessIdTest() {
         when(serviceRepository.findByBusinessBusinessId(1L)).thenReturn(List.of(mockService));
         List<Services> results1 = servicesService.getServiceByBusinessId(1L);
-        assertEquals(List.of(mockService),results1);
+        assertEquals(List.of(mockService), results1);
 
         when(serviceRepository.findByBusinessBusinessId(1L)).thenThrow(new NullPointerException("Test Exception"));
         List<Services> results2 = servicesService.getServiceByBusinessId(1L);
@@ -146,7 +146,7 @@ public class ServicesServiceTests {
     public void getServiceBySubCategoryIdTest() {
         when(serviceRepository.findBySubCategorySubCategoryID(1L)).thenReturn(List.of(mockService));
         List<Services> results1 = servicesService.getServiceBySubCategoryId(1L);
-        assertEquals(List.of(mockService),results1);
+        assertEquals(List.of(mockService), results1);
 
         when(serviceRepository.findBySubCategorySubCategoryID(anyLong())).thenThrow(new NullPointerException("Test Exception"));
         List<Services> results2 = servicesService.getServiceBySubCategoryId(1L);
@@ -155,19 +155,19 @@ public class ServicesServiceTests {
 
     @Test
     public void getServicesByCategoryIdTest() {
-        when(subCategoryService.fetchSubCategoryListForCategoryID(anyLong())).thenReturn(List.of(mockSubCategory,mockSubCategory));
+        when(subCategoryService.fetchSubCategoryListForCategoryID(anyLong())).thenReturn(List.of(mockSubCategory, mockSubCategory));
         when(serviceRepository.findBySubCategorySubCategoryID(anyLong())).thenReturn(List.of(mockService));
 
         List<ServiceDTO> results = servicesService.getServicesByCategoryId(1L);
 
-        assertEquals(List.of(mockServiceDTO,mockServiceDTO), results);
+        assertEquals(List.of(mockServiceDTO, mockServiceDTO), results);
     }
 
     @Test
     public void getEmptyListOfServicesByCategoryIdTest() {
         when(subCategoryService.fetchSubCategoryListForCategoryID(mockCategory.getCategoryID())).thenReturn(null);
         List<ServiceDTO> results = servicesService.getServicesByCategoryId(1L);
-        assertEquals(true,results.isEmpty());
+        assertEquals(true, results.isEmpty());
     }
 
     @Test
@@ -187,7 +187,7 @@ public class ServicesServiceTests {
         doReturn(mockService).when(serviceRepository).save(toBeSavedService);
         Services results = servicesService.addService(mockServiceRequest);
 
-        assertEquals(mockService,results);
+        assertEquals(mockService, results);
         verify(serviceRepository, times(1)).save(any(Services.class));
     }
 
@@ -216,7 +216,7 @@ public class ServicesServiceTests {
 
         Services results = servicesService.updateService(toBeUpdatedService);
 
-        assertEquals(mockServiceUpdated,results);
+        assertEquals(mockServiceUpdated, results);
         verify(serviceRepository, times(1)).save(any(Services.class));
     }
 
@@ -243,14 +243,14 @@ public class ServicesServiceTests {
     }
 
     @Test
-    public void fetchAllServicesTest(){
+    public void fetchAllServicesTest() {
         when(serviceRepository.findAll()).thenReturn(List.of(mockService));
         List<Services> services = servicesService.fetchServiceList();
         assertNotNull(services);
     }
 
     @Test
-    public void fetchEmptyServicesTest(){
+    public void fetchEmptyServicesTest() {
         when(serviceRepository.findAll()).thenThrow(new NullPointerException("Test Exception"));
         List<Services> services = servicesService.fetchServiceList();
         assertNull(services);
