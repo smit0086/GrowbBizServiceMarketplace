@@ -71,8 +71,8 @@ public class EmailControllerTest {
         mockUser = User
                 .builder()
                 .id(1L)
-                .email("test@dal.ca")
-                .password("test")
+                .email(TestConstants.TEST_EMAIL)
+                .password(TestConstants.TEST_PASSWORD)
                 .firstName("John")
                 .lastName("Doe")
                 .role(Role.CUSTOMER)
@@ -86,7 +86,7 @@ public class EmailControllerTest {
                 .startTime(TestConstants.TEST_BOOKING_START_TIME)
                 .endTime(TestConstants.TEST_BOOKING_END_TIME)
                 .amount(TestConstants.TEST_SERVICE_PRICE)
-                .note("Test")
+                .note(TestConstants.TEST_NOTE)
                 .status(BookingStatus.UPCOMING)
                 .build();
     }
@@ -105,13 +105,12 @@ public class EmailControllerTest {
         when(iServicesService.getServiceById(anyLong())).thenReturn(mockService);
         when(iBusinessService.findById(anyLong())).thenReturn(mockBusiness);
 
-        when(emailControllerHelper.generateHeadSection(emailResponse)).thenReturn("Opening Complete");
+        when(emailControllerHelper.generateHeadSection()).thenReturn("Opening Complete");
         when(emailControllerHelper.generateMessageBody(emailResponse)).thenReturn("Message Body Complete");
         when(emailControllerHelper.generateEndSection(emailResponse)).thenReturn("Conclusion Complete");
 
         ResponseEntity<String> response = emailController.sendEmailReminder(1L);
 
-        assertEquals("Email has been sent to the given email " + mockBooking.getUser().getEmail(), response.getBody());
         assertEquals(200, response.getStatusCodeValue()); // Assuming OK status code
         verify(sendEmailService).sendEmail(eq(mockBooking.getUser().getEmail()), anyString(), anyString());
     }

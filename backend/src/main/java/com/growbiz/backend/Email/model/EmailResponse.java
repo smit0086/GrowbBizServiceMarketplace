@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 import org.springframework.mail.SimpleMailMessage;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
@@ -20,6 +19,5 @@ public class EmailResponse extends BasicResponse {
     private String date;
     private String serviceName;
     private String businessName;
-    private String from;
     private String user;
 }

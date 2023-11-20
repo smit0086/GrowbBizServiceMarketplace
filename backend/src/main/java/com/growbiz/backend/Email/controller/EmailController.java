@@ -50,12 +50,11 @@ public class EmailController {
         EmailResponse emailResponse = EmailResponse.builder()
                 .businessName(business.getBusinessName())
                 .serviceName(service.getServiceName())
-                .from("")
                 .user(booking.getUser().getFirstName() + " " + booking.getUser().getLastName())
                 .time(booking.getStartTime())
                 .date(booking.getDate()).build();
 
-        String opening = emailControllerHelper.generateHeadSection(emailResponse);
+        String opening = emailControllerHelper.generateHeadSection();
         String body = emailControllerHelper.generateMessageBody(emailResponse);
         String conclusion = emailControllerHelper.generateEndSection(emailResponse);
 

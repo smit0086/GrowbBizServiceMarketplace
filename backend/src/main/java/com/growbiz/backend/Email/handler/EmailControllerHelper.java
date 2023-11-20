@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailControllerHelper {
 
-    public String generateHeadSection(EmailResponse emailResponse) {
+    public String generateHeadSection() {
         String headSection = "Dear Customer,\n" +
                 "This is a reminder for your upcoming service appointment\n";
         return headSection;
@@ -26,8 +26,7 @@ public class EmailControllerHelper {
         String endSection = "\nBest Regards,\n"
                 + emailResponse.getUser()
                 + "\nCharlie Mace\n"
-                + emailResponse.getBusinessName()
-                + "\n" +  emailResponse.getFrom();
+                + emailResponse.getBusinessName();
         return endSection;
     }
 }
