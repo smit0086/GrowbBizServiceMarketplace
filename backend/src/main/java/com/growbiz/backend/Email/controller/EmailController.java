@@ -9,6 +9,7 @@ import com.growbiz.backend.Email.model.EmailResponse;
 import com.growbiz.backend.Email.service.ISendEmailService;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class EmailController {
     @PostMapping(path="/sendEmailReminder")
     public ResponseEntity sendEmailReminder(@RequestBody long bookingId) {
 
-        Booking booking = iBookingService.getBookingById(bookingId);
+        Booking booking = iBookingService.findById(bookingId);
         Services service = iServicesService.getServiceById(booking.getService().getServiceId());
         Business business = iBusinessService.findById(service.getBusiness().getBusinessId());
 
@@ -49,14 +50,14 @@ public class EmailController {
         EmailResponse emailResponse = EmailResponse.builder()
                 .businessName(business.getBusinessName())
                 .serviceName(service.getServiceName())
-                .from("rabiaasif2k17@hotmail.com")
+                .from("")
                 .user(booking.getUser().getFirstName() + " " + booking.getUser().getLastName())
                 .time(booking.getStartTime())
                 .date(booking.getDate()).build();
 
         String opening = emailControllerHelper.generateHeadSection(emailResponse);
         String body = emailControllerHelper.generateMessageBody(emailResponse);
-        String conclusion = emailControllerHelper.generateConcludingSection(emailResponse);
+        String conclusion = emailControllerHelper.generateEndSection(emailResponse);
 
         String mailContent = opening + body + conclusion;
 
