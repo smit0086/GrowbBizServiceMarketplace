@@ -20,7 +20,7 @@ spring:
             enable: true
           auth: true
     host: smtp.gmail.com
-    username:
+    username: rabiaasif2k17@gmail.com
     password:
     port: 587
 keys:

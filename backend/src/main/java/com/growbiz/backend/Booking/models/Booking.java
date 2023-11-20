@@ -27,7 +27,7 @@ public class Booking {
     @JsonIgnore
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id", referencedColumnName = "serviceId")
     @JsonIgnore
     private Services service;

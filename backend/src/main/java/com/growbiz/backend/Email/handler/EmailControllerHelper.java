@@ -1,6 +1,6 @@
 package com.growbiz.backend.Email.handler;
 
-import com.growbiz.backend.Email.model.EmailResponse;
+import com.growbiz.backend.Email.model.EmailRequest;
 import org.springframework.stereotype.Component;
 
 
@@ -13,7 +13,7 @@ public class EmailControllerHelper {
         return headSection;
     }
 
-    public String generateMessageBody(EmailResponse emailResponse) {
+    public String generateMessageBody(EmailRequest emailResponse) {
         String body = "Details of your appointment:\n"
                 + "Service Name: " + emailResponse.getServiceName()
                 + "\nDate: " + emailResponse.getDate()
@@ -22,7 +22,7 @@ public class EmailControllerHelper {
         return body;
     }
 
-    public String generateEndSection(EmailResponse emailResponse) {
+    public String generateEndSection(EmailRequest emailResponse) {
         String endSection = "\nBest Regards,\n"
                 + emailResponse.getUser()
                 + "\nCharlie Mace\n"
