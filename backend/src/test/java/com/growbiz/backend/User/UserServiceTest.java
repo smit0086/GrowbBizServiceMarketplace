@@ -1,6 +1,6 @@
 package com.growbiz.backend.User;
 
-import com.growbiz.backend.User.models.Role;
+import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.repository.IUserRepository;
 import com.growbiz.backend.User.service.UserService;

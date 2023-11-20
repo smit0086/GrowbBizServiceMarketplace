@@ -1,11 +1,11 @@
 package com.growbiz.backend.Payment;
 
+import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.Payment.model.Payment;
-import com.growbiz.backend.Payment.model.PaymentRequest;
 import com.growbiz.backend.Payment.repository.IPaymentRepository;
 import com.growbiz.backend.Payment.service.PaymentService;
+import com.growbiz.backend.RequestResponse.Payment.PaymentRequest;
 import com.growbiz.backend.TestConstants.TestConstants;
-import com.growbiz.backend.User.models.Role;
 import com.growbiz.backend.User.models.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

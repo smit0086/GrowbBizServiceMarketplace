@@ -2,12 +2,10 @@ package com.growbiz.backend.Categories.Sub;
 
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
-import com.growbiz.backend.Categories.models.SubCategoryRequest;
 import com.growbiz.backend.Categories.repository.ICategoryRepository;
 import com.growbiz.backend.Categories.repository.ISubCategoryRepository;
 import com.growbiz.backend.Categories.service.Sub.SubCategoryService;
-import com.growbiz.backend.Exception.exceptions.SubCategoryAlreadyExistsException;
-
+import com.growbiz.backend.RequestResponse.SubCategory.SubCategoryRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -82,7 +80,7 @@ public class SubCategoryServiceTests {
 
         SubCategory results = subCategoryService.getSubCategoryByID(1L);
 
-        assertEquals(mockSubCategory,results);
+        assertEquals(mockSubCategory, results);
     }
 
     @Test
@@ -98,7 +96,7 @@ public class SubCategoryServiceTests {
 
         List<SubCategory> results = subCategoryService.fetchSubCategoryList();
 
-        assertEquals(List.of(mockSubCategory),results);
+        assertEquals(List.of(mockSubCategory), results);
     }
 
     @Test
@@ -116,7 +114,7 @@ public class SubCategoryServiceTests {
 
         List<SubCategory> results = subCategoryService.fetchSubCategoryListForCategoryID(1L);
 
-        assertEquals(List.of(mockSubCategory),results);
+        assertEquals(List.of(mockSubCategory), results);
     }
 
     @Test
@@ -138,7 +136,7 @@ public class SubCategoryServiceTests {
         subCategoryService.addSubCategory(mockSubCategoryRequest);
 
         assertNotNull(subCategoryRepository.findByName("Sub Category 1"));
-        verify(subCategoryRepository,times(1)).save(
+        verify(subCategoryRepository, times(1)).save(
                 argThat(subCategory -> subCategory.getName().equals(mockSubCategoryRequest.getName())));
     }
 
@@ -158,7 +156,7 @@ public class SubCategoryServiceTests {
         SubCategory results = subCategoryService.updateSubCategory(mockSubCategoryRequest, 1L);
 
         assertNotNull(subCategoryRepository.findByName("Sub Category 1"));
-        verify(subCategoryRepository,times(1)).save(
+        verify(subCategoryRepository, times(1)).save(
                 argThat(subCategory -> subCategory.getName().equals(mockSubCategoryRequest.getName())));
     }
 }

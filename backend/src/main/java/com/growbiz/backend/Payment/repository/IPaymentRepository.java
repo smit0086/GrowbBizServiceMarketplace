@@ -1,7 +1,7 @@
 package com.growbiz.backend.Payment.repository;
 
+import com.growbiz.backend.Enums.PaymentStatus;
 import com.growbiz.backend.Payment.model.Payment;
-import com.growbiz.backend.Payment.model.PaymentStatus;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

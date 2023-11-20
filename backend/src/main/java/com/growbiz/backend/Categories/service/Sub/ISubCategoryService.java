@@ -1,10 +1,9 @@
 package com.growbiz.backend.Categories.service.Sub;
 
 import com.growbiz.backend.Categories.models.SubCategory;
-import com.growbiz.backend.Categories.models.SubCategoryRequest;
+import com.growbiz.backend.RequestResponse.SubCategory.SubCategoryRequest;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ISubCategoryService {
     SubCategory getSubCategoryByID(Long categoryID);

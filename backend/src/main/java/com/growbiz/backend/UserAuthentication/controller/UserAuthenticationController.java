@@ -1,8 +1,8 @@
 package com.growbiz.backend.UserAuthentication.controller;
 
+import com.growbiz.backend.RequestResponse.Authentication.AuthenticationRequest;
+import com.growbiz.backend.RequestResponse.Authentication.AuthenticationResponse;
 import com.growbiz.backend.User.models.User;
-import com.growbiz.backend.UserAuthentication.model.AuthenticationRequest;
-import com.growbiz.backend.UserAuthentication.model.AuthenticationResponse;
 import com.growbiz.backend.UserAuthentication.service.IUserAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
 package com.growbiz.backend.User.models;
 
+import com.growbiz.backend.Enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

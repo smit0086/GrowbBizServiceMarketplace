@@ -1,7 +1,7 @@
 package com.growbiz.backend.ReviewsAndRatings.helper;
 
+import com.growbiz.backend.RequestResponse.ReviewsAndRatings.ReviewsAndRatingsResponse;
 import com.growbiz.backend.ReviewsAndRatings.models.ReviewsAndRatings;
-import com.growbiz.backend.ReviewsAndRatings.models.ReviewsAndRatingsResponse;
 import com.growbiz.backend.User.models.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;

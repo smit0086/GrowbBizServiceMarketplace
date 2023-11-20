@@ -1,9 +1,9 @@
 package com.growbiz.backend.Payment.controller;
 
 import com.growbiz.backend.Payment.model.Payment;
-import com.growbiz.backend.Payment.model.PaymentRequest;
-import com.growbiz.backend.Payment.model.PaymentResponse;
 import com.growbiz.backend.Payment.service.IPaymentService;
+import com.growbiz.backend.RequestResponse.Payment.PaymentRequest;
+import com.growbiz.backend.RequestResponse.Payment.PaymentResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

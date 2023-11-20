@@ -1,7 +1,7 @@
 package com.growbiz.backend.Security.config;
 
+import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.Security.service.JWTAuthenticationFilter;
-import com.growbiz.backend.User.models.Role;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

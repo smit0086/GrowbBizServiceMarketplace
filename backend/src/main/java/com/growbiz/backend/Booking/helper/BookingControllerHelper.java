@@ -1,6 +1,13 @@
 package com.growbiz.backend.Booking.helper;
 
-import com.growbiz.backend.Booking.models.*;
+import com.growbiz.backend.Booking.models.Booking;
+import com.growbiz.backend.Booking.models.BookingBusiness;
+import com.growbiz.backend.BusinessHour.model.BusinessHour;
+import com.growbiz.backend.FreeSlot.models.SlotRange;
+import com.growbiz.backend.RequestResponse.Booking.BookingBusinessResponse;
+import com.growbiz.backend.RequestResponse.Booking.BookingResponse;
+import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourResponse;
+import com.growbiz.backend.RequestResponse.FreeSlot.FreeSlotsResponse;
 import com.growbiz.backend.User.models.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,7 +52,7 @@ public class BookingControllerHelper {
         BookingBusiness bookingBusiness;
         List<BookingBusiness> bookingBusinesses = new ArrayList<>();
 
-        for (Booking booking: bookings) {
+        for (Booking booking : bookings) {
             bookingBusiness = BookingBusiness.builder()
                     .id(booking.getId())
                     .date(booking.getDate())
@@ -63,5 +70,12 @@ public class BookingControllerHelper {
         }
 
         return bookingBusinesses;
+    }
+
+    public ResponseEntity<BusinessHourResponse> createBusinessHourResponse(BusinessHour businessHour) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(BusinessHourResponse.builder().businessHour(businessHour).subject(user.getEmail())
+                .role(user.getRole())
+                .build());
     }
 }

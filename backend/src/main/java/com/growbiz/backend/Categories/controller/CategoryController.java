@@ -3,10 +3,10 @@ package com.growbiz.backend.Categories.controller;
 
 import com.growbiz.backend.Categories.helper.CategoryControllerHelper;
 import com.growbiz.backend.Categories.models.Category;
-import com.growbiz.backend.Categories.models.CategoryResponse;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
+import com.growbiz.backend.RequestResponse.Category.CategoryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
