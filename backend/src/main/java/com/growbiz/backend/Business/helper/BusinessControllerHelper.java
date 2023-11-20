@@ -3,7 +3,6 @@ package com.growbiz.backend.Business.helper;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growbiz.backend.Business.models.Business;
-import com.growbiz.backend.Constants.BusinessConstants;
 import com.growbiz.backend.Enums.BusinessStatus;
 import com.growbiz.backend.RequestResponse.Business.BusinessRequest;
 import com.growbiz.backend.RequestResponse.Business.BusinessResponse;
@@ -24,6 +23,9 @@ public class BusinessControllerHelper {
 
     @Autowired
     private JWTService jwtService;
+    private static final String APPROVAL_MESSAGE = "We are delighted to inform you that your business application has been approved! Congratulations! We are excited to have you on board, and we look forward to a fruitful and successful partnership.";
+    private static final String DECLINED_MESSAGE = "We regret to inform you that your business application with GrowBiz has been reviewed, and, unfortunately, we are unable to approve it at this time. We encourage you to take a moment to review the reasons for the rejection provided.";
+
 
     public BusinessRequest getBusinessRequestFromJSON(String json, MultipartFile file) {
         BusinessRequest businessRequest = new BusinessRequest();
@@ -32,7 +34,7 @@ public class BusinessControllerHelper {
                     .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             businessRequest = objectMapper.readValue(json, BusinessRequest.class);
         } catch (IOException err) {
-            System.out.println(err.toString());
+            System.out.println(err);
         }
         businessRequest.setFile(file);
         return businessRequest;
@@ -49,8 +51,8 @@ public class BusinessControllerHelper {
 
     public String getEmailBody(VerificationRequest verificationRequest) {
         if (BusinessStatus.APPROVED.equals(verificationRequest.getStatus())) {
-            return BusinessConstants.APPROVAL_MESSAGE;
+            return APPROVAL_MESSAGE;
         }
-        return BusinessConstants.DECLINED_MESSAGE;
+        return DECLINED_MESSAGE;
     }
 }
