@@ -68,7 +68,9 @@ public class FreeSlotService implements IFreeSlotService {
     }
 
     private List<Payment> getPaymentList(Long serviceId, SimpleDateFormat formatter, List<Date> dateListOfCurrentWeek) {
-        List<Services> servicesList = servicesService.getServiceByBusinessId(servicesService.getServiceById(serviceId).getBusiness().getBusinessId());
+        Services fetchedService = servicesService.getServiceById(serviceId);
+        Long businessId = fetchedService.getBusiness().getBusinessId();
+        List<Services> servicesList = servicesService.getServiceByBusinessId(businessId);
         List<Payment> paymentList = new ArrayList<>();
         servicesList.forEach(services -> paymentList.addAll(paymentService.findByServiceId(services.getServiceId())));
         paymentList.removeIf(payment -> {
