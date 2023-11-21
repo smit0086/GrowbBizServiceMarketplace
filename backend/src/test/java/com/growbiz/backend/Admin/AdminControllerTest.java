@@ -8,8 +8,14 @@ import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.repository.ICategoryRepository;
 import com.growbiz.backend.Categories.repository.ISubCategoryRepository;
 import com.growbiz.backend.Enums.Role;
+import com.growbiz.backend.Exception.exceptions.Category.CategoryAlreadyExistsException;
+import com.growbiz.backend.Exception.exceptions.Category.CategoryNotFoundException;
+import com.growbiz.backend.Exception.exceptions.Category.SubCategoryAlreadyExistsException;
+import com.growbiz.backend.Exception.exceptions.Category.SubCategoryNotFoundException;
+import com.growbiz.backend.Exception.exceptions.Service.ServiceNotFoundException;
 import com.growbiz.backend.RequestResponse.Category.CategoryResponse;
 import com.growbiz.backend.RequestResponse.SubCategory.SubCategoryRequest;
+import com.growbiz.backend.TestConstants.TestConstants;
 import com.growbiz.backend.User.models.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
@@ -47,8 +54,8 @@ public class AdminControllerTest {
     User mockUser = User
             .builder()
             .id(1L)
-            .email("test@dal.ca")
-            .password("test")
+            .email(TestConstants.TEST_EMAIL)
+            .password(TestConstants.TEST_NAME)
             .firstName("John")
             .lastName("Doe")
             .role(Role.ADMIN)
@@ -58,23 +65,23 @@ public class AdminControllerTest {
     Category mockCategory = Category
             .builder()
             .categoryID(1L)
-            .name("Test Category")
-            .tax("15")
+            .name(TestConstants.TEST_CATEGORY_NAME)
+            .tax(TestConstants.TEST_CATEGORY_TAX)
             .build();
 
     @Mock
     Category mockUpdateCategory = Category
             .builder()
             .categoryID(1L)
-            .name("Test Update Category")
-            .tax("15")
+            .name(TestConstants.TEST_CATEGORY_NAME)
+            .tax(TestConstants.TEST_CATEGORY_TAX + "1")
             .build();
 
     @Mock
     SubCategory mockSubCategory = SubCategory
             .builder()
             .subCategoryID(1L)
-            .name("Test Subcategory")
+            .name(TestConstants.TEST_SUBCATEGORY_NAME)
             .category(mockCategory)
             .build();
 
@@ -82,7 +89,7 @@ public class AdminControllerTest {
     SubCategoryRequest mockSubCategoryRequest = SubCategoryRequest
             .builder()
             .subCategoryID(1L)
-            .name("Test SubCategory")
+            .name(TestConstants.TEST_SUBCATEGORY_NAME)
             .categoryID(mockCategory.getCategoryID())
             .isSubCategory(true)
             .build();
@@ -91,7 +98,7 @@ public class AdminControllerTest {
     SubCategory mockUpdateSubCategory = SubCategory
             .builder()
             .subCategoryID(1L)
-            .name("Test Update Subcategory")
+            .name(TestConstants.TEST_SUBCATEGORY_NAME + " updated")
             .category(mockCategory)
             .build();
 
@@ -99,7 +106,7 @@ public class AdminControllerTest {
     SubCategoryRequest mockSubCategoryUpdateRequest = SubCategoryRequest
             .builder()
             .subCategoryID(1L)
-            .name("Test Update SubCategory")
+            .name(TestConstants.TEST_SUBCATEGORY_NAME + " updated")
             .categoryID(mockCategory.getCategoryID())
             .isSubCategory(true)
             .build();
@@ -140,6 +147,24 @@ public class AdminControllerTest {
     }
 
     @Test
+    public void addExistingCategoryTest() {
+        when(adminService.addCategory(mockCategory)).thenReturn(null);
+
+        assertThrows(CategoryAlreadyExistsException.class, () -> {
+            adminController.addCategory(mockCategory);
+        });
+    }
+
+    @Test
+    public void updateNonExistingCategoryTest() {
+        when(adminService.updateCategory(mockCategory)).thenReturn(null);
+
+        assertThrows(CategoryNotFoundException.class, () -> {
+            adminController.updateCategory(mockCategory);
+        });
+    }
+
+    @Test
     public void deleteCategoryTest() throws Exception {
         ResponseEntity<CategoryResponse> actualResponse;
         ResponseEntity<CategoryResponse> expectedResponse = ResponseEntity.ok(CategoryResponse.builder()
@@ -154,6 +179,15 @@ public class AdminControllerTest {
 
         actualResponse = adminController.deleteCategory(mockCategory);
         assertEquals(actualResponse, expectedResponse);
+    }
+
+    @Test
+    public void deleteNonExistingCategoryTest() {
+        when(adminService.deleteCategory(mockCategory)).thenReturn(false);
+
+        assertThrows(CategoryNotFoundException.class, () -> {
+            adminController.deleteCategory(mockCategory);
+        });
     }
 
     @Test
@@ -174,6 +208,14 @@ public class AdminControllerTest {
     }
 
     @Test
+    public void addExistingSubCategoryTest() {
+        when(adminService.addSubCategory(mockSubCategoryRequest)).thenReturn(null);
+
+        assertThrows(SubCategoryAlreadyExistsException.class, () -> {
+            adminController.addSubCategory(mockSubCategoryRequest);
+        });
+    }
+    @Test
     public void updateSubCategoryTest() throws Exception {
         ResponseEntity<CategoryResponse> actualResponse;
         ResponseEntity<CategoryResponse> expectedResponse = ResponseEntity.ok(CategoryResponse.builder()
@@ -192,6 +234,15 @@ public class AdminControllerTest {
     }
 
     @Test
+    public void updateNonExistingSubCategoryTest() {
+        when(adminService.updateSubCategory(mockSubCategoryUpdateRequest)).thenReturn(null);
+
+        assertThrows(SubCategoryNotFoundException.class, () -> {
+            adminController.updateSubCategory(mockSubCategoryUpdateRequest);
+        });
+    }
+
+    @Test
     public void deleteSubCategoryTest() throws Exception {
         ResponseEntity<CategoryResponse> actualResponse;
         ResponseEntity<CategoryResponse> expectedResponse = ResponseEntity.ok(CategoryResponse.builder()
@@ -206,5 +257,14 @@ public class AdminControllerTest {
 
         actualResponse = adminController.deleteSubCategory(mockSubCategory);
         assertEquals(actualResponse, expectedResponse);
+    }
+
+    @Test
+    public void deleteNonExistingSubCategoryTest() {
+        when(adminService.deleteSubCategory(mockSubCategory)).thenReturn(false);
+
+        assertThrows(SubCategoryNotFoundException.class, () -> {
+            adminController.deleteSubCategory(mockSubCategory);
+        });
     }
 }
