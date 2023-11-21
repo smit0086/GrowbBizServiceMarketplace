@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class EmailControllerTest {
+public class SendEmailControllerTest {
 
     @InjectMocks
     private EmailController emailController;
