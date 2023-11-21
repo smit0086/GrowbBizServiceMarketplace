@@ -26,4 +26,7 @@ public class TestConstants {
     public static final String TEST_NAME = "TestName";
     public static final long TEST_AMOUNT = 1000;
     public static final LocalTime TEST_END_LOCAL_TIME = LocalTime.of(13, 0);
+    public static final String TEST_BOOKING_DATE = "2023-11-13";
+    public static final LocalTime TEST_BOOKING_START_TIME = LocalTime.of(11, 30);
+    public static final LocalTime TEST_BOOKING_END_TIME = LocalTime.of(12, 30);
 }
