@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.templatemode.TemplateMode;
 
 import java.util.Locale;
 
@@ -36,7 +38,7 @@ public class SendEmailService implements ISendEmailService {
         MimeMessageHelper messageHelper = new MimeMessageHelper(message, "UTF-8");
 
         final Context context = new Context(locale);
-        context.setVariable("customer name", emailResponse.getUser());
+        context.setVariable("customer", emailResponse.getUser());
         context.setVariable("date", emailResponse.getDate());
         context.setVariable("time", emailResponse.getTime());
         context.setVariable("business", emailResponse.getBusinessName());
@@ -49,7 +51,6 @@ public class SendEmailService implements ISendEmailService {
             messageHelper.setText(htmlContent, true);
             mailSender.send(message);
         } catch (MessagingException e) {
-            // Handle exception
             e.printStackTrace();
             e.getMessage();
         }

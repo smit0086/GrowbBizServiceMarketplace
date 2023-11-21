@@ -8,10 +8,7 @@ import com.growbiz.backend.Email.service.ISendEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Locale;
 
@@ -27,7 +24,7 @@ public class EmailController {
     private final IBookingService iBookingService;
 
     @PostMapping(path="/sendEmailReminder")
-    public ResponseEntity sendEmailReminder(@RequestBody long bookingId) {
+    public ResponseEntity sendEmailReminder(@RequestParam long bookingId) {
 
         Booking booking = iBookingService.findById(bookingId);
 
@@ -45,7 +42,7 @@ public class EmailController {
 
         Locale locale = Locale.getDefault();
 
-        sendEmailService.sendEmailWithHtmlTemplate(emailResponse, "emailTemplate.html", locale);
+        sendEmailService.sendEmailWithHtmlTemplate(emailResponse, "emailTemplate", locale);
 
         return ResponseEntity.ok("Email has been sent to the given email " + booking.getUser().getEmail());
     }

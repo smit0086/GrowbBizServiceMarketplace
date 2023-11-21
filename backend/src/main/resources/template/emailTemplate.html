@@ -4,30 +4,30 @@
     <title th:remove="all">Growbiz Email Reminder</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<body> Dear <p th:text="#{name}">,
-<!--    Hello, Peter Static!-->
+<body> Dear <a th:text="${customer}"></a>,
+<p>
+    We would like to confirm your upcoming service appointment for <a th:text="${service}"></a> with <a class="italic" th:text="${business}"></a>.
 </p>
 <p>
-    We would like to confirm your upcoming service appointment with <p th:text="#{service}"></p> at <p th:text="#{business}"></p>.
-    We appreciate your trust in us and look forward to providing you with top-notch service.
+    Here are the details of your appointment:
 </p>
-<p>Here are the details of your appointment:</p>
 <ul>
-    <li th:text="#{service}"></li>
-    <li th:text="#{date}"></li>
-    <li th:text="#{time}"></li>
-    <li></li>
+    <li th:text="${service}">Service: </li>
+    <li th:text="${date}">Date: </li>
+    <li th:text="${time}">Time: </li>
 </ul>
 <p>
-    Our team at  <p th:text="#{business}"></p>. is committed to ensuring that your experience with us is seamless and satisfactory. If you have any questions or need to make any adjustments to your appointment, please don't hesitate to reach out to us.
+    Our team at <a th:text="${business}"></a> is committed to ensuring that your experience with us is seamless and satisfactory.
+    <br />
+    If you have any questions or need to make any adjustments to your appointment, please don't hesitate to reach out to us.
 </p>
 <p>
-    Thank you once again for choosing <p th:text="#{business}"></p>. We value your business and are dedicated to exceeding your expectations.
+    Thank you once again for choosing <a th:text="${business}"></a>. We value your trust and are dedicated to exceeding your expectations.
 </p>
 <p>
     Regards, <br />
-    <em> Michael Scott </em>
-    <em th:text="#{business}"></em>
+    <em> Dwight Shrute </em> <br/>
+    <em th:text="${business}"></em>
 </p>
 </body>
 </html>

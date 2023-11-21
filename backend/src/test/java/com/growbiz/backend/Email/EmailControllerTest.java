@@ -1,26 +1,27 @@
 package com.growbiz.backend.Email;
 
 import com.growbiz.backend.Booking.models.Booking;
-import com.growbiz.backend.Booking.models.BookingStatus;
 import com.growbiz.backend.Booking.service.IBookingService;
-import com.growbiz.backend.Business.model.Business;
-import com.growbiz.backend.Business.service.IBusinessService;
+import com.growbiz.backend.Business.models.Business;
 import com.growbiz.backend.Email.controller.EmailController;
-import com.growbiz.backend.Email.handler.EmailControllerHelper;
+import com.growbiz.backend.Email.model.EmailRequest;
 import com.growbiz.backend.Email.service.ISendEmailService;
 import com.growbiz.backend.Services.models.Services;
-import com.growbiz.backend.Services.service.IServicesService;
 import com.growbiz.backend.TestConstants.TestConstants;
-import com.growbiz.backend.User.models.Role;
 import com.growbiz.backend.User.models.User;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
+
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class EmailControllerTest {
 
@@ -33,14 +34,6 @@ public class EmailControllerTest {
     @Mock
     private IBookingService iBookingService;
 
-    @Mock
-    private IServicesService iServicesService;
-
-    @Mock
-    private IBusinessService iBusinessService;
-
-    @Mock
-    private EmailControllerHelper emailControllerHelper;
     Business mockBusiness;
     Services mockService;
     Booking mockBooking;
@@ -70,7 +63,6 @@ public class EmailControllerTest {
                 .password(TestConstants.TEST_PASSWORD)
                 .firstName("John")
                 .lastName("Doe")
-                .role(Role.CUSTOMER)
                 .build();
         mockBooking = Booking
                 .builder()
@@ -82,31 +74,26 @@ public class EmailControllerTest {
                 .endTime(TestConstants.TEST_BOOKING_END_TIME)
                 .amount(TestConstants.TEST_SERVICE_PRICE)
                 .note(TestConstants.TEST_NOTE)
-                .status(BookingStatus.UPCOMING)
                 .build();
     }
 
-//    @Test
-//    public void sendEmailAndReturnOkResponse() {
-//        EmailResponse emailResponse = EmailResponse.builder()
-//                .businessName(mockBusiness.getBusinessName())
-//                .serviceName(mockService.getServiceName())
-//                .user(mockUser.getFirstName() + " " + mockBooking.getUser().getLastName())
-//                .time(mockBooking.getStartTime())
-//                .date(mockBooking.getDate()).build();
-//
-//        when(iBookingService.findById(1L)).thenReturn(mockBooking);
-//        when(iServicesService.getServiceById(anyLong())).thenReturn(mockService);
-//        when(iBusinessService.findById(anyLong())).thenReturn(mockBusiness);
-//
-//        when(emailControllerHelper.generateHeadSection()).thenReturn("Opening Complete");
-//        when(emailControllerHelper.generateMessageBody(emailResponse)).thenReturn("Message Body Complete");
-//        when(emailControllerHelper.generateEndSection(emailResponse)).thenReturn("Conclusion Complete");
-//
-//        ResponseEntity<String> response = emailController.sendEmailReminder(1L);
-//
-//        assertEquals(200, response.getStatusCodeValue()); // Assuming OK status code
-//        verify(sendEmailService).sendEmail(eq(mockBooking.getUser().getEmail()), anyString(), anyString());
-//    }
+    @Test
+    public void sendEmailAndReturnOkResponse() {
+        EmailRequest emailResponse = EmailRequest.builder()
+                .businessName(mockBusiness.getBusinessName())
+                .serviceName(mockService.getServiceName())
+                .user(mockUser.getFirstName() + " " + mockBooking.getUser().getLastName())
+                .to(TestConstants.TEST_EMAIL)
+                .subject("Subject: Confirmation of Your Upcoming Service Appointment")
+                .time(mockBooking.getStartTime())
+                .date(mockBooking.getDate()).build();
+
+        when(iBookingService.findById(1L)).thenReturn(mockBooking);
+
+        ResponseEntity<String> response = emailController.sendEmailReminder(1L);
+        Locale locale = Locale.getDefault();
+        assertEquals(200, response.getStatusCodeValue());
+        verify(sendEmailService).sendEmailWithHtmlTemplate(emailResponse,"emailTemplate",locale);
+    }
 
 }
