@@ -26,14 +26,21 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class BookingServiceTest {
 
     private static final String TEST_BOOKING_DATE = "2023-11-13";
-    private static final LocalTime TEST_BOOKING_START_TIME = LocalTime.of(11, 30);
-    private static final LocalTime TEST_BOOKING_END_TIME = LocalTime.of(12, 30);
+    public static final int TEST_SERVICE_TIME_REQ_MIN = 30;
+    private static final LocalTime TEST_BOOKING_START_TIME = LocalTime.of(11, TEST_SERVICE_TIME_REQ_MIN);
+    private static final LocalTime TEST_BOOKING_END_TIME = LocalTime.of(12, TEST_SERVICE_TIME_REQ_MIN);
+    public static final double TEST_BOOKING_AMOUNT = 120.50;
+    public static final long TEST_ID = 1L;
+    public static final double TEST_SERVICE_PRICE = 24.00;
+    public static final int TEST_SERVICE_TIME_REQ_HR = 0;
+    public static final long TEST_MISSING_BKNG_ID = 2L;
 
     @InjectMocks
     BookingService bookingServiceMock;
@@ -66,11 +73,11 @@ public class BookingServiceTest {
     public void init() {
         mockBookingRequest = BookingRequest
                 .builder()
-                .serviceId(1L)
+                .serviceId(TEST_ID)
                 .date(TEST_BOOKING_DATE)
                 .startTime(TEST_BOOKING_START_TIME)
                 .endTime(TEST_BOOKING_END_TIME)
-                .amount(120.50)
+                .amount(TEST_BOOKING_AMOUNT)
                 .note("Test")
                 .status(BookingStatus.UPCOMING)
                 .email("test@dal.ca")
@@ -79,7 +86,7 @@ public class BookingServiceTest {
 
         mockUser = User
                 .builder()
-                .id(1L)
+                .id(TEST_ID)
                 .email("test@dal.ca")
                 .password("test")
                 .firstName("John")
@@ -89,36 +96,36 @@ public class BookingServiceTest {
 
         mockBusiness = Business
                 .builder()
-                .businessId(1L)
+                .businessId(TEST_ID)
                 .businessName("Test Business")
                 .build();
 
         mockSubCategory = SubCategory
                 .builder()
-                .subCategoryID(1L)
+                .subCategoryID(TEST_ID)
                 .name("Test SubCategory")
                 .build();
 
         mockService = Services
                 .builder()
-                .serviceId(1L)
+                .serviceId(TEST_ID)
                 .serviceName("Test Service")
                 .description("Test")
-                .price(24.00)
-                .timeRequired(LocalTime.of(0, 30))
+                .price(TEST_SERVICE_PRICE)
+                .timeRequired(LocalTime.of(TEST_SERVICE_TIME_REQ_HR, TEST_SERVICE_TIME_REQ_MIN))
                 .business(mockBusiness)
                 .subCategory(mockSubCategory)
                 .build();
 
         mockBooking = Booking
                 .builder()
-                .id(1L)
+                .id(TEST_ID)
                 .user(mockUser)
                 .service(mockService)
                 .date(TEST_BOOKING_DATE)
                 .startTime(TEST_BOOKING_START_TIME)
                 .endTime(TEST_BOOKING_END_TIME)
-                .amount(120.50)
+                .amount(TEST_BOOKING_AMOUNT)
                 .note("Test")
                 .status(BookingStatus.UPCOMING)
                 .build();
@@ -126,54 +133,56 @@ public class BookingServiceTest {
 
     @Test
     public void getBookingByBookingIdSuccessTest() {
-        when(bookingRepository.findById(1L)).thenReturn(Optional.of(mockBooking));
-        Booking actualBooking = bookingServiceMock.findById(1L);
+        when(bookingRepository.findById(TEST_ID)).thenReturn(Optional.of(mockBooking));
+        Booking actualBooking = bookingServiceMock.findById(TEST_ID);
         assertEquals(mockBooking, actualBooking);
     }
 
     @Test
     public void getBookingByBookingIdFailureTest() {
-        assertThrows(BookingNotFoundException.class, () -> bookingServiceMock.findById(2L));
+        assertThrows(BookingNotFoundException.class, () -> bookingServiceMock.findById(TEST_MISSING_BKNG_ID));
     }
 
     @Test
     public void getBookingByServiceIdTest() {
-        when(bookingRepository.findByServiceServiceId(1L)).thenReturn(List.of(mockBooking));
-        List<Booking> actualBooking = bookingServiceMock.findByServiceId(1L);
+        when(bookingRepository.findByServiceServiceId(TEST_ID)).thenReturn(List.of(mockBooking));
+        List<Booking> actualBooking = bookingServiceMock.findByServiceId(TEST_ID);
         assertEquals(List.of(mockBooking), actualBooking);
     }
 
     @Test
     public void getBookingByUserIdTest() {
-        when(bookingRepository.findByUserId(1L)).thenReturn(List.of(mockBooking));
-        List<Booking> actualBooking = bookingServiceMock.findByUserId(1L);
+        when(bookingRepository.findByUserId(TEST_ID)).thenReturn(List.of(mockBooking));
+        List<Booking> actualBooking = bookingServiceMock.findByUserId(TEST_ID);
         assertEquals(List.of(mockBooking), actualBooking);
     }
 
     @Test
     public void getBookingByUserIdAndStatusTest() {
-        when(bookingRepository.findByUserIdAndStatus(1L, BookingStatus.UPCOMING)).thenReturn(List.of(mockBooking));
-        List<Booking> actualBooking = bookingServiceMock.getAllBookingsByUserIdAndStatus(1L, "UPCOMING");
+        when(bookingRepository.findByUserIdAndStatus(TEST_ID, BookingStatus.UPCOMING)).thenReturn(List.of(mockBooking));
+        List<Booking> actualBooking = bookingServiceMock.getAllBookingsByUserIdAndStatus(TEST_ID, "UPCOMING");
         assertEquals(List.of(mockBooking), actualBooking);
     }
 
     @Test
     public void getBookingByBusinessIdTest() {
-        when(bookingRepository.findByServiceBusinessBusinessId(1L)).thenReturn(List.of(mockBooking));
-        List<Booking> actualBooking = bookingServiceMock.findByBusinessId(1L);
+        when(bookingRepository.findByServiceBusinessBusinessId(TEST_ID)).thenReturn(List.of(mockBooking));
+        List<Booking> actualBooking = bookingServiceMock.findByBusinessId(TEST_ID);
         assertEquals(List.of(mockBooking), actualBooking);
     }
 
     @Test
     public void getBookingByBusinessIdAndStatusTest() {
-        when(bookingRepository.findByServiceBusinessBusinessIdAndStatus(1L, BookingStatus.UPCOMING)).thenReturn(List.of(mockBooking));
-        List<Booking> actualBooking = bookingServiceMock.getAllBookingsByBusinessIdAndStatus(1L, BookingStatus.UPCOMING);
+        when(bookingRepository.findByServiceBusinessBusinessIdAndStatus(TEST_ID, BookingStatus.UPCOMING)).thenReturn(List.of(mockBooking));
+        List<Booking> actualBooking = bookingServiceMock.getAllBookingsByBusinessIdAndStatus(TEST_ID, BookingStatus.UPCOMING);
         assertEquals(List.of(mockBooking), actualBooking);
     }
 
     @Test
     public void saveBookingTest() {
-        bookingServiceMock.save(mockBooking);
+        when(bookingRepository.save(mockBooking)).thenReturn(mockBooking);
+        Booking actualBooking = bookingServiceMock.save(mockBooking);
+        assertEquals(mockBooking, actualBooking);
     }
 
     @Test
@@ -185,7 +194,7 @@ public class BookingServiceTest {
                 .date(TEST_BOOKING_DATE)
                 .startTime(TEST_BOOKING_START_TIME)
                 .endTime(TEST_BOOKING_END_TIME)
-                .amount(120.50)
+                .amount(TEST_BOOKING_AMOUNT)
                 .note("Test")
                 .status(BookingStatus.UPCOMING)
                 .build();

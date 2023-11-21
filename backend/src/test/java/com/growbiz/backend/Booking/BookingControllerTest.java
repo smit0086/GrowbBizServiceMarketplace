@@ -34,8 +34,15 @@ import static org.mockito.Mockito.when;
 public class BookingControllerTest {
 
     private static final String TEST_BOOKING_DATE = "2023-11-13";
-    private static final LocalTime TEST_BOOKING_START_TIME = LocalTime.of(11, 30);
-    private static final LocalTime TEST_BOOKING_END_TIME = LocalTime.of(12, 30);
+    public static final int TEST_SERVICE_TIME_REQ_MIN = 30;
+    private static final LocalTime TEST_BOOKING_START_TIME = LocalTime.of(11, TEST_SERVICE_TIME_REQ_MIN);
+    private static final LocalTime TEST_BOOKING_END_TIME = LocalTime.of(12, TEST_SERVICE_TIME_REQ_MIN);
+    public static final long TEST_ID = 1L;
+    public static final double TEST_BOOKING_AMOUNT = 120.50;
+    public static final double TEST_SERVICE_PRICE = 24.00;
+    public static final int TEST_SERVICE_TIME_REQ_HR = 0;
+    public static final long TEST_ONG_BKNG_ID = 2L;
+    public static final long TEST_COMP_BKNG_ID = 3L;
 
     @Mock
     private IBookingService bookingService;
@@ -82,18 +89,18 @@ public class BookingControllerTest {
 
         mockBookingRequest = BookingRequest
                 .builder()
-                .serviceId(1L)
+                .serviceId(TEST_ID)
                 .date(TEST_BOOKING_DATE)
                 .startTime(TEST_BOOKING_START_TIME)
                 .endTime(TEST_BOOKING_END_TIME)
-                .amount(120.50)
+                .amount(TEST_BOOKING_AMOUNT)
                 .note("Test")
                 .status(BookingStatus.UPCOMING)
                 .build();
 
         mockUser = User
                 .builder()
-                .id(1L)
+                .id(TEST_ID)
                 .email("test@dal.ca")
                 .password("test")
                 .firstName("John")
@@ -103,74 +110,74 @@ public class BookingControllerTest {
 
         mockBusiness = Business
                 .builder()
-                .businessId(1L)
+                .businessId(TEST_ID)
                 .businessName("Test Business")
                 .build();
 
         mockSubCategory = SubCategory
                 .builder()
-                .subCategoryID(1L)
+                .subCategoryID(TEST_ID)
                 .name("Test SubCategory")
                 .build();
 
         mockService = Services
                 .builder()
-                .serviceId(1L)
+                .serviceId(TEST_ID)
                 .serviceName("Test Service")
                 .description("Test")
-                .price(24.00)
-                .timeRequired(LocalTime.of(0, 30))
+                .price(TEST_SERVICE_PRICE)
+                .timeRequired(LocalTime.of(TEST_SERVICE_TIME_REQ_HR, TEST_SERVICE_TIME_REQ_MIN))
                 .business(mockBusiness)
                 .subCategory(mockSubCategory)
                 .build();
 
         mockBooking = Booking
                 .builder()
-                .id(1L)
+                .id(TEST_ID)
                 .user(mockUser)
                 .service(mockService)
                 .date(TEST_BOOKING_DATE)
                 .startTime(TEST_BOOKING_START_TIME)
                 .endTime(TEST_BOOKING_END_TIME)
-                .amount(120.50)
+                .amount(TEST_BOOKING_AMOUNT)
                 .note("Test")
                 .status(BookingStatus.UPCOMING)
                 .build();
 
         mockBookingBusiness = BookingBusiness.builder()
-                .id(1L)
+                .id(TEST_ID)
                 .date(TEST_BOOKING_DATE)
                 .startTime(TEST_BOOKING_START_TIME)
                 .endTime(TEST_BOOKING_END_TIME)
-                .amount(120.50)
+                .amount(TEST_BOOKING_AMOUNT)
                 .note("Test")
                 .status(BookingStatus.UPCOMING)
                 .userEmail("test@dal.ca")
                 .serviceName("Test Service")
-                .timeRequired(LocalTime.of(0, 30))
+                .timeRequired(LocalTime.of(TEST_SERVICE_TIME_REQ_HR, TEST_SERVICE_TIME_REQ_MIN))
                 .build();
 
         mockOngoingBooking = Booking.builder()
-                .id(2L)
+                .id(TEST_ONG_BKNG_ID)
                 .user(mockUser)
                 .service(mockService)
                 .date("2023-11-13")
                 .startTime(TEST_BOOKING_START_TIME)
                 .endTime(TEST_BOOKING_END_TIME)
-                .amount(120.50)
+                .amount(TEST_BOOKING_AMOUNT)
                 .note("Test")
                 .status(BookingStatus.ONGOING)
                 .build();
 
         mockCompletedBooking = Booking
                 .builder()
-                .id(3L)
+                .id(TEST_COMP_BKNG_ID)
                 .user(mockUser)
                 .service(mockService)
                 .date("2023-11-01")
                 .startTime(TEST_BOOKING_START_TIME)
                 .endTime(TEST_BOOKING_END_TIME)
-                .amount(120.50)
+                .amount(TEST_BOOKING_AMOUNT)
                 .note("Test")
                 .status(BookingStatus.COMPLETED)
                 .build();
@@ -262,10 +269,10 @@ public class BookingControllerTest {
                         .build()
         );
 
-        when(bookingService.findByServiceId(1L)).thenReturn(List.of(mockBooking, mockCompletedBooking, mockOngoingBooking));
+        when(bookingService.findByServiceId(TEST_ID)).thenReturn(List.of(mockBooking, mockCompletedBooking, mockOngoingBooking));
         when(bookingHelper.createBookingResponse(List.of(mockBooking, mockCompletedBooking, mockOngoingBooking))).thenReturn(expectedResponse);
 
-        actualResponse = bookingController.getAllBookingsByService(1L);
+        actualResponse = bookingController.getAllBookingsByService(TEST_ID);
         assertEquals(expectedResponse, actualResponse);
     }
 
@@ -280,10 +287,10 @@ public class BookingControllerTest {
                         .build()
         );
 
-        when(bookingService.findByBusinessId(1L)).thenReturn(List.of(mockBooking, mockCompletedBooking, mockOngoingBooking));
+        when(bookingService.findByBusinessId(TEST_ID)).thenReturn(List.of(mockBooking, mockCompletedBooking, mockOngoingBooking));
         when(bookingHelper.createBookingResponse(List.of(mockBooking, mockCompletedBooking, mockOngoingBooking))).thenReturn(expectedResponse);
 
-        actualResponse = bookingController.getAllBookingsByBusinessId(1L);
+        actualResponse = bookingController.getAllBookingsByBusinessId(TEST_ID);
         assertEquals(expectedResponse, actualResponse);
     }
 
@@ -291,13 +298,13 @@ public class BookingControllerTest {
     public void updateBookingStatusToCompletedTest() {
         ResponseEntity<BookingResponse> actualResponse;
         Booking updateBooking = Booking.builder()
-                .id(2L)
+                .id(TEST_ONG_BKNG_ID)
                 .user(mockUser)
                 .service(mockService)
                 .date("2023-11-13")
                 .startTime(TEST_BOOKING_START_TIME)
                 .endTime(TEST_BOOKING_END_TIME)
-                .amount(120.50)
+                .amount(TEST_BOOKING_AMOUNT)
                 .note("Test")
                 .status(BookingStatus.COMPLETED)
                 .build();
@@ -309,10 +316,10 @@ public class BookingControllerTest {
                         .build()
         );
 
-        when(bookingService.findById(2L)).thenReturn(mockOngoingBooking);
+        when(bookingService.findById(TEST_ONG_BKNG_ID)).thenReturn(mockOngoingBooking);
         when(bookingHelper.createBookingResponse(List.of(mockOngoingBooking))).thenReturn(expectedResponse);
 
-        actualResponse = bookingController.modifyBookingStatus(2L, "COMPLETED");
+        actualResponse = bookingController.modifyBookingStatus(TEST_ONG_BKNG_ID, "COMPLETED");
         assertEquals(expectedResponse, actualResponse);
     }
 
@@ -327,11 +334,11 @@ public class BookingControllerTest {
                         .build()
         );
 
-        when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, BookingStatus.UPCOMING)).thenReturn(List.of(mockBooking));
+        when(bookingService.getAllBookingsByBusinessIdAndStatus(TEST_ID, BookingStatus.UPCOMING)).thenReturn(List.of(mockBooking));
         when(bookingHelper.convertToBookingBusinessList(List.of(mockBooking))).thenReturn(List.of(mockBookingBusiness));
         when(bookingHelper.createBookingBusinessResponse(List.of(mockBookingBusiness))).thenReturn(expectedResponse);
 
-        actualResponse = bookingController.getAllUpcomingBookingsByBusinessId(1L);
+        actualResponse = bookingController.getAllUpcomingBookingsByBusinessId(TEST_ID);
         assertEquals(expectedResponse, actualResponse);
     }
 
@@ -339,7 +346,7 @@ public class BookingControllerTest {
     public void getAllCompletedBookingsForBusinessTest() {
         ResponseEntity<BookingBusinessResponse> actualResponse;
         BookingBusiness mockBookingBusiness = BookingBusiness.builder()
-                .id(1L)
+                .id(TEST_ID)
                 .date(mockCompletedBooking.getDate())
                 .startTime(mockCompletedBooking.getStartTime())
                 .endTime(mockCompletedBooking.getEndTime())
@@ -348,7 +355,7 @@ public class BookingControllerTest {
                 .status(mockCompletedBooking.getStatus())
                 .userEmail("test@dal.ca")
                 .serviceName("Test Service")
-                .timeRequired(LocalTime.of(0, 30))
+                .timeRequired(LocalTime.of(TEST_SERVICE_TIME_REQ_HR, TEST_SERVICE_TIME_REQ_MIN))
                 .build();
         ResponseEntity<BookingBusinessResponse> expectedResponse = ResponseEntity.ok(
                 BookingBusinessResponse.builder()
@@ -359,11 +366,11 @@ public class BookingControllerTest {
         );
 
 
-        when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, BookingStatus.COMPLETED)).thenReturn(List.of(mockCompletedBooking));
+        when(bookingService.getAllBookingsByBusinessIdAndStatus(TEST_ID, BookingStatus.COMPLETED)).thenReturn(List.of(mockCompletedBooking));
         when(bookingHelper.convertToBookingBusinessList(List.of(mockCompletedBooking))).thenReturn(List.of(mockBookingBusiness));
         when(bookingHelper.createBookingBusinessResponse(List.of(mockBookingBusiness))).thenReturn(expectedResponse);
 
-        actualResponse = bookingController.getAllCompletedBookingsByBusinessId(1L);
+        actualResponse = bookingController.getAllCompletedBookingsByBusinessId(TEST_ID);
         assertEquals(expectedResponse, actualResponse);
     }
 
@@ -371,7 +378,7 @@ public class BookingControllerTest {
     public void getAllOngoingBookingsForBusinessTest() {
         ResponseEntity<BookingBusinessResponse> actualResponse;
         BookingBusiness mockBookingBusiness = BookingBusiness.builder()
-                .id(1L)
+                .id(TEST_ID)
                 .date(mockCompletedBooking.getDate())
                 .startTime(mockCompletedBooking.getStartTime())
                 .endTime(mockCompletedBooking.getEndTime())
@@ -380,7 +387,7 @@ public class BookingControllerTest {
                 .status(mockCompletedBooking.getStatus())
                 .userEmail("test@dal.ca")
                 .serviceName("Test Service")
-                .timeRequired(LocalTime.of(0, 30))
+                .timeRequired(LocalTime.of(TEST_SERVICE_TIME_REQ_HR, TEST_SERVICE_TIME_REQ_MIN))
                 .build();
         ResponseEntity<BookingBusinessResponse> expectedResponse = ResponseEntity.ok(
                 BookingBusinessResponse.builder()
@@ -391,11 +398,11 @@ public class BookingControllerTest {
         );
 
 
-        when(bookingService.getAllBookingsByBusinessIdAndStatus(1L, BookingStatus.ONGOING)).thenReturn(List.of(mockOngoingBooking));
+        when(bookingService.getAllBookingsByBusinessIdAndStatus(TEST_ID, BookingStatus.ONGOING)).thenReturn(List.of(mockOngoingBooking));
         when(bookingHelper.convertToBookingBusinessList(List.of(mockOngoingBooking))).thenReturn(List.of(mockBookingBusiness));
         when(bookingHelper.createBookingBusinessResponse(List.of(mockBookingBusiness))).thenReturn(expectedResponse);
 
-        actualResponse = bookingController.getAllOngoingBookingsByBusinessId(1L);
+        actualResponse = bookingController.getAllOngoingBookingsByBusinessId(TEST_ID);
         assertEquals(expectedResponse, actualResponse);
     }
 }
