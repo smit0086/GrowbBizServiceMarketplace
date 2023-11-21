@@ -6,6 +6,7 @@ import com.growbiz.backend.TestConstants.TestConstants;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,7 +35,7 @@ public class SendEmailServiceTest {
 //    @Mock
     EmailRequest emailRequest;
 
-    @Before
+    @BeforeEach
     public void init() {
         doNothing().when(mailSenderMock).send(any(SimpleMailMessage.class));
     }
@@ -57,7 +58,7 @@ public class SendEmailServiceTest {
 
         MimeMessage mimeMessage = mock(MimeMessage.class);
 
-        Locale locale = Locale.getDefault();
+        Locale locale = mock(Locale.class);
         when(mailSenderMock.createMimeMessage()).thenReturn(mimeMessage);
 
         when(templateEngine.process(eq("emailTemplate"), any(Context.class)))
