@@ -8,7 +8,7 @@ public enum PaymentStatus {
     CANCELED("payment_intent.canceled"),
     FAILED("payment_intent.payment_failed");
 
-    public final String status;
+    private final String status;
 
     PaymentStatus(String status) {
         this.status = status;
