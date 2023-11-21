@@ -36,7 +36,7 @@ public class Services {
     @NotNull
     private LocalTime timeRequired;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "businessId", referencedColumnName = "businessId")
     @JsonIgnore
     private Business business;
