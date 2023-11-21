@@ -39,8 +39,8 @@ public class PaymentServiceTest {
                 .serviceId(1L)
                 .date(TestConstants.TEST_DATE)
                 .userEmail(TestConstants.TEST_EMAIL)
-                .startTime(TestConstants.TEST_LOCAL_TIME)
-                .endTime(TestConstants.TEST_LOCAL_TIME)
+                .startTime(TestConstants.TEST_START_LOCAL_TIME)
+                .endTime(TestConstants.TEST_START_LOCAL_TIME)
                 .note(TestConstants.TEST_NOTE)
                 .amount(10.0)
                 .build();
@@ -54,8 +54,8 @@ public class PaymentServiceTest {
                 .serviceId(1L)
                 .date(TestConstants.TEST_DATE)
                 .note(TestConstants.TEST_NOTE)
-                .startTime(TestConstants.TEST_LOCAL_TIME)
-                .endTime(TestConstants.TEST_LOCAL_TIME)
+                .startTime(TestConstants.TEST_START_LOCAL_TIME)
+                .endTime(TestConstants.TEST_START_LOCAL_TIME)
                 .build();
         when(helperMock.createPayment(Mockito.eq(mockedPaymentRequest), anyLong())).thenReturn(mockedPayment);
         when(paymentRepositoryMock.save(any(Payment.class))).thenAnswer(invocation -> invocation.getArgument(0));
