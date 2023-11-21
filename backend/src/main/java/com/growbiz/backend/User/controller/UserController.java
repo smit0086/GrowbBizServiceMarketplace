@@ -1,5 +1,6 @@
 package com.growbiz.backend.User.controller;
 
+import com.growbiz.backend.RequestResponse.User.UserResponse;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.service.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +23,17 @@ public class UserController {
     IUserService userService;
 
     @GetMapping
-    public ResponseEntity<User> getUser(@RequestParam("email") String email, @RequestParam("role") String role) {
+    public ResponseEntity<UserResponse> getUser(@RequestParam("email") String email, @RequestParam("role") String role) {
         User user = userService.getUserByEmailAndRole(email, role);
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException("No Username exists with email: " + email);
         }
-        return ResponseEntity.ok().body(user);
+        UserResponse userResponse = UserResponse.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .subject(user.getEmail())
+                .role(user.getRole())
+                .build();
+        return ResponseEntity.ok().body(userResponse);
     }
 }
