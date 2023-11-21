@@ -20,14 +20,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -48,10 +53,12 @@ public class BusinessServiceTest {
     private BusinessServiceHelper helperMock;
     Business mockedBusiness;
     Category mockedCategory;
+    @Mock
+    Path path;
 
     @BeforeEach
     public void init() {
-        MockitoAnnotations.openMocks(this);
+        //MockitoAnnotations.openMocks(this);
         mockedCategory = Category.builder().categoryID(1L).name("TestCategory").tax(TestConstants.TEST_CATEGORY_TAX).build();
         mockedBusiness = Business.builder().businessId(1L)
                 .businessName(TestConstants.TEST_BUSINESS_NAME)
@@ -110,7 +117,7 @@ public class BusinessServiceTest {
     }
 
     @Test
-    public void testBusinessAlreadyExistsException() {
+    void testBusinessAlreadyExistsException() {
         when(businessRepositoryMock.findByEmail(TestConstants.TEST_EMAIL)).thenReturn(mockedBusiness);
         BusinessRequest mockedBusinessRequest = BusinessRequest.builder()
                 .email(TestConstants.TEST_EMAIL)
@@ -124,12 +131,12 @@ public class BusinessServiceTest {
     }
 
     @Test
-    public void testSave() {
+    void testSave() {
         businessServiceMock.save(mockedBusiness);
     }
 
     @Test
-    public void testUpdateBusiness() {
+    void testUpdateBusiness() {
         when(helperMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq(TestConstants.TEST_EMAIL)))
                 .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
         when(categoryServiceMock.getCategoryByID(1L)).thenReturn(mockedCategory);
@@ -144,5 +151,23 @@ public class BusinessServiceTest {
                 .build();
         Business actualBusiness = businessServiceMock.updateBusiness(mockedBusinessRequest, 1L);
         Assertions.assertEquals(mockedBusiness, actualBusiness);
+    }
+
+    @Test
+    void testDownloadFile() throws IOException {
+        mockStatic(Files.class);
+        mockStatic(Paths.class);
+        Path mockedPath = mock(Path.class);
+        File mockedFile = mock(File.class);
+        byte[] mockedFileContent = "Mocked file content".getBytes();
+        when(Paths.get(anyString())).thenReturn(path);
+        when(Files.list(any(Path.class))).thenReturn(Stream.of(mockedPath));
+        when(mockedPath.toFile()).thenReturn(mockedFile);
+        when(mockedFile.isFile()).thenReturn(true);
+        when(mockedFile.toPath()).thenReturn(mockedPath);
+        when(Files.readAllBytes(any(Path.class))).thenReturn(mockedFileContent);
+        when(businessRepositoryMock.findByEmail(TestConstants.TEST_EMAIL)).thenReturn(mockedBusiness);
+        byte[] actualValue = businessServiceMock.downloadFile(TestConstants.TEST_EMAIL);
+        Assertions.assertEquals(mockedFileContent, actualValue);
     }
 }
