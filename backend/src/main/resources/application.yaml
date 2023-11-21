@@ -27,4 +27,4 @@ spring:
     prefix: classpath:/template/
 keys:
   stripeAPIKey: sk_test_51O9V7jI2En4LSMTzAOnJd4GnWzNvPgFqXvHvdbQv0JYFW9VF8k3fqhL6I2chjQ1Svjj2m4J9hqYfcWwQl5SWUAL900iPzxM23r
-  stripeWebhookSecret: whsec_5yhM2hwS7ZdLDY0JwiY5mJsCcHLK9BfE
+  stripeWebhookSecret: whsec_2WXNBpu1nU6bNXORmnkrByCN6RCfLzvQ
