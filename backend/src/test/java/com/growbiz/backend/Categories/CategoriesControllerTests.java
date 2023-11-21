@@ -8,18 +8,21 @@ import com.growbiz.backend.Categories.service.Sub.ISubCategoryService;
 import com.growbiz.backend.Categories.service.Super.ICategoryService;
 import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.RequestResponse.Category.CategoryResponse;
+import com.growbiz.backend.TestConstants.TestConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-
+@ExtendWith(MockitoExtension.class)
 public class CategoriesControllerTests {
     @Mock
     private ICategoryService categoryService;
@@ -31,24 +34,25 @@ public class CategoriesControllerTests {
     private CategoryController categoryController;
 
     @Mock
-    Category mockCategory = Category
-            .builder()
-            .categoryID(1L)
-            .name("Category 1")
-            .tax("15")
-            .build();
+    Category mockCategory;
 
     @Mock
-    SubCategory mockSubCategory = SubCategory
-            .builder()
-            .subCategoryID(1L)
-            .name("Sub Category 1")
-            .category(mockCategory)
-            .build();
+    SubCategory mockSubCategory;
 
     @BeforeEach
     public void init() {
-        MockitoAnnotations.openMocks(this);
+        mockCategory = Category
+            .builder()
+            .categoryID(1L)
+            .name(TestConstants.TEST_CATEGORY_NAME)
+            .tax(TestConstants.TEST_CATEGORY_TAX)
+            .build();
+        mockSubCategory = SubCategory
+                .builder()
+                .subCategoryID(1L)
+                .name(TestConstants.TEST_SUBCATEGORY_NAME)
+                .category(mockCategory)
+                .build();
     }
 
     @Test
@@ -78,7 +82,7 @@ public class CategoriesControllerTests {
                 .categories(List.of(mockCategory))
                 .subCategories(List.of(mockSubCategory))
                 .role(Role.ADMIN)
-                .subject("testEmail@dal.ca")
+                .subject(TestConstants.TEST_EMAIL)
                 .build());
         when(categoryControllerHelper.createCategoryResponse(List.of(mockCategory), List.of(mockSubCategory))).thenReturn(expectedResponse);
         ResponseEntity<CategoryResponse> results = categoryController.getAllSubCategoriesForCategoryId(1L);
@@ -92,7 +96,7 @@ public class CategoriesControllerTests {
                 .builder()
                 .categories(List.of(mockCategory))
                 .role(Role.ADMIN)
-                .subject("testEmail@dal.ca")
+                .subject(TestConstants.TEST_EMAIL)
                 .build());
         when(categoryControllerHelper.createCategoryResponse(List.of(mockCategory))).thenReturn(expectedResponse);
         ResponseEntity<CategoryResponse> results = categoryController.getAllCategories();
@@ -106,7 +110,7 @@ public class CategoriesControllerTests {
                 .builder()
                 .subCategories(List.of(mockSubCategory))
                 .role(Role.ADMIN)
-                .subject("testEmail@dal.ca")
+                .subject(TestConstants.TEST_EMAIL)
                 .build());
         when(categoryControllerHelper.createSubCategoryResponse(List.of(mockSubCategory))).thenReturn(expectedResponse);
         ResponseEntity<CategoryResponse> results = categoryController.getAllSubCategories();
