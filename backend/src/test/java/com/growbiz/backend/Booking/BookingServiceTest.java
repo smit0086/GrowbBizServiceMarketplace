@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,6 +40,7 @@ public class BookingServiceTest {
     public static final long TEST_ID = 1L;
     public static final double TEST_SERVICE_PRICE = 24.00;
     public static final int TEST_SERVICE_TIME_REQ_HR = 0;
+    public static final long TEST_MISSING_BKNG_ID = 2L;
 
     @InjectMocks
     BookingService bookingServiceMock;
@@ -138,7 +140,7 @@ public class BookingServiceTest {
 
     @Test
     public void getBookingByBookingIdFailureTest() {
-        assertThrows(BookingNotFoundException.class, () -> bookingServiceMock.findById(2L));
+        assertThrows(BookingNotFoundException.class, () -> bookingServiceMock.findById(TEST_MISSING_BKNG_ID));
     }
 
     @Test
@@ -178,7 +180,9 @@ public class BookingServiceTest {
 
     @Test
     public void saveBookingTest() {
-        bookingServiceMock.save(mockBooking);
+        when(bookingRepository.save(mockBooking)).thenReturn(mockBooking);
+        Booking actualBooking = bookingServiceMock.save(mockBooking);
+        assertEquals(mockBooking, actualBooking);
     }
 
     @Test
