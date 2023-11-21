@@ -21,8 +21,9 @@ public class TestConstants {
     public static final String TEST_CATEGORY_TAX = "12.2";
     public static final String TEST_DATE = "2023-02-02";
     public static final String TEST_NOTE = "TestNote";
-    public static final LocalTime TEST_LOCAL_TIME = LocalTime.of(9, 0);
+    public static final LocalTime TEST_START_LOCAL_TIME = LocalTime.of(9, 0);
     public static final String TEST_PASSWORD = "TestPassword";
     public static final String TEST_NAME = "TestName";
     public static final long TEST_AMOUNT = 1000;
+    public static final LocalTime TEST_END_LOCAL_TIME = LocalTime.of(13, 0);
 }
