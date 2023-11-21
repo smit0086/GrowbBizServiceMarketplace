@@ -36,7 +36,9 @@ const BookingsPage = async () => {
     return (
         <div className="p-8 pl-16">
             <div className="mb-4">
-                <h2 className="text-3xl">Ongoing bookings</h2>
+                <h2 className="text-3xl font-semibold tracking-tight">
+                    Ongoing bookings
+                </h2>
                 {ongoingBookings.length === 0 && (
                     <div className="py-8">
                         <Alert className="max-w-[500px]">
@@ -55,7 +57,9 @@ const BookingsPage = async () => {
                 </div>
             </div>
             <div className="mb-4">
-                <h2 className="text-3xl">Upcoming bookings</h2>
+                <h2 className="text-3xl font-semibold tracking-tight">
+                    Upcoming bookings
+                </h2>
                 {upcomingBookings.length === 0 && (
                     <div className="py-8">
                         <Alert className="max-w-[500px]">
@@ -76,7 +80,9 @@ const BookingsPage = async () => {
                 </div>
             </div>
             <div className="mb-4">
-                <h2 className="text-3xl">Past bookings</h2>
+                <h2 className="text-3xl font-semibold tracking-tight">
+                    Past bookings
+                </h2>
                 {pastBookings.length === 0 && (
                     <div className="py-8">
                         <Alert className="max-w-[500px]">

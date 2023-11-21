@@ -23,7 +23,7 @@ const AllPayments = async () => {
     });
     return (
         <div className="py-8 px-16">
-            <h2 className="text-3xl">Payments</h2>
+            <h2 className="text-4xl font-semibold tracking-tight">Payments</h2>
             <Table className="my-8">
                 <TableCaption>A list of all your payments.</TableCaption>
                 <TableHeader>

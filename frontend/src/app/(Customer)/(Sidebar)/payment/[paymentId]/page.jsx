@@ -30,7 +30,9 @@ const page = async (props) => {
                     </div>
                 </a>
             </h4>
-            <h2 className="text-3xl">Payment details</h2>
+            <h2 className="text-4xl font-semibold tracking-tight">
+                Payment details
+            </h2>
             <Card className="w-[500px] my-8">
                 <CardHeader className="flex items-center">
                     {paymentDetails.paymentStatus === "CREATED" ? (
