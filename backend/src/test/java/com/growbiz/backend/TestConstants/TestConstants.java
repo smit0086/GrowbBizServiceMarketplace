@@ -8,7 +8,7 @@ public class TestConstants {
     public static final String TEST_BUSINESS_NAME = "TestBusinessName";
     public static final String TEST_FILE_NAME = "TestName";
     public static final String TEST_BUSINESS_DESCRIPTION = "TestBusinessDescription";
-    public static final String TEST_BUSINESS_FILE_PATH = "D://test.img";
+    public static final String TEST_BUSINESS_FILE_PATH = "/test.img";
 
     public static final String TEST_SERVICE_NAME = "TestServiceName";
     public static final String TEST_SERVICE_DESCRIPTION = "TestServiceDescription";
@@ -29,4 +29,6 @@ public class TestConstants {
     public static final String TEST_BOOKING_DATE = "2023-11-13";
     public static final LocalTime TEST_BOOKING_START_TIME = LocalTime.of(11, 30);
     public static final LocalTime TEST_BOOKING_END_TIME = LocalTime.of(12, 30);
+    public static final LocalTime TEST_END_LOCAL_TIME = LocalTime.of(13, 0);
+
 }
