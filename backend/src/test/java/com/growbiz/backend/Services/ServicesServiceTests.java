@@ -110,7 +110,7 @@ public class ServicesServiceTests {
                 .serviceId(1L)
                 .serviceName(TestConstants.TEST_SERVICE_NAME)
                 .description(TestConstants.TEST_SERVICE_DESCRIPTION)
-                .price(24.00)
+                .price(TestConstants.TEST_SERVICE_PRICE)
                 .imageURL(TestConstants.TEST_SERVICE_IMAGE_URL)
                 .business(mockBusiness)
                 .subCategory(mockSubCategory)

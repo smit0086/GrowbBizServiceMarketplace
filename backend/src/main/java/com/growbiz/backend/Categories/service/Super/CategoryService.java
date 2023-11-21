@@ -39,8 +39,7 @@ public class CategoryService implements ICategoryService {
         }
     }
 
-    @Override
-    public Category addCategory(Category newCategory) {
+    @Override    public Category addCategory(Category newCategory) {
         List<Category> category = iCategoryRepository.findByName(newCategory.getName());
         if (category.isEmpty()) {
             return iCategoryRepository.save(newCategory);

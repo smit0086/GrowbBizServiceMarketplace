@@ -1,4 +1,4 @@
-package com.growbiz.backend.Categories.Sub;
+package com.growbiz.backend.Categories;
 
 import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
@@ -6,11 +6,14 @@ import com.growbiz.backend.Categories.repository.ICategoryRepository;
 import com.growbiz.backend.Categories.repository.ISubCategoryRepository;
 import com.growbiz.backend.Categories.service.Sub.SubCategoryService;
 import com.growbiz.backend.RequestResponse.SubCategory.SubCategoryRequest;
+import com.growbiz.backend.TestConstants.TestConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class SubCategoryServiceTests {
     @Mock
     private ICategoryRepository categoryRepository;
@@ -45,31 +49,31 @@ public class SubCategoryServiceTests {
         this.mockSubCategory = SubCategory
                 .builder()
                 .subCategoryID(1L)
-                .name("Sub Category 1")
+                .name(TestConstants.TEST_SUBCATEGORY_NAME)
                 .category(mockCategory)
                 .build();
         this.mockSubCategoryToAdd = SubCategory
                 .builder()
-                .name("Sub Category 1")
+                .name(TestConstants.TEST_SUBCATEGORY_NAME)
                 .category(mockCategory)
                 .build();
         this.mockCategory = Category
                 .builder()
                 .categoryID(1L)
-                .name("Category 1")
-                .tax("15")
+                .name(TestConstants.TEST_CATEGORY_NAME)
+                .tax(TestConstants.TEST_CATEGORY_TAX)
                 .build();
         this.mockSubCategoryRequest = SubCategoryRequest
                 .builder()
                 .subCategoryID(1L)
-                .name("Sub Category 1")
+                .name(TestConstants.TEST_SUBCATEGORY_NAME)
                 .categoryID(1L)
                 .isSubCategory(true)
                 .build();
         this.mockSubCategoryUpdated = SubCategory
                 .builder()
                 .subCategoryID(1L)
-                .name("Sub Category 21")
+                .name(TestConstants.TEST_SUBCATEGORY_NAME + "11")
                 .category(mockCategory)
                 .build();
     }
@@ -77,9 +81,7 @@ public class SubCategoryServiceTests {
     @Test
     public void getSubCategoryByIDSuccessTest() {
         when(subCategoryRepository.findById(1L)).thenReturn(Optional.ofNullable(mockSubCategory));
-
         SubCategory results = subCategoryService.getSubCategoryByID(1L);
-
         assertEquals(mockSubCategory, results);
     }
 
@@ -93,9 +95,7 @@ public class SubCategoryServiceTests {
     @Test
     public void fetchSubCategoryListSuccessTest() {
         when(subCategoryRepository.findAll()).thenReturn(List.of(mockSubCategory));
-
         List<SubCategory> results = subCategoryService.fetchSubCategoryList();
-
         assertEquals(List.of(mockSubCategory), results);
     }
 
@@ -109,16 +109,13 @@ public class SubCategoryServiceTests {
     @Test
     public void fetchSubCategoryListForCategoryIDSuccessTest() {
         when(subCategoryRepository.findByCategoryCategoryID(1L)).thenReturn(List.of(mockSubCategory));
-
         List<SubCategory> results = subCategoryService.fetchSubCategoryListForCategoryID(1L);
-
         assertEquals(List.of(mockSubCategory), results);
     }
 
     @Test
     public void fetchNullSubCategoryListForCategoryIDTest() {
         when(subCategoryRepository.findByCategoryCategoryID(1L)).thenThrow(new NullPointerException("Test Exception"));
-
         List<SubCategory> results = subCategoryService.fetchSubCategoryListForCategoryID(1L);
         assertNull(results);
     }
@@ -132,7 +129,7 @@ public class SubCategoryServiceTests {
 
         subCategoryService.addSubCategory(mockSubCategoryRequest);
 
-        assertNotNull(subCategoryRepository.findByName("Sub Category 1"));
+        assertNotNull(subCategoryRepository.findByName(TestConstants.TEST_SUBCATEGORY_NAME));
         verify(subCategoryRepository, times(1)).save(
                 argThat(subCategory -> subCategory.getName().equals(mockSubCategoryRequest.getName())));
     }
@@ -150,10 +147,17 @@ public class SubCategoryServiceTests {
         when(categoryRepository.findById(1L)).thenReturn(Optional.ofNullable(mockCategory));
         when(subCategoryRepository.save(any(SubCategory.class))).thenReturn(mockSubCategoryUpdated);
 
-        SubCategory results = subCategoryService.updateSubCategory(mockSubCategoryRequest, 1L);
+        subCategoryService.updateSubCategory(mockSubCategoryRequest, 1L);
 
-        assertNotNull(subCategoryRepository.findByName("Sub Category 1"));
+        assertNotNull(subCategoryRepository.findByName(TestConstants.TEST_SUBCATEGORY_NAME));
         verify(subCategoryRepository, times(1)).save(
                 argThat(subCategory -> subCategory.getName().equals(mockSubCategoryRequest.getName())));
+    }
+
+    @Test
+    public void deleteExistingSubCategoryTest() {
+        doNothing().when(subCategoryRepository).deleteById(mockSubCategory.getSubCategoryID());
+        subCategoryService.deleteSubCategory(mockSubCategory.getSubCategoryID());
+        verify(subCategoryRepository).deleteById(mockSubCategory.getSubCategoryID());
     }
 }
