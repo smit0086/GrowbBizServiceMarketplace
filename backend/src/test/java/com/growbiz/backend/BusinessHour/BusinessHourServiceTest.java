@@ -1,16 +1,15 @@
-package com.growbiz.backend.Business;
+package com.growbiz.backend.BusinessHour;
 
 import com.growbiz.backend.BusinessHour.model.BusinessHour;
 import com.growbiz.backend.BusinessHour.repository.IBusinessHourRepository;
 import com.growbiz.backend.BusinessHour.service.BusinessHourService;
 import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourRequest;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.DayOfWeek;
@@ -33,9 +32,8 @@ public class BusinessHourServiceTest {
     private BusinessHour mockedBusinessHour;
     BusinessHourRequest mockedBusinessHourRequest;
 
-    @Before
-    public void init() {
-        MockitoAnnotations.openMocks(this);
+    @BeforeEach
+    void init() {
         Map<DayOfWeek, String[]> mockedMapOfBusinessHour = new HashMap<>();
         String[] mockedTimeSlots = {"09:30", "17:00"};
         mockedMapOfBusinessHour.put(DayOfWeek.MONDAY, mockedTimeSlots);
@@ -49,22 +47,23 @@ public class BusinessHourServiceTest {
                 .businessId(1L)
                 .businessHours(mockedMapOfBusinessHour)
                 .build();
-        doReturn(null).when(businessHourRepositoryMock).save(any());
-        when(businessHourRepositoryMock.findById(1L)).thenReturn(Optional.of(mockedBusinessHour));
+
     }
 
     @Test
-    public void testSaveBusinessHours() {
+    void testSaveBusinessHours() {
+        doReturn(null).when(businessHourRepositoryMock).save(any());
         businessHourServiceMock.saveBusinessHours(mockedBusinessHourRequest);
     }
 
     @Test
-    public void testGetBusinessHour() {
+    void testGetBusinessHour() {
+        when(businessHourRepositoryMock.findById(1L)).thenReturn(Optional.of(mockedBusinessHour));
         Assertions.assertEquals(mockedBusinessHour, businessHourServiceMock.getBusinessHour(1L));
     }
 
     @Test
-    public void testInit() {
+    void testInit() {
         businessHourServiceMock.init(1L);
     }
 }
