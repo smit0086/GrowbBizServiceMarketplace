@@ -32,8 +32,13 @@ import static org.mockito.Mockito.when;
 public class BookingControllerHelperTest {
 
     private static final String TEST_BOOKING_DATE = "2023-11-13";
-    private static final LocalTime TEST_BOOKING_START_TIME = LocalTime.of(11, 30);
-    private static final LocalTime TEST_BOOKING_END_TIME = LocalTime.of(12, 30);
+    public static final int TEST_SERVICE_TIME_REQ_MIN = 30;
+    private static final LocalTime TEST_BOOKING_START_TIME = LocalTime.of(11, TEST_SERVICE_TIME_REQ_MIN);
+    private static final LocalTime TEST_BOOKING_END_TIME = LocalTime.of(12, TEST_SERVICE_TIME_REQ_MIN);
+    public static final long TEST_ID = 1L;
+    public static final double TEST_SERVICE_PRICE = 24.00;
+    public static final double TEST_BOOKING_AMOUNT = 120.50;
+    public static final int TEST_SERVICE_TIME_REQ_HR = 0;
 
     @InjectMocks
     private BookingControllerHelper bookingHelper;
@@ -54,7 +59,7 @@ public class BookingControllerHelperTest {
     public void init() {
         mockUser = User
                 .builder()
-                .id(1L)
+                .id(TEST_ID)
                 .email("test@dal.ca")
                 .password("test")
                 .firstName("John")
@@ -64,52 +69,52 @@ public class BookingControllerHelperTest {
 
         mockBusiness = Business
                 .builder()
-                .businessId(1L)
+                .businessId(TEST_ID)
                 .businessName("Test Business")
                 .build();
 
         mockSubCategory = SubCategory
                 .builder()
-                .subCategoryID(1L)
+                .subCategoryID(TEST_ID)
                 .name("Test SubCategory")
                 .build();
 
         mockService = Services
                 .builder()
-                .serviceId(1L)
+                .serviceId(TEST_ID)
                 .serviceName("Test Service")
                 .description("Test")
-                .price(24.00)
-                .timeRequired(LocalTime.of(0, 30))
+                .price(TEST_SERVICE_PRICE)
+                .timeRequired(LocalTime.of(TEST_SERVICE_TIME_REQ_HR, TEST_SERVICE_TIME_REQ_MIN))
                 .business(mockBusiness)
                 .subCategory(mockSubCategory)
                 .build();
 
         mockBooking = Booking
                 .builder()
-                .id(1L)
+                .id(TEST_ID)
                 .user(mockUser)
                 .service(mockService)
                 .date(TEST_BOOKING_DATE)
                 .startTime(TEST_BOOKING_START_TIME)
                 .endTime(TEST_BOOKING_END_TIME)
-                .amount(120.50)
+                .amount(TEST_BOOKING_AMOUNT)
                 .note("Test")
                 .status(BookingStatus.UPCOMING)
                 .build();
 
         mockBookingBusiness = BookingBusiness
                 .builder()
-                .id(1L)
+                .id(TEST_ID)
                 .date(TEST_BOOKING_DATE)
                 .startTime(TEST_BOOKING_START_TIME)
                 .endTime(TEST_BOOKING_END_TIME)
-                .amount(120.50)
+                .amount(TEST_BOOKING_AMOUNT)
                 .note("Test")
                 .status(BookingStatus.UPCOMING)
                 .userEmail("test@dal.ca")
                 .serviceName("Test Service")
-                .timeRequired(LocalTime.of(0, 30))
+                .timeRequired(LocalTime.of(TEST_SERVICE_TIME_REQ_HR, TEST_SERVICE_TIME_REQ_MIN))
                 .build();
     }
 
