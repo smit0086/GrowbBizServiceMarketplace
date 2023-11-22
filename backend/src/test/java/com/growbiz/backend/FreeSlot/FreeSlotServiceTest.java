@@ -61,22 +61,22 @@ public class FreeSlotServiceTest {
                 .build();
         Business mockBusiness = Business
                 .builder()
-                .businessId(1L)
+                .businessId(TestConstants.TEST_ID_1)
                 .businessName(TestConstants.TEST_BUSINESS_NAME)
                 .email(TestConstants.TEST_EMAIL)
                 .build();
         mockService = Services
                 .builder()
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .serviceName(TestConstants.TEST_SERVICE_NAME)
                 .description(TestConstants.TEST_SERVICE_DESCRIPTION)
-                .price(24.00)
+                .price(TestConstants.TEST_SERVICE_PRICE)
                 .imageURL(TestConstants.TEST_SERVICE_IMAGE_URL)
                 .business(mockBusiness)
                 .build();
         mockedServicesList = List.of(mockService);
         Payment mockedPayment1 = Payment.builder()
-                .paymentId(1L)
+                .paymentId(TestConstants.TEST_ID_1)
                 .amount((double) TestConstants.TEST_AMOUNT)
                 .date("2023-11-21")
                 .note(TestConstants.TEST_NOTE)
@@ -84,10 +84,10 @@ public class FreeSlotServiceTest {
                 .paymentStatus(PaymentStatus.SUCCESS)
                 .startTime(LocalTime.of(10, 0))
                 .endTime(LocalTime.of(11, 0))
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .build();
         Payment mockedPayment2 = Payment.builder()
-                .paymentId(2L)
+                .paymentId(TestConstants.TEST_ID_2)
                 .amount((double) TestConstants.TEST_AMOUNT)
                 .date("2023-11-21")
                 .note(TestConstants.TEST_NOTE)
@@ -95,10 +95,10 @@ public class FreeSlotServiceTest {
                 .paymentStatus(PaymentStatus.SUCCESS)
                 .startTime(LocalTime.of(11, 0))
                 .endTime(LocalTime.of(12, 0))
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .build();
         Payment mockedPayment3 = Payment.builder()
-                .paymentId(3L)
+                .paymentId(TestConstants.TEST_ID_3)
                 .amount((double) TestConstants.TEST_AMOUNT)
                 .date("2023-11-21")
                 .note(TestConstants.TEST_NOTE)
@@ -106,7 +106,7 @@ public class FreeSlotServiceTest {
                 .paymentStatus(PaymentStatus.FAILED)
                 .startTime(LocalTime.of(11, 0))
                 .endTime(LocalTime.of(12, 0))
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .build();
         mockedPaymentList = List.of(mockedPayment1, mockedPayment2, mockedPayment3);
         SlotRange slotRange1 = new SlotRange(LocalTime.of(9, 0), LocalTime.of(10, 0));
@@ -118,12 +118,12 @@ public class FreeSlotServiceTest {
     void testGetFreeSlotsForWeek() {
         when(helperMock.getCurrentWeekAllDates(any(Date.class))).thenReturn(List.of(mockedDate));
         when(businessHourServiceMock.getBusinessHour(anyLong())).thenReturn(mockedBusinessHour);
-        when(servicesServiceMock.getServiceById(1L)).thenReturn(mockService);
+        when(servicesServiceMock.getServiceById(TestConstants.TEST_ID_1)).thenReturn(mockService);
         when(servicesServiceMock.getServiceByBusinessId(anyLong())).thenReturn(mockedServicesList);
         when(paymentServiceMock.findByServiceId(anyLong())).thenReturn(mockedPaymentList);
         when(helperMock.getFreeSlots(any(Date.class), any(BusinessHour.class), anyLong(), any(List.class))).thenReturn(mockedSlotRangeList);
         Map<Date, List<SlotRange>> actualMap = new LinkedHashMap<>();
         actualMap.put(mockedDate, mockedSlotRangeList);
-        Assertions.assertEquals(actualMap, freeSlotServiceMock.getFreeSlotsForWeek(1L, mockedDate, 1L));
+        Assertions.assertEquals(actualMap, freeSlotServiceMock.getFreeSlotsForWeek(TestConstants.TEST_ID_1, mockedDate, TestConstants.TEST_ID_1));
     }
 }

@@ -34,7 +34,7 @@ public class UserControllerTest {
     @BeforeEach
     public void init() {
         mockedUser = User.builder()
-                .id(1L)
+                .id(TestConstants.TEST_ID_1)
                 .email(TestConstants.TEST_EMAIL)
                 .password(TestConstants.TEST_PASSWORD)
                 .firstName(TestConstants.TEST_NAME)
