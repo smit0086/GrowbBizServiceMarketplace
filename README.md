@@ -13,7 +13,7 @@ also introducing exciting new features to boost their growth and improve consume
 </p>
 
 [Build GrowBiz](#build-growbiz) •
-[User Scenarios](#user-scenarios)
+[User Scenarios](#user-scenarios) •
 [APIs](#api-table) •
 [Dependency](#dependency) •
 [Code Coverage](#code-coverage)
