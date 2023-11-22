@@ -35,6 +35,12 @@ public class UserAuthenticationService implements IUserAuthenticationService {
     @Autowired
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * Registers the user in the application
+     *
+     * @param userInfo - All the information about user
+     * @return - response with a JWT token
+     */
     @Override
     public AuthenticationResponse register(User userInfo) {
         if (Objects.nonNull(userService.getUserByEmailAndRole(userInfo.getEmail(), userInfo.getRole().name()))) {
@@ -49,6 +55,12 @@ public class UserAuthenticationService implements IUserAuthenticationService {
                 .build();
     }
 
+    /**
+     * Authenticates the user based on Email, Role and Password.
+     *
+     * @param authenticationRequest - authentication request
+     * @return - response with JWT Token
+     */
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
         authenticationManager

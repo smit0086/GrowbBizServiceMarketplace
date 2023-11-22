@@ -20,11 +20,23 @@ public class UserAuthenticationController {
     @Autowired
     IUserAuthenticationService authenticationService;
 
+    /**
+     * Registers the user in the application
+     *
+     * @param userInfo - All the information about user
+     * @return - ResponseEntity with a JWT token
+     */
     @PostMapping(path = "/signup")
     public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody User userInfo) {
         return ResponseEntity.ok(authenticationService.register(userInfo));
     }
 
+    /**
+     * Authenticates the user based on Email, Role and Password.
+     *
+     * @param authRequest - authentication request
+     * @return - ResponseEntity with JWT Token
+     */
     @PostMapping(path = "/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authRequest) {
         return ResponseEntity.ok(authenticationService.authenticate(authRequest));

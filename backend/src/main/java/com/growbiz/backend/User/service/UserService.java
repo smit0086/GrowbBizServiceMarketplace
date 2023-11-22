@@ -24,19 +24,20 @@ public class UserService implements IUserService {
         return iUserRepository.findByEmailAndRole(email, Role.valueOf(role));
     }
 
+    /**
+     * Saves the user into the database
+     *
+     * @param user - user to be saved.
+     */
     public void saveUser(User user) {
         iUserRepository.save(user);
     }
 
     /**
-     * Locates the user based on the username. In the actual implementation, the search
-     * may possibly be case sensitive, or case insensitive depending on how the
-     * implementation instance is configured. In this case, the <code>UserDetails</code>
-     * object that comes back may have a username that is of a different case than what
-     * was actually requested..
+     * Locates the user based on the username.
      *
-     * @param username the username identifying the user whose data is required.
-     * @return a fully populated user record (never <code>null</code>)
+     * @param username the username identifying the user. Here it will be in the form "email:role"
+     * @return a fully populated user record
      * @throws UsernameNotFoundException if the user could not be found or the user has no
      *                                   GrantedAuthority
      */

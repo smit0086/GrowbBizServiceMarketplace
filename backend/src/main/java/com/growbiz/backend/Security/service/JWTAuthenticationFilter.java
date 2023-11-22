@@ -32,6 +32,15 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private static final int SEVEN = 7;
 
+    /**
+     * This method evaluates and validates the JWT and set it in the SecurityContext.
+     *
+     * @param request     - HTTP Request
+     * @param response    - HTTP Response
+     * @param filterChain - filterChain
+     * @throws ServletException - throws ServletException
+     * @throws IOException      - throws IOException
+     */
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,

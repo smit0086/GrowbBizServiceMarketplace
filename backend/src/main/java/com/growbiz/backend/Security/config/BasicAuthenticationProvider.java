@@ -29,6 +29,13 @@ public class BasicAuthenticationProvider implements AuthenticationProvider {
         return userService;
     }
 
+    /**
+     * Authenticates user
+     *
+     * @param authentication the authentication request object.
+     * @return - Authentication object
+     * @throws AuthenticationException - AuthenticationException
+     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 

@@ -29,6 +29,13 @@ public class SecurityConfiguration {
     @Autowired
     private final AuthenticationProvider authenticationProvider;
 
+    /**
+     * This method filters the API calls based on the user roles defined
+     *
+     * @param http - httpSecurity
+     * @return - SecurityFilterChain
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 

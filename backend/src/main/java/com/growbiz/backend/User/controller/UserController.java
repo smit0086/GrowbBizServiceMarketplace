@@ -22,6 +22,13 @@ public class UserController {
     @Autowired
     IUserService userService;
 
+    /**
+     * This returns user information based on the email and role if the user exists.
+     *
+     * @param email - email of the user
+     * @param role  - role of the user
+     * @return - ResponseEntity with User information
+     */
     @GetMapping
     public ResponseEntity<UserResponse> getUser(@RequestParam("email") String email, @RequestParam("role") String role) {
         User user = userService.getUserByEmailAndRole(email, role);
