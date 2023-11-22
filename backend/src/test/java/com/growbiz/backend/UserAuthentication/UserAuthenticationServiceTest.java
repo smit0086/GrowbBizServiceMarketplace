@@ -9,14 +9,13 @@ import com.growbiz.backend.Security.service.JWTService;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.service.IUserService;
 import com.growbiz.backend.UserAuthentication.service.UserAuthenticationService;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,14 +42,8 @@ public class UserAuthenticationServiceTest {
     User mockedUser;
     private AuthenticationResponse expectedResponse;
 
-    @Before
+    @BeforeEach
     public void init() {
-        MockitoAnnotations.openMocks(this);
-        expectedResponse = AuthenticationResponse.builder()
-                .token("tokenReturned")
-                .role(Role.PARTNER)
-                .subject("testEmail@dal.ca")
-                .build();
         mockedUser = User.builder()
                 .id(1L)
                 .email("testEmail@dal.ca")
@@ -58,16 +51,19 @@ public class UserAuthenticationServiceTest {
                 .firstName("test")
                 .lastName("test")
                 .role(Role.PARTNER).build();
-        when(userServiceMock.getUserByEmailAndRole(Mockito.anyString(), Mockito.anyString())).thenReturn(null);
-        doNothing().when(userServiceMock).saveUser(any(User.class));
-        when(jwtServiceMock.generateToken(anyString(), anyString())).thenReturn("tokenReturned");
-        when(passwordEncoder.encode(mockedUser.getPassword())).thenReturn(mockedUser.getPassword());
-        Authentication mockAuthentication = new UsernamePasswordAuthenticationToken("testEmail@dal.ca", "password");
-        when(authenticationManagerMock.authenticate(mockAuthentication)).thenReturn(mockAuthentication);
     }
 
     @Test
     public void testRegister() {
+        expectedResponse = AuthenticationResponse.builder()
+                .token("tokenReturned")
+                .role(Role.PARTNER)
+                .subject("testEmail@dal.ca")
+                .build();
+        when(userServiceMock.getUserByEmailAndRole(Mockito.anyString(), Mockito.anyString())).thenReturn(null);
+        doNothing().when(userServiceMock).saveUser(any(User.class));
+        when(jwtServiceMock.generateToken(anyString(), anyString())).thenReturn("tokenReturned");
+        when(passwordEncoder.encode(mockedUser.getPassword())).thenReturn(mockedUser.getPassword());
         AuthenticationResponse actualResponse = userAuthenticationServiceMock.register(mockedUser);
         Assertions.assertEquals(expectedResponse, actualResponse);
     }
@@ -80,6 +76,14 @@ public class UserAuthenticationServiceTest {
 
     @Test
     public void testAuthenticate() {
+        expectedResponse = AuthenticationResponse.builder()
+                .token("tokenReturned")
+                .role(Role.PARTNER)
+                .subject("testEmail@dal.ca")
+                .build();
+        when(jwtServiceMock.generateToken(anyString(), anyString())).thenReturn("tokenReturned");
+        Authentication mockAuthentication = new UsernamePasswordAuthenticationToken("testEmail@dal.ca:PARTNER", "password");
+        when(authenticationManagerMock.authenticate(mockAuthentication)).thenReturn(mockAuthentication);
         AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().email("testEmail@dal.ca").role(Role.PARTNER).password("password").build();
         Assertions.assertEquals(expectedResponse, userAuthenticationServiceMock.authenticate(authenticationRequest));
     }

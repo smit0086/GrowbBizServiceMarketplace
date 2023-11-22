@@ -6,9 +6,9 @@ import com.growbiz.backend.RequestResponse.Authentication.AuthenticationResponse
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.UserAuthentication.controller.UserAuthenticationController;
 import com.growbiz.backend.UserAuthentication.service.IUserAuthenticationService;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -24,9 +24,10 @@ public class UserAuthenticationControllerTest {
     @Mock
     private IUserAuthenticationService userAuthenticationServiceMocked;
 
+    @Mock
     private ResponseEntity<AuthenticationResponse> expectedResponse;
 
-    @Before
+    @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
         expectedResponse = ResponseEntity.ok(AuthenticationResponse.builder()
