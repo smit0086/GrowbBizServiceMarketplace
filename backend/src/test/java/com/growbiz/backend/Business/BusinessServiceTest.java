@@ -53,7 +53,6 @@ public class BusinessServiceTest {
 
     @BeforeEach
     public void init() {
-        //MockitoAnnotations.openMocks(this);
         mockedCategory = Category.builder().categoryID(1L).name("TestCategory").tax(TestConstants.TEST_CATEGORY_TAX).build();
         mockedBusiness = Business.builder().businessId(1L)
                 .businessName(TestConstants.TEST_BUSINESS_NAME)
