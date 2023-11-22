@@ -1,17 +1,17 @@
 package com.growbiz.backend.User;
 
 import com.growbiz.backend.Enums.Role;
+import com.growbiz.backend.TestConstants.TestConstants;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.repository.IUserRepository;
 import com.growbiz.backend.User.service.UserService;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,43 +31,46 @@ public class UserServiceTest {
     @Mock
     private IUserRepository userRepositoryMock;
 
-    @Before
+    @Mock
+    User mockedUser;
+
+    @BeforeEach
     public void init() {
-        MockitoAnnotations.openMocks(this);
-        User mockedUser = User.builder()
+        mockedUser = User.builder()
                 .id(1L)
-                .email("a@dal.ca")
-                .password("password")
-                .firstName("test")
-                .lastName("test")
+                .email(TestConstants.TEST_EMAIL)
+                .password(TestConstants.TEST_PASSWORD)
+                .firstName(TestConstants.TEST_NAME)
+                .lastName(TestConstants.TEST_NAME)
                 .role(Role.PARTNER).build();
-        when(userRepositoryMock.findByEmailAndRole(Mockito.anyString(), any(Role.class))).thenReturn(mockedUser);
+
     }
 
     @Test
     public void testGetUserByEmailAndRole() {
-
-        User returnedUser = userServiceMock.getUserByEmailAndRole("a@dal.ca", Role.PARTNER.name());
-        Assertions.assertEquals("a@dal.ca", returnedUser.getEmail());
+        when(userRepositoryMock.findByEmailAndRole(Mockito.anyString(), any(Role.class))).thenReturn(mockedUser);
+        User returnedUser = userServiceMock.getUserByEmailAndRole(TestConstants.TEST_EMAIL, Role.PARTNER.name());
+        Assertions.assertEquals(TestConstants.TEST_EMAIL, returnedUser.getEmail());
         Assertions.assertEquals(Role.PARTNER, returnedUser.getRole());
-        Assertions.assertEquals("test", returnedUser.getFirstName());
-        Assertions.assertEquals("test", returnedUser.getLastName());
-        Assertions.assertEquals("password", returnedUser.getPassword());
+        Assertions.assertEquals(TestConstants.TEST_NAME, returnedUser.getFirstName());
+        Assertions.assertEquals(TestConstants.TEST_NAME, returnedUser.getLastName());
+        Assertions.assertEquals(TestConstants.TEST_PASSWORD, returnedUser.getPassword());
     }
 
     @Test
     public void testLoadUserByUsername() {
-        UserDetails returnedUser = userServiceMock.loadUserByUsername("a@dal.ca" + ":" + Role.PARTNER.name());
-        Assertions.assertEquals("a@dal.ca", returnedUser.getUsername());
-        Assertions.assertEquals("password", returnedUser.getPassword());
+        when(userRepositoryMock.findByEmailAndRole(Mockito.anyString(), any(Role.class))).thenReturn(mockedUser);
+        UserDetails returnedUser = userServiceMock.loadUserByUsername(TestConstants.TEST_EMAIL + ":" + Role.PARTNER.name());
+        Assertions.assertEquals(TestConstants.TEST_EMAIL, returnedUser.getUsername());
+        Assertions.assertEquals(TestConstants.TEST_PASSWORD, returnedUser.getPassword());
         Assertions.assertEquals(List.of(new SimpleGrantedAuthority(Role.PARTNER.name())), returnedUser.getAuthorities());
     }
 
     @Test
     public void testUsernameNotFoundException() {
         when(userRepositoryMock.findByEmailAndRole(Mockito.anyString(), any(Role.class))).thenReturn(null);
-        Assertions.assertThrows(UsernameNotFoundException.class, () -> {
-            userServiceMock.loadUserByUsername("a@dal.ca" + ":" + Role.PARTNER.name());
-        });
+        Assertions.assertThrows(UsernameNotFoundException.class, () ->
+                userServiceMock.loadUserByUsername(TestConstants.TEST_EMAIL + ":" + Role.PARTNER.name())
+        );
     }
 }
