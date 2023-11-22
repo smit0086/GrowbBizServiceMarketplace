@@ -9,6 +9,7 @@ import Image from "next/image";
 import { NO_IMAGE_PATH } from "@/lib/constants";
 import { getAllBusinesses } from "@/services/businessService";
 import ServiceCheckoutForm from "./components/ServiceCheckoutForm";
+import ReviewsSection from "./components/ReviewsSection";
 
 export default async function ServiceBooking(context) {
     const authSession = await getServerSession(authOptions);
@@ -101,6 +102,7 @@ export default async function ServiceBooking(context) {
                     />
                 </div>
             </div>
+            <ReviewsSection serviceId={serviceId} />
         </div>
     );
 }

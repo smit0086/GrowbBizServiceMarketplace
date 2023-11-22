@@ -7,10 +7,12 @@ import com.growbiz.backend.RequestResponse.ReviewsAndRatings.ReviewsAndRatingsRe
 import com.growbiz.backend.ReviewsAndRatings.helper.ReviewsAndRatingsControllerHelper;
 import com.growbiz.backend.ReviewsAndRatings.models.ReviewsAndRatings;
 import com.growbiz.backend.ReviewsAndRatings.service.ReviewsAndRatingsService;
+import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,8 +43,9 @@ public class ReviewsAndRatingsController {
 
     @PostMapping(path = "/addReviewAndRating")
     public ResponseEntity<ReviewsAndRatingsResponse> addReviewAndRating(@RequestBody ReviewsAndRatingsRequest addRequest) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        addRequest.setUserId(user.getId());
         ReviewsAndRatings reviewAndRating = reviewsAndRatingsService.addReviewAndRating(addRequest);
-        addRequest.setUserEmail(userRepository.findById(addRequest.getUserId()).get().getEmail());
         if (reviewAndRating != null) {
             return reviewsAndRatingsHelper.createReviewsAndRatingsResponse(List.of(reviewAndRating), false);
         } else {
@@ -52,8 +55,9 @@ public class ReviewsAndRatingsController {
 
     @PostMapping(path = "/updateReviewAndRating")
     public ResponseEntity<ReviewsAndRatingsResponse> updateReviewAndRating(@RequestBody ReviewsAndRatingsRequest updateRequest) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        updateRequest.setUserId(user.getId());
         ReviewsAndRatings reviewAndRating = reviewsAndRatingsService.updateReviewAndRating(updateRequest);
-        updateRequest.setUserEmail(userRepository.findById(updateRequest.getUserId()).get().getEmail());
         if (reviewAndRating != null) {
             return reviewsAndRatingsHelper.createReviewsAndRatingsResponse(List.of(reviewAndRating), true);
         } else {
@@ -62,8 +66,8 @@ public class ReviewsAndRatingsController {
     }
 
     @DeleteMapping(path = "/deleteReviewAndRating")
-    public ResponseEntity<ReviewsAndRatingsResponse> deleteReviewAndRating(@RequestBody ReviewsAndRatings oldReviewAndRating) {
-        Boolean isDeleted = reviewsAndRatingsService.deleteReviewAndRating(oldReviewAndRating.getReviewAndRatingID());
+    public ResponseEntity<ReviewsAndRatingsResponse> deleteReviewAndRating(@RequestParam Long reviewAndRatingId) {
+        Boolean isDeleted = reviewsAndRatingsService.deleteReviewAndRating(reviewAndRatingId);
         if (isDeleted) {
             return reviewsAndRatingsHelper.deleteReviewsAndRatingsResponse(true);
         } else {

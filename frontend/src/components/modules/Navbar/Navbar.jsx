@@ -16,15 +16,24 @@ import React from "react";
 import NavItem from "./NavItem";
 import ProfileMenuLogout from "./ProfileMenuLogout";
 import { ROLES } from "@/lib/constants";
+import { getUserDetails } from "@/services/userService";
+import TooltipWrapper from "../TooltipWrapper/TooltipWrapper";
 
 const Navbar = async ({ navItems }) => {
     const session = await getServerSession(authOptions);
+    const role = session.user.role;
     let businessName = session.user.role;
     if (businessName === ROLES.PARTNER) {
         const business = (
             await getBusiness(session.user.email, session.apiToken)
         )?.businesses?.[0];
         businessName = business?.businessName;
+    } else if (businessName === ROLES.CUSTOMER) {
+        const userDetails = await getUserDetails(
+            session.user.email,
+            session.apiToken
+        );
+        businessName = userDetails?.firstName + " " + userDetails?.lastName;
     }
 
     return (
@@ -34,12 +43,14 @@ const Navbar = async ({ navItems }) => {
             </a>
             <div className="h-full mt-24">
                 {navItems?.map((item) => (
-                    <NavItem
-                        key={item.title}
-                        route={item.route}
-                        icon={item.icon}
-                        iconClassNames={item.iconClassNames}
-                    />
+                    <TooltipWrapper content={item.title} side="right">
+                        <NavItem
+                            key={item.title}
+                            route={item.route}
+                            icon={item.icon}
+                            iconClassNames={item.iconClassNames}
+                        />
+                    </TooltipWrapper>
                 ))}
             </div>
             <DropdownMenu>
@@ -68,7 +79,7 @@ const Navbar = async ({ navItems }) => {
                         </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    {businessName === ROLES.CUSTOMER && (
+                    {role === ROLES.CUSTOMER && (
                         <>
                             <DropdownMenuItem>
                                 <a href="/payment">Payments</a>
