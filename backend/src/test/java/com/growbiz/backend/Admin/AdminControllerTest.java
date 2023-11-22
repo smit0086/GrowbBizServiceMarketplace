@@ -12,11 +12,11 @@ import com.growbiz.backend.Exception.exceptions.Category.CategoryAlreadyExistsEx
 import com.growbiz.backend.Exception.exceptions.Category.CategoryNotFoundException;
 import com.growbiz.backend.Exception.exceptions.Category.SubCategoryAlreadyExistsException;
 import com.growbiz.backend.Exception.exceptions.Category.SubCategoryNotFoundException;
-import com.growbiz.backend.Exception.exceptions.Service.ServiceNotFoundException;
 import com.growbiz.backend.RequestResponse.Category.CategoryResponse;
 import com.growbiz.backend.RequestResponse.SubCategory.SubCategoryRequest;
 import com.growbiz.backend.TestConstants.TestConstants;
 import com.growbiz.backend.User.models.User;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,7 +27,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
@@ -125,7 +124,7 @@ public class AdminControllerTest {
         when(adminControllerHelper.createCategoryResponse(List.of(mockCategory))).thenReturn(expectedResponse);
 
         actualResponse = adminController.addCategory(mockCategory);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -143,7 +142,7 @@ public class AdminControllerTest {
         when(adminControllerHelper.createCategoryResponse(List.of(mockUpdateCategory))).thenReturn(expectedResponse);
 
         actualResponse = adminController.updateCategory(mockUpdateCategory);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -178,7 +177,7 @@ public class AdminControllerTest {
         when(adminControllerHelper.deleteCategoryResponse(false, true)).thenReturn(expectedResponse);
 
         actualResponse = adminController.deleteCategory(mockCategory);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -204,7 +203,7 @@ public class AdminControllerTest {
         when(adminControllerHelper.createSubCategoryResponse(List.of(mockSubCategory))).thenReturn(expectedResponse);
 
         actualResponse = adminController.addSubCategory(mockSubCategoryRequest);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -215,6 +214,7 @@ public class AdminControllerTest {
             adminController.addSubCategory(mockSubCategoryRequest);
         });
     }
+
     @Test
     public void updateSubCategoryTest() throws Exception {
         ResponseEntity<CategoryResponse> actualResponse;
@@ -230,7 +230,7 @@ public class AdminControllerTest {
         when(adminControllerHelper.createSubCategoryResponse(List.of(mockUpdateSubCategory))).thenReturn(expectedResponse);
 
         actualResponse = adminController.updateSubCategory(mockSubCategoryUpdateRequest);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -256,7 +256,7 @@ public class AdminControllerTest {
         when(adminControllerHelper.deleteCategoryResponse(true, true)).thenReturn(expectedResponse);
 
         actualResponse = adminController.deleteSubCategory(mockSubCategory);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
