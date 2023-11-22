@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -65,6 +67,14 @@ public class FreeSlotServiceHelperTest {
                 .monday_end(TestConstants.TEST_END_LOCAL_TIME)
                 .tuesday_start(TestConstants.TEST_START_LOCAL_TIME)
                 .tuesday_end(TestConstants.TEST_END_LOCAL_TIME)
+                .wednesday_start(TestConstants.TEST_START_LOCAL_TIME)
+                .wednesday_end(TestConstants.TEST_END_LOCAL_TIME)
+                .thursday_start(TestConstants.TEST_START_LOCAL_TIME)
+                .thursday_end(TestConstants.TEST_END_LOCAL_TIME)
+                .friday_start(TestConstants.TEST_START_LOCAL_TIME)
+                .friday_end(TestConstants.TEST_END_LOCAL_TIME)
+                .saturday_start(TestConstants.TEST_START_LOCAL_TIME)
+                .saturday_end(TestConstants.TEST_END_LOCAL_TIME)
                 .build();
         mockService = Services
                 .builder()
@@ -93,14 +103,38 @@ public class FreeSlotServiceHelperTest {
         Assertions.assertEquals(mockSimpleDateFormat.format(expectedListOfDates.get(0)), mockSimpleDateFormat.format(actualValue.get(0)));
     }
 
-    @Test
-    void testGetFreeSlots() throws ParseException {
+    @ParameterizedTest
+    @ValueSource(strings = {"2023-11-20", "2023-11-21", "2023-11-22", "2023-11-23", "2023-11-24", "2023-11-25"})
+    void testGetFreeSlots(String date) throws ParseException {
+        Payment mockedPayment1 = Payment.builder()
+                .paymentId(1L)
+                .amount((double) TestConstants.TEST_AMOUNT)
+                .date(date)
+                .note(TestConstants.TEST_NOTE)
+                .userEmail(TestConstants.TEST_EMAIL)
+                .paymentStatus(PaymentStatus.SUCCESS)
+                .startTime(LocalTime.of(10, 0))
+                .endTime(LocalTime.of(11, 0))
+                .serviceId(1L)
+                .build();
+        Payment mockedPayment2 = Payment.builder()
+                .paymentId(2L)
+                .amount((double) TestConstants.TEST_AMOUNT)
+                .date(date)
+                .note(TestConstants.TEST_NOTE)
+                .userEmail(TestConstants.TEST_EMAIL)
+                .paymentStatus(PaymentStatus.SUCCESS)
+                .startTime(LocalTime.of(11, 0))
+                .endTime(LocalTime.of(12, 0))
+                .serviceId(1L)
+                .build();
+        mockedPaymentList = List.of(mockedPayment1, mockedPayment2);
         SimpleDateFormat mockSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         SlotRange slotRange1 = new SlotRange(LocalTime.of(9, 0), LocalTime.of(10, 0));
         SlotRange slotRange2 = new SlotRange(LocalTime.of(12, 0), LocalTime.of(13, 0));
         List<SlotRange> expectedValueTuesday = List.of(slotRange1, slotRange2);
         when(servicesServiceMock.getServiceById(1L)).thenReturn(mockService);
-        List<SlotRange> actualValueTue = freeSlotServiceHelperMock.getFreeSlots(mockSimpleDateFormat.parse("2023-11-21"), mockedBusinessHour, 1L, mockedPaymentList);
+        List<SlotRange> actualValueTue = freeSlotServiceHelperMock.getFreeSlots(mockSimpleDateFormat.parse(date), mockedBusinessHour, 1L, mockedPaymentList);
         Assertions.assertEquals(expectedValueTuesday, actualValueTue);
     }
 }
