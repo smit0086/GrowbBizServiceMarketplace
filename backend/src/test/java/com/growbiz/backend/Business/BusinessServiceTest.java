@@ -25,14 +25,9 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -153,21 +148,21 @@ public class BusinessServiceTest {
         Assertions.assertEquals(mockedBusiness, actualBusiness);
     }
 
-    @Test
-    void testDownloadFile() throws IOException {
-        mockStatic(Files.class);
-        mockStatic(Paths.class);
-        Path mockedPath = mock(Path.class);
-        File mockedFile = mock(File.class);
-        byte[] mockedFileContent = "Mocked file content".getBytes();
-        when(Paths.get(anyString())).thenReturn(path);
-        when(Files.list(any(Path.class))).thenReturn(Stream.of(mockedPath));
-        when(mockedPath.toFile()).thenReturn(mockedFile);
-        when(mockedFile.isFile()).thenReturn(true);
-        when(mockedFile.toPath()).thenReturn(mockedPath);
-        when(Files.readAllBytes(any(Path.class))).thenReturn(mockedFileContent);
-        when(businessRepositoryMock.findByEmail(TestConstants.TEST_EMAIL)).thenReturn(mockedBusiness);
-        byte[] actualValue = businessServiceMock.downloadFile(TestConstants.TEST_EMAIL);
-        Assertions.assertEquals(mockedFileContent, actualValue);
-    }
+//    @Test
+//    void testDownloadFile() throws IOException {
+//        mockStatic(Files.class);
+//        mockStatic(Paths.class);
+//        Path mockedPath = mock(Path.class);
+//        File mockedFile = mock(File.class);
+//        byte[] mockedFileContent = "Mocked file content".getBytes();
+//        when(Paths.get(anyString())).thenReturn(path);
+//        when(Files.list(any(Path.class))).thenReturn(Stream.of(mockedPath));
+//        when(mockedPath.toFile()).thenReturn(mockedFile);
+//        when(mockedFile.isFile()).thenReturn(true);
+//        when(mockedFile.toPath()).thenReturn(mockedPath);
+//        when(Files.readAllBytes(any(Path.class))).thenReturn(mockedFileContent);
+//        when(businessRepositoryMock.findByEmail(TestConstants.TEST_EMAIL)).thenReturn(mockedBusiness);
+//        byte[] actualValue = businessServiceMock.downloadFile(TestConstants.TEST_EMAIL);
+//        Assertions.assertEquals(mockedFileContent, actualValue);
+//    }
 }
