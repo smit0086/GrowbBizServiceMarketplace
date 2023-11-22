@@ -56,3 +56,7 @@ export const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 
 export const NO_IMAGE_PATH =
     "https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2FnoImageAvailable.png?alt=media&token=53bc209a-c108-4495-b00c-b3d9df100c4a";
+
+export const TOAST_MESSAGE = {
+    EMAIL_REMINDER: "Reminder email has been sent successfully."
+}

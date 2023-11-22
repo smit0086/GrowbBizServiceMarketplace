@@ -24,11 +24,16 @@ import { useForm } from "react-hook-form";
 import { Icons } from "@/components/icons";
 import { updateBookingStatus } from "@/services/bookingService";
 import { BOOKING_STATUS } from "@/lib/constants";
+import { sendEmailReminder } from "@/services/emailService";
+import { useToast } from "@/components/ui/use-toast";
+import { TOAST_MESSAGE } from "@/lib/constants";
 
 const UpcomingBookingCard = ({ authSession, upcomingBooking }) => {
     const [isOngoingConfirmationDialoagOpen, setOngoingConfirmationDialoagOpen] = useState(false);
+    const [isSendReminderDialogOpen, setSendReminderDialogOpen] = useState(false);
     const { handleSubmit, control, formState: { errors } } = useForm();
     const [isLoading, setIsLoading] = useState(false);
+    const { toast } = useToast();
 
     const handleOngoingStatus = async (data) => {
         setIsLoading(true);
@@ -36,6 +41,16 @@ const UpcomingBookingCard = ({ authSession, upcomingBooking }) => {
         setIsLoading(false);
         setOngoingConfirmationDialoagOpen(false);
         window.location.reload();
+    }
+
+    const handleSendRemider = async (data) => {
+        setIsLoading(true);
+        await sendEmailReminder(authSession.apiToken, data.upcomingBooking.id);
+        toast({
+                title: TOAST_MESSAGE.EMAIL_REMINDER,
+            });
+        setIsLoading(false);
+        setSendReminderDialogOpen(false);
     }
 
     return (
@@ -82,6 +97,49 @@ const UpcomingBookingCard = ({ authSession, upcomingBooking }) => {
             </CardContent>
             <CardFooter>
                 <div className="flex items-center space-x-4">
+                    <Dialog
+                        open={isSendReminderDialogOpen}
+                        onOpenChange={setSendReminderDialogOpen}
+                    >
+                        <DialogTrigger asChild>
+                            <Button variant="destructive"> Send Reminder</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                                <DialogTitle>Confirmation</DialogTitle>
+                            </DialogHeader>
+                            <form
+                                onSubmit={handleSubmit((formData) =>
+                                    handleSendRemider({
+                                        upcomingBooking,
+                                        formData
+                                    })
+                                )}
+                            >
+                                <div style={{ marginBottom: "1.2rem" }}>
+                                    <div>
+                                        <Label
+                                            htmlFor="name"
+                                            className="text-right"
+                                        >
+                                            Are you sure you want to send the reminder?
+                                        </Label>
+                                    </div>
+                                </div>
+                                <DialogFooter>
+                                    <Button
+                                        type="submit"
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading && (
+                                            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                                        )}
+                                        Confirm
+                                    </Button>
+                                </DialogFooter>
+                            </form>
+                        </DialogContent>
+                    </Dialog>
                     <Dialog
                         open={isOngoingConfirmationDialoagOpen}
                         onOpenChange={setOngoingConfirmationDialoagOpen}
