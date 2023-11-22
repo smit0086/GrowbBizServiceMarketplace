@@ -5,6 +5,7 @@ import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.RequestResponse.Category.CategoryResponse;
+import com.growbiz.backend.TestConstants.TestConstants;
 import com.growbiz.backend.User.models.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +31,7 @@ public class AdminControllerHelperTest {
     @Mock
     User mockUser = User
             .builder()
-            .id(1L)
+            .id(TestConstants.TEST_ID_1)
             .email("test@dal.ca")
             .password("test")
             .firstName("John")
@@ -41,7 +42,7 @@ public class AdminControllerHelperTest {
     @Mock
     Category mockCategory = Category
             .builder()
-            .categoryID(1L)
+            .categoryID(TestConstants.TEST_ID_1)
             .name("Test Category")
             .tax("15")
             .build();
@@ -49,7 +50,7 @@ public class AdminControllerHelperTest {
     @Mock
     SubCategory mockSubCategory = SubCategory
             .builder()
-            .subCategoryID(1L)
+            .subCategoryID(TestConstants.TEST_ID_1)
             .name("Test Subcategory")
             .category(mockCategory)
             .build();

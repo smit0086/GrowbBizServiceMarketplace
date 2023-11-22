@@ -59,19 +59,19 @@ public class ServicesServiceTests {
     public void init() {
         mockCategory = Category
                 .builder()
-                .categoryID(1L)
+                .categoryID(TestConstants.TEST_ID_1)
                 .name(TestConstants.TEST_CATEGORY_NAME)
                 .tax(TestConstants.TEST_CATEGORY_TAX)
                 .build();
         mockSubCategory = SubCategory
                 .builder()
-                .subCategoryID(1L)
+                .subCategoryID(TestConstants.TEST_ID_1)
                 .name(TestConstants.TEST_SUBCATEGORY_NAME)
                 .category(mockCategory)
                 .build();
         mockBusiness = Business
                 .builder()
-                .businessId(1L)
+                .businessId(TestConstants.TEST_ID_1)
                 .businessName(TestConstants.TEST_BUSINESS_NAME)
                 .email(TestConstants.TEST_EMAIL)
                 .build();
@@ -81,23 +81,23 @@ public class ServicesServiceTests {
                 .serviceName(TestConstants.TEST_SERVICE_NAME)
                 .description(TestConstants.TEST_SERVICE_DESCRIPTION)
                 .price(TestConstants.TEST_SERVICE_PRICE)
-                .businessID(1)
-                .subCategoryID(1)
+                .businessID(TestConstants.TEST_ID_1)
+                .subCategoryID(TestConstants.TEST_ID_1)
                 .image(TestConstants.TEST_SERVICE_IMAGE_URL)
                 .build();
         mockServiceDTO = ServiceDTO
                 .builder()
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .serviceName(TestConstants.TEST_SERVICE_NAME)
                 .description(TestConstants.TEST_SERVICE_DESCRIPTION)
                 .price(TestConstants.TEST_SERVICE_PRICE)
-                .businessId(1L)
-                .subCategoryId(1L)
+                .businessId(TestConstants.TEST_ID_1)
+                .subCategoryId(TestConstants.TEST_ID_1)
                 .imageURL(TestConstants.TEST_SERVICE_IMAGE_URL)
                 .build();
         mockServiceUpdated = Services
                 .builder()
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .serviceName(TestConstants.TEST_SERVICE_NAME)
                 .description(TestConstants.TEST_SERVICE_DESCRIPTION)
                 .price(TestConstants.TEST_SERVICE_PRICE_UPDATED)
@@ -107,7 +107,7 @@ public class ServicesServiceTests {
                 .build();
         mockService = Services
                 .builder()
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .serviceName(TestConstants.TEST_SERVICE_NAME)
                 .description(TestConstants.TEST_SERVICE_DESCRIPTION)
                 .price(TestConstants.TEST_SERVICE_PRICE)
@@ -119,37 +119,37 @@ public class ServicesServiceTests {
 
     @Test
     public void getServiceTest() {
-        when(serviceRepository.findById(1L)).thenReturn(Optional.of(mockService));
-        Services results = servicesService.getServiceById(1L);
+        when(serviceRepository.findById(TestConstants.TEST_ID_1)).thenReturn(Optional.of(mockService));
+        Services results = servicesService.getServiceById(TestConstants.TEST_ID_1);
         assertEquals(mockService, results);
     }
 
     @Test
     public void getNullServiceTest() {
-        when((serviceRepository.findById(1L))).thenReturn(Optional.empty());
-        Services results = servicesService.getServiceById(1L);
+        when((serviceRepository.findById(TestConstants.TEST_ID_1))).thenReturn(Optional.empty());
+        Services results = servicesService.getServiceById(TestConstants.TEST_ID_1);
         assertEquals(null, results);
     }
 
     @Test
     public void getServiceByBusinessIdTest() {
-        when(serviceRepository.findByBusinessBusinessId(1L)).thenReturn(List.of(mockService));
-        List<Services> results1 = servicesService.getServiceByBusinessId(1L);
+        when(serviceRepository.findByBusinessBusinessId(TestConstants.TEST_ID_1)).thenReturn(List.of(mockService));
+        List<Services> results1 = servicesService.getServiceByBusinessId(TestConstants.TEST_ID_1);
         assertEquals(List.of(mockService), results1);
 
-        when(serviceRepository.findByBusinessBusinessId(1L)).thenThrow(new NullPointerException("Test Exception"));
-        List<Services> results2 = servicesService.getServiceByBusinessId(1L);
+        when(serviceRepository.findByBusinessBusinessId(TestConstants.TEST_ID_1)).thenThrow(new NullPointerException("Test Exception"));
+        List<Services> results2 = servicesService.getServiceByBusinessId(TestConstants.TEST_ID_1);
         assertNull(results2);
     }
 
     @Test
     public void getServiceBySubCategoryIdTest() {
-        when(serviceRepository.findBySubCategorySubCategoryID(1L)).thenReturn(List.of(mockService));
-        List<Services> results1 = servicesService.getServiceBySubCategoryId(1L);
+        when(serviceRepository.findBySubCategorySubCategoryID(TestConstants.TEST_ID_1)).thenReturn(List.of(mockService));
+        List<Services> results1 = servicesService.getServiceBySubCategoryId(TestConstants.TEST_ID_1);
         assertEquals(List.of(mockService), results1);
 
         when(serviceRepository.findBySubCategorySubCategoryID(anyLong())).thenThrow(new NullPointerException("Test Exception"));
-        List<Services> results2 = servicesService.getServiceBySubCategoryId(1L);
+        List<Services> results2 = servicesService.getServiceBySubCategoryId(TestConstants.TEST_ID_1);
         assertNull(results2);
     }
 
@@ -158,7 +158,7 @@ public class ServicesServiceTests {
         when(subCategoryService.fetchSubCategoryListForCategoryID(anyLong())).thenReturn(List.of(mockSubCategory, mockSubCategory));
         when(serviceRepository.findBySubCategorySubCategoryID(anyLong())).thenReturn(List.of(mockService));
 
-        List<ServiceDTO> results = servicesService.getServicesByCategoryId(1L);
+        List<ServiceDTO> results = servicesService.getServicesByCategoryId(TestConstants.TEST_ID_1);
 
         assertEquals(List.of(mockServiceDTO, mockServiceDTO), results);
     }
@@ -166,7 +166,7 @@ public class ServicesServiceTests {
     @Test
     public void getEmptyListOfServicesByCategoryIdTest() {
         when(subCategoryService.fetchSubCategoryListForCategoryID(mockCategory.getCategoryID())).thenReturn(null);
-        List<ServiceDTO> results = servicesService.getServicesByCategoryId(1L);
+        List<ServiceDTO> results = servicesService.getServicesByCategoryId(TestConstants.TEST_ID_1);
         assertEquals(true, results.isEmpty());
     }
 
@@ -176,14 +176,14 @@ public class ServicesServiceTests {
                 .builder()
                 .serviceName(TestConstants.TEST_SERVICE_NAME)
                 .description(TestConstants.TEST_SERVICE_DESCRIPTION)
-                .price(24.00)
+                .price(TestConstants.TEST_SERVICE_PRICE)
                 .imageURL(TestConstants.TEST_SERVICE_IMAGE_URL)
                 .business(mockBusiness)
                 .subCategory(mockSubCategory)
                 .build();
-        when(serviceRepository.findByServiceNameAndBusinessBusinessId(TestConstants.TEST_SERVICE_NAME, 1L)).thenReturn(null);
-        when(businessService.findById(1L)).thenReturn(mockBusiness);
-        when(subCategoryService.getSubCategoryByID(1L)).thenReturn(mockSubCategory);
+        when(serviceRepository.findByServiceNameAndBusinessBusinessId(TestConstants.TEST_SERVICE_NAME, TestConstants.TEST_ID_1)).thenReturn(null);
+        when(businessService.findById(TestConstants.TEST_ID_1)).thenReturn(mockBusiness);
+        when(subCategoryService.getSubCategoryByID(TestConstants.TEST_ID_1)).thenReturn(mockSubCategory);
         doReturn(mockService).when(serviceRepository).save(toBeSavedService);
         Services results = servicesService.addService(mockServiceRequest);
 
@@ -193,7 +193,7 @@ public class ServicesServiceTests {
 
     @Test
     public void addExistingServiceTest() {
-        when(serviceRepository.findByServiceNameAndBusinessBusinessId(TestConstants.TEST_SERVICE_NAME, 1L)).thenReturn(mockService);
+        when(serviceRepository.findByServiceNameAndBusinessBusinessId(TestConstants.TEST_SERVICE_NAME, TestConstants.TEST_ID_1)).thenReturn(mockService);
         Services results = servicesService.addService(mockServiceRequest);
         assertNull(results);
     }
@@ -206,12 +206,12 @@ public class ServicesServiceTests {
                 .description(TestConstants.TEST_SERVICE_DESCRIPTION)
                 .price(TestConstants.TEST_SERVICE_PRICE_UPDATED)
                 .image(TestConstants.TEST_SERVICE_IMAGE_URL)
-                .businessID(1L)
-                .subCategoryID(1L)
+                .businessID(TestConstants.TEST_ID_1)
+                .subCategoryID(TestConstants.TEST_ID_1)
                 .build();
         when(serviceRepository.findById(anyLong())).thenReturn(Optional.of(mockService));
-        when(businessService.findById(1L)).thenReturn(mockBusiness);
-        when(subCategoryService.getSubCategoryByID(1L)).thenReturn(mockSubCategory);
+        when(businessService.findById(TestConstants.TEST_ID_1)).thenReturn(mockBusiness);
+        when(subCategoryService.getSubCategoryByID(TestConstants.TEST_ID_1)).thenReturn(mockSubCategory);
         when(serviceRepository.save(mockServiceUpdated)).thenReturn(mockServiceUpdated);
 
         Services results = servicesService.updateService(toBeUpdatedService);
@@ -230,14 +230,14 @@ public class ServicesServiceTests {
 
     @Test
     public void getTaxForServiceTest() {
-        when(categoryService.getCategoryByID(1L)).thenReturn(mockCategory);
+        when(categoryService.getCategoryByID(TestConstants.TEST_ID_1)).thenReturn(mockCategory);
         String results = servicesService.getTaxForService(mockService);
         assertEquals(mockCategory.getTax(), results);
     }
 
     @Test
     public void getTaxForNonExistingServiceTest() {
-        when(categoryService.getCategoryByID(1L)).thenThrow(new NullPointerException("Test Exception"));
+        when(categoryService.getCategoryByID(TestConstants.TEST_ID_1)).thenThrow(new NullPointerException("Test Exception"));
         String results = servicesService.getTaxForService(mockService);
         assertNull(results);
     }

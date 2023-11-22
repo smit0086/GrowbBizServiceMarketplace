@@ -52,7 +52,7 @@ public class AdminControllerTest {
     @Mock
     User mockUser = User
             .builder()
-            .id(1L)
+            .id(TestConstants.TEST_ID_1)
             .email(TestConstants.TEST_EMAIL)
             .password(TestConstants.TEST_NAME)
             .firstName("John")
@@ -63,7 +63,7 @@ public class AdminControllerTest {
     @Mock
     Category mockCategory = Category
             .builder()
-            .categoryID(1L)
+            .categoryID(TestConstants.TEST_ID_1)
             .name(TestConstants.TEST_CATEGORY_NAME)
             .tax(TestConstants.TEST_CATEGORY_TAX)
             .build();
@@ -71,7 +71,7 @@ public class AdminControllerTest {
     @Mock
     Category mockUpdateCategory = Category
             .builder()
-            .categoryID(1L)
+            .categoryID(TestConstants.TEST_ID_1)
             .name(TestConstants.TEST_CATEGORY_NAME)
             .tax(TestConstants.TEST_CATEGORY_TAX + "1")
             .build();
@@ -79,7 +79,7 @@ public class AdminControllerTest {
     @Mock
     SubCategory mockSubCategory = SubCategory
             .builder()
-            .subCategoryID(1L)
+            .subCategoryID(TestConstants.TEST_ID_1)
             .name(TestConstants.TEST_SUBCATEGORY_NAME)
             .category(mockCategory)
             .build();
@@ -87,7 +87,7 @@ public class AdminControllerTest {
     @Mock
     SubCategoryRequest mockSubCategoryRequest = SubCategoryRequest
             .builder()
-            .subCategoryID(1L)
+            .subCategoryID(TestConstants.TEST_ID_1)
             .name(TestConstants.TEST_SUBCATEGORY_NAME)
             .categoryID(mockCategory.getCategoryID())
             .isSubCategory(true)
@@ -96,7 +96,7 @@ public class AdminControllerTest {
     @Mock
     SubCategory mockUpdateSubCategory = SubCategory
             .builder()
-            .subCategoryID(1L)
+            .subCategoryID(TestConstants.TEST_ID_1)
             .name(TestConstants.TEST_SUBCATEGORY_NAME + " updated")
             .category(mockCategory)
             .build();
@@ -104,7 +104,7 @@ public class AdminControllerTest {
     @Mock
     SubCategoryRequest mockSubCategoryUpdateRequest = SubCategoryRequest
             .builder()
-            .subCategoryID(1L)
+            .subCategoryID(TestConstants.TEST_ID_1)
             .name(TestConstants.TEST_SUBCATEGORY_NAME + " updated")
             .categoryID(mockCategory.getCategoryID())
             .isSubCategory(true)

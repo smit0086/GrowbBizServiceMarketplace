@@ -14,6 +14,7 @@ import com.growbiz.backend.RequestResponse.Booking.BookingResponse;
 import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourResponse;
 import com.growbiz.backend.RequestResponse.FreeSlot.FreeSlotsResponse;
 import com.growbiz.backend.Services.models.Services;
+import com.growbiz.backend.TestConstants.TestConstants;
 import com.growbiz.backend.User.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,8 +75,8 @@ public class BookingControllerHelperTest {
         mockUser = User
                 .builder()
                 .id(TEST_ID)
-                .email("test@dal.ca")
-                .password("test")
+                .email(TestConstants.TEST_EMAIL)
+                .password(TestConstants.TEST_PASSWORD)
                 .firstName("John")
                 .lastName("Doe")
                 .role(Role.CUSTOMER)
@@ -84,20 +85,20 @@ public class BookingControllerHelperTest {
         mockBusiness = Business
                 .builder()
                 .businessId(TEST_ID)
-                .businessName("Test Business")
+                .businessName(TestConstants.TEST_BUSINESS_NAME)
                 .build();
 
         mockSubCategory = SubCategory
                 .builder()
                 .subCategoryID(TEST_ID)
-                .name("Test SubCategory")
+                .name(TestConstants.TEST_SUBCATEGORY_NAME)
                 .build();
 
         mockService = Services
                 .builder()
                 .serviceId(TEST_ID)
-                .serviceName("Test Service")
-                .description("Test")
+                .serviceName(TestConstants.TEST_SERVICE_NAME)
+                .description(TestConstants.TEST_SERVICE_DESCRIPTION)
                 .price(TEST_SERVICE_PRICE)
                 .timeRequired(LocalTime.of(TEST_SERVICE_TIME_REQ_HR, TEST_SERVICE_TIME_REQ_MIN))
                 .business(mockBusiness)
@@ -126,8 +127,8 @@ public class BookingControllerHelperTest {
                 .amount(TEST_BOOKING_AMOUNT)
                 .note("Test")
                 .status(BookingStatus.UPCOMING)
-                .userEmail("test@dal.ca")
-                .serviceName("Test Service")
+                .userEmail(TestConstants.TEST_EMAIL)
+                .serviceName(TestConstants.TEST_SERVICE_NAME)
                 .timeRequired(LocalTime.of(TEST_SERVICE_TIME_REQ_HR, TEST_SERVICE_TIME_REQ_MIN))
                 .build();
 
@@ -150,7 +151,7 @@ public class BookingControllerHelperTest {
 
         mockFreeSlots = new HashMap<>();
         mockFreeSlots.put(
-                new GregorianCalendar(2023, Calendar.NOVEMBER, 21).getTime(),
+                new GregorianCalendar(TestConstants.TEST_YEAR, Calendar.NOVEMBER, TestConstants.TEST_DAY).getTime(),
                 List.of(SlotRange.builder().startTime(TEST_FS_START_TIME).endTime(TEST_FS_END_TIME).build()));
     }
 

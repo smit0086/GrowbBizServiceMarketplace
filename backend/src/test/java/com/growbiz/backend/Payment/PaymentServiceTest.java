@@ -36,7 +36,7 @@ public class PaymentServiceTest {
     @BeforeEach
     public void init() {
         mockedPayment = Payment.builder()
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .date(TestConstants.TEST_DATE)
                 .userEmail(TestConstants.TEST_EMAIL)
                 .startTime(TestConstants.TEST_START_LOCAL_TIME)
@@ -51,7 +51,7 @@ public class PaymentServiceTest {
         mockedPaymentRequest = PaymentRequest.builder()
                 .email(TestConstants.TEST_EMAIL)
                 .role(Role.CUSTOMER)
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .date(TestConstants.TEST_DATE)
                 .note(TestConstants.TEST_NOTE)
                 .startTime(TestConstants.TEST_START_LOCAL_TIME)

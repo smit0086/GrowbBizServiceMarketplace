@@ -40,7 +40,7 @@ public class FreeSlotServiceHelperTest {
     @BeforeEach
     public void init() {
         Payment mockedPayment1 = Payment.builder()
-                .paymentId(1L)
+                .paymentId(TestConstants.TEST_ID_1)
                 .amount((double) TestConstants.TEST_AMOUNT)
                 .date("2023-11-21")
                 .note(TestConstants.TEST_NOTE)
@@ -48,10 +48,10 @@ public class FreeSlotServiceHelperTest {
                 .paymentStatus(PaymentStatus.SUCCESS)
                 .startTime(LocalTime.of(10, 0))
                 .endTime(LocalTime.of(11, 0))
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .build();
         Payment mockedPayment2 = Payment.builder()
-                .paymentId(2L)
+                .paymentId(TestConstants.TEST_ID_2)
                 .amount((double) TestConstants.TEST_AMOUNT)
                 .date("2023-11-21")
                 .note(TestConstants.TEST_NOTE)
@@ -78,10 +78,10 @@ public class FreeSlotServiceHelperTest {
                 .build();
         mockService = Services
                 .builder()
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .serviceName(TestConstants.TEST_SERVICE_NAME)
                 .description(TestConstants.TEST_SERVICE_DESCRIPTION)
-                .price(24.00)
+                .price(TestConstants.TEST_SERVICE_PRICE)
                 .imageURL(TestConstants.TEST_SERVICE_IMAGE_URL)
                 .timeRequired(LocalTime.of(1, 0))
                 .build();
@@ -107,7 +107,7 @@ public class FreeSlotServiceHelperTest {
     @ValueSource(strings = {"2023-11-20", "2023-11-21", "2023-11-22", "2023-11-23", "2023-11-24", "2023-11-25"})
     void testGetFreeSlots(String date) throws ParseException {
         Payment mockedPayment1 = Payment.builder()
-                .paymentId(1L)
+                .paymentId(TestConstants.TEST_ID_1)
                 .amount((double) TestConstants.TEST_AMOUNT)
                 .date(date)
                 .note(TestConstants.TEST_NOTE)
@@ -115,10 +115,10 @@ public class FreeSlotServiceHelperTest {
                 .paymentStatus(PaymentStatus.SUCCESS)
                 .startTime(LocalTime.of(10, 0))
                 .endTime(LocalTime.of(11, 0))
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .build();
         Payment mockedPayment2 = Payment.builder()
-                .paymentId(2L)
+                .paymentId(TestConstants.TEST_ID_2)
                 .amount((double) TestConstants.TEST_AMOUNT)
                 .date(date)
                 .note(TestConstants.TEST_NOTE)
@@ -126,15 +126,15 @@ public class FreeSlotServiceHelperTest {
                 .paymentStatus(PaymentStatus.SUCCESS)
                 .startTime(LocalTime.of(11, 0))
                 .endTime(LocalTime.of(12, 0))
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .build();
         mockedPaymentList = List.of(mockedPayment1, mockedPayment2);
         SimpleDateFormat mockSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         SlotRange slotRange1 = new SlotRange(LocalTime.of(9, 0), LocalTime.of(10, 0));
         SlotRange slotRange2 = new SlotRange(LocalTime.of(12, 0), LocalTime.of(13, 0));
         List<SlotRange> expectedValueTuesday = List.of(slotRange1, slotRange2);
-        when(servicesServiceMock.getServiceById(1L)).thenReturn(mockService);
-        List<SlotRange> actualValueTue = freeSlotServiceHelperMock.getFreeSlots(mockSimpleDateFormat.parse(date), mockedBusinessHour, 1L, mockedPaymentList);
+        when(servicesServiceMock.getServiceById(TestConstants.TEST_ID_1)).thenReturn(mockService);
+        List<SlotRange> actualValueTue = freeSlotServiceHelperMock.getFreeSlots(mockSimpleDateFormat.parse(date), mockedBusinessHour, TestConstants.TEST_ID_1, mockedPaymentList);
         Assertions.assertEquals(expectedValueTuesday, actualValueTue);
     }
 }

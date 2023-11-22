@@ -49,7 +49,7 @@ public class ServicesControllerHelperTests {
         securityContext = mock(SecurityContext.class);
         mockUser = User
                 .builder()
-                .id(1L)
+                .id(TestConstants.TEST_ID_1)
                 .email(TestConstants.TEST_EMAIL)
                 .password(TestConstants.TEST_PASSWORD)
                 .firstName("John")
@@ -58,35 +58,35 @@ public class ServicesControllerHelperTests {
                 .build();
         mockServiceDTO = ServiceDTO
                 .builder()
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .serviceName(TestConstants.TEST_SERVICE_NAME)
                 .description(TestConstants.TEST_SERVICE_DESCRIPTION)
                 .price(TestConstants.TEST_SERVICE_PRICE)
-                .businessId(1L)
-                .subCategoryId(1L)
+                .businessId(TestConstants.TEST_ID_1)
+                .subCategoryId(TestConstants.TEST_ID_1)
                 .imageURL(TestConstants.TEST_SERVICE_IMAGE_URL)
                 .build();
         mockCategory = Category
                 .builder()
-                .categoryID(1L)
+                .categoryID(TestConstants.TEST_ID_1)
                 .name(TestConstants.TEST_CATEGORY_NAME)
                 .tax(TestConstants.TEST_CATEGORY_TAX)
                 .build();
         mockSubCategory = SubCategory
                 .builder()
-                .subCategoryID(1L)
+                .subCategoryID(TestConstants.TEST_ID_1)
                 .name(TestConstants.TEST_SUBCATEGORY_NAME)
                 .category(mockCategory)
                 .build();
         mockBusiness = Business
                 .builder()
-                .businessId(1L)
+                .businessId(TestConstants.TEST_ID_1)
                 .businessName(TestConstants.TEST_BUSINESS_NAME)
                 .email(TestConstants.TEST_EMAIL)
                 .build();
         mockService = Services
                 .builder()
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .serviceName(TestConstants.TEST_SERVICE_NAME)
                 .description(TestConstants.TEST_SERVICE_DESCRIPTION)
                 .price(TestConstants.TEST_SERVICE_PRICE)
@@ -164,7 +164,7 @@ public class ServicesControllerHelperTests {
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(mockUser);
 
-        ResponseEntity<ServiceResponse> actualResponse = servicesControllerHelper.createServiceResponseWithTax(List.of(mockService),"12.2");
+        ResponseEntity<ServiceResponse> actualResponse = servicesControllerHelper.createServiceResponseWithTax(List.of(mockService),TestConstants.TEST_CATEGORY_TAX);
         assertEquals(expectedResponse, actualResponse);
     }
 }

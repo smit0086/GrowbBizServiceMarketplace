@@ -11,9 +11,11 @@ import com.growbiz.backend.TestConstants.TestConstants;
 import com.growbiz.backend.User.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 
@@ -22,7 +24,7 @@ import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
+@ExtendWith(MockitoExtension.class)
 public class SendEmailControllerTest {
 
     @InjectMocks
@@ -40,16 +42,16 @@ public class SendEmailControllerTest {
     User mockUser;
     @BeforeEach
     public void init () {
-        MockitoAnnotations.openMocks(this);
+//        MockitoAnnotations.openMocks(this);
         mockBusiness = Business
                 .builder()
-                .businessId(1L)
+                .businessId(TestConstants.TEST_ID_1)
                 .businessName(TestConstants.TEST_BUSINESS_NAME)
                 .email(TestConstants.TEST_EMAIL)
                 .build();
         mockService = Services
                 .builder()
-                .serviceId(1L)
+                .serviceId(TestConstants.TEST_ID_1)
                 .serviceName(TestConstants.TEST_SERVICE_NAME)
                 .description(TestConstants.TEST_SERVICE_DESCRIPTION)
                 .price(TestConstants.TEST_SERVICE_PRICE)
@@ -58,7 +60,7 @@ public class SendEmailControllerTest {
                 .build();
         mockUser = User
                 .builder()
-                .id(1L)
+                .id(TestConstants.TEST_ID_1)
                 .email(TestConstants.TEST_EMAIL)
                 .password(TestConstants.TEST_PASSWORD)
                 .firstName("John")
@@ -66,7 +68,7 @@ public class SendEmailControllerTest {
                 .build();
         mockBooking = Booking
                 .builder()
-                .id(1L)
+                .id(TestConstants.TEST_ID_1)
                 .user(mockUser)
                 .service(mockService)
                 .date(TestConstants.TEST_BOOKING_DATE)
@@ -88,11 +90,11 @@ public class SendEmailControllerTest {
                 .time(mockBooking.getStartTime())
                 .date(mockBooking.getDate()).build();
 
-        when(iBookingService.findById(1L)).thenReturn(mockBooking);
+        when(iBookingService.findById(TestConstants.TEST_ID_1)).thenReturn(mockBooking);
 
-        ResponseEntity<String> response = emailController.sendEmailReminder(1L);
+        ResponseEntity<String> response = emailController.sendEmailReminder(TestConstants.TEST_ID_1);
         Locale locale = Locale.getDefault();
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(TestConstants.STATUS_CODE, response.getStatusCodeValue());
         verify(sendEmailService).sendEmailWithHtmlTemplate(emailResponse,"emailTemplate",locale);
     }
 
