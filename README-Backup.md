@@ -1,41 +1,11 @@
-<div align="center">
+# GrowBiz
 
-<h1>
-  <a name="logo" href="http://os-vm163.research.cs.dal.ca:3000"><img src="https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2Fimage-removebg-preview.png?alt=media&token=014f8686-98df-4dfb-a1ac-1d0264bc6707" alt="GrowBiz" width="200"></a>
-</h1>
-
-**Your trusted partner for on-demand home services, just a click away**
-<hr />
-
-<p>
-GrowBiz is a comprehensive platform that is designed to overcome the challenges faced by small-scale businesses, while
-also introducing exciting new features to boost their growth and improve consumer’s experience.
-</p>
-
-[Build GrowBiz](#build-growbiz) •
-[User Scenarios](#user-scenarios) •
-[APIs](#api-table) •
-[Dependency](#dependency) •
-[Code Coverage](#code-coverage)
-
-![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
-![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
-
-<hr />
-
-</div>
-
-## Build GrowBiz
+## Steps to Run the GrowBiz Application
 
 1. In the backend directory, run `./mvnw install`.
 2. After successful compilation and build, go to the root directory of the repository and run `docker-compose build`.
 3. After docker images are built successfully, run `docker-compose up`.
-4. `Ctrl + c` to stop the containers.
-5. Please run `docker-compose down` after stopping the containers.
-
-## User Scenarios
-
-## API Table
+4. API Table
 
 <table>
 <thead>
@@ -343,18 +313,5 @@ also introducing exciting new features to boost their growth and improve consume
 </tbody>
 </table>
 
-## Dependency
-
-* [SpringBoot](https://spring.io/projects/spring-boot) - Framework for REST APIs
-* [Spring Security](https://spring.io/projects/spring-security) - Authentication and access-control framework
-* [Lombok](https://projectlombok.org/) - Autogenerate getter setters in POJO classes.
-* [MySQL Connector](https://mvnrepository.com/artifact/mysql/mysql-connector-java) - Connects application to the MySQL
-  database.
-* [JSON WebToken](https://jwt.io/) - Generates JWTs in the application for authorization.
-* [Stripe](https://stripe.com/docs/api) - Payment integration in the application.
-* [JUnit5](https://junit.org/junit5/docs/current/user-guide/) - Unit testing of the modules.
-* [Thymeleaf](https://www.thymeleaf.org/) - Templating engine for emails.
-
-## Code Coverage
-
-
+1. `Ctrl + c` to stop the containers.
+2. Please run `docker-compose down` after stopping the containers.

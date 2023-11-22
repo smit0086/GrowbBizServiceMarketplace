@@ -6,32 +6,43 @@ import com.growbiz.backend.Booking.models.Booking;
 import com.growbiz.backend.Booking.models.BookingBusiness;
 import com.growbiz.backend.Booking.service.IBookingService;
 import com.growbiz.backend.Business.models.Business;
+import com.growbiz.backend.BusinessHour.model.BusinessHour;
+import com.growbiz.backend.BusinessHour.service.IBusinessHourService;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Enums.BookingStatus;
 import com.growbiz.backend.Enums.Role;
+import com.growbiz.backend.FreeSlot.models.SlotRange;
+import com.growbiz.backend.FreeSlot.service.IFreeSlotService;
 import com.growbiz.backend.RequestResponse.Booking.BookingBusinessResponse;
 import com.growbiz.backend.RequestResponse.Booking.BookingRequest;
 import com.growbiz.backend.RequestResponse.Booking.BookingResponse;
+import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourRequest;
+import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourResponse;
+import com.growbiz.backend.RequestResponse.FreeSlot.FreeSlotsResponse;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.service.IUserService;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class BookingControllerTest {
+public class  BookingControllerTest {
 
     private static final String TEST_BOOKING_DATE = "2023-11-13";
     public static final int TEST_SERVICE_TIME_REQ_MIN = 30;
@@ -43,6 +54,8 @@ public class BookingControllerTest {
     public static final int TEST_SERVICE_TIME_REQ_HR = 0;
     public static final long TEST_ONG_BKNG_ID = 2L;
     public static final long TEST_COMP_BKNG_ID = 3L;
+    public static final LocalTime TEST_BH_START_TIME = LocalTime.of(9,0);
+    public static final LocalTime TEST_BH_END_TIME = LocalTime.of(5,0);
 
     @Mock
     private IBookingService bookingService;
@@ -51,42 +64,41 @@ public class BookingControllerTest {
     private IUserService userService;
 
     @Mock
+    private IBusinessHourService businessHourService;
+
+    @Mock
+    private IFreeSlotService freeSlotService;
+
+    @Mock
     private BookingControllerHelper bookingHelper;
 
     @InjectMocks
     private BookingController bookingController;
 
-    @Mock
     BookingRequest mockBookingRequest;
 
-    @Mock
     User mockUser;
 
-    @Mock
     Business mockBusiness;
 
-    @Mock
     SubCategory mockSubCategory;
 
-    @Mock
     Services mockService;
 
-    @Mock
     Booking mockBooking;
 
-    @Mock
     BookingBusiness mockBookingBusiness;
 
-    @Mock
     Booking mockOngoingBooking;
 
-    @Mock
     Booking mockCompletedBooking;
 
-    @Before
-    public void init() {
-        MockitoAnnotations.openMocks(this);
+    BusinessHour mockBusinessHour;
 
+    Map<Date, List<SlotRange>> mockFreeSlots;
+
+    @BeforeEach
+    public void init() {
         mockBookingRequest = BookingRequest
                 .builder()
                 .serviceId(TEST_ID)
@@ -403,6 +415,68 @@ public class BookingControllerTest {
         when(bookingHelper.createBookingBusinessResponse(List.of(mockBookingBusiness))).thenReturn(expectedResponse);
 
         actualResponse = bookingController.getAllOngoingBookingsByBusinessId(TEST_ID);
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    public void getBusinessHoursTest() {
+        ResponseEntity<BusinessHourResponse> actualResponse;
+        mockBusinessHour = BusinessHour.builder()
+                .monday_start(TEST_BH_START_TIME)
+                .monday_end(TEST_BH_END_TIME)
+                .tuesday_start(TEST_BH_START_TIME)
+                .tuesday_end(TEST_BH_END_TIME)
+                .wednesday_start(TEST_BH_START_TIME)
+                .wednesday_end(TEST_BH_END_TIME)
+                .thursday_start(TEST_BH_START_TIME)
+                .thursday_end(TEST_BH_END_TIME)
+                .friday_start(TEST_BH_START_TIME)
+                .friday_end(TEST_BH_END_TIME)
+                .saturday_start(TEST_BH_START_TIME)
+                .saturday_end(TEST_BH_END_TIME)
+                .sunday_start(TEST_BH_START_TIME)
+                .sunday_end(TEST_BH_END_TIME)
+                .build();
+        ResponseEntity<BusinessHourResponse> expectedResponse = ResponseEntity.ok(
+                BusinessHourResponse.builder()
+                        .businessHour(mockBusinessHour)
+                        .subject(mockUser.getEmail())
+                        .role(mockUser.getRole())
+                        .build()
+        );
+
+        when(businessHourService.getBusinessHour(TEST_ID)).thenReturn(mockBusinessHour);
+        when(bookingHelper.createBusinessHourResponse(mockBusinessHour)).thenReturn(expectedResponse);
+        actualResponse = bookingController.getBusinessHours("1");
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    public void updateBusinessHoursTest() {
+        ResponseEntity<String> actualResponse;
+        ResponseEntity<String> expectedResponse = ResponseEntity.ok("Updated");
+        BusinessHourRequest mockBHR = mock(BusinessHourRequest.class);
+
+        actualResponse = bookingController.updateBusinessHour(mockBHR);
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    public void getFreeTimeSlotsTest() throws ParseException {
+        ResponseEntity<FreeSlotsResponse> actualResponse;
+        ResponseEntity<FreeSlotsResponse> expectedResponse = ResponseEntity.ok(
+                FreeSlotsResponse.builder()
+                        .freeSlots(mockFreeSlots)
+                        .subject(mockUser.getEmail())
+                        .role(mockUser.getRole())
+                        .build()
+        );
+        String dateString = "2023-11-22";
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+
+        when(freeSlotService.getFreeSlotsForWeek(TEST_ID, date, TEST_ID)).thenReturn(mockFreeSlots);
+        when(bookingHelper.createFreeSlotsResponse(mockFreeSlots)).thenReturn(expectedResponse);
+        actualResponse = bookingController.getFreeTimeSlots(TEST_ID, TEST_ID, dateString);
         assertEquals(expectedResponse, actualResponse);
     }
 }

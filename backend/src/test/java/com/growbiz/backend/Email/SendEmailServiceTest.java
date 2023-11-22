@@ -3,25 +3,22 @@ package com.growbiz.backend.Email;
 import com.growbiz.backend.Email.model.EmailRequest;
 import com.growbiz.backend.Email.service.SendEmailService;
 import com.growbiz.backend.TestConstants.TestConstants;
-import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.Locale;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-
-import java.util.Locale;
 
 @ExtendWith(MockitoExtension.class)
 public class SendEmailServiceTest {
@@ -31,12 +28,11 @@ public class SendEmailServiceTest {
     private JavaMailSender mailSenderMock;
     @Mock
     private TemplateEngine templateEngine;
-//    @Mock
     EmailRequest emailRequest;
 
-    @Before
+    @BeforeEach
     public void init() {
-        doNothing().when(mailSenderMock).send(any(SimpleMailMessage.class));
+
     }
 
     @Test
