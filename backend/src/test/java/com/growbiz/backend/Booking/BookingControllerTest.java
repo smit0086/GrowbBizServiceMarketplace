@@ -42,7 +42,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class BookingControllerTest {
+public class  BookingControllerTest {
 
     private static final String TEST_BOOKING_DATE = "2023-11-13";
     public static final int TEST_SERVICE_TIME_REQ_MIN = 30;

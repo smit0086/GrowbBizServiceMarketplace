@@ -151,7 +151,7 @@ public class BookingControllerHelperTest {
 
         mockFreeSlots = new HashMap<>();
         mockFreeSlots.put(
-                new GregorianCalendar(2023, Calendar.NOVEMBER, 21).getTime(),
+                new GregorianCalendar(TestConstants.TEST_YEAR, Calendar.NOVEMBER, TestConstants.TEST_DAY).getTime(),
                 List.of(SlotRange.builder().startTime(TEST_FS_START_TIME).endTime(TEST_FS_END_TIME).build()));
     }
 

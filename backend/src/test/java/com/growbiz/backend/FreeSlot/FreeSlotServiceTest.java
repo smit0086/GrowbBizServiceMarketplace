@@ -82,8 +82,8 @@ public class FreeSlotServiceTest {
                 .note(TestConstants.TEST_NOTE)
                 .userEmail(TestConstants.TEST_EMAIL)
                 .paymentStatus(PaymentStatus.SUCCESS)
-                .startTime(LocalTime.of(10, 0))
-                .endTime(LocalTime.of(11, 0))
+                .startTime(LocalTime.of(TestConstants.HOUR_RANGE[1], 0))
+                .endTime(LocalTime.of(TestConstants.HOUR_RANGE[2], 0))
                 .serviceId(TestConstants.TEST_ID_1)
                 .build();
         Payment mockedPayment2 = Payment.builder()
@@ -93,8 +93,8 @@ public class FreeSlotServiceTest {
                 .note(TestConstants.TEST_NOTE)
                 .userEmail(TestConstants.TEST_EMAIL)
                 .paymentStatus(PaymentStatus.SUCCESS)
-                .startTime(LocalTime.of(11, 0))
-                .endTime(LocalTime.of(12, 0))
+                .startTime(LocalTime.of(TestConstants.HOUR_RANGE[2], 0))
+                .endTime(LocalTime.of(TestConstants.HOUR_RANGE[3], 0))
                 .serviceId(TestConstants.TEST_ID_1)
                 .build();
         Payment mockedPayment3 = Payment.builder()
@@ -104,13 +104,13 @@ public class FreeSlotServiceTest {
                 .note(TestConstants.TEST_NOTE)
                 .userEmail(TestConstants.TEST_EMAIL)
                 .paymentStatus(PaymentStatus.FAILED)
-                .startTime(LocalTime.of(11, 0))
-                .endTime(LocalTime.of(12, 0))
+                .startTime(LocalTime.of(TestConstants.HOUR_RANGE[2], 0))
+                .endTime(LocalTime.of(TestConstants.HOUR_RANGE[3], 0))
                 .serviceId(TestConstants.TEST_ID_1)
                 .build();
         mockedPaymentList = List.of(mockedPayment1, mockedPayment2, mockedPayment3);
-        SlotRange slotRange1 = new SlotRange(LocalTime.of(9, 0), LocalTime.of(10, 0));
-        SlotRange slotRange2 = new SlotRange(LocalTime.of(12, 0), LocalTime.of(13, 0));
+        SlotRange slotRange1 = new SlotRange(LocalTime.of(TestConstants.HOUR_RANGE[0], 0), LocalTime.of(TestConstants.HOUR_RANGE[1], 0));
+        SlotRange slotRange2 = new SlotRange(LocalTime.of(TestConstants.HOUR_RANGE[3], 0), LocalTime.of(TestConstants.HOUR_RANGE[4], 0));
         mockedSlotRangeList = List.of(slotRange1, slotRange2);
     }
 
