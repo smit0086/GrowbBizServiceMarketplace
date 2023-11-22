@@ -46,7 +46,6 @@ public class ReviewsAndRatingsController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         addRequest.setUserId(user.getId());
         ReviewsAndRatings reviewAndRating = reviewsAndRatingsService.addReviewAndRating(addRequest);
-
         if (reviewAndRating != null) {
             return reviewsAndRatingsHelper.createReviewsAndRatingsResponse(List.of(reviewAndRating), false);
         } else {
@@ -67,8 +66,8 @@ public class ReviewsAndRatingsController {
     }
 
     @DeleteMapping(path = "/deleteReviewAndRating")
-    public ResponseEntity<ReviewsAndRatingsResponse> deleteReviewAndRating(@RequestBody ReviewsAndRatings oldReviewAndRating) {
-        Boolean isDeleted = reviewsAndRatingsService.deleteReviewAndRating(oldReviewAndRating.getReviewAndRatingID());
+    public ResponseEntity<ReviewsAndRatingsResponse> deleteReviewAndRating(@RequestParam Long reviewAndRatingId) {
+        Boolean isDeleted = reviewsAndRatingsService.deleteReviewAndRating(reviewAndRatingId);
         if (isDeleted) {
             return reviewsAndRatingsHelper.deleteReviewsAndRatingsResponse(true);
         } else {
