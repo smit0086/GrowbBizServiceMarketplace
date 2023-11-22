@@ -43,13 +43,13 @@ public class CategoriesControllerTests {
     public void init() {
         mockCategory = Category
             .builder()
-            .categoryID(1L)
+            .categoryID(TestConstants.TEST_ID_1)
             .name(TestConstants.TEST_CATEGORY_NAME)
             .tax(TestConstants.TEST_CATEGORY_TAX)
             .build();
         mockSubCategory = SubCategory
                 .builder()
-                .subCategoryID(1L)
+                .subCategoryID(TestConstants.TEST_ID_1)
                 .name(TestConstants.TEST_SUBCATEGORY_NAME)
                 .category(mockCategory)
                 .build();
@@ -57,26 +57,26 @@ public class CategoriesControllerTests {
 
     @Test
     public void getCategoryTest() {
-        when(categoryService.getCategoryByID(1L)).thenReturn(mockCategory);
-        ResponseEntity<CategoryResponse> expectedResponse = ResponseEntity.ok(CategoryResponse.builder().categories(List.of(mockCategory)).role(Role.ADMIN).subject("testEmail@dal.ca").build());
+        when(categoryService.getCategoryByID(TestConstants.TEST_ID_1)).thenReturn(mockCategory);
+        ResponseEntity<CategoryResponse> expectedResponse = ResponseEntity.ok(CategoryResponse.builder().categories(List.of(mockCategory)).role(Role.ADMIN).subject(TestConstants.TEST_EMAIL).build());
         when(categoryControllerHelper.createCategoryResponse(List.of(mockCategory))).thenReturn(expectedResponse);
-        ResponseEntity<CategoryResponse> results = categoryController.getCategory(1L);
+        ResponseEntity<CategoryResponse> results = categoryController.getCategory(TestConstants.TEST_ID_1);
         assertEquals(expectedResponse, results);
     }
 
     @Test
     public void getSubCategoryTest() {
-        when(subCategoryService.getSubCategoryByID(1L)).thenReturn(mockSubCategory);
+        when(subCategoryService.getSubCategoryByID(TestConstants.TEST_ID_1)).thenReturn(mockSubCategory);
         ResponseEntity<CategoryResponse> expectedResponse = ResponseEntity.ok(CategoryResponse.builder().subCategories(List.of(mockSubCategory)).role(Role.ADMIN).subject("testEmail@dal.ca").build());
         when(categoryControllerHelper.createSubCategoryResponse(List.of(mockSubCategory))).thenReturn(expectedResponse);
-        ResponseEntity<CategoryResponse> results = categoryController.getSubCategory(1L);
+        ResponseEntity<CategoryResponse> results = categoryController.getSubCategory(TestConstants.TEST_ID_1);
         assertEquals(expectedResponse, results);
     }
 
     @Test
     public void getAllSubCategoriesForCategoryIdTest() {
-        when(categoryService.getCategoryByID(1L)).thenReturn(mockCategory);
-        when(subCategoryService.fetchSubCategoryListForCategoryID(1L)).thenReturn(List.of(mockSubCategory));
+        when(categoryService.getCategoryByID(TestConstants.TEST_ID_1)).thenReturn(mockCategory);
+        when(subCategoryService.fetchSubCategoryListForCategoryID(TestConstants.TEST_ID_1)).thenReturn(List.of(mockSubCategory));
         ResponseEntity<CategoryResponse> expectedResponse = ResponseEntity.ok(CategoryResponse
                 .builder()
                 .categories(List.of(mockCategory))
@@ -85,7 +85,7 @@ public class CategoriesControllerTests {
                 .subject(TestConstants.TEST_EMAIL)
                 .build());
         when(categoryControllerHelper.createCategoryResponse(List.of(mockCategory), List.of(mockSubCategory))).thenReturn(expectedResponse);
-        ResponseEntity<CategoryResponse> results = categoryController.getAllSubCategoriesForCategoryId(1L);
+        ResponseEntity<CategoryResponse> results = categoryController.getAllSubCategoriesForCategoryId(TestConstants.TEST_ID_1);
         assertEquals(expectedResponse, results);
     }
 

@@ -6,6 +6,7 @@ import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.service.Sub.SubCategoryService;
 import com.growbiz.backend.Categories.service.Super.CategoryService;
 import com.growbiz.backend.RequestResponse.SubCategory.SubCategoryRequest;
+import com.growbiz.backend.TestConstants.TestConstants;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +33,7 @@ public class AdminServiceTest {
     @Mock
     Category mockCategory = Category
             .builder()
-            .categoryID(1L)
+            .categoryID(TestConstants.TEST_ID_1)
             .name("Test Category")
             .tax("15")
             .build();
@@ -40,7 +41,7 @@ public class AdminServiceTest {
     @Mock
     SubCategory mockSubCategory = SubCategory
             .builder()
-            .subCategoryID(1L)
+            .subCategoryID(TestConstants.TEST_ID_1)
             .name("Test Subcategory")
             .category(mockCategory)
             .build();
@@ -48,7 +49,7 @@ public class AdminServiceTest {
     @Mock
     SubCategoryRequest mockSubCategoryRequest = SubCategoryRequest
             .builder()
-            .subCategoryID(1L)
+            .subCategoryID(TestConstants.TEST_ID_1)
             .name("Test SubCategory")
             .categoryID(mockCategory.getCategoryID())
             .isSubCategory(true)

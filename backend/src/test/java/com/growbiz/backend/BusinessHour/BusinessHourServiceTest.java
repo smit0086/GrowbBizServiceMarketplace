@@ -4,6 +4,7 @@ import com.growbiz.backend.BusinessHour.model.BusinessHour;
 import com.growbiz.backend.BusinessHour.repository.IBusinessHourRepository;
 import com.growbiz.backend.BusinessHour.service.BusinessHourService;
 import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourRequest;
+import com.growbiz.backend.TestConstants.TestConstants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ public class BusinessHourServiceTest {
         mockedMapOfBusinessHour.put(DayOfWeek.SATURDAY, mockedTimeSlots);
         mockedMapOfBusinessHour.put(DayOfWeek.SUNDAY, mockedTimeSlots);
         mockedBusinessHourRequest = BusinessHourRequest.builder()
-                .businessId(1L)
+                .businessId(TestConstants.TEST_ID_1)
                 .businessHours(mockedMapOfBusinessHour)
                 .build();
 
@@ -58,12 +59,12 @@ public class BusinessHourServiceTest {
 
     @Test
     void testGetBusinessHour() {
-        when(businessHourRepositoryMock.findById(1L)).thenReturn(Optional.of(mockedBusinessHour));
-        Assertions.assertEquals(mockedBusinessHour, businessHourServiceMock.getBusinessHour(1L));
+        when(businessHourRepositoryMock.findById(TestConstants.TEST_ID_1)).thenReturn(Optional.of(mockedBusinessHour));
+        Assertions.assertEquals(mockedBusinessHour, businessHourServiceMock.getBusinessHour(TestConstants.TEST_ID_1));
     }
 
     @Test
     void testInit() {
-        businessHourServiceMock.init(1L);
+        businessHourServiceMock.init(TestConstants.TEST_ID_1);
     }
 }
