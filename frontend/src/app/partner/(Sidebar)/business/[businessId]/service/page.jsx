@@ -9,7 +9,6 @@ export default async function ServiceManagement(context) {
     const authSession = await getServerSession(authOptions);
     const businessId = Number(context.params.businessId);
     const subCategories = await getAllSubCategories(authSession.apiToken);
-
     function convertHHMMToMinutes(formattedTime) {
         const [hours, minutes] = formattedTime;
         const totalMinutes = hours * 60 + minutes;
@@ -25,12 +24,13 @@ export default async function ServiceManagement(context) {
         timeRequired: convertHHMMToMinutes(service.timeRequired),
     }));
 
-    const predefinedServices = subCategories.map((subcategory) => {
-        return {
-            predefinedServiceId: subcategory.subCategoryID,
-            predefinedServiceName: subcategory.name,
-        };
-    });
+    const predefinedServices = subCategories
+        .map((subcategory) => {
+            return {
+                predefinedServiceId: subcategory.subCategoryID,
+                predefinedServiceName: subcategory.name,
+            };
+        });
 
     return (
         <>
@@ -41,6 +41,7 @@ export default async function ServiceManagement(context) {
                         predefinedServices={predefinedServices}
                         businessId={businessId}
                         fetchedServices={fetchedServices}
+                        subCategories={subCategories}
                     />
                 </div>
             </ScrollArea>
