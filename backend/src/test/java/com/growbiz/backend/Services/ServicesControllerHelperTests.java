@@ -66,16 +66,6 @@ public class ServicesControllerHelperTests {
                 .lastName("Doe")
                 .role(Role.CUSTOMER)
                 .build();
-        mockServiceDTO = ServiceDTO
-                .builder()
-                .serviceId(TestConstants.TEST_ID_1)
-                .serviceName(TestConstants.TEST_SERVICE_NAME)
-                .description(TestConstants.TEST_SERVICE_DESCRIPTION)
-                .price(TestConstants.TEST_SERVICE_PRICE)
-                .businessId(TestConstants.TEST_ID_1)
-                .subCategoryId(TestConstants.TEST_ID_1)
-                .imageURL(TestConstants.TEST_SERVICE_IMAGE_URL)
-                .build();
         mockCategory = Category
                 .builder()
                 .categoryID(TestConstants.TEST_ID_1)
@@ -93,6 +83,16 @@ public class ServicesControllerHelperTests {
                 .businessId(TestConstants.TEST_ID_1)
                 .businessName(TestConstants.TEST_BUSINESS_NAME)
                 .email(TestConstants.TEST_EMAIL)
+                .build();
+        mockServiceDTO = ServiceDTO
+                .builder()
+                .serviceId(TestConstants.TEST_ID_1)
+                .serviceName(TestConstants.TEST_SERVICE_NAME)
+                .description(TestConstants.TEST_SERVICE_DESCRIPTION)
+                .price(TestConstants.TEST_SERVICE_PRICE)
+                .businessId(TestConstants.TEST_ID_1)
+                .subCategoryId(TestConstants.TEST_ID_1)
+                .imageURL(TestConstants.TEST_SERVICE_IMAGE_URL)
                 .build();
         mockService = Services
                 .builder()
@@ -154,7 +154,7 @@ public class ServicesControllerHelperTests {
     void testGetAvgRatingForEachService() {
         when(reviewsAndRatingsService.getReviewsAndRatingsByServiceId(TestConstants.TEST_ID_1)).thenReturn(List.of(mockReviewsAndRatings2, mockReviewsAndRatings));
 
-        double avgRating = servicesControllerHelper.getAvgRatingForEachService(mockService);
+        double avgRating = servicesControllerHelper.getAvgRatingForEachService(mockService.getServiceId());
 
         assertEquals(TestConstants.TEST_AVG_RATING2, avgRating);
     }
@@ -187,11 +187,13 @@ public class ServicesControllerHelperTests {
                         .isUpdated(true)
                         .subject(mockUser.getEmail())
                         .role(Role.CUSTOMER)
+                        .avgRatings(List.of(TestConstants.TEST_AVG_RATING2))
                         .build()
         );
         SecurityContextHolder.setContext(securityContext);
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(mockUser);
+        when(reviewsAndRatingsService.getReviewsAndRatingsByServiceId(mockServiceDTO.getServiceId())).thenReturn(List.of(mockReviewsAndRatings, mockReviewsAndRatings2));
 
         ResponseEntity<ServiceResponse> actualResponse = servicesControllerHelper.createServiceDTOResponse(List.of(mockServiceDTO),true);
         assertEquals(expectedResponse, actualResponse);

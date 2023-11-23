@@ -6,6 +6,7 @@ import com.growbiz.backend.ReviewsAndRatings.service.IReviewsAndRatingsService;
 import com.growbiz.backend.Services.models.ServiceDTO;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.User.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -15,19 +16,29 @@ import java.util.List;
 
 @Component
 public class ServicesControllerHelper {
+
+   @Autowired
     private IReviewsAndRatingsService reviewsAndRatingsService;
 
     public List<Double> getAvgRatingList(List<Services> serviceList) {
         List<Double> avgRatingList = new ArrayList<>();
         for (Services service:serviceList) {
-            avgRatingList.add(getAvgRatingForEachService(service));
+            avgRatingList.add(getAvgRatingForEachService(service.getServiceId()));
         }
         return avgRatingList;
     }
 
-    public double getAvgRatingForEachService(Services service) {
+    public List<Double> getAvgRatingListForDTO(List<ServiceDTO> serviceList) {
+        List<Double> avgRatingList = new ArrayList<>();
+        for (ServiceDTO service:serviceList) {
+            avgRatingList.add(getAvgRatingForEachService(service.getServiceId()));
+        }
+        return avgRatingList;
+    }
+
+    public double getAvgRatingForEachService(Long serviceId) {
         double sum = 0;
-        List<ReviewsAndRatings> reviewsAndRatings = reviewsAndRatingsService.getReviewsAndRatingsByServiceId(service.getServiceId());
+        List<ReviewsAndRatings> reviewsAndRatings = reviewsAndRatingsService.getReviewsAndRatingsByServiceId(serviceId);
         for (ReviewsAndRatings reviewAndRating: reviewsAndRatings) {
             sum += reviewAndRating.getRating();
         }
@@ -53,6 +64,7 @@ public class ServicesControllerHelper {
                 .isUpdated(isUpdated)
                 .subject(user.getEmail())
                 .role(user.getRole())
+                .avgRatings(getAvgRatingListForDTO(servicesList))
                 .build());
     }
 
