@@ -5,6 +5,8 @@ import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.RequestResponse.Services.ServiceResponse;
+import com.growbiz.backend.ReviewsAndRatings.models.ReviewsAndRatings;
+import com.growbiz.backend.ReviewsAndRatings.service.IReviewsAndRatingsService;
 import com.growbiz.backend.Services.helper.ServicesControllerHelper;
 import com.growbiz.backend.Services.models.ServiceDTO;
 import com.growbiz.backend.Services.models.Services;
@@ -14,12 +16,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,6 +35,11 @@ public class ServicesControllerHelperTests {
 
     @InjectMocks
     private ServicesControllerHelper servicesControllerHelper;
+
+    @Mock
+    private IReviewsAndRatingsService reviewsAndRatingsService;
+
+
     User mockUser;
     Authentication authentication;
     SecurityContext securityContext;
@@ -40,6 +49,7 @@ public class ServicesControllerHelperTests {
 
     SubCategory mockSubCategory;
     Services mockService;
+    ReviewsAndRatings mockReviewsAndRatings;
 
     ServiceDTO mockServiceDTO;
 
@@ -94,7 +104,61 @@ public class ServicesControllerHelperTests {
                 .business(mockBusiness)
                 .subCategory(mockSubCategory)
                 .build();
+        mockReviewsAndRatings = ReviewsAndRatings
+                .builder()
+                .service(mockService)
+                .user(mockUser)
+                .rating(TestConstants.TEST_AVG_RATING)
+                .userEmail(TestConstants.TEST_EMAIL)
+                .review(TestConstants.TEST_SERVICE_DESCRIPTION)
+                .build();
     }
+
+//    @Test
+//    void testGetAvgRatingList() {
+//        Services service1 = mock(Services.class);
+//        Services service2 = mock(Services.class);
+//        List<Services> serviceList = Arrays.asList(service1, service2);
+//
+//        ReviewsAndRatings review1 = mock(ReviewsAndRatings.class);
+//        ReviewsAndRatings review2 = mock(ReviewsAndRatings.class);
+//        ReviewsAndRatings review3 = mock(ReviewsAndRatings.class);
+//
+//        List<ReviewsAndRatings> reviewsAndRatingsList1 = Arrays.asList(review1);
+//        List<ReviewsAndRatings> reviewsAndRatingsList2 = Arrays.asList(review2, review3);
+//
+//        when(reviewsAndRatingsService.getReviewsAndRatingsByServiceId(TestConstants.TEST_ID_1)).thenReturn(reviewsAndRatingsList1);
+//        when(reviewsAndRatingsService.getReviewsAndRatingsByServiceId(TestConstants.TEST_ID_2)).thenReturn(reviewsAndRatingsList2);
+//
+//        List<Double> avgRatingList = servicesControllerHelper.getAvgRatingList(serviceList);
+//
+//        assertEquals(Arrays.asList(5.0, 3.5), avgRatingList);
+//    }
+
+//    @Test
+//    void testGetAvgRatingForEachService() {
+//        // Mocking the ReviewsAndRatingsService
+//        ReviewsAndRatingsService reviewsAndRatingsService = Mockito.mock(ReviewsAndRatingsService.class);
+//
+//        // Creating an instance of YourService and injecting the mock service
+//        YourService yourService = new YourService(reviewsAndRatingsService);
+//
+//        // Mock data for the test
+//        Services service = ;
+//        ReviewsAndRatings review1 = new ReviewsAndRatings(1, 5.0);
+//        ReviewsAndRatings review2 = new ReviewsAndRatings(1, 3.0);
+//        List<ReviewsAndRatings> reviewsAndRatingsList = Arrays.asList(review1, review2);
+//
+//        // Setting up mock behavior
+//        when(reviewsAndRatingsService.getReviewsAndRatingsByServiceId(1)).thenReturn(reviewsAndRatingsList);
+//
+//        // Calling the method to test
+//        double avgRating = yourService.getAvgRatingForEachService(service);
+//
+//        // Assertions
+//        assertEquals(4.0, avgRating);
+//    }
+
 
     @Test
     public void createServiceResponseTest() {
@@ -104,8 +168,10 @@ public class ServicesControllerHelperTests {
                         .isUpdated(true)
                         .subject(mockUser.getEmail())
                         .role(Role.CUSTOMER)
+                        .avgRatings(List.of(TestConstants.TEST_AVG_RATING))
                         .build()
         );
+        when(reviewsAndRatingsService.getReviewsAndRatingsByServiceId(mockService.getServiceId())).thenReturn(List.of(mockReviewsAndRatings));
         SecurityContextHolder.setContext(securityContext);
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(mockUser);
@@ -158,8 +224,10 @@ public class ServicesControllerHelperTests {
                         .businessId(mockBusiness.getBusinessId())
                         .subject(mockUser.getEmail())
                         .role(Role.CUSTOMER)
+                        .avgRatings(List.of(TestConstants.TEST_AVG_RATING))
                         .build()
         );
+        when(reviewsAndRatingsService.getReviewsAndRatingsByServiceId(TestConstants.TEST_ID_1)).thenReturn(List.of(mockReviewsAndRatings));
         SecurityContextHolder.setContext(securityContext);
         when(securityContext.getAuthentication()).thenReturn(authentication);
         when(authentication.getPrincipal()).thenReturn(mockUser);
