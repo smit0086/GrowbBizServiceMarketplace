@@ -16,6 +16,10 @@ export default async function ServiceBooking(context) {
     const serviceId = Number(context.params.serviceId);
     const serviceResponse = await getService(authSession.apiToken, serviceId);
     const service = serviceResponse.services[0];
+    const averageRating =
+        serviceResponse.avgRatings[0] !== "NaN"
+            ? serviceResponse.avgRatings[0]
+            : 0;
     const tax = serviceResponse.tax;
     const todayDate = moment().utc().format("YYYY-MM-DD");
     const freeTimeSlots = await getFreeTimeSlots(
@@ -94,6 +98,12 @@ export default async function ServiceBooking(context) {
                             About this service
                         </span>
                         <div>{service.description}</div>
+                    </div>
+                    <div className="my-6">
+                        <span className="text-xl font-semibold">
+                            Avergate rating
+                        </span>
+                        <div>{averageRating}</div>
                     </div>
                     <ServiceCheckoutForm
                         service={service}

@@ -181,6 +181,10 @@ export const getAllServiceByCategoryId = async (token, categoryId) => {
         );
         if (resp.ok) {
             const re = await resp.json();
+            for (let i = 0; i < re.serviceDTOS.length; i++) {
+                re.serviceDTOS[i].averageRating =
+                    re.avgRatings[i] !== "NaN" ? re.avgRatings[i] : 0;
+            }
             return re.serviceDTOS;
         }
         throw resp;

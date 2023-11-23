@@ -75,6 +75,20 @@ const ServiceCard = (props) => {
                                 minutes
                             </span>
                         </div>
+                        <div className="flex flex-col space-y-1.5">
+                            <Label
+                                htmlFor={`service-${service.serviceId}`}
+                                style={{ fontSize: "1rem", fontWeight: "bold" }}
+                            >
+                                Average rating
+                            </Label>
+                            <span
+                                id={`service-${service.serviceId}`}
+                                style={{ fontSize: "0.875rem" }}
+                            >
+                                {service.averageRating}
+                            </span>
+                        </div>
                     </div>
                 </CardContent>
             </Card>
@@ -148,6 +162,7 @@ const ServiceList = ({ subcategories, services }) => {
     }
     const [priceSlider, setPriceSlider] = useState(maxPriceRef.current);
     const [timeSlider, setTimeSlider] = useState(maxTimeRef.current);
+    const [averageRatingSlider, setAverageRatingSlider] = useState(0);
     const filteredCategories = subcategories.filter(
         (subcategory) => categorySelectionMap[subcategory.subCategoryID]
     );
@@ -158,7 +173,10 @@ const ServiceList = ({ subcategories, services }) => {
         (service) =>
             service.timeRequired[0] * 60 + service.timeRequired[1] <= timeSlider
     );
-    const filteredServices = timeFilterApplied.filter((service) => {
+    const ratingFilterApplied = timeFilterApplied.filter(
+        (service) => service.averageRating >= averageRatingSlider
+    );
+    const filteredServices = ratingFilterApplied.filter((service) => {
         if (search === "") return true;
         return service.businessName
             .toLowerCase()
@@ -219,7 +237,7 @@ const ServiceList = ({ subcategories, services }) => {
                         </div>
                         <div className="my-4">
                             <CardTitle className="mb-2">
-                                Price : {priceSlider}
+                                Price : {priceSlider} CAD or less
                             </CardTitle>
                             <Slider
                                 value={[priceSlider]}
@@ -233,7 +251,7 @@ const ServiceList = ({ subcategories, services }) => {
                         </div>
                         <div className="my-4">
                             <CardTitle className="mb-2">
-                                Time required : {timeSlider}
+                                Time required : {timeSlider} or less
                             </CardTitle>
                             <Slider
                                 value={[timeSlider]}
@@ -242,6 +260,20 @@ const ServiceList = ({ subcategories, services }) => {
                                 step={1}
                                 onValueChange={(value) =>
                                     setTimeSlider(value[0])
+                                }
+                            />
+                        </div>
+                        <div className="my-4">
+                            <CardTitle className="mb-2">
+                                Average rating : {averageRatingSlider} and above
+                            </CardTitle>
+                            <Slider
+                                value={[averageRatingSlider]}
+                                min={0}
+                                max={5}
+                                step={1}
+                                onValueChange={(value) =>
+                                    setAverageRatingSlider(value[0])
                                 }
                             />
                         </div>
