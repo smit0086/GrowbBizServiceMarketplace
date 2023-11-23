@@ -5,7 +5,6 @@ import java.time.LocalTime;
 public class TestConstants {
 
     public static final String TEST_EMAIL = "testEmail@dal.ca";
-
     public static final String TEST_BUSINESS_NAME = "TestBusinessName";
     public static final String TEST_FILE_NAME = "TestName";
     public static final String TEST_BUSINESS_DESCRIPTION = "TestBusinessDescription";
@@ -39,9 +38,10 @@ public class TestConstants {
     public static final long TEST_ID_2 = 2L;
     public static final long TEST_ID_3 = 3L;
     public static final int STATUS_CODE = 200;
-    public static final int[] HOUR_RANGE = {9,10,11,12,13};
+    public static final int[] HOUR_RANGE = {9, 10, 11, 12, 13};
     public static final int TEST_YEAR = 2023;
     public static final int TEST_DAY = 21;
     public static final double TEST_AVG_RATING2 = 4.3;
     public static final double TEST_AVG_RATING1 = 2.3;
+    public static final String TEST_TOKEN = "testToken";
 }

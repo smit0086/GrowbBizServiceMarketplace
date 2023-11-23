@@ -3,6 +3,7 @@ package com.growbiz.backend.UserAuthentication;
 import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.RequestResponse.Authentication.AuthenticationRequest;
 import com.growbiz.backend.RequestResponse.Authentication.AuthenticationResponse;
+import com.growbiz.backend.TestConstants.TestConstants;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.UserAuthentication.controller.UserAuthenticationController;
 import com.growbiz.backend.UserAuthentication.service.IUserAuthenticationService;
@@ -31,19 +32,19 @@ public class UserAuthenticationControllerTest {
     public void init() {
         MockitoAnnotations.openMocks(this);
         expectedResponse = ResponseEntity.ok(AuthenticationResponse.builder()
-                .token("tokenReturned")
+                .token(TestConstants.TEST_TOKEN)
                 .role(Role.PARTNER)
-                .subject("testEmail@dal.ca")
+                .subject(TestConstants.TEST_EMAIL)
                 .build());
     }
 
     @Test
     public void testAuthenticate() {
-        AuthenticationRequest mockAuthenticationRequest = AuthenticationRequest.builder().email("testEmail@dal.ca").role(Role.PARTNER).password("password").build();
+        AuthenticationRequest mockAuthenticationRequest = AuthenticationRequest.builder().email(TestConstants.TEST_EMAIL).role(Role.PARTNER).password(TestConstants.TEST_PASSWORD).build();
         when(userAuthenticationServiceMocked.authenticate(mockAuthenticationRequest)).thenReturn(AuthenticationResponse.builder()
-                .token("tokenReturned")
+                .token(TestConstants.TEST_TOKEN)
                 .role(Role.PARTNER)
-                .subject("testEmail@dal.ca")
+                .subject(TestConstants.TEST_EMAIL)
                 .build());
         Assertions.assertEquals(expectedResponse, userAuthenticationController.authenticate(mockAuthenticationRequest));
     }
@@ -52,15 +53,15 @@ public class UserAuthenticationControllerTest {
     public void testRegisterUser() {
         User mockedUser = User.builder()
                 .id(1L)
-                .email("a@dal.ca")
-                .password("password")
-                .firstName("test")
-                .lastName("test")
+                .email(TestConstants.TEST_EMAIL)
+                .password(TestConstants.TEST_PASSWORD)
+                .firstName(TestConstants.TEST_NAME)
+                .lastName(TestConstants.TEST_NAME)
                 .role(Role.PARTNER).build();
         when(userAuthenticationServiceMocked.register(mockedUser)).thenReturn(AuthenticationResponse.builder()
-                .token("tokenReturned")
+                .token(TestConstants.TEST_TOKEN)
                 .role(Role.PARTNER)
-                .subject("testEmail@dal.ca")
+                .subject(TestConstants.TEST_EMAIL)
                 .build());
         Assertions.assertEquals(expectedResponse, userAuthenticationController.registerUser(mockedUser));
     }

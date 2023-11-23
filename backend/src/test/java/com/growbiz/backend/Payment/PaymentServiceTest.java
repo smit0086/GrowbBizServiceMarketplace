@@ -7,6 +7,7 @@ import com.growbiz.backend.Payment.repository.IPaymentRepository;
 import com.growbiz.backend.Payment.service.PaymentService;
 import com.growbiz.backend.RequestResponse.Payment.PaymentRequest;
 import com.growbiz.backend.TestConstants.TestConstants;
+import org.assertj.core.util.IterableUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -47,7 +51,7 @@ public class PaymentServiceTest {
     }
 
     @Test
-    public void testAddPayment() {
+    void testAddPayment() {
         mockedPaymentRequest = PaymentRequest.builder()
                 .email(TestConstants.TEST_EMAIL)
                 .role(Role.CUSTOMER)
@@ -64,17 +68,30 @@ public class PaymentServiceTest {
     }
 
     @Test
-    public void testCreatePaymentIntent() {
-        //paymentService.createPaymentIntent();
+    void testFindPaymentById() {
+        when(paymentRepositoryMock.findById(anyLong())).thenReturn(Optional.of(mockedPayment));
+        Payment actualResponse = paymentServiceMock.findPaymentById(1L);
+        Assertions.assertEquals(mockedPayment, actualResponse);
     }
 
     @Test
-    public void testHandleWebhook() {
-        //paymentService.handleWebhook();
+    void testFindAllPayments() {
+        when(paymentRepositoryMock.findAll()).thenReturn(IterableUtil.iterable(mockedPayment));
+        List<Payment> actualResponse = paymentServiceMock.findAllPayments();
+        Assertions.assertEquals(List.of(mockedPayment), actualResponse);
     }
 
     @Test
-    public void testFindPaymentById() {
-        //paymentService.findPaymentById(1L);
+    void testFindAllPaymentsByUserEmail() {
+        when(paymentRepositoryMock.findByUserEmail(TestConstants.TEST_EMAIL)).thenReturn(List.of(mockedPayment));
+        List<Payment> actualResponse = paymentServiceMock.findAllPaymentsByUserEmail(TestConstants.TEST_EMAIL);
+        Assertions.assertEquals(List.of(mockedPayment), actualResponse);
+    }
+
+    @Test
+    void testFindByServiceId() {
+        when(paymentRepositoryMock.findByServiceId(1L)).thenReturn(List.of(mockedPayment));
+        List<Payment> actualResponse = paymentServiceMock.findByServiceId(1L);
+        Assertions.assertEquals(List.of(mockedPayment), actualResponse);
     }
 }
