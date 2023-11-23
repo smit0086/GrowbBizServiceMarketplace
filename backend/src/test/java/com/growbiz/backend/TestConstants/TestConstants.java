@@ -31,6 +31,8 @@ public class TestConstants {
     public static final String TEST_BOOKING_DATE = "2023-11-13";
     public static final LocalTime TEST_BOOKING_START_TIME = LocalTime.of(11, 30);
     public static final LocalTime TEST_BOOKING_END_TIME = LocalTime.of(12, 30);
+    public static final String TEST_REVIEW = "TestReview";
+    public static final double TEST_RATING = 4.5;
     public static final String TEST_JSON = "{TEST:JSON}";
 
     public static final long TEST_ID_1 = 1L;

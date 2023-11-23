@@ -51,6 +51,7 @@ class Rating extends React.Component {
                     {stars.map((star) => {
                         return (
                             <span
+                                key={star}
                                 style={{
                                     cursor: this.props.readOnly
                                         ? "auto"

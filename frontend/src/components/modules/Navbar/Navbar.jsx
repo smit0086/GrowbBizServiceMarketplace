@@ -43,7 +43,11 @@ const Navbar = async ({ navItems }) => {
             </a>
             <div className="h-full mt-24">
                 {navItems?.map((item) => (
-                    <TooltipWrapper content={item.title} side="right">
+                    <TooltipWrapper
+                        key={item.title}
+                        content={item.title}
+                        side="right"
+                    >
                         <NavItem
                             key={item.title}
                             route={item.route}
