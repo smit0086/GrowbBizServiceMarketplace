@@ -3,9 +3,12 @@ package com.growbiz.backend.Business.controller;
 import com.growbiz.backend.Business.helper.BusinessControllerHelper;
 import com.growbiz.backend.Business.models.Business;
 import com.growbiz.backend.Business.service.IBusinessService;
+import com.growbiz.backend.BusinessHour.service.IBusinessHourService;
 import com.growbiz.backend.Email.service.ISendEmailService;
 import com.growbiz.backend.RequestResponse.Business.BusinessResponse;
 import com.growbiz.backend.RequestResponse.Business.VerificationRequest;
+import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourRequest;
+import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,6 +31,9 @@ public class BusinessController {
 
     @Autowired
     private BusinessControllerHelper helper;
+
+    @Autowired
+    private IBusinessHourService businessHourService;
 
     @GetMapping(path = "/all")
     public ResponseEntity<BusinessResponse> getAllBusinesses(@RequestParam(required = false) String status) {
@@ -67,6 +73,18 @@ public class BusinessController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(businessService.downloadFile(email));
+    }
+
+    @PutMapping(path = "/businessHours")
+    public ResponseEntity<String> updateBusinessHour(@RequestBody BusinessHourRequest businessHourRequest) {
+        businessHourService.saveBusinessHours(businessHourRequest);
+        return ResponseEntity.ok("Updated");
+    }
+
+    @GetMapping(path = "/businessHours")
+    public ResponseEntity<BusinessHourResponse> getBusinessHours(@RequestParam String businessId) {
+        Long bId = Long.parseLong(businessId);
+        return helper.createBusinessHourResponse(businessHourService.getBusinessHour(bId));
     }
 }
 
