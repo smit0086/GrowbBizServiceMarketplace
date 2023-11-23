@@ -181,18 +181,19 @@ public class ServicesControllerHelperTests {
 
     @Test
     public void createServiceDTOResponseTest() {
-            ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
-                    ServiceResponse.builder()
-                            .serviceDTOS(List.of(mockServiceDTO))
-                            .isUpdated(true)
-                            .subject(mockUser.getEmail())
-                            .role(Role.CUSTOMER)
-                            .avgRatings(List.of(TestConstants.TEST_AVG_RATING2))
-                            .build()
-            );
-            SecurityContextHolder.setContext(securityContext);
-            when(securityContext.getAuthentication()).thenReturn(authentication);
-            when(authentication.getPrincipal()).thenReturn(mockUser);
+        ResponseEntity<ServiceResponse> expectedResponse = ResponseEntity.ok(
+                ServiceResponse.builder()
+                        .serviceDTOS(List.of(mockServiceDTO))
+                        .isUpdated(true)
+                        .subject(mockUser.getEmail())
+                        .role(Role.CUSTOMER)
+                        .avgRatings(List.of(TestConstants.TEST_AVG_RATING2))
+                        .build()
+        );
+        SecurityContextHolder.setContext(securityContext);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        when(authentication.getPrincipal()).thenReturn(mockUser);
+        when(reviewsAndRatingsService.getReviewsAndRatingsByServiceId(mockServiceDTO.getServiceId())).thenReturn(List.of(mockReviewsAndRatings, mockReviewsAndRatings2));
 
         ResponseEntity<ServiceResponse> actualResponse = servicesControllerHelper.createServiceDTOResponse(List.of(mockServiceDTO),true);
         assertEquals(expectedResponse, actualResponse);
