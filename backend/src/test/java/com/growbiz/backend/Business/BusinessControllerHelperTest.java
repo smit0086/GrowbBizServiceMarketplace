@@ -11,6 +11,7 @@ import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.RequestResponse.Business.BusinessRequest;
 import com.growbiz.backend.RequestResponse.Business.BusinessResponse;
 import com.growbiz.backend.RequestResponse.Business.VerificationRequest;
+import com.growbiz.backend.TestConstants.TestConstants;
 import com.growbiz.backend.User.models.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,8 +56,8 @@ public class BusinessControllerHelperTest {
         mockUser = User
                 .builder()
                 .id(TEST_USER_ID)
-                .email("test@dal.ca")
-                .password("test")
+                .email(TestConstants.TEST_EMAIL)
+                .password(TestConstants.TEST_PASSWORD)
                 .firstName("John")
                 .lastName("Doe")
                 .role(Role.PARTNER)
@@ -64,18 +65,18 @@ public class BusinessControllerHelperTest {
 
         mockCategory = Category.builder()
                 .categoryID(TEST_CATEGORY_ID)
-                .name("Test")
-                .tax("15")
+                .name(TestConstants.TEST_CATEGORY_NAME)
+                .tax(TestConstants.TEST_CATEGORY_TAX)
                 .build();
 
         mockBusiness = Business.builder()
                 .businessId(TEST_BUSINESS_ID)
-                .businessName("Test")
-                .email("test@dal.ca")
+                .businessName(TestConstants.TEST_BUSINESS_NAME)
+                .email(TestConstants.TEST_EMAIL)
                 .status(BusinessStatus.APPROVED)
                 .category(mockCategory)
-                .fileURL("test")
-                .description("test")
+                .fileURL(TestConstants.TEST_BUSINESS_FILE_PATH)
+                .description(TestConstants.TEST_BUSINESS_DESCRIPTION)
                 .reason("none")
                 .build();
     }
@@ -89,7 +90,7 @@ public class BusinessControllerHelperTest {
         ResponseEntity<BusinessResponse> expectedResponse = ResponseEntity.ok(
                 BusinessResponse.builder()
                         .businesses(businessList)
-                        .subject("test@dal.ca")
+                        .subject(TestConstants.TEST_EMAIL)
                         .role(Role.PARTNER)
                         .build()
         );
@@ -106,7 +107,7 @@ public class BusinessControllerHelperTest {
         String json = "";
         MultipartFile mockFile = mock(MultipartFile.class);
         BusinessRequest expectedBusinessReq = BusinessRequest.builder()
-                .businessName("Test")
+                .businessName(TestConstants.TEST_BUSINESS_NAME)
                 .categoryId(TEST_CATEGORY_ID)
                 .file(mockFile)
                 .description("test")

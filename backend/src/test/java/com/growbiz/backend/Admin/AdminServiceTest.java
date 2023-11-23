@@ -6,15 +6,14 @@ import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Categories.service.Sub.SubCategoryService;
 import com.growbiz.backend.Categories.service.Super.CategoryService;
 import com.growbiz.backend.RequestResponse.SubCategory.SubCategoryRequest;
-import org.junit.Before;
+import org.junit.jupiter.api.Assertions;
+import com.growbiz.backend.TestConstants.TestConstants;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -32,7 +31,7 @@ public class AdminServiceTest {
     @Mock
     Category mockCategory = Category
             .builder()
-            .categoryID(1L)
+            .categoryID(TestConstants.TEST_ID_1)
             .name("Test Category")
             .tax("15")
             .build();
@@ -40,7 +39,7 @@ public class AdminServiceTest {
     @Mock
     SubCategory mockSubCategory = SubCategory
             .builder()
-            .subCategoryID(1L)
+            .subCategoryID(TestConstants.TEST_ID_1)
             .name("Test Subcategory")
             .category(mockCategory)
             .build();
@@ -48,16 +47,12 @@ public class AdminServiceTest {
     @Mock
     SubCategoryRequest mockSubCategoryRequest = SubCategoryRequest
             .builder()
-            .subCategoryID(1L)
+            .subCategoryID(TestConstants.TEST_ID_1)
             .name("Test SubCategory")
             .categoryID(mockCategory.getCategoryID())
             .isSubCategory(true)
             .build();
 
-    @Before
-    public void init() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     public void addCategoryTest() {
@@ -67,7 +62,7 @@ public class AdminServiceTest {
         when(categoryService.addCategory(mockCategory)).thenReturn(mockCategory);
 
         actualResponse = adminService.addCategory(mockCategory);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -78,7 +73,7 @@ public class AdminServiceTest {
         when(categoryService.addCategory(mockCategory)).thenThrow(new RuntimeException("Test Exception"));
 
         actualResponse = adminService.addCategory(mockCategory);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -89,7 +84,7 @@ public class AdminServiceTest {
         when(categoryService.updateCategory(mockCategory)).thenReturn(mockCategory);
 
         actualResponse = adminService.updateCategory(mockCategory);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -100,7 +95,7 @@ public class AdminServiceTest {
         when(categoryService.updateCategory(mockCategory)).thenThrow(new RuntimeException("Test Exception"));
 
         actualResponse = adminService.updateCategory(mockCategory);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -111,7 +106,7 @@ public class AdminServiceTest {
         doNothing().when(categoryService).deleteCategory(any());
 
         actualResponse = adminService.deleteCategory(mockCategory);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -122,7 +117,7 @@ public class AdminServiceTest {
         doThrow(new RuntimeException("Test Exception")).when(categoryService).deleteCategory(any());
 
         actualResponse = adminService.deleteCategory(mockCategory);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -133,7 +128,7 @@ public class AdminServiceTest {
         when(subCategoryService.addSubCategory(mockSubCategoryRequest)).thenReturn(mockSubCategory);
 
         actualResponse = adminService.addSubCategory(mockSubCategoryRequest);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -144,7 +139,7 @@ public class AdminServiceTest {
         when(subCategoryService.addSubCategory(mockSubCategoryRequest)).thenThrow(new RuntimeException("Test Exception"));
 
         actualResponse = adminService.addSubCategory(mockSubCategoryRequest);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -155,7 +150,7 @@ public class AdminServiceTest {
         when(subCategoryService.updateSubCategory(mockSubCategoryRequest, mockSubCategoryRequest.getSubCategoryID())).thenReturn(mockSubCategory);
 
         actualResponse = adminService.updateSubCategory(mockSubCategoryRequest);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -166,7 +161,7 @@ public class AdminServiceTest {
         when(subCategoryService.updateSubCategory(mockSubCategoryRequest, mockSubCategoryRequest.getSubCategoryID())).thenThrow(new RuntimeException("Test Exception"));
 
         actualResponse = adminService.updateSubCategory(mockSubCategoryRequest);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -177,7 +172,7 @@ public class AdminServiceTest {
         doNothing().when(subCategoryService).deleteSubCategory(any());
 
         actualResponse = adminService.deleteSubCategory(mockSubCategory);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 
     @Test
@@ -188,6 +183,6 @@ public class AdminServiceTest {
         doThrow(new RuntimeException("Test Exception")).when(subCategoryService).deleteSubCategory(any());
 
         actualResponse = adminService.deleteSubCategory(mockSubCategory);
-        assertEquals(actualResponse, expectedResponse);
+        Assertions.assertEquals(actualResponse, expectedResponse);
     }
 }

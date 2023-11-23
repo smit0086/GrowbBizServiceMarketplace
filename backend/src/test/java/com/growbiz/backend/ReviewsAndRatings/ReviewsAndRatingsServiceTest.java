@@ -13,13 +13,12 @@ import com.growbiz.backend.Services.service.IServicesService;
 import com.growbiz.backend.TestConstants.TestConstants;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.repository.IUserRepository;
-import com.stripe.model.Review;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,72 +42,114 @@ public class ReviewsAndRatingsServiceTest {
     private IServicesService iServicesService;
 
     @Mock
-    User mockUser = User
-            .builder()
-            .id(1L)
-            .email(TestConstants.TEST_EMAIL)
-            .password(TestConstants.TEST_PASSWORD)
-            .firstName(TestConstants.TEST_NAME)
-            .lastName(TestConstants.TEST_NAME)
-            .role(Role.CUSTOMER)
-            .build();
+    User mockUser;
 
     @Mock
-    Category mockCategory = Category
-            .builder()
-            .categoryID(1L)
-            .name(TestConstants.TEST_CATEGORY_NAME)
-            .tax(TestConstants.TEST_CATEGORY_TAX)
-            .build();
+    Category mockCategory;
 
     @Mock
-    SubCategory mockSubCategory = SubCategory
-            .builder()
-            .subCategoryID(1L)
-            .name(TestConstants.TEST_SUBCATEGORY_NAME)
-            .category(mockCategory)
-            .build();
+    SubCategory mockSubCategory;
     @Mock
-    Business mockBusiness = Business
-            .builder()
-            .businessId(1L)
-            .businessName(TestConstants.TEST_BUSINESS_NAME)
-            .email(TestConstants.TEST_EMAIL)
-            .build();
+    Business mockBusiness;
 
     @Mock
-    Services mockService = Services
-            .builder()
-            .serviceId(1L)
-            .serviceName(TestConstants.TEST_SERVICE_NAME)
-            .description(TestConstants.TEST_SERVICE_DESCRIPTION)
-            .price(TestConstants.TEST_SERVICE_PRICE)
-            .imageURL(TestConstants.TEST_SERVICE_IMAGE_URL)
-            .business(mockBusiness)
-            .subCategory(mockSubCategory)
-            .build();
+    Services mockService;
 
     @Mock
-    ReviewsAndRatings mockReviewsAndRatings = ReviewsAndRatings
-            .builder()
-            .reviewAndRatingID(1L)
-            .review(TestConstants.TEST_REVIEW)
-            .rating(TestConstants.TEST_RATING)
-            .userEmail(mockUser.getEmail())
-            .user(mockUser)
-            .service(mockService)
-            .build();
+    ReviewsAndRatings mockReviewsAndRatings;
 
     @Mock
-    ReviewsAndRatingsRequest mockReviewsAndRatingsRequest = ReviewsAndRatingsRequest
-            .builder()
-            .reviewAndRatingId(1L)
-            .review(TestConstants.TEST_REVIEW)
-            .rating(TestConstants.TEST_RATING)
-            .userId(mockUser.getId())
-            .serviceId(mockService.getServiceId())
-            .userEmail(mockUser.getEmail())
-            .build();
+    ReviewsAndRatings mockUpdatedReviewsAndRatings;
+
+    @Mock
+    ReviewsAndRatingsRequest mockReviewsAndRatingsRequest;
+
+    @Mock
+    ReviewsAndRatingsRequest mockReviewsAndRatingsUpdateRequest;
+
+    @BeforeEach
+    public void init(){
+        mockUser = User
+                .builder()
+                .id(1L)
+                .email(TestConstants.TEST_EMAIL)
+                .password(TestConstants.TEST_PASSWORD)
+                .firstName(TestConstants.TEST_NAME)
+                .lastName(TestConstants.TEST_NAME)
+                .role(Role.CUSTOMER)
+                .build();
+
+        mockCategory = Category
+                .builder()
+                .categoryID(1L)
+                .name(TestConstants.TEST_CATEGORY_NAME)
+                .tax(TestConstants.TEST_CATEGORY_TAX)
+                .build();
+
+        mockSubCategory = SubCategory
+                .builder()
+                .subCategoryID(1L)
+                .name(TestConstants.TEST_SUBCATEGORY_NAME)
+                .category(mockCategory)
+                .build();
+        mockBusiness = Business
+                .builder()
+                .businessId(1L)
+                .businessName(TestConstants.TEST_BUSINESS_NAME)
+                .email(TestConstants.TEST_EMAIL)
+                .build();
+
+        mockService = Services
+                .builder()
+                .serviceId(1L)
+                .serviceName(TestConstants.TEST_SERVICE_NAME)
+                .description(TestConstants.TEST_SERVICE_DESCRIPTION)
+                .price(TestConstants.TEST_SERVICE_PRICE)
+                .imageURL(TestConstants.TEST_SERVICE_IMAGE_URL)
+                .business(mockBusiness)
+                .subCategory(mockSubCategory)
+                .build();
+
+        mockReviewsAndRatings = ReviewsAndRatings
+                .builder()
+                .reviewAndRatingID(1L)
+                .review(TestConstants.TEST_REVIEW)
+                .rating(TestConstants.TEST_RATING)
+                .userEmail(mockUser.getEmail())
+                .user(mockUser)
+                .service(mockService)
+                .build();
+
+        mockUpdatedReviewsAndRatings = ReviewsAndRatings
+                .builder()
+                .reviewAndRatingID(1L)
+                .review(TestConstants.TEST_REVIEW)
+                .rating(TestConstants.TEST_RATING)
+                .userEmail(mockUser.getEmail())
+                .user(mockUser)
+                .service(mockService)
+                .build();
+
+        mockReviewsAndRatingsRequest = ReviewsAndRatingsRequest
+                .builder()
+                .reviewAndRatingId(1L)
+                .review(TestConstants.TEST_REVIEW)
+                .rating(TestConstants.TEST_RATING)
+                .userId(mockUser.getId())
+                .serviceId(mockService.getServiceId())
+                .userEmail(mockUser.getEmail())
+                .build();
+
+        mockReviewsAndRatingsUpdateRequest = ReviewsAndRatingsRequest
+                .builder()
+                .reviewAndRatingId(1L)
+                .review(TestConstants.TEST_REVIEW)
+                .rating(TestConstants.TEST_RATING)
+                .userId(mockUser.getId())
+                .serviceId(mockService.getServiceId())
+                .userEmail(mockUser.getEmail())
+                .build();
+    }
 
     @Test
     public void getReviewAndRatingByIdTest(){
@@ -174,6 +215,20 @@ public class ReviewsAndRatingsServiceTest {
     }
 
     @Test
+    public void addReviewAndRatingTest(){
+        ReviewsAndRatings actualResponse;
+        ReviewsAndRatings expectedResponse = mockReviewsAndRatings;
+
+        when(iReviewsAndRatingsRepository.findByServiceServiceIdAndUserId(mockReviewsAndRatingsRequest.getServiceId(), mockReviewsAndRatingsRequest.getUserId())).thenReturn(null);
+        when(iUserRepository.findById(mockReviewsAndRatingsRequest.getUserId())).thenReturn(Optional.of(mockUser));
+        when(iServicesService.getServiceById(mockReviewsAndRatingsRequest.getServiceId())).thenReturn(mockService);
+        when(iReviewsAndRatingsRepository.save(any(ReviewsAndRatings.class))).thenReturn(mockReviewsAndRatings);
+
+        actualResponse = reviewsAndRatingsService.addReviewAndRating(mockReviewsAndRatingsRequest);
+        assertEquals(actualResponse, expectedResponse);
+    }
+
+    @Test
     public void addReviewAndRatingNullTest(){
         ReviewsAndRatings actualResponse;
 
@@ -181,6 +236,20 @@ public class ReviewsAndRatingsServiceTest {
 
         actualResponse = reviewsAndRatingsService.addReviewAndRating(mockReviewsAndRatingsRequest);
         assertNull(actualResponse);
+    }
+
+    @Test
+    public void updateReviewAndRatingTest(){
+        ReviewsAndRatings actualResponse;
+        ReviewsAndRatings expectedResponse = mockUpdatedReviewsAndRatings;
+
+        when(iReviewsAndRatingsRepository.findById(mockReviewsAndRatingsUpdateRequest.getReviewAndRatingId())).thenReturn(Optional.of(mockReviewsAndRatings));
+        when(iUserRepository.findById(mockReviewsAndRatingsUpdateRequest.getUserId())).thenReturn(Optional.of(mockUser));
+        when(iServicesService.getServiceById(mockReviewsAndRatingsUpdateRequest.getServiceId())).thenReturn(mockService);
+        when(iReviewsAndRatingsRepository.save(any(ReviewsAndRatings.class))).thenReturn(mockUpdatedReviewsAndRatings);
+
+        actualResponse = reviewsAndRatingsService.updateReviewAndRating(mockReviewsAndRatingsUpdateRequest);
+        assertEquals(actualResponse, expectedResponse);
     }
 
     @Test

@@ -5,6 +5,7 @@ import com.growbiz.backend.Categories.models.Category;
 import com.growbiz.backend.Categories.models.SubCategory;
 import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.Exception.exceptions.ReviewAndRating.ReviewAndRatingAlreadyExists;
+import com.growbiz.backend.Exception.exceptions.ReviewAndRating.ReviewAndRatingNotFoundException;
 import com.growbiz.backend.RequestResponse.ReviewsAndRatings.ReviewsAndRatingsRequest;
 import com.growbiz.backend.RequestResponse.ReviewsAndRatings.ReviewsAndRatingsResponse;
 import com.growbiz.backend.ReviewsAndRatings.controller.ReviewsAndRatingsController;
@@ -21,13 +22,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 @ExtendWith(MockitoExtension.class)
 public class ReviewsAndRatingsControllerTest {
@@ -177,12 +181,33 @@ public class ReviewsAndRatingsControllerTest {
                 .isDeleted(false)
                 .build());
 
+        SecurityContext securityContext = mock(SecurityContext.class);
+        Authentication authentication = mock(Authentication.class);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        when(authentication.getPrincipal()).thenReturn(mockUser);
+
         when(reviewsAndRatingsService.addReviewAndRating(mockReviewsAndRatingsRequest)).thenReturn(mockReviewsAndRatings);
-        when(iUserRepository.findById(mockReviewsAndRatingsRequest.getUserId())).thenReturn(Optional.of(mockUser));
         when(reviewsAndRatingsControllerHelper.createReviewsAndRatingsResponse(List.of(mockReviewsAndRatings), false)).thenReturn(expectedResponse);
 
         actualResponse = reviewsAndRatingsController.addReviewAndRating(mockReviewsAndRatingsRequest);
         assertEquals(actualResponse, expectedResponse);
+    }
+
+    @Test
+    public void addReviewAndRatingExceptionTest(){
+        SecurityContext securityContext = mock(SecurityContext.class);
+        Authentication authentication = mock(Authentication.class);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        when(authentication.getPrincipal()).thenReturn(mockUser);
+
+        when(reviewsAndRatingsService.addReviewAndRating(mockReviewsAndRatingsRequest)).thenReturn(null);
+
+        assertThrows(ReviewAndRatingAlreadyExists.class, () -> {
+            reviewsAndRatingsController.addReviewAndRating(mockReviewsAndRatingsRequest);
+        });
+        verify(reviewsAndRatingsService, times(1)).addReviewAndRating(mockReviewsAndRatingsRequest);
     }
 
     @Test
@@ -195,12 +220,33 @@ public class ReviewsAndRatingsControllerTest {
                 .isDeleted(false)
                 .build());
 
+        SecurityContext securityContext = mock(SecurityContext.class);
+        Authentication authentication = mock(Authentication.class);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        when(authentication.getPrincipal()).thenReturn(mockUser);
+
         when(reviewsAndRatingsService.updateReviewAndRating(mockReviewsAndRatingsUpdateRequest)).thenReturn(mockUpdatedReviewsAndRatings);
-        when(iUserRepository.findById(mockReviewsAndRatingsUpdateRequest.getUserId())).thenReturn(Optional.of(mockUser));
         when(reviewsAndRatingsControllerHelper.createReviewsAndRatingsResponse(List.of(mockUpdatedReviewsAndRatings), true)).thenReturn(expectedResponse);
 
         actualResponse = reviewsAndRatingsController.updateReviewAndRating(mockReviewsAndRatingsUpdateRequest);
         assertEquals(actualResponse, expectedResponse);
+    }
+
+    @Test
+    public void updateReviewAndRatingExceptionTest(){
+        SecurityContext securityContext = mock(SecurityContext.class);
+        Authentication authentication = mock(Authentication.class);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+        when(authentication.getPrincipal()).thenReturn(mockUser);
+
+        when(reviewsAndRatingsService.updateReviewAndRating(mockReviewsAndRatingsUpdateRequest)).thenReturn(null);
+
+        assertThrows(ReviewAndRatingNotFoundException.class, () -> {
+            reviewsAndRatingsController.updateReviewAndRating(mockReviewsAndRatingsUpdateRequest);
+        });
+        verify(reviewsAndRatingsService, times(1)).updateReviewAndRating(mockReviewsAndRatingsUpdateRequest);
     }
 
     @Test
@@ -216,7 +262,17 @@ public class ReviewsAndRatingsControllerTest {
         when(reviewsAndRatingsService.deleteReviewAndRating(mockReviewsAndRatings.getReviewAndRatingID())).thenReturn(true);
         when(reviewsAndRatingsControllerHelper.deleteReviewsAndRatingsResponse(true)).thenReturn(expectedResponse);
 
-        actualResponse = reviewsAndRatingsController.deleteReviewAndRating(mockReviewsAndRatings);
+        actualResponse = reviewsAndRatingsController.deleteReviewAndRating(mockReviewsAndRatings.getReviewAndRatingID());
         assertEquals(actualResponse, expectedResponse);
+    }
+
+    @Test
+    public void deleteReviewAndRatingExceptionTest(){
+        when(reviewsAndRatingsService.deleteReviewAndRating(mockReviewsAndRatings.getReviewAndRatingID())).thenReturn(false);
+
+        assertThrows(ReviewAndRatingNotFoundException.class, () -> {
+            reviewsAndRatingsController.deleteReviewAndRating(mockReviewsAndRatingsRequest.getReviewAndRatingId());
+        });
+        verify(reviewsAndRatingsService, times(1)).deleteReviewAndRating(mockReviewsAndRatingsRequest.getReviewAndRatingId());
     }
 }
