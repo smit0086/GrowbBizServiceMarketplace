@@ -4,14 +4,11 @@ import com.growbiz.backend.Booking.helper.BookingControllerHelper;
 import com.growbiz.backend.Booking.models.Booking;
 import com.growbiz.backend.Booking.models.BookingBusiness;
 import com.growbiz.backend.Booking.service.IBookingService;
-import com.growbiz.backend.BusinessHour.service.IBusinessHourService;
 import com.growbiz.backend.Enums.BookingStatus;
 import com.growbiz.backend.FreeSlot.service.IFreeSlotService;
 import com.growbiz.backend.RequestResponse.Booking.BookingBusinessResponse;
 import com.growbiz.backend.RequestResponse.Booking.BookingRequest;
 import com.growbiz.backend.RequestResponse.Booking.BookingResponse;
-import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourRequest;
-import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourResponse;
 import com.growbiz.backend.RequestResponse.FreeSlot.FreeSlotsResponse;
 import com.growbiz.backend.User.models.User;
 import com.growbiz.backend.User.service.IUserService;
@@ -41,8 +38,6 @@ public class BookingController {
 
     @Autowired
     private IFreeSlotService freeSlotService;
-    @Autowired
-    private IBusinessHourService businessHourService;
 
     @PostMapping(path = "/add")
     public ResponseEntity<BookingResponse> addBooking(@RequestBody BookingRequest bookingRequest) {
@@ -130,17 +125,5 @@ public class BookingController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = formatter.parse(dateString);
         return helper.createFreeSlotsResponse(freeSlotService.getFreeSlotsForWeek(businessId, date, serviceId));
-    }
-
-    @PutMapping(path = "/businessHours")
-    public ResponseEntity<String> updateBusinessHour(@RequestBody BusinessHourRequest businessHourRequest) {
-        businessHourService.saveBusinessHours(businessHourRequest);
-        return ResponseEntity.ok("Updated");
-    }
-
-    @GetMapping(path = "/businessHours")
-    public ResponseEntity<BusinessHourResponse> getBusinessHours(@RequestParam String businessId) {
-        Long bId = Long.parseLong(businessId);
-        return helper.createBusinessHourResponse(businessHourService.getBusinessHour(bId));
     }
 }

@@ -4,13 +4,18 @@ import com.growbiz.backend.Business.controller.BusinessController;
 import com.growbiz.backend.Business.helper.BusinessControllerHelper;
 import com.growbiz.backend.Business.models.Business;
 import com.growbiz.backend.Business.service.IBusinessService;
+import com.growbiz.backend.BusinessHour.model.BusinessHour;
+import com.growbiz.backend.BusinessHour.service.IBusinessHourService;
 import com.growbiz.backend.Email.service.ISendEmailService;
 import com.growbiz.backend.Enums.BusinessStatus;
 import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.RequestResponse.Business.BusinessRequest;
 import com.growbiz.backend.RequestResponse.Business.BusinessResponse;
 import com.growbiz.backend.RequestResponse.Business.VerificationRequest;
+import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourRequest;
+import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourResponse;
 import com.growbiz.backend.TestConstants.TestConstants;
+import com.growbiz.backend.User.models.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,9 +28,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -39,9 +46,14 @@ public class BusinessControllerTest {
     ISendEmailService sendEmailServiceMock;
     @Mock
     BusinessControllerHelper helperMock;
+    @Mock
+    private IBusinessHourService businessHourService;
     Business mockedBusiness1;
     Business mockedBusiness2;
     BusinessResponse mockedBusinessResponse;
+    BusinessHour mockBusinessHour;
+    public static final LocalTime TEST_BH_START_TIME = LocalTime.of(9, 0);
+    public static final LocalTime TEST_BH_END_TIME = LocalTime.of(5, 0);
     private static final String TEST_BODY = "TestBody";
     private static final String TEST_FILE_CONTENT = "Mocked file content";
     private static final String TEST_VERIFICATION_STRING = "Business " + TestConstants.TEST_BUSINESS_NAME + " has been " + BusinessStatus.APPROVED + "! Email has been sent to the Partner";
@@ -152,5 +164,57 @@ public class BusinessControllerTest {
         ResponseEntity<byte[]> expectedResponseEntity = ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM).body(TEST_FILE_CONTENT.getBytes());
         ResponseEntity<byte[]> actualResponseEntity = businessControllerMock.downloadFile(TestConstants.TEST_EMAIL);
         Assertions.assertEquals(expectedResponseEntity, actualResponseEntity);
+    }
+
+    @Test
+    public void getBusinessHoursTest() {
+        ResponseEntity<BusinessHourResponse> actualResponse;
+        User mockUser = User
+                .builder()
+                .id(1L)
+                .email("test@dal.ca")
+                .password("test")
+                .firstName("John")
+                .lastName("Doe")
+                .role(Role.CUSTOMER)
+                .build();
+        mockBusinessHour = BusinessHour.builder()
+                .monday_start(TEST_BH_START_TIME)
+                .monday_end(TEST_BH_END_TIME)
+                .tuesday_start(TEST_BH_START_TIME)
+                .tuesday_end(TEST_BH_END_TIME)
+                .wednesday_start(TEST_BH_START_TIME)
+                .wednesday_end(TEST_BH_END_TIME)
+                .thursday_start(TEST_BH_START_TIME)
+                .thursday_end(TEST_BH_END_TIME)
+                .friday_start(TEST_BH_START_TIME)
+                .friday_end(TEST_BH_END_TIME)
+                .saturday_start(TEST_BH_START_TIME)
+                .saturday_end(TEST_BH_END_TIME)
+                .sunday_start(TEST_BH_START_TIME)
+                .sunday_end(TEST_BH_END_TIME)
+                .build();
+        ResponseEntity<BusinessHourResponse> expectedResponse = ResponseEntity.ok(
+                BusinessHourResponse.builder()
+                        .businessHour(mockBusinessHour)
+                        .subject(mockUser.getEmail())
+                        .role(mockUser.getRole())
+                        .build()
+        );
+
+        when(businessHourService.getBusinessHour(1L)).thenReturn(mockBusinessHour);
+        when(helperMock.createBusinessHourResponse(mockBusinessHour)).thenReturn(expectedResponse);
+        actualResponse = businessControllerMock.getBusinessHours("1");
+        assertEquals(expectedResponse, actualResponse);
+    }
+
+    @Test
+    public void updateBusinessHoursTest() {
+        ResponseEntity<String> actualResponse;
+        ResponseEntity<String> expectedResponse = ResponseEntity.ok("Updated");
+        BusinessHourRequest mockBHR = mock(BusinessHourRequest.class);
+
+        actualResponse = businessControllerMock.updateBusinessHour(mockBHR);
+        assertEquals(expectedResponse, actualResponse);
     }
 }
