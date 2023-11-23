@@ -47,4 +47,6 @@ public class Services {
     private SubCategory subCategory;
 
     private String imageURL;
+
+    private Double avgRating;
 }

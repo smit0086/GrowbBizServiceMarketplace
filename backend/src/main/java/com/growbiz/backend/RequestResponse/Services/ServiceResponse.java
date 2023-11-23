@@ -16,6 +16,7 @@ public class ServiceResponse extends BasicResponse {
     private List<Services> services;
     private List<ServiceDTO> serviceDTOS;
     private String tax;
+    private List<Double> avgRatings;
     private Long businessId;
     private Boolean isUpdated;
     private Boolean isDeleted;
