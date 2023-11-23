@@ -36,6 +36,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class BusinessServiceTest {
 
+    public static final long BUSINESS_ID = 2L;
     @InjectMocks
     private BusinessService businessServiceMock;
     @Mock
@@ -79,7 +80,7 @@ public class BusinessServiceTest {
         when(businessRepositoryMock.findById(1L)).thenReturn(Optional.of(mockedBusiness));
         Business actualBusinessWithCorrectId = businessServiceMock.findById(1L);
         Assertions.assertEquals(mockedBusiness, actualBusinessWithCorrectId);
-        Assertions.assertThrows(UsernameNotFoundException.class, () -> businessServiceMock.findById(2L));
+        Assertions.assertThrows(UsernameNotFoundException.class, () -> businessServiceMock.findById(BUSINESS_ID));
     }
 
     @Test

@@ -31,6 +31,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BusinessControllerTest {
+    public static final long BUSINESS_ID = 2L;
     @InjectMocks
     private BusinessController businessControllerMock;
     @Mock
@@ -55,7 +56,7 @@ public class BusinessControllerTest {
                 .fileURL(TestConstants.TEST_BUSINESS_FILE_PATH)
                 .status(BusinessStatus.APPROVED)
                 .build();
-        mockedBusiness2 = Business.builder().businessId(2L)
+        mockedBusiness2 = Business.builder().businessId(BUSINESS_ID)
                 .businessName(TestConstants.TEST_BUSINESS_NAME)
                 .description(TestConstants.TEST_BUSINESS_DESCRIPTION)
                 .email(TestConstants.TEST_EMAIL)
