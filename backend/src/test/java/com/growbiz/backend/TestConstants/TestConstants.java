@@ -40,5 +40,6 @@ public class TestConstants {
     public static final int[] HOUR_RANGE = {9,10,11,12,13};
     public static final int TEST_YEAR = 2023;
     public static final int TEST_DAY = 21;
-    public static final double TEST_AVG_RATING = 4.3;
+    public static final double TEST_AVG_RATING2 = 4.3;
+    public static final double TEST_AVG_RATING1 = 2.3;
 }

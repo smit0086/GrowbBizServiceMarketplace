@@ -19,11 +19,9 @@ public class ServicesControllerHelper {
 
     public List<Double> getAvgRatingList(List<Services> serviceList) {
         List<Double> avgRatingList = new ArrayList<>();
-
         for (Services service:serviceList) {
             avgRatingList.add(getAvgRatingForEachService(service));
         }
-
         return avgRatingList;
     }
 
@@ -33,8 +31,7 @@ public class ServicesControllerHelper {
         for (ReviewsAndRatings reviewAndRating: reviewsAndRatings) {
             sum += reviewAndRating.getRating();
         }
-        double avgRating = sum /reviewsAndRatings.size();
-
+        double avgRating = sum / reviewsAndRatings.size();
         return avgRating;
     }
 
@@ -80,4 +77,3 @@ public class ServicesControllerHelper {
                 .build());
     }
 }
-
