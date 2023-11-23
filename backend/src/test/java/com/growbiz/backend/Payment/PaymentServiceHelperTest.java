@@ -9,7 +9,6 @@ import com.growbiz.backend.Enums.BookingStatus;
 import com.growbiz.backend.Enums.Role;
 import com.growbiz.backend.Payment.helper.PaymentServiceHelper;
 import com.growbiz.backend.Payment.model.Payment;
-import com.growbiz.backend.Payment.repository.IPaymentRepository;
 import com.growbiz.backend.RequestResponse.Payment.PaymentRequest;
 import com.growbiz.backend.Services.models.Services;
 import com.growbiz.backend.Services.service.IServicesService;
@@ -36,8 +35,6 @@ public class PaymentServiceHelperTest {
     @InjectMocks
     private PaymentServiceHelper paymentServiceHelperMock;
     @Mock
-    IPaymentRepository paymentRepositoryMock;
-    @Mock
     IServicesService servicesServiceMock;
     @Mock
     IBookingService bookingServiceMock;
@@ -45,9 +42,8 @@ public class PaymentServiceHelperTest {
     IUserService userServiceMock;
     @Mock
     Services mockService;
-    @Mock
-    Booking mockedBooking;
-    Long expectedPaymentAmount = 2692L;
+    private static final Long expectedPaymentAmount = 2692L;
+    private static final Long HUNDRED = 100L;
 
     @Test
     void testCalculatePaymentAmount() {
@@ -81,7 +77,6 @@ public class PaymentServiceHelperTest {
 
     @Test
     void testSaveToBooking() {
-        Business mockBusiness = mock(Business.class);
         User mockUser = mock(User.class);
         Booking mockBooking = Booking.builder()
                 .id(1L)
@@ -105,7 +100,7 @@ public class PaymentServiceHelperTest {
         when(userServiceMock.getUserByEmailAndRole(anyString(), anyString())).thenReturn(mockUser);
         when(servicesServiceMock.getServiceById(anyLong())).thenReturn(mockService);
         when(bookingServiceMock.save(any(Booking.class))).thenReturn(mockBooking);
-        Booking expectedBooking = paymentServiceHelperMock.saveToBooking(mockedPayment, 1000L);
+        Booking expectedBooking = paymentServiceHelperMock.saveToBooking(mockedPayment, TestConstants.TEST_AMOUNT);
         Assertions.assertEquals(expectedBooking, mockBooking);
     }
 
@@ -139,7 +134,7 @@ public class PaymentServiceHelperTest {
                 .startTime(TestConstants.TEST_START_LOCAL_TIME)
                 .endTime(TestConstants.TEST_BOOKING_END_TIME)
                 .note(TestConstants.TEST_NOTE)
-                .amount((double) (TestConstants.TEST_AMOUNT / 100L))
+                .amount((double) (TestConstants.TEST_AMOUNT / HUNDRED))
                 .build();
         Assertions.assertEquals(expectedPayment, paymentServiceHelperMock.createPayment(mockedPaymentRequest, TestConstants.TEST_AMOUNT));
     }
