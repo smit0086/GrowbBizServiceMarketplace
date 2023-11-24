@@ -1,6 +1,7 @@
 package com.growbiz.backend.Payment.service;
 
 import com.growbiz.backend.Booking.models.Booking;
+import com.growbiz.backend.Email.service.ISendEmailService;
 import com.growbiz.backend.Enums.PaymentStatus;
 import com.growbiz.backend.Payment.helper.PaymentServiceHelper;
 import com.growbiz.backend.Payment.model.Payment;
@@ -31,12 +32,15 @@ public class PaymentService implements IPaymentService {
     @Autowired
     IPaymentRepository paymentRepository;
     @Autowired
+    ISendEmailService sendEmailService;
+    @Autowired
     PaymentServiceHelper helper;
 
     @Value("${keys.stripeAPIKey}")
     private String stripeAPIKey;
     @Value("${keys.stripeWebhookSecret}")
     private String stripeWebhookSecret;
+    private static final String EMAIL_SUBJECT = "Payment Confirmation: Successful Transaction for ";
 
     @Override
     public Payment addPayment(PaymentRequest paymentRequest, long amount) {
@@ -84,6 +88,7 @@ public class PaymentService implements IPaymentService {
                 payment.setPaymentStatus(PaymentStatus.SUCCESS);
                 payment.setBookingId(booking.getId());
                 helper.updatePayment(payment);
+                sendEmailPaymentSuccess(booking);
             }
             case CREATED -> {
                 Long paymentId = Long.parseLong(paymentIntent.getMetadata().get("payment_id"));
@@ -94,6 +99,19 @@ public class PaymentService implements IPaymentService {
             default -> System.err.println("Unhandled event type: " + event.getType());
         }
         return ResponseEntity.ok().build();
+    }
+
+    private void sendEmailPaymentSuccess(Booking booking) {
+        StringBuilder emailBody = new StringBuilder();
+        emailBody.append("Your payment of ")
+                .append(booking.getAmount())
+                .append("for the service has been processed, securing your booking for ")
+                .append(booking.getDate())
+                .append(" at ")
+                .append(booking.getStartTime())
+                .append("\n")
+                .append("We're excited to have you with us and ensure a fantastic experience.");
+        sendEmailService.sendEmail(booking.getUser().getEmail(), EMAIL_SUBJECT + booking.getService().getServiceName(), emailBody.toString());
     }
 
     @Override
