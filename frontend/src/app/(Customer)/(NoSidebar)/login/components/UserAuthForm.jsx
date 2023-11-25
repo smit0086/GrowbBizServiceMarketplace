@@ -9,8 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ERROR_MESSAGE, REGEX, ROLES } from "@/lib/constants";
+import { useSearchParams } from "next/navigation";
 
 export function UserAuthForm({ className, ...props }) {
+    const params = useSearchParams();
+    const isSigninError = params.get("error") === "CredentialsSignin";
     const [isLoading, setIsLoading] = React.useState(false);
     const {
         handleSubmit,
@@ -97,6 +100,11 @@ export function UserAuthForm({ className, ...props }) {
                             </span>
                         )}
                     </div>
+                    {isSigninError && (
+                        <div className="text-xs text-destructive">
+                            Email or password incorrect!
+                        </div>
+                    )}
                     <Button disabled={isLoading}>
                         {isLoading && (
                             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
