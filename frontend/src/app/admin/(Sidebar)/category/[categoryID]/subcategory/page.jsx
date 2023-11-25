@@ -26,7 +26,7 @@ const subcategory = async (context) => {
                 </a>
             </h4>
             <h2 className="text-4xl font-semibold tracking-tight">
-                {categoryName}'s categories
+                {categoryName}&apos;s categories
             </h2>
             <div className="flex justify-end">
                 <Button asChild={true}>
