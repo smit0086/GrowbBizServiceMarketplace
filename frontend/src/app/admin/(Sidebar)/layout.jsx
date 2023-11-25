@@ -5,12 +5,12 @@ const partnerNavItems = [
     {
         title: "Business Verify",
         route: "/admin/business/verify",
-        icon: "layoutGrid",
+        icon: "badgeCheck",
     },
     {
         title: "Business Category",
         route: "/admin/category",
-        icon: "badgeCheck",
+        icon: "layoutGrid",
     },
 ];
 

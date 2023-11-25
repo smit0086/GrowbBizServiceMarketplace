@@ -7,14 +7,18 @@ import { getReviewsAndRatingsByServiceId } from "@/services/reviewsAndRatingsSer
 export default async function ServiceManagement(context) {
     const authSession = await getServerSession(authOptions);
     const serviceId = Number(context.params.serviceId);
+    const businessId = Number(context.params.businessId);
 
-    const reviews = await getReviewsAndRatingsByServiceId(authSession.apiToken, serviceId);
+    const reviews = await getReviewsAndRatingsByServiceId(
+        authSession.apiToken,
+        serviceId
+    );
 
     return (
         <>
             <ScrollArea className="h-[100vh] w-[95vw] rounded-md p-4">
                 <div>
-                    <ViewReviews reviews={reviews} />
+                    <ViewReviews reviews={reviews} businessId={businessId} />
                 </div>
             </ScrollArea>
         </>

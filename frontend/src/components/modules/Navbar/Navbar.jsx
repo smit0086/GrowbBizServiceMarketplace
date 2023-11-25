@@ -23,11 +23,13 @@ const Navbar = async ({ navItems }) => {
     const session = await getServerSession(authOptions);
     const role = session.user.role;
     let businessName = session.user.role;
+    let subText = session.user.email;
     if (businessName === ROLES.PARTNER) {
         const business = (
             await getBusiness(session.user.email, session.apiToken)
         )?.businesses?.[0];
         businessName = business?.businessName;
+        subText = business?.category.name;
     } else if (businessName === ROLES.CUSTOMER) {
         const userDetails = await getUserDetails(
             session.user.email,
@@ -51,6 +53,7 @@ const Navbar = async ({ navItems }) => {
                         <NavItem
                             key={item.title}
                             route={item.route}
+                            routeGroup={item.routeGroup}
                             icon={item.icon}
                             iconClassNames={item.iconClassNames}
                         />
@@ -78,7 +81,7 @@ const Navbar = async ({ navItems }) => {
                                 {businessName}
                             </p>
                             <p className="text-xs leading-none text-muted-foreground">
-                                {session.user.email}
+                                {subText}
                             </p>
                         </div>
                     </DropdownMenuLabel>

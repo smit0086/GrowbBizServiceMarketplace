@@ -40,7 +40,9 @@ const OperatingHours = async () => {
 
     return (
         <div>
-            <h2 className="text-3xl p-8 pl-16">Operating hours</h2>
+            <h2 className="text-4xl font-semibold tracking-tight p-8 pl-16">
+                Operating hours
+            </h2>
             <OperatingHoursForm
                 businessHours={businessHours}
                 businessId={business.businessId}

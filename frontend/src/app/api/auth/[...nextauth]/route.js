@@ -18,16 +18,18 @@ export const authOptions = {
                         credentials.password,
                         credentials.role
                     );
-                    if (typeof res !== "undefined") {
+                    if (res.ok) {
                         return {
                             email: res.subject,
                             role: res.role,
                             apiToken: res.token,
                         };
                     } else {
+                        console.log("Invalid credentials");
                         return null;
                     }
                 } else {
+                    console.log("Invalid credentials !!");
                     return null;
                 }
             },

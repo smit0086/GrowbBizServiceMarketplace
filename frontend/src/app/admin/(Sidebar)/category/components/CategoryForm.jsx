@@ -2,7 +2,6 @@
 
 import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,17 +13,10 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { addCategory } from "@/services/categoriesServices";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -32,10 +24,10 @@ import { ERROR_MESSAGE } from "@/lib/constants";
 
 const formSchema = z.object({
     name: z
-    .string({
-        required_error: ERROR_MESSAGE.REQUIRED,
-    })
-    .min(1)
+        .string({
+            required_error: ERROR_MESSAGE.REQUIRED,
+        })
+        .min(1),
 });
 
 export function CategoryForm({ className, ...props }) {
@@ -59,15 +51,10 @@ export function CategoryForm({ className, ...props }) {
     }
 
     return (
-        <div className="grid h-screen">
-        <Card className="w-[500px] place-self-center">
+        <Card className="w-[500px] my-6">
             <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <CardHeader className="space-y-1">
-                        <CardTitle className="text-2xl">Add Category Form</CardTitle>
-                        <CardDescription>This form allows a creation of a main business category</CardDescription>
-                    </CardHeader>
-                    <CardContent className="grid gap-4">        
+                    <CardContent className="grid gap-4 mt-6">
                         <div className="grid gap-2">
                             <FormField
                                 control={control}
@@ -121,6 +108,5 @@ export function CategoryForm({ className, ...props }) {
                 </form>
             </Form>
         </Card>
-        </div>
     );
 }

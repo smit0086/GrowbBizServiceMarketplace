@@ -17,7 +17,16 @@ export const authenticate = async (email, password, role) => {
         );
         if (resp.ok) {
             const data = await resp.json();
-            return data;
+            return {
+                ok: true,
+                ...data,
+            };
+        } else {
+            const data = await resp.json();
+            return {
+                ok: false,
+                ...data,
+            };
         }
     } catch (err) {
         console.log("err", err);

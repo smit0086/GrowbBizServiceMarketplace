@@ -61,7 +61,6 @@ const SlotSelection = ({
     const selectedDate = selectedDateState
         ? moment(selectedDateState).format("YYYY-MM-DD")
         : null;
-    console.log({ selectedDate });
     const isDateDisabled = (date) => {
         const momentDateObj = moment(date);
         const formattedDate = momentDateObj.format("YYYY-MM-DD");
