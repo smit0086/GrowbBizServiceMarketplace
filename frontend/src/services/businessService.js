@@ -173,7 +173,7 @@ export const downloadDocumentByEmail = async (token, email) => {
 };
 
 export const getBusinessHours = async (token, businessId) => {
-    const endpoint = `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/business/businessHours?businessId=${businessId}`;
+    const endpoint = `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/businessHours?businessId=${businessId}`;
     const resp = await fetch(endpoint, {
         method: "get",
         headers: {
@@ -192,7 +192,7 @@ export const getBusinessHours = async (token, businessId) => {
 };
 
 export const saveBusinessHours = async (token, businessId, businessHours) => {
-    const endpoint = `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/business/businessHours`;
+    const endpoint = `${process.env.NEXT_PUBLIC_SERVER_ADDRESS}/businessHours`;
     const resp = await fetch(endpoint, {
         method: "put",
         headers: {

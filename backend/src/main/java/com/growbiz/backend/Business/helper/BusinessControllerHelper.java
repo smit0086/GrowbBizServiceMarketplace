@@ -3,12 +3,10 @@ package com.growbiz.backend.Business.helper;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.growbiz.backend.Business.models.Business;
-import com.growbiz.backend.BusinessHour.model.BusinessHour;
 import com.growbiz.backend.Enums.BusinessStatus;
 import com.growbiz.backend.RequestResponse.Business.BusinessRequest;
 import com.growbiz.backend.RequestResponse.Business.BusinessResponse;
 import com.growbiz.backend.RequestResponse.Business.VerificationRequest;
-import com.growbiz.backend.RequestResponse.BusinessHour.BusinessHourResponse;
 import com.growbiz.backend.Security.service.JWTService;
 import com.growbiz.backend.User.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,12 +54,5 @@ public class BusinessControllerHelper {
             return APPROVAL_MESSAGE;
         }
         return DECLINED_MESSAGE;
-    }
-
-    public ResponseEntity<BusinessHourResponse> createBusinessHourResponse(BusinessHour businessHour) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseEntity.ok(BusinessHourResponse.builder().businessHour(businessHour).subject(user.getEmail())
-                .role(user.getRole())
-                .build());
     }
 }

@@ -29,6 +29,11 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class FreeSlotServiceHelperTest {
+    public static final int TEN = 10;
+    public static final int ELEVEN = 11;
+    public static final int TWELVE = 12;
+    public static final int NINE = 9;
+    public static final int THIRTEEN = 13;
     @InjectMocks
     FreeSlotServiceHelper freeSlotServiceHelperMock;
     @Mock
@@ -46,8 +51,8 @@ public class FreeSlotServiceHelperTest {
                 .note(TestConstants.TEST_NOTE)
                 .userEmail(TestConstants.TEST_EMAIL)
                 .paymentStatus(PaymentStatus.SUCCESS)
-                .startTime(LocalTime.of(10, 0))
-                .endTime(LocalTime.of(11, 0))
+                .startTime(LocalTime.of(TEN, 0))
+                .endTime(LocalTime.of(ELEVEN, 0))
                 .serviceId(TestConstants.TEST_ID_1)
                 .build();
         Payment mockedPayment2 = Payment.builder()
@@ -57,8 +62,8 @@ public class FreeSlotServiceHelperTest {
                 .note(TestConstants.TEST_NOTE)
                 .userEmail(TestConstants.TEST_EMAIL)
                 .paymentStatus(PaymentStatus.SUCCESS)
-                .startTime(LocalTime.of(11, 0))
-                .endTime(LocalTime.of(12, 0))
+                .startTime(LocalTime.of(ELEVEN, 0))
+                .endTime(LocalTime.of(TWELVE, 0))
                 .serviceId(1L)
                 .build();
         mockedPaymentList = List.of(mockedPayment1, mockedPayment2);
@@ -113,8 +118,8 @@ public class FreeSlotServiceHelperTest {
                 .note(TestConstants.TEST_NOTE)
                 .userEmail(TestConstants.TEST_EMAIL)
                 .paymentStatus(PaymentStatus.SUCCESS)
-                .startTime(LocalTime.of(10, 0))
-                .endTime(LocalTime.of(11, 0))
+                .startTime(LocalTime.of(TEN, 0))
+                .endTime(LocalTime.of(ELEVEN, 0))
                 .serviceId(TestConstants.TEST_ID_1)
                 .build();
         Payment mockedPayment2 = Payment.builder()
@@ -124,14 +129,14 @@ public class FreeSlotServiceHelperTest {
                 .note(TestConstants.TEST_NOTE)
                 .userEmail(TestConstants.TEST_EMAIL)
                 .paymentStatus(PaymentStatus.SUCCESS)
-                .startTime(LocalTime.of(11, 0))
-                .endTime(LocalTime.of(12, 0))
+                .startTime(LocalTime.of(ELEVEN, 0))
+                .endTime(LocalTime.of(TWELVE, 0))
                 .serviceId(TestConstants.TEST_ID_1)
                 .build();
         mockedPaymentList = List.of(mockedPayment1, mockedPayment2);
         SimpleDateFormat mockSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        SlotRange slotRange1 = new SlotRange(LocalTime.of(9, 0), LocalTime.of(10, 0));
-        SlotRange slotRange2 = new SlotRange(LocalTime.of(12, 0), LocalTime.of(13, 0));
+        SlotRange slotRange1 = new SlotRange(LocalTime.of(NINE, 0), LocalTime.of(TEN, 0));
+        SlotRange slotRange2 = new SlotRange(LocalTime.of(TWELVE, 0), LocalTime.of(THIRTEEN, 0));
         List<SlotRange> expectedValueTuesday = List.of(slotRange1, slotRange2);
         when(servicesServiceMock.getServiceById(TestConstants.TEST_ID_1)).thenReturn(mockService);
         List<SlotRange> actualValueTue = freeSlotServiceHelperMock.getFreeSlots(mockSimpleDateFormat.parse(date), mockedBusinessHour, TestConstants.TEST_ID_1, mockedPaymentList);

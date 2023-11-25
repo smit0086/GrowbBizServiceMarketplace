@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class PaymentServiceTest {
+    public static final double AMOUNT = 10.0;
     @InjectMocks
     private PaymentService paymentServiceMock;
     @Mock
@@ -46,7 +47,7 @@ public class PaymentServiceTest {
                 .startTime(TestConstants.TEST_START_LOCAL_TIME)
                 .endTime(TestConstants.TEST_START_LOCAL_TIME)
                 .note(TestConstants.TEST_NOTE)
-                .amount(10.0)
+                .amount(AMOUNT)
                 .build();
     }
 
