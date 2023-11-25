@@ -33,7 +33,7 @@ export const authOptions = {
             },
         }),
     ],
-    session: { strategy: "jwt" },
+    session: { strategy: "jwt", maxAge: 60 * 60 * 24 },
     pages: {
         signIn: "/login",
         signOut: "logout",
