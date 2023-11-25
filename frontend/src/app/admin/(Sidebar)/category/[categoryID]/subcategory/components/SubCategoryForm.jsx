@@ -13,29 +13,21 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, Controller } from "react-hook-form";
-import { getAllCategories } from "@/services/categoriesServices";
+import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { addSubCategory } from "@/services/subCategoriesServices";
 import { ERROR_MESSAGE } from "@/lib/constants";
 
 const formSchema = z.object({
-        name: z
+    name: z
         .string({
             required_error: ERROR_MESSAGE.REQUIRED,
         })
-        .min(1)
+        .min(1),
 });
 export function SubCategoryForm({ className, categoryID, ...props }) {
     const session = useSession();
@@ -58,15 +50,10 @@ export function SubCategoryForm({ className, categoryID, ...props }) {
     }
 
     return (
-        <div className="grid h-screen">
-        <Card className="w-[500px] place-self-center">
+        <Card className="w-[500px] my-6">
             <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <CardHeader className="space-y-1">
-                        <CardTitle className="text-2xl">Update Subcategory Form</CardTitle>
-                        <CardDescription>This form allows updating a subcategory</CardDescription>
-                    </CardHeader>
-                    <CardContent className="grid gap-4">        
+                    <CardContent className="grid gap-4 pt-6">
                         <div className="grid gap-2">
                             <FormField
                                 control={control}
@@ -102,6 +89,5 @@ export function SubCategoryForm({ className, categoryID, ...props }) {
                 </form>
             </Form>
         </Card>
-    </div>    
     );
 }

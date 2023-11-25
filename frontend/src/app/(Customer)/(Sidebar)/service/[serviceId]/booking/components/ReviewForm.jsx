@@ -31,7 +31,6 @@ import {
 } from "@/services/reviewsAndRatingsService";
 
 const FormDialog = ({ review, open, setOpen, isEdit, serviceId, token }) => {
-    console.log({ serviceId });
     const [starRating, setStarRating] = React.useState(() =>
         review ? review.rating : 5
     );

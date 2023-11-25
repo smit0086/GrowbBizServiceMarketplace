@@ -3,17 +3,32 @@
 import * as React from "react";
 import ServiceForm from "./ServiceForm";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, MoveLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const AddService = ({ authSession, fetchedServices, cancelButton, services, setServices, setRenderAddService, formDefaults, setFormDefaults, businessId, subCategories }) => {
+const AddService = ({
+    authSession,
+    fetchedServices,
+    cancelButton,
+    services,
+    setServices,
+    setRenderAddService,
+    formDefaults,
+    setFormDefaults,
+    businessId,
+    subCategories,
+}) => {
     const title = "Add Service";
     const subtitle = "Please add a service for your business.";
     const buttonText = "Add";
 
-    const fetchedServiceNames = fetchedServices.map(service => service.serviceName);
+    const fetchedServiceNames = fetchedServices.map(
+        (service) => service.serviceName
+    );
     const predefinedServices = subCategories
-        .filter(subcategory => !fetchedServiceNames.includes(subcategory.name))
+        .filter(
+            (subcategory) => !fetchedServiceNames.includes(subcategory.name)
+        )
         .map((subcategory) => {
             return {
                 predefinedServiceId: subcategory.subCategoryID,
@@ -22,8 +37,24 @@ const AddService = ({ authSession, fetchedServices, cancelButton, services, setS
         });
 
     return (
-        <div>
-            {predefinedServices.length != 0 ?
+        <div className="px-16 py-8">
+            <div>
+                <a
+                    className="text-xs"
+                    href={`/partner/business/${businessId}/service`}
+                >
+                    <div className="flex items-center">
+                        <MoveLeft size={20} />
+                        <span className="ml-1 hover:underline">
+                            Back to services
+                        </span>
+                    </div>
+                </a>
+                <h2 className="text-4xl font-semibold tracking-tight">
+                    Add service
+                </h2>
+            </div>
+            {predefinedServices.length != 0 ? (
                 <ServiceForm
                     authSession={authSession}
                     predefinedServices={predefinedServices}
@@ -38,14 +69,13 @@ const AddService = ({ authSession, fetchedServices, cancelButton, services, setS
                     buttonText={buttonText}
                     businessId={businessId}
                 />
-                :
+            ) : (
                 <div>
-                    <div className="flex justify-between items-center">
-                        <h2 className="text-3xl p-8 pl-16">Add Service</h2>
-                        <Button type="button" onClick={() => window.location.href = `/partner/business/${businessId}/service`} style={{ marginTop: '1%', marginRight: '1%' }}>View</Button>
-                    </div>
                     <div style={centeringStyles}>
-                        <Alert variant="destructive" style={{ maxWidth: "30%" }}>
+                        <Alert
+                            variant="destructive"
+                            style={{ maxWidth: "30%" }}
+                        >
                             <AlertCircle className="h-4 w-4" />
                             <AlertTitle>Warning</AlertTitle>
                             <AlertDescription>
@@ -54,10 +84,10 @@ const AddService = ({ authSession, fetchedServices, cancelButton, services, setS
                         </Alert>
                     </div>
                 </div>
-            }
+            )}
         </div>
     );
-}
+};
 
 export default AddService;
 

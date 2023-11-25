@@ -3,13 +3,17 @@ import CategoriesTable from "./components/CategoriesTable";
 
 const category = () => {
     return (
-        <>
-            {/* <div>Business Categories</div> */}
-            <Button style={{position: 'absolute', marginLeft: '550px', top: '5%'}} className="w-[300px]" asChild={true}>
-                <a href="/admin/category/create">Add Category</a>
-            </Button>
+        <div className="py-8 px-16">
+            <h2 className="text-4xl font-semibold tracking-tight">
+                Business categories
+            </h2>
+            <div className="flex justify-end">
+                <Button asChild={true}>
+                    <a href="/admin/category/create">Add Category</a>
+                </Button>
+            </div>
             <CategoriesTable />
-        </>
+        </div>
     );
 };
 
