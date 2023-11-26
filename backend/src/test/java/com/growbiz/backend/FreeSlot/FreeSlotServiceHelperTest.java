@@ -92,7 +92,7 @@ public class FreeSlotServiceHelperTest {
                 .build();
 
     }
-
+    
     @Test
     void testGetCurrentWeekAllDates() throws ParseException {
         List<Date> expectedListOfDates = new ArrayList<>();
@@ -104,7 +104,7 @@ public class FreeSlotServiceHelperTest {
         expectedListOfDates.add(mockSimpleDateFormat.parse("2023-11-24"));
         expectedListOfDates.add(mockSimpleDateFormat.parse("2023-11-25"));
         expectedListOfDates.add(mockSimpleDateFormat.parse("2023-11-26"));
-        List<Date> actualValue = freeSlotServiceHelperMock.getCurrentWeekAllDates(new Date());
+        List<Date> actualValue = freeSlotServiceHelperMock.getCurrentWeekAllDates(mockSimpleDateFormat.parse("2023-11-22"));
         Assertions.assertEquals(mockSimpleDateFormat.format(expectedListOfDates.get(0)), mockSimpleDateFormat.format(actualValue.get(0)));
     }
 
