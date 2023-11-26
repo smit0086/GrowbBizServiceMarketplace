@@ -1,8 +1,8 @@
 <div align="center">
 
-<h1>
+<div style="background-color: black; width: 200px; height: 60px; text-align: center; margin-top: 20px; margin-bottom: 5px">
   <a name="logo" href="http://os-vm163.research.cs.dal.ca:3000"><img src="https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2Fimage-removebg-preview.png?alt=media&token=014f8686-98df-4dfb-a1ac-1d0264bc6707" alt="GrowBiz" width="200"></a>
-</h1>
+</div>
 
 **Your trusted partner for on-demand home services, just a click away**
 <hr />
@@ -14,9 +14,10 @@ also introducing exciting new features to boost their growth and improve consume
 
 [Build GrowBiz](#build-growbiz) •
 [User Scenarios](#user-scenarios) •
-[APIs](#api-table) •
 [Dependency](#dependency) •
-[Code Coverage](#code-coverage)
+[Code Coverage](#code-coverage) •
+[APIs](#api-table) •
+[Contributors](#contributors)
 
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
@@ -33,7 +34,94 @@ also introducing exciting new features to boost their growth and improve consume
 4. `Ctrl + c` to stop the containers.
 5. Please run `docker-compose down` after stopping the containers.
 
+<hr />
+
 ## User Scenarios
+
+<hr />
+
+## Dependency
+
+<table>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>Version</th>
+<th>Usage</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SpringBoot</td>
+<td>3.1.4</td>
+<td>Java Framework for REST APIs</td>
+<td><a href="https://spring.io/projects/spring-boot">Link</a></td>
+</tr>
+<tr>
+<td>Spring Security</td>
+<td>3.1.4</td>
+<td>Authentication and access-control framework</td>
+<td><a href="https://spring.io/projects/spring-security">Link</a></td>
+</tr>
+<tr>
+<td>Lombok</td>
+<td>1.18.30</td>
+<td>Autogenerate getter setters in POJO classes.</td>
+<td><a href="https://projectlombok.org/">Link</a></td>
+</tr>
+<tr>
+<td>MySQL Connector</td>
+<td>8.1.0</td>
+<td>Connects application to the MySQL</td>
+<td><a href="https://mvnrepository.com/artifact/mysql/mysql-connector-java">Link</a></td>
+</tr>
+<tr>
+<td>JSON WebToken</td>
+<td>0.11.2</td>
+<td>Generates JWTs in the application for authorization.</td>
+<td><a href="https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt">Link</a></td>
+</tr>
+<tr>
+<td>Stripe</td>
+<td>24.2.0</td>
+<td>Payment integration in the application.</td>
+<td><a href="https://stripe.com/docs/api">Link</a></td>
+</tr>
+
+<tr>
+<td>JUnit5</td>
+<td>5.9.2</td>
+<td>Unit testing of the modules.</td>
+<td><a href="https://junit.org/junit5/docs/current/user-guide/">Link</a></td>
+</tr>
+
+<tr>
+<td>Thymeleaf</td>
+<td>3.1.4</td>
+<td>Templating engine for HTML emails.</td>
+<td><a href="https://www.thymeleaf.org/">Link</a></td>
+</tr>
+
+<tr>
+<td>Jackson Datatype: JSR310</td>
+<td>2.15.3</td>
+<td>Add-on module to support JSR-310 (Java 8 Date & Time API) data types. </td>
+<td><a href="https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310">Link</a></td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+
+## Code Coverage
+
+![Static Badge](https://img.shields.io/badge/JUnit_Test_Cases-186-blue)
+![Static Badge](https://img.shields.io/badge/Class_Coverage-85%25-blue)
+![Static Badge](https://img.shields.io/badge/Method_Coverage-76%25-blue)
+![Static Badge](https://img.shields.io/badge/Line_Coverage-77%25-blue)
+
+<hr />
 
 ## API Table
 
@@ -443,18 +531,19 @@ also introducing exciting new features to boost their growth and improve consume
 </tbody>
 </table>
 
-## Dependency
+<hr />
 
-* [SpringBoot](https://spring.io/projects/spring-boot) - Framework for REST APIs
-* [Spring Security](https://spring.io/projects/spring-security) - Authentication and access-control framework
-* [Lombok](https://projectlombok.org/) - Autogenerate getter setters in POJO classes.
-* [MySQL Connector](https://mvnrepository.com/artifact/mysql/mysql-connector-java) - Connects application to the MySQL
-  database.
-* [JSON WebToken](https://jwt.io/) - Generates JWTs in the application for authorization.
-* [Stripe](https://stripe.com/docs/api) - Payment integration in the application.
-* [JUnit5](https://junit.org/junit5/docs/current/user-guide/) - Unit testing of the modules.
-* [Thymeleaf](https://www.thymeleaf.org/) - Templating engine for emails.
+## Contributors
 
-## Code Coverage
+* Aniket
+  Mhatre [![Aniket Mhatre](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2F317750_linkedin_icon%20(1).png?alt=media&token=8faf3dbc-5959-42ce-b1c8-7b2b348a09c2)](https://www.linkedin.com/in/maniket/) [![Aniket Mhatre](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2Fcxv0BGAX3aaAVraSAAAZlVgxMZg056-r.png?alt=media&token=ce87ce75-bb82-4080-9537-91b8769442b6)](https://github.com/aniketm07)
+* Smit
+  Patel [![Smit Patel](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2F317750_linkedin_icon%20(1).png?alt=media&token=8faf3dbc-5959-42ce-b1c8-7b2b348a09c2)](https://www.linkedin.com/in/smit0086/) [![Smit Patel](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2Fcxv0BGAX3aaAVraSAAAZlVgxMZg056-r.png?alt=media&token=ce87ce75-bb82-4080-9537-91b8769442b6)](https://github.com/smit0086)
+* Rabia
+  Asif [![Rabia_Asif](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2F317750_linkedin_icon%20(1).png?alt=media&token=8faf3dbc-5959-42ce-b1c8-7b2b348a09c2)](https://www.linkedin.com/in/rabia-asif-a95b43188/) [![Rabia Asif](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2Fcxv0BGAX3aaAVraSAAAZlVgxMZg056-r.png?alt=media&token=ce87ce75-bb82-4080-9537-91b8769442b6)](https://github.com/travis068)
+* Vivek
+  Sonani [![Vivek_Sonani](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2F317750_linkedin_icon%20(1).png?alt=media&token=8faf3dbc-5959-42ce-b1c8-7b2b348a09c2)](https://www.linkedin.com/in/vivek-sonani-75323b215/) [![Vivek Sonani](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2Fcxv0BGAX3aaAVraSAAAZlVgxMZg056-r.png?alt=media&token=ce87ce75-bb82-4080-9537-91b8769442b6)](https://github.com/Vivek504)
+* Prithvi Manoj
+  Krishna [![Prithvi_Krishna](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2F317750_linkedin_icon%20(1).png?alt=media&token=8faf3dbc-5959-42ce-b1c8-7b2b348a09c2)](https://www.linkedin.com/in/pmk21/) [![Prithvi Krishna](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2Fcxv0BGAX3aaAVraSAAAZlVgxMZg056-r.png?alt=media&token=ce87ce75-bb82-4080-9537-91b8769442b6)](https://github.com/pmk21/)
 
-
+<hr />
