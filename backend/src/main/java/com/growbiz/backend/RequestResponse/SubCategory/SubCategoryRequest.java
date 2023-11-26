@@ -1,0 +1,20 @@
+package com.growbiz.backend.RequestResponse.SubCategory;
+
+import com.growbiz.backend.RequestResponse.Basic.BasicRequest;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+@Data
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class SubCategoryRequest extends BasicRequest {
+    private long subCategoryID;
+    private String name;
+    private long categoryID;
+    private Boolean isSubCategory;
+}

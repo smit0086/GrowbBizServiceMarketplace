@@ -1,6 +1,11 @@
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { COPY } from "@/lib/constants";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import SessionProvider from "./context/SessionProvider";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -9,10 +14,18 @@ export const metadata = {
     description: COPY.APP_TAGLINE,
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+    const session = await getServerSession(authOptions);
     return (
         <html lang="en">
-            <body className={inter.className}>{children}</body>
+            <body className={inter.className}>
+                <SessionProvider session={session}>
+                    <TooltipProvider delayDuration={200}>
+                        {children}
+                    </TooltipProvider>
+                </SessionProvider>
+                <Toaster />
+            </body>
         </html>
     );
 }

@@ -2,5 +2,16 @@
 .idea
 .vscode
 
+# Ignore generated files
+*.log
+.gitlab/.config
+
+# Ignore Apple specific files
+**/.DS_Store
+backend/files/**
+
 # Ignore compiled classes
 growbiz/target/
+
+# Ignore code smells folder
+smells/
