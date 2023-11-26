@@ -37,6 +37,7 @@ import static org.mockito.Mockito.*;
 public class BusinessServiceTest {
 
     public static final long BUSINESS_ID = 2L;
+    public static final int BYTE_ARRAY_SIZE = 2;
     @InjectMocks
     private BusinessService businessServiceMock;
     @Mock
@@ -135,7 +136,7 @@ public class BusinessServiceTest {
         when(helperMock.uploadFileToStorage(any(MultipartFile.class), Mockito.eq(TestConstants.TEST_EMAIL)))
                 .thenReturn(TestConstants.TEST_BUSINESS_FILE_PATH);
         when(categoryServiceMock.getCategoryByID(1L)).thenReturn(mockedCategory);
-        byte[] mockByteArr = new byte[2];
+        byte[] mockByteArr = new byte[BYTE_ARRAY_SIZE];
         BusinessRequest mockedBusinessRequest = BusinessRequest.builder()
                 .email(TestConstants.TEST_EMAIL)
                 .businessName(TestConstants.TEST_BUSINESS_NAME)
