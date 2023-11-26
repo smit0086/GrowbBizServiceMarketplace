@@ -74,4 +74,3 @@ deploy-dev-backend:
         - ssh -o StrictHostKeyChecking=no -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "cd ${DEPLOY_PATH} && ./deploy.sh"
     only:
         - main
-        - dev
