@@ -73,4 +73,5 @@ deploy-dev-backend:
         - scp -o StrictHostKeyChecking=no -i "${SSH_KEY}" -r [!.]* "${SSH_USER}@${SSH_HOST}:${DEPLOY_PATH}"
         - ssh -o StrictHostKeyChecking=no -i "${SSH_KEY}" "${SSH_USER}@${SSH_HOST}" "cd ${DEPLOY_PATH} && ./deploy.sh"
     only:
+        - main
         - dev
