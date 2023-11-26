@@ -38,6 +38,200 @@ also introducing exciting new features to boost their growth and improve consume
 
 ## User Scenarios
 
+<h3>Feature: Category Management</h3>
+
+  Scenario: Admin views all categories
+
+    Given the admin is logged in
+    When the admin requests to view all categories
+    Then the admin should be able to see the list of existing categories
+    And the list should include the category displaying its name and associated tax
+
+  Scenario: Add a new category by admin
+
+    Given the admin is logged in
+    When the admin adds a new category with name "Salon" and tax "10%"
+    Then the category "Salon" with tax "10%" should be created successfully
+    And the admin should be able to view the "Salon" category in the list of categories
+
+  Scenario: Update an existing category by admin
+
+    Given the admin is logged in
+    And there exists a category named "Salon" with tax "10%"
+    When the admin updates the category "Salon" with new tax "7%"
+    Then the category "Salon" should be updated successfully with tax "7%"
+    And the admin should be able to view the updated tax for "Salon"
+
+<h3>Feature: SubCategory Management</h3>
+
+  Scenario: Admin views subcategories under 'Salon' category
+
+    Given the admin is logged in
+    And there are existing subcategories under the "Salon" category
+    When the admin clicks on the "Salon" category
+    Then the admin should be able to view the list of subcategories
+    And each subcategory should display its name and associated parent category "Salon"
+
+  Scenario: Admin adds a new subcategory under 'Salon' category
+
+    Given the admin is logged in
+    And the admin is viewing the "Salon" category
+    When the admin adds a new subcategory with name "Hair Styling" under the "Salon" category
+    Then the subcategory "Hair Styling" should be created successfully under the "Salon" category
+    And the admin should be able to view the "Hair Styling" subcategory in the list of subcategories under "Salon"
+
+  Scenario: Admin updates a subcategory under 'Salon' category
+
+    Given the admin is logged in
+    And there exists a subcategory named "Hair Cut" under the "Salon" category
+    When the admin updates the "Hair Cut" subcategory name to "Hair Color" under the "Salon" category
+    Then the subcategory "Hair Cut" should be successfully updated to "Hair Color" under the "Salon" category
+    And the admin should be able to view the updated "Hair Color" subcategory in the list of subcategories under "Salon"
+
+<h3>Feature: Business Verification</h3>
+
+  Scenario: Admin views unverified businesses for verification
+
+    Given the admin is logged in
+    And there are unverified businesses pending for approval
+    When the admin navigates to the verification section
+    Then the admin should see the list of unverified businesses
+    And each business should display its name, category, and link of documents
+
+  Scenario: Admin verifies a business
+
+    Given the admin is logged in
+    And there is an unverified business named "Best Beauty Salon"
+    When the admin selects "Best Beauty Salon" for verification
+    And the admin reviews the the downloaded documents uploaded by the business
+    And finds the information satisfactory
+    Then the admin approves "Best Beauty Salon" for verification
+    And the status of "Best Beauty Salon" should be updated to 'Verified'
+
+  Scenario: Admin rejects a business
+
+    Given the admin is logged in
+    And there is an unverified business named "Nail Artistry"
+    When the admin selects "Nail Artistry" for verification
+    And the admin finds issues with the downloaded documents provided by the business
+    And decides to reject "Nail Artistry" for verification with reason "Incomplete documents"
+    Then the admin updates the status of "Nail Artistry" to 'Rejected'
+    And provides the rejection reason as "Incomplete documents"
+
+<h3>Feature: Operating Hours Management</h3>
+
+  Scenario: Partner views default operating hours
+
+    Given the partner is logged in
+    When the partner navigates to the Operating Hours section
+    Then by default, Monday to Friday should be enabled
+    And the default operating hours should be from 9 am to 5 pm for Monday to Friday
+    And by default, Saturday and Sunday should be disabled
+
+  Scenario: Partner enables Saturday and Sunday
+
+    Given the partner is logged in
+    And the partner is in the Operating Hours section
+    When the partner enables the operating hours for Saturday and Sunday
+    Then Saturday and Sunday should be enabled for editing
+    And the partner can set the operating hours for Saturday and Sunday as required
+
+  Scenario: Partner changes operating hours for specific days
+
+    Given the partner is logged in
+    And the partner is in the Operating Hours section
+    When the partner selects a specific day, like Monday
+    And chooses to modify the operating hours
+    Then the partner should be able to change the opening and closing hours for Monday
+    And the changes made should be saved successfully
+
+<h3>Feature: Service Management</h3>
+
+  Scenario: Partner views existing services
+
+    Given the partner is logged in
+    When the partner navigates to the Services section
+    Then the partner should see a list of existing services
+    And each service should display its name, image, price per hour, time required, description, and a link to reviews
+
+  Scenario: Partner adds a new service
+
+    Given the partner is logged in
+    And the partner is in the Services section
+    When the partner adds a new service named "Hair Cut" with price 30 CAD, time required 60 minutes, and adds a relevant image and description
+    Then the service "Hair Cut" should be added successfully
+    And the partner should be able to view the newly added "Hair Cut" service in the list of services
+
+  Scenario: Partner updates an existing service
+
+    Given the partner is logged in
+    And there exists a service named "Hair Cut" with price 30 CAD and time required 60 minutes
+    When the partner updates the "Hair Cut" service to have a price of 35 CAD and changes the time required to 45 minutes
+    Then the "Hair Cut" service should be updated successfully
+    And the partner should be able to view the updated details for the "Hair Cut" service in the list of services
+
+  Scenario: Partner deletes a service
+
+    Given the partner is logged in
+    And there exists a service named "Hair Cut"
+    When the partner decides to delete the "Hair Cut" service
+    Then the "Hair Cut" service should be deleted successfully
+    And the partner should not be able to view the "Hair Cut" service in the list of services
+
+<h3>Feature: Upcoming Bookings</h3>
+
+  Scenario: Partner views upcoming bookings
+
+    Given the partner is logged in
+    When the partner navigates to the Upcoming Bookings section
+    Then the partner should see a list of upcoming bookings
+    And each booking should display service name, time required, date, start time, end time, customer email, amount, and any notes provided
+
+  Scenario: Partner sends a reminder to a customer for an upcoming booking
+
+    Given the partner is logged in
+    And there is an upcoming booking for a service
+    When the partner selects the booking
+    And chooses to send a reminder to the customer via email
+    Then the partner should be able to send a reminder email to the customer for the upcoming booking
+    And the email should contain relevant details about the booking
+
+  Scenario: Partner sets an upcoming booking as ongoing
+
+    Given the partner is logged in
+    And there is an upcoming booking for a service
+    When the partner selects the upcoming booking
+    And clicks on the "Set Ongoing" button
+    Then the booking status should change from 'Upcoming' to 'Ongoing'
+    And the booking should reflect as 'Ongoing' in the list of bookings
+
+<h3>Feature: Ongoing Bookings</h3>
+
+  Scenario: Partner views ongoing bookings details
+
+    Given the partner is logged in
+    When the partner navigates to the Ongoing Bookings section
+    Then the partner should see a list of ongoing bookings
+    And each ongoing booking should display details including Service name, time required, date, start time, end time, customer email, amount, and note
+
+  Scenario: Partner updates ongoing booking status to completed
+
+    Given the partner is logged in
+    And there exists an ongoing booking for a specific service
+    When the partner selects the ongoing booking for the service
+    And updates the status from 'Ongoing' to 'Completed'
+    Then the status of the ongoing booking should be successfully updated to 'Completed'
+    And the partner should no longer see the booking in the ongoing bookings list
+
+<h3>Feature: Past Bookings</h3>
+
+  Scenario: Partner views past bookings
+
+    Given the partner is logged in
+    When the partner navigates to the Past Bookings section
+    Then the partner should see a list of past bookings
+    And each booking should display details such as Service name, time required, date, start time, end time, customer email, and any additional notes
+
 <hr />
 
 ## Dependency
