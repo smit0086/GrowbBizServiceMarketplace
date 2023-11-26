@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BusinessControllerTest {
-    public static final long BUSINESS_ID = 2L;
+    private static final long BUSINESS_ID = 2L;
     @InjectMocks
     private BusinessController businessControllerMock;
     @Mock

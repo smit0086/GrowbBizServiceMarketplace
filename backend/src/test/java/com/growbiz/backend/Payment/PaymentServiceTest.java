@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class PaymentServiceTest {
-    public static final double AMOUNT = 10.0;
+    private static final double AMOUNT = 10.0;
     @InjectMocks
     private PaymentService paymentServiceMock;
     @Mock

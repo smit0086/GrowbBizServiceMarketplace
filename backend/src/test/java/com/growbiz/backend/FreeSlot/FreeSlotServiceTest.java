@@ -33,9 +33,9 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class FreeSlotServiceTest {
 
-    public static final int TWO = 2;
-    public static final int THREE = 3;
-    public static final int FOUR = 4;
+    private static final int TWO = 2;
+    private static final int THREE = 3;
+    private static final int FOUR = 4;
     @InjectMocks
     private FreeSlotService freeSlotServiceMock;
     @Mock
