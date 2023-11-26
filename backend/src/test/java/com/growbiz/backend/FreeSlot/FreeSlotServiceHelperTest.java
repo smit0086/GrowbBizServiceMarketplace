@@ -29,11 +29,11 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class FreeSlotServiceHelperTest {
-    public static final int TEN = 10;
-    public static final int ELEVEN = 11;
-    public static final int TWELVE = 12;
-    public static final int NINE = 9;
-    public static final int THIRTEEN = 13;
+    private static final int TEN = 10;
+    private static final int ELEVEN = 11;
+    private static final int TWELVE = 12;
+    private static final int NINE = 9;
+    private static final int THIRTEEN = 13;
     @InjectMocks
     FreeSlotServiceHelper freeSlotServiceHelperMock;
     @Mock

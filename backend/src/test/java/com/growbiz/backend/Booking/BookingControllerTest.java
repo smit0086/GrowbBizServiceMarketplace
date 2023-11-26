@@ -40,15 +40,15 @@ import static org.mockito.Mockito.when;
 public class  BookingControllerTest {
 
     private static final String TEST_BOOKING_DATE = "2023-11-13";
-    public static final int TEST_SERVICE_TIME_REQ_MIN = 30;
+    private static final int TEST_SERVICE_TIME_REQ_MIN = 30;
     private static final LocalTime TEST_BOOKING_START_TIME = LocalTime.of(11, TEST_SERVICE_TIME_REQ_MIN);
     private static final LocalTime TEST_BOOKING_END_TIME = LocalTime.of(12, TEST_SERVICE_TIME_REQ_MIN);
-    public static final long TEST_ID = 1L;
-    public static final double TEST_BOOKING_AMOUNT = 120.50;
-    public static final double TEST_SERVICE_PRICE = 24.00;
-    public static final int TEST_SERVICE_TIME_REQ_HR = 0;
-    public static final long TEST_ONG_BKNG_ID = 2L;
-    public static final long TEST_COMP_BKNG_ID = 3L;
+    private static final long TEST_ID = 1L;
+    private static final double TEST_BOOKING_AMOUNT = 120.50;
+    private static final double TEST_SERVICE_PRICE = 24.00;
+    private static final int TEST_SERVICE_TIME_REQ_HR = 0;
+    private static final long TEST_ONG_BKNG_ID = 2L;
+    private static final long TEST_COMP_BKNG_ID = 3L;
 
     @Mock
     private IBookingService bookingService;
