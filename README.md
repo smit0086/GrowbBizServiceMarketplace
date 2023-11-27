@@ -12,6 +12,7 @@ GrowBiz is a comprehensive platform that is designed to overcome the challenges 
 also introducing exciting new features to boost their growth and improve consumer’s experience.
 </p>
 
+[Pre-requisites](#pre-requisites) •
 [Build GrowBiz](#build-growbiz) •
 [User Scenarios](#user-scenarios) •
 [Dependency](#dependency) •
@@ -23,8 +24,34 @@ also introducing exciting new features to boost their growth and improve consume
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
 
 <hr />
-
 </div>
+
+## Pre-requisites
+
+#### Install following tools on your machine:
+
+- [Git](https://git-scm.com)
+- [Next.js](https://nextjs.org/blog/next-13) v13
+- [Java](https://www.oracle.com/java/technologies/downloads/) v17
+- [Docker](https://www.docker.com/products/docker-desktop/)
+
+<hr />
+
+#### Preferred IDE
+
+- Frontend - [VS Code](https://code.visualstudio.com/download)
+- Backend - [IntelliJ IDEA](https://www.jetbrains.com/edu-products/download/other-IIE.html)
+
+<hr />
+
+#### Cloning project
+
+```bash
+# Clone this repository
+$ git clone https://git.cs.dal.ca/courses/2023-fall/csci-5308/Group02.git
+```
+
+<hr />
 
 ## Build GrowBiz
 
@@ -40,21 +67,21 @@ also introducing exciting new features to boost their growth and improve consume
 
 <h3>Feature: Category Management</h3>
 
-  Scenario: Admin views all categories
+Scenario: Admin views all categories
 
     Given the admin is logged in
     When the admin requests to view all categories
     Then the admin should be able to see the list of existing categories
     And the list should include the category displaying its name and associated tax
 
-  Scenario: Add a new category by admin
+Scenario: Add a new category by admin
 
     Given the admin is logged in
     When the admin adds a new category with name "Salon" and tax "10%"
     Then the category "Salon" with tax "10%" should be created successfully
     And the admin should be able to view the "Salon" category in the list of categories
 
-  Scenario: Update an existing category by admin
+Scenario: Update an existing category by admin
 
     Given the admin is logged in
     And there exists a category named "Salon" with tax "10%"
@@ -64,7 +91,7 @@ also introducing exciting new features to boost their growth and improve consume
 
 <h3>Feature: SubCategory Management</h3>
 
-  Scenario: Admin views subcategories under 'Salon' category
+Scenario: Admin views subcategories under 'Salon' category
 
     Given the admin is logged in
     And there are existing subcategories under the "Salon" category
@@ -72,7 +99,7 @@ also introducing exciting new features to boost their growth and improve consume
     Then the admin should be able to view the list of subcategories
     And each subcategory should display its name and associated parent category "Salon"
 
-  Scenario: Admin adds a new subcategory under 'Salon' category
+Scenario: Admin adds a new subcategory under 'Salon' category
 
     Given the admin is logged in
     And the admin is viewing the "Salon" category
@@ -80,7 +107,7 @@ also introducing exciting new features to boost their growth and improve consume
     Then the subcategory "Hair Styling" should be created successfully under the "Salon" category
     And the admin should be able to view the "Hair Styling" subcategory in the list of subcategories under "Salon"
 
-  Scenario: Admin updates a subcategory under 'Salon' category
+Scenario: Admin updates a subcategory under 'Salon' category
 
     Given the admin is logged in
     And there exists a subcategory named "Hair Cut" under the "Salon" category
@@ -90,7 +117,7 @@ also introducing exciting new features to boost their growth and improve consume
 
 <h3>Feature: Business Verification</h3>
 
-  Scenario: Admin views unverified businesses for verification
+Scenario: Admin views unverified businesses for verification
 
     Given the admin is logged in
     And there are unverified businesses pending for approval
@@ -98,7 +125,7 @@ also introducing exciting new features to boost their growth and improve consume
     Then the admin should see the list of unverified businesses
     And each business should display its name, category, and link of documents
 
-  Scenario: Admin verifies a business
+Scenario: Admin verifies a business
 
     Given the admin is logged in
     And there is an unverified business named "Best Beauty Salon"
@@ -108,7 +135,7 @@ also introducing exciting new features to boost their growth and improve consume
     Then the admin approves "Best Beauty Salon" for verification
     And the status of "Best Beauty Salon" should be updated to 'Verified'
 
-  Scenario: Admin rejects a business
+Scenario: Admin rejects a business
 
     Given the admin is logged in
     And there is an unverified business named "Nail Artistry"
@@ -120,7 +147,7 @@ also introducing exciting new features to boost their growth and improve consume
 
 <h3>Feature: Operating Hours Management</h3>
 
-  Scenario: Partner views default operating hours
+Scenario: Partner views default operating hours
 
     Given the partner is logged in
     When the partner navigates to the Operating Hours section
@@ -128,7 +155,7 @@ also introducing exciting new features to boost their growth and improve consume
     And the default operating hours should be from 9 am to 5 pm for Monday to Friday
     And by default, Saturday and Sunday should be disabled
 
-  Scenario: Partner enables Saturday and Sunday
+Scenario: Partner enables Saturday and Sunday
 
     Given the partner is logged in
     And the partner is in the Operating Hours section
@@ -136,7 +163,7 @@ also introducing exciting new features to boost their growth and improve consume
     Then Saturday and Sunday should be enabled for editing
     And the partner can set the operating hours for Saturday and Sunday as required
 
-  Scenario: Partner changes operating hours for specific days
+Scenario: Partner changes operating hours for specific days
 
     Given the partner is logged in
     And the partner is in the Operating Hours section
@@ -147,14 +174,14 @@ also introducing exciting new features to boost their growth and improve consume
 
 <h3>Feature: Service Management</h3>
 
-  Scenario: Partner views existing services
+Scenario: Partner views existing services
 
     Given the partner is logged in
     When the partner navigates to the Services section
     Then the partner should see a list of existing services
     And each service should display its name, image, price per hour, time required, description, and a link to reviews
 
-  Scenario: Partner adds a new service
+Scenario: Partner adds a new service
 
     Given the partner is logged in
     And the partner is in the Services section
@@ -162,7 +189,7 @@ also introducing exciting new features to boost their growth and improve consume
     Then the service "Hair Cut" should be added successfully
     And the partner should be able to view the newly added "Hair Cut" service in the list of services
 
-  Scenario: Partner updates an existing service
+Scenario: Partner updates an existing service
 
     Given the partner is logged in
     And there exists a service named "Hair Cut" with price 30 CAD and time required 60 minutes
@@ -170,7 +197,7 @@ also introducing exciting new features to boost their growth and improve consume
     Then the "Hair Cut" service should be updated successfully
     And the partner should be able to view the updated details for the "Hair Cut" service in the list of services
 
-  Scenario: Partner deletes a service
+Scenario: Partner deletes a service
 
     Given the partner is logged in
     And there exists a service named "Hair Cut"
@@ -180,14 +207,14 @@ also introducing exciting new features to boost their growth and improve consume
 
 <h3>Feature: Upcoming Bookings</h3>
 
-  Scenario: Partner views upcoming bookings
+Scenario: Partner views upcoming bookings
 
     Given the partner is logged in
     When the partner navigates to the Upcoming Bookings section
     Then the partner should see a list of upcoming bookings
     And each booking should display service name, time required, date, start time, end time, customer email, amount, and any notes provided
 
-  Scenario: Partner sends a reminder to a customer for an upcoming booking
+Scenario: Partner sends a reminder to a customer for an upcoming booking
 
     Given the partner is logged in
     And there is an upcoming booking for a service
@@ -196,7 +223,7 @@ also introducing exciting new features to boost their growth and improve consume
     Then the partner should be able to send a reminder email to the customer for the upcoming booking
     And the email should contain relevant details about the booking
 
-  Scenario: Partner sets an upcoming booking as ongoing
+Scenario: Partner sets an upcoming booking as ongoing
 
     Given the partner is logged in
     And there is an upcoming booking for a service
@@ -207,14 +234,14 @@ also introducing exciting new features to boost their growth and improve consume
 
 <h3>Feature: Ongoing Bookings</h3>
 
-  Scenario: Partner views ongoing bookings details
+Scenario: Partner views ongoing bookings details
 
     Given the partner is logged in
     When the partner navigates to the Ongoing Bookings section
     Then the partner should see a list of ongoing bookings
     And each ongoing booking should display details including Service name, time required, date, start time, end time, customer email, amount, and note
 
-  Scenario: Partner updates ongoing booking status to completed
+Scenario: Partner updates ongoing booking status to completed
 
     Given the partner is logged in
     And there exists an ongoing booking for a specific service
@@ -225,7 +252,7 @@ also introducing exciting new features to boost their growth and improve consume
 
 <h3>Feature: Past Bookings</h3>
 
-  Scenario: Partner views past bookings
+Scenario: Partner views past bookings
 
     Given the partner is logged in
     When the partner navigates to the Past Bookings section
