@@ -65,8 +65,7 @@ $ git clone https://git.cs.dal.ca/courses/2023-fall/csci-5308/Group02.git
 2. Create .env file in the frontend directory and put the following secrets in the file (Update the secrets as per your instance)
     ```
     NEXTAUTH_SECRET="password"
-    NEXT_PUBLIC_SERVER_ADDRESS="http://localhost:9002"
-    FRONTEND_NEXTAUTH_URL="http://localhost:3000"
+    NEXT_PUBLIC_SERVER_ADDRESS="http://backend:9002"
     ```
 3. After successful compilation and build, go to the root directory of the repository and run `docker-compose build`.
 4. After docker images are built successfully, run `docker-compose up`.
