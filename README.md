@@ -4,7 +4,7 @@
   <a name="logo" href="http://os-vm163.research.cs.dal.ca:3000"><img src="https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2Fimage-removebg-preview.png?alt=media&token=014f8686-98df-4dfb-a1ac-1d0264bc6707" alt="GrowBiz" width="200"></a>
 </div>
 
-**Your trusted partner for on-demand home services, just a click away**
+**Your trusted partner for on-demand home services, just a [click away](http://os-vm163.research.cs.dal.ca:3000)**
 <hr />
 
 <p>
