@@ -65,7 +65,9 @@ $ git clone https://git.cs.dal.ca/courses/2023-fall/csci-5308/Group02.git
 
 ## User Scenarios
 
-<h3>Feature: Category Management</h3>
+### Admin Scenarios
+
+#### Feature: Category Management
 
 Scenario: Admin views all categories
 
@@ -89,7 +91,7 @@ Scenario: Update an existing category by admin
     Then the category "Salon" should be updated successfully with tax "7%"
     And the admin should be able to view the updated tax for "Salon"
 
-<h3>Feature: SubCategory Management</h3>
+#### Feature: SubCategory Management
 
 Scenario: Admin views subcategories under 'Salon' category
 
@@ -115,7 +117,7 @@ Scenario: Admin updates a subcategory under 'Salon' category
     Then the subcategory "Hair Cut" should be successfully updated to "Hair Color" under the "Salon" category
     And the admin should be able to view the updated "Hair Color" subcategory in the list of subcategories under "Salon"
 
-<h3>Feature: Business Verification</h3>
+#### Feature: Business Verification
 
 Scenario: Admin views unverified businesses for verification
 
@@ -145,7 +147,75 @@ Scenario: Admin rejects a business
     Then the admin updates the status of "Nail Artistry" to 'Rejected'
     And provides the rejection reason as "Incomplete documents"
 
-<h3>Feature: Operating Hours Management</h3>
+### Partner Scenarios
+#### Feature: Partner Authentication
+
+  Scenario: Partner logs in with valid credentials 
+  ![](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2FPartner%20login.png?alt=media&token=fb366f2e-25c6-4173-96f3-bfcdd63e3e1e)
+ 
+    Given the partner is on the login page
+    When the partner enters a valid username and password
+    And clicks on the login button
+    Then the system should authenticate the partner's credentials
+    And the partner should be successfully logged in
+  
+  Scenario: Partner signs up by providing required details 
+  ![](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2FPartner%20signup.png?alt=media&token=74cef8b9-bd30-4acd-9453-f05185cdedb5)
+ 
+    Given the partner is on the signup page
+    When the partner enters their firstname "John", lastname "Doe", email "johndoe@example.com", password "SecurePwd123", and confirms the password
+    And clicks on the signup button
+    Then the system should register the partner's account
+    And the partner should be successfully signed up
+ 
+#### Feature: Admin Authentication
+ 
+  Scenario: Admin logs in with valid credentials 
+  ![](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2FAdmin%20login.png?alt=media&token=7080c791-ad42-4ecd-877e-b43264fcc07c)
+ 
+    Given the admin is on the login page
+    When the admin enters a valid username and password
+    And clicks on the login button
+    Then the system should authenticate the admin's credentials
+    And the admin should be successfully logged in
+
+#### Feature: Business Registration
+ 
+  Scenario: Partner registers a new business 
+  ![](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2FBusiness%20Registration.png?alt=media&token=5342afea-0478-44ad-af57-a74d06ff5576)
+ 
+    Given the partner is logged in
+    When the partner navigates to the Business Registration section
+    And provides the business name as "Unique Salon"
+    And selects a category for the business, like "Salon"
+    And uploads the required verification documents
+    Then the business "Unique Salon" should be registered successfully
+    And the system should initiate the verification process for "Unique Salon"
+ 
+#### Feature: Partner Views Business Verification Status
+ 
+  Scenario: Partner checks business verification status as Pending 
+  ![](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2FVerification%20Pending.png?alt=media&token=065b849d-c3fd-4c5d-9a0d-353c787ed4f1)
+    
+    Given the partner is logged in
+    When the partner navigates to the Business Verification Status section
+    Then the partner should see the status of their business verification
+    And if the business verification is pending
+    Then the status displayed should indicate "Verification Pending"
+ 
+  Scenario: Partner views rejection reason and updates business details ![](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2FVerification%20Failure.png?alt=media&token=62f8befb-1a53-40c2-9be0-d756872bb1a0)
+    Given the partner is logged in
+    And the partner's business was rejected by the admin with reason "Incomplete documents"
+    When the partner has viewed the rejection reason
+    And changes the business name to "New Name" and category to "New Category"
+    And uploads new verification documents
+    Then the partner should be able to submit the updated details for re-verification
+    Given the partner has submitted updated details for re-verification
+    Then the system should initiate the re-verification process for the partner's business with the updated information
+#### Feature: Operating Hours Management
+
+
+![](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2Foperating%20hours.png?alt=media&token=faccb896-3b55-46c7-95eb-4b5405c2c6e2)
 
 Scenario: Partner views default operating hours
 
@@ -172,7 +242,7 @@ Scenario: Partner changes operating hours for specific days
     Then the partner should be able to change the opening and closing hours for Monday
     And the changes made should be saved successfully
 
-<h3>Feature: Service Management</h3>
+#### Feature: Service Management
 
 Scenario: Partner views existing services
 
@@ -205,7 +275,7 @@ Scenario: Partner deletes a service
     Then the "Hair Cut" service should be deleted successfully
     And the partner should not be able to view the "Hair Cut" service in the list of services
 
-<h3>Feature: Upcoming Bookings</h3>
+#### Feature: Upcoming Bookings
 
 Scenario: Partner views upcoming bookings
 
@@ -232,7 +302,8 @@ Scenario: Partner sets an upcoming booking as ongoing
     Then the booking status should change from 'Upcoming' to 'Ongoing'
     And the booking should reflect as 'Ongoing' in the list of bookings
 
-<h3>Feature: Ongoing Bookings</h3>
+#### Feature: Ongoing Bookings
+
 
 Scenario: Partner views ongoing bookings details
 
@@ -250,7 +321,7 @@ Scenario: Partner updates ongoing booking status to completed
     Then the status of the ongoing booking should be successfully updated to 'Completed'
     And the partner should no longer see the booking in the ongoing bookings list
 
-<h3>Feature: Past Bookings</h3>
+#### Feature: Past Bookings
 
 Scenario: Partner views past bookings
 
@@ -259,6 +330,178 @@ Scenario: Partner views past bookings
     Then the partner should see a list of past bookings
     And each booking should display details such as Service name, time required, date, start time, end time, customer email, and any additional notes
 
+### Customer Scenarios
+#### Feature: Authentication
+
+Scenario: Successful customer login
+
+    Given the customer is not logged in
+    When the customer navigates to the Growbiz application
+    Then the customer should see a login screen
+    And upon entering the correct credentials and pressing login
+    Then the customer should be redirected to the customer dashboard
+
+Scenario: Failed customer login
+
+    Given the customer is not logged in
+    When the customer navigates to the Growbiz application
+    Then the customer should see a login screen
+    And upon entering the incorrect credentials and pressing login
+    Then the customer should be see the login page again with invalid credentials error
+
+#### Feature: Customer dashboard
+
+Scenario: List all categories
+
+    Given the customer is logged in
+    When the customer navigates to the Growbiz dashboard (Root URL - host:3000)
+    Then the customer should see a screen greeting them
+    And the screen should a list of all the parent categories
+
+Scenario: See partner services of a category
+
+![](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2Fservice%20listing.png?alt=media&token=ef830846-c05f-4014-b1b2-0498fb2025b0)
+
+    Given the customer is logged in
+    And the customer is on the dashbaord page
+    When the customer clicks on a particular category card
+    Then the application should should show a page listing all the subcategories of that category
+    And under each sub category, the application should show all availables services of that subcategory created by the partners
+    
+Scenario: Filter partner services
+
+    Given the customer is logged in
+    And the customer is on the service listing screen
+    When the customer types a string in the search bar
+    Then the service is filtered based on the business name
+    When the customer selects a unchecks a subcategory
+    Then that subcategory section is hidden from the screen
+    When the customer slides the price slider
+    Then only the services whose price is lower than the selected price is visible
+    When the customer slides the time slider
+    Then only the services whose time requires is lower than the selected time is visible
+    When the customer slides the rating slider
+    Then only the services whose average ratings is above the selected rating is visible
+  
+#### Feature: Service Booking
+Scenario: Open booking screen
+
+    Given the customer is logged in
+    And the cusomter is on the service listing screen
+    When the customer clicks on any of the service
+    Then see that the booking page of that service is visible
+
+Scenario: See available slots based on business availability
+
+    Given the customer is on the service booking screen
+    When the customer clicks on the available date picker
+    Then see that the future dates of the current weeek are enabled
+    When the customer selects any particular date
+    Then see that the availability dropdown shows all the free slots of that business based on their operating hours
+
+Scenario: Successful service booking flow
+
+    Given the customer is on the service booking screen
+    When the customer clicks on the Book button
+    Then see that the booking modal is open
+    And the modal contains the selected date and time slots
+
+
+#### Feature: Payment
+
+![](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2Fpayment%20form.png?alt=media&token=e175cec7-831d-468e-803e-7a87c7d99828)
+
+![](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2FPayment%20details.png?alt=media&token=d4537e72-f40a-400a-bf1a-a67ebee824b7)
+Scenario: Success payment flow
+
+    Given the customer is on the booking flow modal
+    When the customer clicks  proceed to payment button
+    Then see that the payment form is visible to the customer
+    When the customer add their valid payment details and clicks on Pay
+    Then see that the customer is redirected to the payment screen
+    And see the details of the payment
+    When the payment is successful
+    And customer goes to the booking page
+    Then see that a successful service booking is made
+
+Scenario: Failed payment flow
+
+    Given the customer is on the booking flow modal
+    When the customer clicks  proceed to payment button
+    Then see that the payment form is visible to the customer
+    When the customer add their invalid payment details and clicks on Pay
+    Then see that the customer is show the error message on the modal
+
+Scenario: See all payments
+
+    Given the customer is logged in
+    When the customer clicks on the `Profile` icon
+    Then see the drodown open containing a menu with menu item "payments"
+    When the customer clicks on the payments menu
+    Then see that the customer is redirected to the page where all the payments initiated by the customer are visible
+
+
+#### Feature: Bookings
+
+Scenario: See all bookings
+
+    Given the customer is logged in
+    When the customer clicks on the `Bookings` icon
+    Then see that the customer is redirected to the booking screen
+    And the customer is able to see all the upcoming, ongoing and past bookings
+
+Scenario: See updated booking status
+
+    Given the customer is logged in
+    When the business updates booking status
+    And the customer refreshes the booking page
+    Then see that the customer is show the updated booking status
+
+#### Feature: Reviews
+Scenario: See all service reviews
+
+![](https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/staticImages%2Freviews.png?alt=media&token=ff5a3c92-8008-4484-b893-a10b0789614e)
+
+    Given the customer is logged in
+    When the customer is on the service booking page
+    Then see that the customer is shown all the reviews of that service
+    If the customer has not not added their review of the service
+    Then see that a + icon is visible to the customer
+    If the customer has added their review of the service
+    Then see that the review is visible to the customer
+
+Scenario: Add review succesfully
+
+    Given the customer is on the service booking screen
+    When the customer haven't a service review
+    Then see that a + icon is visible to the customer
+    When the customer clicks on the + icon
+    Then the customer is show the add review form modal
+    When the customer fills the review details
+    And clicks on the "Save" button
+    Then see that the added review is visible in the reviews section
+
+Scenario: Update review sucessfully
+
+    Given the customer is on the service booking screen
+    When the customer has already added the service review
+    Then see that their review is visible to the customer
+    When the customer clicks on the pencil icon
+    Then the customer is show the edit review form modal
+    When the customer fills the review details
+    And clicks on the "Save" button
+    Then see that the updated review is visible in the reviews section
+
+
+Scenario: Delete review sucessfully
+
+    Given the customer is on the service booking screen
+    When the customer has already added the service review
+    Then see that their review is visible to the customer
+    When the customer clicks on the Trash icon
+    Then the customer is show a confirmation dialog
+    When the customer clicks confirm
+    Then see that the customer review is deleted
 <hr />
 
 ## Dependency
