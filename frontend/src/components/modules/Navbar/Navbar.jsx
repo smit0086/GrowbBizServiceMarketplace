@@ -68,7 +68,7 @@ const Navbar = async ({ navItems }) => {
                     >
                         <Avatar>
                             <AvatarImage
-                                src={`${process.env.NEXT_PUBLIC_CDN_ADDRESS}avatar.svg`}
+                                src={`https://firebasestorage.googleapis.com/v0/b/growbiz-csci5308.appspot.com/o/avatar.svg?alt=media&token=d812017a-dd02-42d6-923e-f477fb47ed71`}
                             />
                             <AvatarFallback>AV</AvatarFallback>
                         </Avatar>

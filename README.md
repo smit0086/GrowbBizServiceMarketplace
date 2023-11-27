@@ -35,6 +35,12 @@ also introducing exciting new features to boost their growth and improve consume
 - [Java](https://www.oracle.com/java/technologies/downloads/) v17
 - [Docker](https://www.docker.com/products/docker-desktop/)
 
+#### Admin credentials
+Adin login URL: [login](http://os-vm163.research.cs.dal.ca:3000/admin/login)
+Email: smit.patel@dal.ca
+Password: Test@1234
+Note: In user table update the role to ADMIN if you want to create new admin users
+
 <hr />
 
 #### Preferred IDE
@@ -56,11 +62,17 @@ $ git clone https://git.cs.dal.ca/courses/2023-fall/csci-5308/Group02.git
 ## Building and Locally Running GrowBiz
 
 1. In the backend directory, run `./mvnw install`.
-2. After successful compilation and build, go to the root directory of the repository and run `docker-compose build`.
-3. After docker images are built successfully, run `docker-compose up`.
-4. Application can be accessed at `http://localhost:3000`.
-5. `Ctrl + c` to stop the containers.
-6. Please run `docker-compose down` after stopping the containers.
+2. Create .env file in the frontend directory and put the following secrets in the file (Update the secrets as per your instance)
+    ```
+    NEXTAUTH_SECRET="password"
+    NEXT_PUBLIC_SERVER_ADDRESS="http://localhost:9002"
+    FRONTEND_NEXTAUTH_URL="http://localhost:3000"
+    ```
+3. After successful compilation and build, go to the root directory of the repository and run `docker-compose build`.
+4. After docker images are built successfully, run `docker-compose up`.
+5. Application can be accessed at `http://localhost:3000`.
+6. `Ctrl + c` to stop the containers.
+7. Please run `docker-compose down` after stopping the containers.
 
 <hr />
 
