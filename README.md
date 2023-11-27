@@ -31,7 +31,7 @@ also introducing exciting new features to boost their growth and improve consume
 #### Install following tools on your machine:
 
 - [Git](https://git-scm.com)
-- [Next.js](https://nextjs.org/blog/next-13) v13
+- [Node.js](https://nodejs.org/en/) v18
 - [Java](https://www.oracle.com/java/technologies/downloads/) v17
 - [Docker](https://www.docker.com/products/docker-desktop/)
 
