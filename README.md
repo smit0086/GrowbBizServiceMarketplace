@@ -53,15 +53,26 @@ $ git clone https://git.cs.dal.ca/courses/2023-fall/csci-5308/Group02.git
 
 <hr />
 
-## Build GrowBiz
+## Building and Locally Running GrowBiz
 
 1. In the backend directory, run `./mvnw install`.
 2. After successful compilation and build, go to the root directory of the repository and run `docker-compose build`.
 3. After docker images are built successfully, run `docker-compose up`.
-4. `Ctrl + c` to stop the containers.
-5. Please run `docker-compose down` after stopping the containers.
+4. Application can be accessed at `http://localhost:3000`.
+5. `Ctrl + c` to stop the containers.
+6. Please run `docker-compose down` after stopping the containers.
 
 <hr />
+
+## Deploying GrowBiz
+
+While the deployment job is running in the GitLab pipeline, we essentially follow these steps:
+
+1. Copy over the whole source code repository to the deployment virtual machine.
+2. Run the below commands: 
+   1. `docker compose build`.
+   2. `docker compose up --detach`.
+3. And the application is up and can be accessed at this [link](http://os-vm163.research.cs.dal.ca:3000).
 
 ## User Scenarios
 
