@@ -62,7 +62,7 @@ const generateTimeList = () => {
     const DIVISIONS = 96;
     const time = [];
     for (let i = 0; i < DIVISIONS; i++) {
-        let minutes = i * 15;
+        let minutes = i * 30;
         time.push(minutes);
     }
     time.push(1439);
